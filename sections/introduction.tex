@@ -4,29 +4,34 @@ With the advent of Internet of Things, the evolution of mobile computing, and th
 
 \begin{enumerate}
 
-\item Today's deployment of backend services to the cloud may fail to satisfy the requirements of real-time and delay-sensitive client applications; and
+\item Cloud services may fail to satisfy the requirements of real-time and low-latency client applications; and
 
-\item Offloading of delay-sensitive computation from devices with constrained resources to cloud servers is unlikely to work
+\item Offloading of delay-sensitive computation from devices with constrained resources to cloud servers (also known as Mobile Cloud Computing~\cite{}) is unlikely to work
 
 \end{enumerate}
 
 To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. The realization of edge computing, however, still poses many challenges. 
 
-Firstly, the highly distributed edge infrastructure is not expected to exhibit virtually unlimited resources as cloud infrastructure. This limitation requires an efficient use of edge resources and existing models and technologies adopted by cloud providers may not be feasible with edge computing.
+%
+Firstly, a highly distributed edge infrastructure is not expected to exhibit virtually unlimited resources as cloud datacenters. This limitation requires an efficient usage of edge resources and existing execution models based on virtualization and containerization, broadly adopted by cloud providers, may not be feasible with edge computing.
 
-Secondly, in contrast with fixed cloud endpoints, mobile applications must rely on a runtime mechanism to discover and negotiate the use of nearby edge servers following an opportunistic and automated approach. Also, as different servers may exhibit different loads, the decision of which edge servers to use must consider their current usage and the application requirements.
+Secondly, in contrast with the high availability of cloud services covering very large areas from which clients requests are always expected, a fine grained coverage area of edge infrastructure would mean that many edge services would remain idle while there are no clients of these services around. Therefore, to optimize the usage of edge resources, the deployment of services to edge infrastructure should happen on-demand in an opportunistic fashion. 
 
-Thirdly, cloud servers should not be disregarded. Firstly, because client applications may still rely on cloud backends for non delay-sensitive features. Additionally, edge servers may not be available in the area where the client is located. 
+%, accessible through well-known Internet names, edge services 
 
-Finally, to avoid increasing the burden of application development, application features to be pushed to the network edge should follow, to the extent possible, a common architecture and implementation.  
+Finally, cloud servers should not be disregarded. First, because client applications may still rely on cloud backends for non delay-sensitive computation. Second, because edge servers may be unavailable from the current client location. Thus, client applications must rely on a runtime mechanism to discover and negotiate the use of nearby edge infrastructure. As alternative infrastructures may exhibit uneven loads, the decision of which to use, including the cloud, must take into account their current status as well as the client application requirements. 
+
+%Finally, to avoid increasing the burden of application development, computation to be executed at the edge should follow, to the extent possible, a common architecture and implementation with respect to its cloud counterpart. The same applies to the computation that may be offloaded from resource constrained devices to nearby edge infrastructure.  
 
 \subsection{Motivation}
 
 \subsubsection{Realtime Applications}
 
-The main motivation for displacing computation from cloud to edge servers is to avoid network latency. In specific, real-time applications are the main candidates for benefiting of services deployed at proximal edge infrastructure.
+The main motivation for displacing computation from cloud to edge infrastructure is to avoid network latency. In specific, real-time applications are the main candidates for benefiting of services deployed at proximal edge infrastructure. Among these, some have a higher degree of criticality with respect to latency and readiness of services (e.g., delay can have severe consequences to users), whereas others can greatly benefit from lower latencies (e.g., by improving the user experience).
 
-For example, augmented reality (AR) is a type of application that enrich users view of the physical world with virtual elements like information about buildings and monuments or tips to help users to achieve physical tasks. AR applications commonly depend on two key computational tasks: 1) extracting features from physical elements in the captured scene; and 2) matching these features against a feature database to obtain the corresponding information. 
+As an example of a critical application, autonomous vehicles/drones...
+
+In contrast, augmented reality (AR) is a type of application that would benefit from the low-latency of edge services. AR applications enrich the representation of the physical world with virtual elements like information about buildings and monuments or tips to guide users in the achievement of physical tasks. AR applications commonly depend on two key computational tasks: 1) extracting features from physical elements in the captured scene; and 2) matching these features against a feature database to obtain the corresponding information. 
 
 With the advent of mobile computing,  mobile augmented reality (MAR) applications can be deployed to companion devices like smartphones and tablets. Nonetheless, MAR applications relying on data that is too large or too frequently updated to be ported to devices must rely on external servers. As MAR applications captures live representation of the physical world, this reality must be augmented at runtime, meaning data must be retrieved in a timely fashion. Due to network latency, a cloud-based solution tends to fail. Accordingly, feature extraction task should be deployed near to client devices, e.g.., to edge servers. 
 
@@ -57,7 +62,7 @@ Serverless computing emerged as a new execution model for cloud computing in whi
 
 Among its main advantages, the serverless model is considered to be cost-efficient in comparison to virtual machine and container-based provisioning models, which generally involve significant periods of underutilization or idle time. As it has been argued elsewhere~\cite{ESOCC'17}, a serverless architecture can be employed to enable low-latency applications to make use of edge computing computational resources in an efficient and scalable way. Additionally, mobile devices could make use of compute runtimes deployed at nearby edge servers to extend their capabilities. Notwithstanding the potential of such combination, a complete model for its realization is still missing. 
 
-\subsection{Contribution}
+\subsection{Contributions of this Work}
 
 In this work, we propose a unified model for the the provisioning of different kinds of edge infrastructure as a service. We also specify a reference architecture based on the paradigm of serverless computing. The proposed architecture is suitable for both cloud and edge infrastructures, reducing the burden of application development. Finally, we evaluated our model and architecture with two scenarios of edge computing: one in which edge servers are located at cellular infrastructure, and another in which edge servers are located indoors at an office building. The results showed the feasibility and scalability of providing edge infrastructure as a service.
 
@@ -68,6 +73,8 @@ TODOs:
 \item introduce the concept of edge continuum
 
 \end{itemize}
+
+\subsection{Paper Organization}
 
 This paper is organized as follows...
 
