@@ -26,11 +26,14 @@ Finally, cloud servers should not be disregarded. First, because client applicat
 
 \subsection{Motivation}
 
-\begin{figure}
-	\includegraphics[width=0.6\textwidth]{figs/augmented-reality.jpg}
-	\caption{TODO: replace this with a less depressive image of augmented reality :)}
-	\label{fig:augmented-reality}
+\begin{figure}[htbp]
+	\centering
+	\subfloat[TODO: replace this image to avoid copyright problems.\label{fig:connected-vehicles}] {\includegraphics[width=0.47\textwidth]{figs/connected-vehicles.jpg}}\hfill
+	~
+	\subfloat[TODO: replace this with a less depressive image of augmented reality :)\label{fig:augmented-reality}]{\includegraphics[width=0.53\textwidth]{figs/augmented-reality.jpg}}\hfill
+	\caption{Different application types can be enabled or benefit from the low-latency of services deployed to nearby edge servers} \label{fig:motivational-cases}
 \end{figure}
+
 
 \subsubsection{Realtime Applications}
 
@@ -47,6 +50,14 @@ With the advent of mobile computing, AR applications can be deployed to companio
 
 %AR applications that capture a live representation of the physical world, this reality must be augmented at real-time, meaning data must be retrieved in a timely fashion. Due to network latency, a cloud-based solution tends to fail. Accordingly, feature extraction task should be deployed near to client devices, e.g.., to edge servers. 
 
+\begin{figure}[htbp]
+	\centering
+	\subfloat[first caption.\label{fig:cloud-to-edge}]{\includegraphics[width=0.49\textwidth]{figs/cloud-to-edge.png}}\hfill
+	~
+	\subfloat[second caption.\label{fig:mobile-to-edge}] {\includegraphics[width=0.49\textwidth]{figs/mobile-to-edge.png}}\hfill
+	\caption{General caption.} \label{fig:1}
+\end{figure}
+
 \subsubsection{Mobile Computation Offloading}
 
 In addition to the problem of network latency, mobile devices exhibit limitations that may further motivate the use of edge computing. 
@@ -59,13 +70,6 @@ In the paradigm of Mobile Cloud Computing (MCC)~\cite{}, this problem has been a
 
 As an example, the previously mentioned feature extraction task from MAR applications is a type of heavyweight computation based on image processing. Instead of performing it locally (as has been proposed in~\cite{}), mobile devices could also offload this task to nearby edge servers. 
 
-\begin{figure}[htbp]
-	\centering
-	\subfloat[first caption.\label{fig:cloud-to-edge}]{\includegraphics[width=0.49\textwidth]{figs/cloud-to-edge.png}}\hfill
-	~
-	\subfloat[second caption.\label{fig:mobile-to-edge}] {\includegraphics[width=0.49\textwidth]{figs/mobile-to-edge.png}}\hfill
-	\caption{General caption.} \label{fig:1}
-\end{figure}
 
 \subsection{Computational Continuum and Serverless Computing}
 
@@ -78,14 +82,6 @@ Among its main advantages, the serverless model is considered to be cost-efficie
 \subsection{Contributions of this Work}
 
 In this work, we propose a unified model for the the provisioning of different kinds of edge infrastructure as a service. We also specify a reference architecture based on the paradigm of serverless computing. The proposed architecture is suitable for both cloud and edge infrastructures, reducing the burden of application development. Finally, we evaluated our model and architecture with two scenarios of edge computing: one in which edge servers are located at cellular infrastructure, and another in which edge servers are located indoors at an office building. The results showed the feasibility and scalability of providing edge infrastructure as a service.
-
-TODOs: 
-\begin{itemize}
-
-\item add a critical application class example
-\item introduce the concept of edge continuum
-
-\end{itemize}
 
 \subsection{Paper Organization}
 
