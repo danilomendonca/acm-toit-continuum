@@ -70,12 +70,20 @@ In the paradigm of Mobile Cloud Computing (MCC)~\cite{}, this problem has been a
 
 As an example, the previously mentioned feature extraction task from MAR applications is a type of heavyweight computation based on image processing. Instead of performing it locally (as has been proposed in~\cite{}), mobile devices could also offload this task to nearby edge servers. 
 
+\subsubsection{Computational Continuum}
 
-\subsection{Computational Continuum and Serverless Computing}
+Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{\textbf{computational continuum}} which new and disruptive types of applications can rely on to perform its computational tasks. 
 
-Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{\textbf{computational continuum}} to which new and disruptive types of applications can seamless rely to perform its software tasks. Nonetheless, a model that enables such a continuum to be realized is still missing.
+To illustrate such scenario, we put together the two application examples previously described as part of a continuum that starts in the user's office and finishes in his home. In the office, let's assume the existence of a local edge server, which will be called from now on \textit{indoor-edge}. 
 
-Recently, serverless computing~\cite{} emerged as an alternative execution model for cloud computing. In particular, its name derives from the fact that server management and capacity planning decisions are hidden from the software application engineers. Instead, serverless providers dynamically manage the allocation of machine resources for the execution of different types of computational tasks. Today, multiple vendors provide serverless runtime and database services. 
+With this edge server in reach of communication, the AR application hosted by the user's smartphone can request the deployment of specific services: one for feature extraction and other for feature matching. When the user actually starts using the application, e.g., to interact with a three dimensional 
+
+
+ Nonetheless, a model that enables such a continuum to be realized is still missing.
+
+\subsection{Serverless Computing}
+
+Serverless computing~\cite{} emerged as an alternative execution model for cloud computing. In particular, its name derives from the fact that server management and capacity planning decisions are hidden from the software application engineers. Instead, serverless providers dynamically manage the allocation of machine resources for the execution of different types of computational tasks. Today, multiple vendors provide serverless runtime and database services. 
 
 Among its main advantages, the serverless model is considered to be cost-efficient in comparison to virtual machine and container-based provisioning models, which generally involve significant periods of underutilization or idle time. As it has been argued elsewhere~\cite{ESOCC'17}, a serverless architecture can be employed to enable low-latency applications to make use of edge computing computational resources in an efficient and scalable way. Additionally, mobile devices could make use of compute runtimes deployed at nearby edge servers to extend their capabilities. Notwithstanding the potential of such combination, a complete model for its realization is still missing. 
 
