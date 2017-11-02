@@ -1,4 +1,4 @@
-\section{Proposal}
+\section{Proposal}\label{sec:proposal}
 
 \subsection{Requirements}
 
@@ -35,7 +35,7 @@ In addition to the client participation in a edge-or-edge kind of decision, ther
 As mobile clients can enter or exit a given area, the less time a mobile client remains connected to a given edge server, the lower the chances of loosing connection before it is is still processing that client's request. Thus, if services are not currently available at local edge servers, clients should perform direct requests to the cloud and bypass any interaction with edge components. Fig. illustrates such scenario.
 
 \begin{figure}
-  \includegraphics[width=0.6\textwidth]{figs/domain-selection.png}
+  \includegraphics[width=0.7\textwidth]{figs/domain-selection.png}
   \caption{Two independent edge servers in range of communication with a client, which is responsible for choosing among one of these or the cloud; direct requests to the cloud eliminate the dependency with intermediary edge servers when they are unavailable}
   \label{fig:domain-selection}
 \end{figure}
@@ -105,11 +105,27 @@ From this point on, the term edge domain is used to abstract whatever computatio
 
 \subsubsection{A3-E: Phases}
 
-\begin{figure}
-  \includegraphics[width=0.9\textwidth]{figs/A3-E.png}
-  \caption{Different phases of the A3-E model; phases are delimited by vertical lines and the main activities by inner labels in both clients and domains; labeled oval shapes represent the respective states of both sides at the end of each phase}
-  \label{fig:A3-E}
+\begin{figure}[htbp]
+	\centering
+	\captionsetup[subfigure]{width=\textwidth}
+	\subfloat[Different phases of the A3-E model; phases are delimited by vertical lines and the main activities by inner labels in both clients and domains; labeled oval shapes represent the respective states of both sides at the end of each phase.\label{fig:cloud-to-edge}]{ \includegraphics[width=0.95\textwidth]{figs/A3-E.png}}\hfill
+	
+	\subfloat[Different states of a given edge domain with respect to a given application; the transitions between awareness, acquisition, and allocation are guarded by policies that may vary according to the type of application and to the type of edge infrastructure\label{fig:mobile-to-edge}] {\includegraphics[width=0.75\textwidth]{figs/A3-E-states.png}}\hfill
+	\caption{The A3-E Model} \label{fig:1}
 \end{figure}
+
+
+%\begin{figure}
+%  \includegraphics[width=0.9\textwidth]{figs/A3-E.png}
+%  \caption{Different phases of the A3-E model; phases are delimited by vertical lines and the main activities by inner labels in both clients and domains; labeled oval shapes represent the respective states of both sides at the end of each phase}
+%  \label{fig:A3-E}
+%\end{figure}
+%
+%\begin{figure}
+%  \includegraphics[width=0.95\textwidth]{figs/A3-E-states.png}
+%  \caption{Different states of a given edge domain with respect to a given application; the transitions between awareness, acquisition, and allocation are guarded by policies that may vary according to the type of application and to the type of edge infrastructure}
+%  \label{fig:states}
+%\end{figure}
 
 The diagram in Fig. 3 captures the different phases of the interaction between a mobile client running a given application that first contacts a given edge domain. 
 	
@@ -124,12 +140,6 @@ The acquisition of application components does not make them ready to be execute
 Finally, once the allocation phase is finished, the domain is ready to perform the computation required by the application. For instance, following a request-response protocol, clients can fire requisitions to that domain. These activities are part of the engagement phase.
 
 The separation of phases emphasizes not only the different concerns involved, but also the distinction between the moments they occur. The transition among phases may either be sequential, meaning that one phase starts as soon the previous finishes, or conditional, meaning that additional condition(s) must be met before the next phase can start. 	
-
-\begin{figure}
-  \includegraphics[width=0.75\textwidth]{figs/states.png}
-  \caption{Different states of a given edge domain with respect to a given application; the transitions between awareness, acquisition, and allocation are guarded by policies that may vary according to the type of application and to the type of edge infrastructure}
-  \label{fig:states}
-\end{figure}
 
 Fig. x presents the possible transitions among the three A phases of an edge domain regarding a given application. The awareness-acquisition transition is modelled by three alternative policies: 
 
