@@ -72,16 +72,17 @@ As an example, the previously mentioned feature extraction task from MAR applica
 
 \subsubsection{Computational Continuum}
 
-Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{\textbf{computational continuum}} which new and disruptive types of applications can rely on to perform its computational tasks. 
+Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{\textbf{computational continuum}} on which new and disruptive types of applications can rely. 
 
 To illustrate such scenario, we put together the two application examples previously described as part of a continuum that starts in the user's office and finishes in his home. 
 
-In the office, let's assume the existence of a local edge server, which will be called from now on \textit{indoor-edge}. This server is owned by the employer company to allow...
+In the office, let's assume the existence of a local edge server, which will be called from now on \textit{indoor-edge}. This server is owned by the employer company to allow employees to extend their mobile devices computational capabilities. Our user, e.g., makes use of an augmented reality application to TODO: describe here how an employee would use AR at work or change it to a home scenario.
 
-With this edge server in reach of communication, the AR application hosted by the user's smartphone can request the deployment of specific services: one for feature extraction and other for feature matching. When the user actually starts using the application, e.g., to interact with a three dimensional 
+Later on, the user leaves his office and enters his connected vehicle. During its way home, this autonomous vehicle will make use of nearby edge servers deployed at cellular base stations and owned by telecoms to receive low-latency updates on the best plan to reach its destination, considering the multitude of other users been driven home during the hush hour. For instance, within milliseconds, the vehicle is suggested to make a turn just in time to avoid an accident two blocks ahead. 
 
+Already at home, the user's smartphone gets in reach of communication with the indoor edge server owned by him. In that specific day, the user found out about a new mobile game application that makes use of augmented reality. Upon installation, the edge server becomes aware of it and proceeds with the acquisition and deployment of the game components and assets that will be exposed as a service. After this, the client application, which was already running locally, becomes aware of the edge service and start consuming it with the purpose of offloading computation and preserving the smartphone resources. Not only the game performance improves, but also the battery consumption is reduced.  
 
- Nonetheless, a model that enables such a continuum to be realized is still missing.
+In the scenario above, different types of edge infrastructure have been employed by user's devices. Our idea of a computation continuum refers to the pervasiveness of computational resources and to the seamlessly transition and opportunistic interaction among client applications and these resources. Needless to say, for all the applications cited above, cloud infrastructure is  fundamental, as different services for which network latency is not disruptive are still in the cloud (e.g., authentication, persistence, large part of the business logic).
 
 \subsection{Serverless Computing}
 
