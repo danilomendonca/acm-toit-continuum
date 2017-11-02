@@ -82,7 +82,7 @@ Later on, the user leaves his office and enters his connected vehicle. During it
 
 Already at home, the user's smartphone gets in reach of communication with the indoor edge server owned by him. In that specific day, the user found out about a new mobile game application that makes use of augmented reality. Upon installation, the edge server becomes aware of it and proceeds with the acquisition and deployment of the game components and assets that will be exposed as a service. After this, the client application, which was already running locally, becomes aware of the edge service and start consuming it with the purpose of offloading computation and preserving the smartphone resources. Not only the game performance improves, but also the battery consumption is reduced.  
 
-In the scenario above, different types of edge infrastructure have been employed by user's devices. Our idea of a computation continuum refers to the pervasiveness of computational resources and to the seamlessly transition and opportunistic interaction among client applications and these resources. Needless to say, for all the applications cited above, cloud infrastructure is  fundamental, as different services for which network latency is not disruptive are still in the cloud (e.g., authentication, persistence, large part of the business logic).
+In the scenario above, different types of edge infrastructure have been employed by user's devices. In specific, our idea of a computation continuum refers to the pervasiveness of computational resources and to the seamlessly transition of computation among mobile, edge, and cloud resources. Needless to say, for all the applications cited above, cloud infrastructure is  fundamental, as different services for which network latency is not disruptive are still in the cloud (e.g., authentication, persistence, large part of the business logic).
 
 \subsection{Serverless Computing}
 
@@ -92,11 +92,15 @@ Among its main advantages, the serverless model is considered to be cost-efficie
 
 \subsection{Contributions of this Work}
 
-In this work, we propose a unified model for the the provisioning of different kinds of edge infrastructure as a service. We also specify a reference architecture based on the paradigm of serverless computing. The proposed architecture is suitable for both cloud and edge infrastructures, reducing the burden of application development. Finally, we evaluated our model and architecture with two scenarios of edge computing: one in which edge servers are located at cellular infrastructure, and another in which edge servers are located indoors at an office building. The results showed the feasibility and scalability of providing edge infrastructure as a service.
+In this work, we propose A3-E, a unified model for the computation continuum formed by mobile, edge, and cloud computational resources. The proposed model is strongly coped with the paradigm of serverless computing. In specific, A3-E explores the emerging execution model of \textit{functions as a service} to allow stateless computation to be quickly acquired, deployed, and made ready for execution. Due to the its particular characteristics, the A3-E model provides a scalable solution for the emerging paradigm of edge computing. 
+
+As has been demonstrated with experiments, client applications can rely on dynamically and opportunistically selected services implemented as functions that are executable locally, in the edge, or in the cloud. Additionally, our experiments have shown a substantial reduction of latency when services are deployed to nearby edge infrastructure, as well as the battery consumption when computation is offloaded from mobile devices to edge servers.
+
+%Last but not least, our contribution also includes a reference architecture for the realization of the proposed model. 
 
 \subsection{Paper Organization}
 
-This paper is organized as follows...
+This paper is organized as follows. Section~\ref{sec:background} provides a brief background on the main topics and concepts used by this work. Section~\ref{sec:proposal} provides the 
 
 
 
