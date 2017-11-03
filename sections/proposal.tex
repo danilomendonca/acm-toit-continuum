@@ -102,9 +102,12 @@ From this point on, the term edge domain is used to abstract whatever computatio
 \begin{figure}[htbp]
 	\centering
 	\captionsetup[subfigure]{width=\textwidth}
-	\subfloat[Different phases of the A3-E model; phases are delimited by vertical lines and the main activities by inner labels in both clients and domains; labeled oval shapes represent the respective states of both sides at the end of each phase.\label{fig:cloud-to-edge}]{ \includegraphics[width=0.95\textwidth]{figs/A3-E.png}}\hfill
+	\subfloat[Different phases of the A3-E model; phases are delimited by vertical lines and the main activities by inner labels in both clients and domains; labeled oval shapes represent the respective states of both sides at the end of each phase\label{fig:cloud-to-edge}]{ \includegraphics[width=0.9\textwidth]{figs/A3-E.png}}\hfill
 	
-	\subfloat[Different states of a given edge domain with respect to a given application; the transitions between awareness, acquisition, and allocation are guarded by policies that may vary according to the type of application and to the type of edge infrastructure\label{fig:mobile-to-edge}] {\includegraphics[width=0.75\textwidth]{figs/A3-E-states.png}}\hfill
+	\raggedright
+	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and application\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
+	
+	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client.png}}\hfill
 	\caption{The A3-E Model} \label{fig:1}
 \end{figure}
 
