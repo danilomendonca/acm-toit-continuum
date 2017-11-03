@@ -4,48 +4,56 @@
 
 \subsubsection{Automation}
 
+%Finally, also considering the multiplicity of edge servers and the need for a scalable solution for the provisioning of edge infrastructure as a service, the following requirement have been defined:
+
+Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R1}).
 
 
-\subsubsection{Context-Awareness}
+\subsubsection{Server Heterogeneity}
 
-Applications may significantly differ in terms of the QoS they require from service providers. For example, autonomous vehicles may eventually rely on edge services for low-latency operations. An autonomous vehicle entering a given region for the first time is unlikely to be waiting until the edge servers covering that region become ready for providing the service the vehicle requires. 
+Edge computing encompasses distinct types of computational resources located at the edge of the network and nearby users (Figure~\ref{fig:edge-heterogeneity}). The unified model should be agnostic with respect to the capabilities and specific technology details of different modalities of edge computing (\textbf{R2}). 
 
-Conversely, users of a mobile multiplayer game could eventually wait for a setup time whenever the edge servers nearby are not ready. In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not. 
+%In addition, different kinds of edge infrastructure (e.g., more powerful servers or single board computers) or the same kind of edge infrastructure at different contexts (e.g., the number of clients in an area is too high in one region and low in another) may fit better with different policies for edge resources usage. 
 
-In addition, different kinds of edge infrastructure (e.g., more powerful servers or single board computers) or the same kind of edge infrastructure at different contexts (e.g., the number of clients in an area is too high in one region and low in another) may fit better with different policies for edge resources usage. Accordingly, the following requirement have been defined:
+\subsubsection{Client Awareness}
 
-\textbf{R6:} Provisioning of edge resources must be context-dependent
+An important aspect of edge computing consists of how edge services should be discovered and consequently consumed by clients. 
 
-\subsubsection{Heterogeneity, Discovery, and Selection}
+Today, networking protocols and technologies are the main responsibles for allowing client applications to access cloud services in a transparent way. For this, clients access cloud services by means of well-known Internet names. The datacenters hosting cloud services are, at best, coarsely distributed among continents, countries, or broader regions. 
+%In these cases, services names are mapped to either the servers hosting them or to intermediate components (e.g., traffic managers) responsible for transparently routing client requests to datacenters covering their area. 
+In contrast, in a fine grained geographical distribution of edge infrastructure, a similar transparency may not be possible. 
 
-An important aspect of edge computing consists of how the services provided by edge infrastructure should be discovered and consequently consumed by clients. 
+%In particular, two scenarios of edge computing are possible: 1) edge servers are part of the telecommunications infrastructure (e.g., they are located at cellular base stations); 2) edge servers are part of conventional infrastructure  (e.g., they are located at malls, concert halls, stadiums, office buildings, parks, etc). 
+%
+%In the first kind of scenario, which correspond to MEC, networking technology could be employed to make the decision of using edge or cloud infrastructure transparent for the client. For instance, active components at the base stations could divert the traffic coming from clients connected to that base station to local edge servers whenever the requested services are available or to the cloud otherwise~\cite{MEC_ROUTING}. 
+%
+%Analogously, the second kind of scenario would require local network infrastructure components like access points and routers to actively divert the traffic from clients to edge servers in that location upon availability or to the cloud otherwise.
+%
+%In both cases, clients requests would be transparently handled by either edge or cloud servers, with infrastructure components responsible for taking the edge-or-cloud decision. However, in the event of both types of edge infrastructure to coexist, the client would have to participate of an edge-or-edge kind of decision.
 
-Today, networking protocols and technologies are the main responsibles for allowing client applications to access cloud services in a transparent way. For this, clients access the services deployed in these datacenters by means of Internet names. 
+First, because clients can switch from one network to the other at their discretion or make simultaneous use of different connections. For instance, once inside a building with some local edge servers accessible through Wi-Fi direct, the client may still decide for the edge server available at the cellular base station it is connected (e.g., through 5G~\footnote{Fifth generation of broadband cellular technology}). 
 
-Cloud datacenters are, at best, coarsely distributed among continents, countries, or regions. In these cases, service address are mapped to either the servers hosting them or to intermediate components (e.g., traffic managers) responsible for transparently routing client requests to datacenters covering their area. In contrast, in a fine grained geographical distribution of edge infrastructure, a similar transparency may not be possible. 
+Second, because it is unlikely that edge servers from different providers will be able to coordinate and decide which one will serve a given client request. For instance, at a given moment, a client device may be in contact with both MEC and indoor edge servers in an office building. If both can provide the same services, but are unable to communicate and coordinate, it is up to the client to make this decision.
 
-In particular, two scenarios of edge computing are possible: 1) edge servers are part of the telecommunications infrastructure (e.g., they are located at cellular base stations); 2) edge servers are part of conventional infrastructure  (e.g., they are located at malls, concert halls, stadiums, office buildings, parks, etc). 
 
-In the first kind of scenario, which correspond to MEC, networking technology could be employed to make the decision of using edge or cloud infrastructure transparent for the client. For instance, active components at the base stations could divert the traffic coming from clients connected to that base station to local edge servers whenever the requested services are available or to the cloud otherwise~\cite{MEC_ROUTING}. 
 
-Analogously, the second kind of scenario would require local network infrastructure components like access points and routers to actively divert the traffic from clients to edge servers in that location upon availability or to the cloud otherwise.
-
-In both cases, clients requests would be transparently handled by either edge or cloud servers, with infrastructure components responsible for taking the edge-or-cloud decision. However, in the event of both types of edge infrastructure to coexist, the client would have to participate of an edge-or-edge kind of decision.
-
-First, because it is unlikely that edge servers from different providers will be able to coordinate and decide which one will serve a given client request. For instance, at a given moment, a client device may be in contact with both MEC and indoor edge servers at an office building. If both can provide the same services, but are unable to coordinate among them, it is up to the client to decide which one to make use of. 
-
-Second, because clients can switch from one network to the other at their discretion or make simultaneous use of different connections. For instance, once inside a building with some local edge servers accessible through Wi-Fi direct, the client may still decide for the edge server available at the base station it is connected (e.g., through 4G~\cite{4G}). As such, whereas independent edge servers would not see each other, the client would be able to see them and decide which one suits it the best.
+%As such, whereas independent edge servers would not see each other, the client would be able to see them and decide which one suits it the best.
 
 In addition to the client participation in a edge-or-edge kind of decision, there is an argument in favor of giving the client also the responsibility for the edge-or-cloud type of decision: mobility. 
 
-As mobile clients can enter or exit a given area, the less time a mobile client remains connected to a given edge server, the lower the chances of loosing connection before it is is still processing that client's request. Thus, if services are not currently available at local edge servers, clients should perform direct requests to the cloud and bypass any interaction with edge components. Fig. illustrates such scenario.
+As mobile clients can enter or exit a given area, their connectivity with a given edge server may be lost. The less time a mobile client remains connected to a given edge server, the lower the chances of loosing connection before it is still processing that client's request. Thus, if services are not currently available at local edge servers (Figure~\ref{fig:domain-selection}), clients should perform direct requests to the cloud instead of having their request forwarded by the edge network components. 
 
-\begin{figure}
-  \includegraphics[width=0.7\textwidth]{figs/domain-selection.png}
-  \caption{Two independent edge servers in range of communication with a client, which is responsible for choosing among one of these or the cloud; direct requests to the cloud eliminate the dependency with intermediary edge servers when they are unavailable}
-  \label{fig:domain-selection}
+\begin{figure}[htbp]
+	\centering
+	\captionsetup[subfigure]{width=0.5\textwidth}	
+	\null\hfill
+	\subfloat[Heterogeneus and indpendent types of edge infrastructure (mobile and indoor) in range of communication with a client device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.5\textwidth]{figs/edge-heterogeneity.png}}
+	\captionsetup[subfigure]{width=0.45\textwidth}	
+	\hfill
+	\subfloat[In the case no edge service is available, client performs direct requests to the cloud and eliminate the dependency with intermediary edge infrastructure\label{fig:domain-selection}] {\includegraphics[width=0.45\textwidth]{figs/domain-selection.png}}
+	\hfill\null
+	\caption{Edge heterogeneity and client awareness}\label{fig:1}
 \end{figure}
-
 
 Thus, the client should be responsible for the decision of which alternative to use: the current best edge alternative, or the cloud. Once decided, the client-server interaction shall proceed without further ado.
 Considering the points above, the following requirements have been elicited for the discovery and selection of different kinds of infrastructure:
@@ -55,6 +63,12 @@ Considering the points above, the following requirements have been elicited for 
 \textbf{R2:} Clients must be able to choose among different independent alternatives of edge infrastructure and cloud infrastructure based on their requirements and the current state of the infrastructures they have access to.
 
 TODO: replace R2 with: Control over forwarding from edge to cloud. Soft vs. strong constraint. Soft = I can also run on cloud if needed. Strong = Never go to cloud.
+
+\subsubsection{Client Heterogeneity}
+
+Applications may significantly differ in terms of the QoS they require from service providers. For example, autonomous vehicles may eventually rely on edge services for low-latency operations. An autonomous vehicle entering a given region for the first time is unlikely to be waiting until the edge servers covering that region become ready for providing the service the vehicle requires. 
+
+Conversely, users of a mobile multiplayer game could eventually wait for a setup time whenever the edge servers nearby are not ready. In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not. Accordingly, the unified model should enable the co-existence of applications of different categories (\textbf{R3}).
 
 \subsubsection{Efficiency}
 
@@ -77,9 +91,7 @@ In addition to how edge resources should be allocated, the multiplicity of edge 
 
 \textbf{R4:} Application resources must be acquired on demand (opportunistic acquisition) 
 
-Finally, also considering the multiplicity of edge servers and the need for a scalable solution for the provisioning of edge infrastructure as a service, the following requirement have been defined:
 
-\textbf{R5:} Application acquisition and allocation should be automated and not depend on  manual intervention from human administrators (self-management)
 The fulfillment of the above requirements would leverage the potential of edge computing by optimizing the usage of its resources and consequently allowing a larger number of client applications to share the costs of edge infrastructure.
 
 The resulting model would work as an extension of today’s cloud IaaS with the twofold purpose of enabling applications with low latency requirements to make use of edge infrastructure and to augment the computational power of mobile devices through mobile to edge computation offloading. 
@@ -102,7 +114,7 @@ From this point on, the term edge domain is used to abstract whatever computatio
 \begin{figure}[htbp]
 	\centering
 	\captionsetup[subfigure]{width=\textwidth}
-	\subfloat[Different phases of the A3-E model; phases are delimited by vertical lines and the main activities by inner labels in both clients and domains; labeled oval shapes represent the respective states of both sides at the end of each phase\label{fig:cloud-to-edge}]{ \includegraphics[width=0.9\textwidth]{figs/A3-E.png}}\hfill
+	\subfloat[Different phases of the A3-E model; phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain (client) with respect to a client (domain)\label{fig:cloud-to-edge}]{ \includegraphics[width=0.9\textwidth]{figs/A3-E.png}}\hfill
 	
 	\raggedright
 	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and application\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
