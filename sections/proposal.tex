@@ -8,9 +8,15 @@
 
 \subsubsection{Context-Awareness}
 
+Applications may significantly differ in terms of the QoS they require from service providers. For example, autonomous vehicles may eventually rely on edge services for low-latency operations. An autonomous vehicle entering a given region for the first time is unlikely to be waiting until the edge servers covering that region become ready for providing the service the vehicle requires. 
 
+Conversely, users of a mobile multiplayer game could eventually wait for a setup time whenever the edge servers nearby are not ready. In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not. 
 
-\subsubsection{Discovery and Selection }
+In addition, different kinds of edge infrastructure (e.g., more powerful servers or single board computers) or the same kind of edge infrastructure at different contexts (e.g., the number of clients in an area is too high in one region and low in another) may fit better with different policies for edge resources usage. Accordingly, the following requirement have been defined:
+
+\textbf{R6:} Provisioning of edge resources must be context-dependent
+
+\subsubsection{Heterogeneity, Discovery, and Selection}
 
 An important aspect of edge computing consists of how the services provided by edge infrastructure should be discovered and consequently consumed by clients. 
 
@@ -50,7 +56,7 @@ Considering the points above, the following requirements have been elicited for 
 
 TODO: replace R2 with: Control over forwarding from edge to cloud. Soft vs. strong constraint. Soft = I can also run on cloud if needed. Strong = Never go to cloud.
 
-\subsubsection{Resource Allocation}
+\subsubsection{Efficiency}
 
 Another fundamental aspect of edge computing consists of how its highly distributed computational resources should be allocated to and consumed by different applications.
 
@@ -77,18 +83,6 @@ Finally, also considering the multiplicity of edge servers and the need for a sc
 The fulfillment of the above requirements would leverage the potential of edge computing by optimizing the usage of its resources and consequently allowing a larger number of client applications to share the costs of edge infrastructure.
 
 The resulting model would work as an extension of today’s cloud IaaS with the twofold purpose of enabling applications with low latency requirements to make use of edge infrastructure and to augment the computational power of mobile devices through mobile to edge computation offloading. 
-
-\subsubsection{Context-Dependency }
-
-Applications may significantly differ in terms of the QoS they require from service providers. 
-
-For example, autonomous vehicles may eventually rely on edge services for low-latency operations. An autonomous vehicle entering a given region for the first time is unlikely to be waiting until the edge servers covering that region become ready for providing the service the vehicle requires. 
-
-Conversely, users of a mobile multiplayer game could eventually wait for a setup time whenever the edge servers nearby are not ready. In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not. 
-
-In addition, different kinds of edge infrastructure (e.g., more powerful servers or single board computers) or the same kind of edge infrastructure at different contexts (e.g., the number of clients in an area is too high in one region and low in another) may fit better with different policies for edge resources usage. Accordingly, the following requirement have been defined:
-
-\textbf{R6:} Provisioning of edge resources must be context-dependent
 
 \subsection{The A3-E Model}
 
