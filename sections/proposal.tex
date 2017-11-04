@@ -30,16 +30,10 @@ The diagrams in Fig.~\ref{fig:A3-E-model} captures the different phases of the i
   \label{fig:edge-domain-client}
 \end{figure}
 
-\begin{figure}[htbp]
-	\centering
-	\captionsetup[subfigure]{width=\textwidth}
-	\subfloat[Different phases of the A3-E model; phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain (client) with respect to a client (domain)\label{fig:A3-E-phases}]{ \includegraphics[width=0.9\textwidth]{figs/A3-E.png}}\hfill
-	
-	\raggedright
-	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and application\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
-	
-	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client.png}}\hfill
-	\caption{The A3-E Model} \label{fig:A3-E-model}
+\begin{figure}
+	\includegraphics[width=0.9\textwidth]{figs/A3-E.png}
+	\caption{Different phases of the A3-E model; phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain (client) with respect to a client (domain)}
+	\label{fig:A3-E-phases}
 \end{figure}
 
 \subsubsection{Awareness Phase}\label{sec:A3-E-awareness}
@@ -48,7 +42,7 @@ In accordance with \textbf{RQx}, certain scenarios of mobile and local edge comp
 
 \subsubsection{Acquisition Phase}\label{sec:A3-E-acquisition}
 
-
+In accordance with \textbf{RQx}, 
 
 \subsubsection{Allocation Phase}\label{sec:A3-E-allocation}
 
@@ -58,20 +52,15 @@ The \textit{engagement} phase represents the simple interaction between a client
 
 At this stage, a client must be aware of the service address: 
 
+\begin{figure}[htbp]
+	\raggedright
+	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and application\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
+	
+	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client.png}}\hfill
+	\caption{The A3-E Model} \label{fig:A3-E-model}
+\end{figure}
 
-TODO: decide whether to leave activity diagram and details about HOW to perform each of the A3-E phases as part of the proposal or the evaluation; 
-
-In accordance with requirement R1, edge domains perform the advertisement of their existence to whatever clients may be in reach. Potential clients, in their turn, must perform the discovery of edge domains. Before a given domain is found, it remains unknown to that client.
-
-To address requirement R3 and R4, edge domains must remain free with respect to some application until the contact with a potential mobile client hosting that application. This condition refers to both the storage of application assets (e.g., code, libraries, etc), as well as the allocation of these assets for execution (e.g., deployment and instantiation of a restful application). 
-
-Once a given domain has been discovered, the client must proceed with the identification of the application it is running. This process enables the edge domain to download whatever assets required by that specific application.  
-
-The acquisition of application components does not make them ready to be executed. Instead, valuable resources like memory and CPU are kept free w.r.t. this application until the domain proceed with the placement of the application components as part of the allocation phase. The later activity corresponds to the allocation of resources from one or more domain servers required for the application execution. 	
-
-Finally, once the allocation phase is finished, the domain is ready to perform the computation required by the application. For instance, following a request-response protocol, clients can fire requisitions to that domain. These activities are part of the engagement phase.
-
-The separation of phases emphasizes not only the different concerns involved, but also the distinction between the moments they occur. The transition among phases may either be sequential, meaning that one phase starts as soon the previous finishes, or conditional, meaning that additional condition(s) must be met before the next phase can start. 	
+TODO: update bellow
 
 Fig. x presents the possible transitions among the three A phases of an edge domain regarding a given application. The awareness-acquisition transition is modelled by three alternative policies: 
 
@@ -101,14 +90,6 @@ In accordance with Requirement R6, the aforementioned policies are useful for di
 
 TODO: discuss below how each of the aforementioned policies address specific requirements elicited in the previous section; pros-cons
 
-\subsection{A3-E: Refined Activities}\label{sec:a3-e-activities}
-
-\begin{figure}
-  \includegraphics[height=\textheight]{figs/activities.png}
-  \caption{TODO}
-  \label{fig:activities}
-\end{figure}
-
 \subsubsection{A3-E: Reference Architecture}\label{sec:a3-e-reference-architecture}
 
 \begin{figure}
@@ -116,6 +97,26 @@ TODO: discuss below how each of the aforementioned policies address specific req
   \caption{TODO}
   \label{fig:reference-architecture}
 \end{figure}
+
+\begin{figure}
+	\includegraphics[height=\textheight]{figs/activities.png}
+	\caption{TODO}
+	\label{fig:activities}
+\end{figure}
+
+TODO: decide whether to leave activity diagram and details about HOW to perform each of the A3-E phases as part of the proposal or the evaluation; 
+
+In accordance with requirement R1, edge domains perform the advertisement of their existence to whatever clients may be in reach. Potential clients, in their turn, must perform the discovery of edge domains. Before a given domain is found, it remains unknown to that client.
+
+To address requirement R3 and R4, edge domains must remain free with respect to some application until the contact with a potential mobile client hosting that application. This condition refers to both the storage of application assets (e.g., code, libraries, etc), as well as the allocation of these assets for execution (e.g., deployment and instantiation of a restful application). 
+
+Once a given domain has been discovered, the client must proceed with the identification of the application it is running. This process enables the edge domain to download whatever assets required by that specific application.  
+
+The acquisition of application components does not make them ready to be executed. Instead, valuable resources like memory and CPU are kept free w.r.t. this application until the domain proceed with the placement of the application components as part of the allocation phase. The later activity corresponds to the allocation of resources from one or more domain servers required for the application execution. 	
+
+Finally, once the allocation phase is finished, the domain is ready to perform the computation required by the application. For instance, following a request-response protocol, clients can fire requisitions to that domain. These activities are part of the engagement phase.
+
+The separation of phases emphasizes not only the different concerns involved, but also the distinction between the moments they occur. The transition among phases may either be sequential, meaning that one phase starts as soon the previous finishes, or conditional, meaning that additional condition(s) must be met before the next phase can start. 	
 
 %the client applications hosted by a mobile devices interact with a domain through a client middleware; the domain has its own middleware responsible for the activities in the A3-E model and interfaces with the servers in that domain
 
@@ -125,3 +126,4 @@ TODO: discuss below how each of the aforementioned policies address specific req
   \caption{TODO}
   \label{fig:protocols}
 \end{figure}
+
