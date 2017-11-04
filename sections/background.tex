@@ -1,20 +1,20 @@
-\section{Background}
+\section{Background}\label{sec:background}
 
-\subsection{Cloud Computing}
+\subsection{The Cloud Infrastructure as a Service}
 
 
-
-\subsection{Edge Computing}
-
-Edge computing predicts the displacement of computing power to the network edge. Cloudlets~\cite{CLOUDLETS} have been first presented as mobile cloud servers which can be positioned at strategic locations with expected high density of (e.g., at concert halls, stations) or areas with temporary infrastructure limitations (e.g., after disasters). In contrast, mobile edge computing (MEC)~\cite{MEC} relies on cellular infrastructure to enable a low-latency communication between mobile devices and edge servers. 
-
-\subsection{Serverless Computing}
+\subsection{Serverless Computing and Functions as a Service}
 
 Serverless Computing is an emerging and compelling paradigm for the deployment of cloud applications, largely due to the recent shift of enterprise application architectures to containers and microservices~\cite{BaldiniServerless17}.  A Serverless Architecture is a refined cloud computing model to process requested functionality without pre-allocating any computing capability. Provider-managed containers are used to execute functions (often called lambdas), which
 are provisioned on demand in few milliseconds, elastically scaled as needed, and ephemeral (may only last for one invocation)~\cite{Roberts2016serverless}. This approach allows one to write and deploy code without considering the server runtime
 environment, resource allocation, load balancing, and scalability; all these aspects are handled by the provider --- from here the term serverless. Functions are charged per invocation and per product of period of time and resource usage (with a millisecond granularity), leading to an almost perfect pay-as-you-go utility pricing model~\cite{3 MateosFaas}. 
 
-From the point of view of the everything-as-a-service (XaaS) cloud computing taxonomies, serverless is also known as Function-as-a-Service (FaaS)~\cite{2 MateosFaas}. There is still a controversy regarding how this differs from the Platform-as-a-Service (PaaS) model, which also abstracts away the management of servers. However, a serverless model is a refinement of the platform layer where, unlike PaaS, developers can write arbitrary code and are not limited to using a pre-packaged application. The version of serverless that explicitly uses functions as the
-deployment unit is also called Function-as-a-Service (FaaS).
+From the point of view of the everything-as-a-service (XaaS) cloud computing taxonomies, serverless is also known as Function-as-a-Service (FaaS)~\cite{2 MateosFaas}. There is still a controversy regarding how this differs from the Platform-as-a-Service (PaaS) model, which also abstracts away the management of servers. However, a serverless model is a refinement of the platform layer where, unlike PaaS, developers can write arbitrary code and are not limited to using a pre-packaged application, but explicitly use functions as the
+deployment unit.
 
 %provide what is been called as \textit{Functions as a Service} (FaaS). A FaaS is a realization of the serverless paradigm in which stateless functions  
+
+
+\subsection{Edge Computing and Low-Latency Applications}
+
+Edge computing predicts the displacement of computing power to the network edge. Cloudlets~\cite{CLOUDLETS} have been first presented as mobile cloud servers which can be positioned at strategic locations with expected high density of (e.g., at concert halls, stations) or areas with temporary infrastructure limitations (e.g., after disasters). In contrast, mobile edge computing (MEC)~\cite{MEC} relies on cellular infrastructure to enable a low-latency communication between mobile devices and edge servers. 
