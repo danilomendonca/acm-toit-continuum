@@ -4,11 +4,25 @@
 
 \subsection{The A3-E Model}
 
-To address the requirements R[1-8], we propose a unified model from which concrete models corresponding to different scenarios of edge computing are later instantiated. First, the interaction between potential clients and edge servers is decomposed into phases (Section~\ref{sec:a3-e-phases}). Each phase is characterized by a main activity from both sides. These activities are later refined with an activity diagram (Section~\ref{sec:a3-e-activities}). Finally, a reference architecture is provided (Section~\ref{sec:a3-e-reference-architecture}).
+%To address the requirements R[1-8], we propose a unified model from which concrete models corresponding to different scenarios of edge computing are later instantiated. First, the interaction between potential clients and edge servers is decomposed into phases (Section~\ref{sec:a3-e-phases}). 
+
+%Each phase is characterized by a main activity from both sides. These activities are later refined with an activity diagram (Section~\ref{sec:a3-e-activities}). Finally, a reference architecture is provided (Section~\ref{sec:a3-e-reference-architecture}).
 
 %For instance, an edge domain could be composed of a grid of powerful servers at a cellular base station or a single cloudlet unit at some public event area. Also, it could be one or more single-board computer in a working office. 
 
-From this point on, the term edge domain is used to abstract whatever computational resources can be employed by different edge infrastructure types and locations. It is also implied that edge domains are accessible by mobile clients through some (network) access point. Fig.~\ref{fig:edge-domain-client} illustrate this abstraction.
+The A3-E provisioning model consists of four phases: \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each of these phases encompasses activities that take care of specific concerns in the interaction among clients and different types of server infrastructure. %A3-E addresses all actors in the computational continuum formed by mobile devices, edge, and cloud servers. 
+
+The four A3-E phases are flexible, i.e., they address different scenarios of cloud and edge computing, which may instantiate one or more of these phases. In particular:
+
+--- Cloud services are reachable by means of a well-known Internet name (therefore, no awareness phase is needed). Also, application assets are preliminarily deployed to cloud servers (thus, no acquisition is needed). Finally, cloud's elasticity mechanisms take care of the (de)allocation of infrastructure or platform resources according to a SLA (allocation phase) so that cloud services can be invoked by clients (engagement phases). 
+
+--- Edge services, in the other hand, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), deploy them (allocation phase), before finally been able to expose the required services. Such opportunistic modality of edge computing, nonetheless, may co-exist with others in which edge services are transparently accessed through well-known Internet names and application assets are pre-acquired/deployed in order to increase the readiness of these services for applications demanding such QoS levels. 
+
+%Thus, whereas the \textit{engagement} phase represents the core of the interaction between clients and servers and the \textit{allocation} phase is already part of today's cloud computing, the additional phases of \textit{acquisition} and \textit{awareness} address the particularities of different types of edge computing.
+
+From this point on, the term edge domain is used to abstract whatever computational resources can be employed by different types of edge computing (e.g., mobile edge computing, local edge computing, etc). It is also implied that edge domains are accessible by mobile clients through some (network) access point. Fig.~\ref{fig:edge-domain-client} illustrates these abstractions. 
+
+The diagrams in Fig.~\ref{fig:A3-E-model} captures the different phases of the interaction between a (mobile) client running a given application that first contacts a given edge domain. Next, each of these phases are described.
 
 \begin{figure}
   \includegraphics[width=0.5\textwidth]{figs/edge-domain-client.png}
@@ -16,35 +30,39 @@ From this point on, the term edge domain is used to abstract whatever computatio
   \label{fig:edge-domain-client}
 \end{figure}
 
-\subsubsection{A3-E: Phases}\label{sec:a3-e-phases}
-
 \begin{figure}[htbp]
 	\centering
 	\captionsetup[subfigure]{width=\textwidth}
-	\subfloat[Different phases of the A3-E model; phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain (client) with respect to a client (domain)\label{fig:a3-3-phases}]{ \includegraphics[width=0.9\textwidth]{figs/A3-E.png}}\hfill
+	\subfloat[Different phases of the A3-E model; phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain (client) with respect to a client (domain)\label{fig:A3-E-phases}]{ \includegraphics[width=0.9\textwidth]{figs/A3-E.png}}\hfill
 	
 	\raggedright
 	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and application\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
 	
 	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client.png}}\hfill
-	\caption{The A3-E Model} \label{fig:a3-3-model}
+	\caption{The A3-E Model} \label{fig:A3-E-model}
 \end{figure}
 
 
-%\begin{figure}
-%  \includegraphics[width=0.9\textwidth]{figs/A3-E.png}
-%  \caption{Different phases of the A3-E model; phases are delimited by vertical lines and the main activities by inner labels in both clients and domains; labeled oval shapes represent the respective states of both sides at the end of each phase}
-%  \label{fig:A3-E}
-%\end{figure}
-%
-%\begin{figure}
-%  \includegraphics[width=0.95\textwidth]{figs/A3-E-states.png}
-%  \caption{Different states of a given edge domain with respect to a given application; the transitions between awareness, acquisition, and allocation are guarded by policies that may vary according to the type of application and to the type of edge infrastructure}
-%  \label{fig:states}
-%\end{figure}
+\subsubsection{Engagement Phase}\label{sec:a3-e-phases}
 
-The diagrams in Fig.~\ref{fig:a3-3-phases} captures the different phases of the interaction between a mobile client running a given application that first contacts a given edge domain. 
-	
+The \textit{engagement} phase represents the simple interaction between a client and a service, e.g., by means of a request-response protocol. 
+
+At this stage, a client must be aware of the service address: 
+
+
+
+
+
+In contrast with cloud services and to address requirements R[a-b],  
+
+In comparison with today's cloud computing~\cite{}
+
+\subsubsection{Acquisition Phase}\label{sec:a3-e-phases}
+
+\subsubsection{Allocation Phase}\label{sec:a3-e-phases}
+
+\subsubsection{Engagement Phase}\label{sec:a3-e-phases}
+
 In accordance with requirement R1, edge domains perform the advertisement of their existence to whatever clients may be in reach. Potential clients, in their turn, must perform the discovery of edge domains. Before a given domain is found, it remains unknown to that client.
 
 To address requirement R3 and R4, edge domains must remain free with respect to some application until the contact with a potential mobile client hosting that application. This condition refers to both the storage of application assets (e.g., code, libraries, etc), as well as the allocation of these assets for execution (e.g., deployment and instantiation of a restful application). 

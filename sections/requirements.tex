@@ -1,16 +1,22 @@
 \subsection{Requirements}
 
+\newcounter{req_count}
+
 \subsubsection{Automation}
+
+\stepcounter{req_count}
 
 %Finally, also considering the multiplicity of edge servers and the need for a scalable solution for the provisioning of edge infrastructure as a service, the following requirement have been defined:
 TODO: introduce the need for automation, possibly linking to serverless computing
 
-Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R1}).
+Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R\arabic{req_count}}).
 
 
 \subsubsection{Servers Heterogeneity}
 
-Edge computing encompasses distinct types of computational resources located at the edge of the network and nearby users (Figure~\ref{fig:edge-heterogeneity}). The unified model should be agnostic with respect to the capabilities and specific technology details of different modalities of edge computing (\textbf{R2}). 
+\stepcounter{req_count}
+
+Edge computing encompasses distinct types of computational resources located at the edge of the network and nearby users (Figure~\ref{fig:edge-heterogeneity}). The unified model should be agnostic with respect to the capabilities and specific technology details of different modalities of edge computing (\textbf{R\arabic{req_count}}). 
 
 %In addition, different kinds of edge infrastructure (e.g., more powerful servers or single board computers) or the same kind of edge infrastructure at different contexts (e.g., the number of clients in an area is too high in one region and low in another) may fit better with different policies for edge resources usage. 
 
@@ -56,11 +62,14 @@ Finally, as mobile clients can enter or exit a given area, their connectivity wi
 
 Thus, the following requirements have been elicited for the discovery and selection of different computational resources:
 
+
 \begin{itemize}
 
-	\item Edge infrastructure must be discoverable by clients (\textbf{R3}); and
+	\stepcounter{req_count}
+	\item Edge infrastructure must be discoverable by clients (\textbf{R\arabic{req_count}}); and
 
-	\item Clients should have the control over which infrastructure should be used based on its requirements and the status of edge/cloud alternatives (\textbf{R4})
+	\stepcounter{req_count}
+	\item Clients should have the control over which infrastructure should be used based on its requirements and the status of edge/cloud alternatives (\textbf{R\arabic{req_count}})
 
 \end{itemize}
 
@@ -73,9 +82,11 @@ Client applications may significantly differ in terms of the QoS they require fr
 Conversely, users of an augmented reality application could eventually wait for a setup time whenever the edge servers nearby are not ready. In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not. Accordingly:
 
 \begin{itemize}
-\item The unified model should enable the co-existence of applications requiring different QoS levels (\textbf{R5}); and
-
-\item The priority of the usage of edge computational resources must be in accordance with the application category and its QoS requirements (\textbf{R6})
+	\stepcounter{req_count}
+	\item The unified model should enable the co-existence of applications requiring different QoS levels (\textbf{R\arabic{req_count}}); and
+	
+	\stepcounter{req_count}
+	\item The priority of the usage of edge computational resources must be in accordance with the application category and its QoS requirements (\textbf{R\arabic{req_count}})
 \end{itemize}
 
 
@@ -106,9 +117,11 @@ the following requirement have been defined:
 
 \begin{itemize}
 
-\item The allocation of runtime resources should be opportunistic, without minimum preallocation per application, unless justified otherwise (\textbf{R7}); and
-
-\item The acquisition of application assets should be opportunistic, unless justified otherwise (\textbf{R8})
+	\stepcounter{req_count}
+	\item The allocation of runtime resources should be opportunistic, without minimum preallocation per application, unless justified otherwise (\textbf{R\arabic{req_count}}); and
+	
+	\stepcounter{req_count}
+	\item The acquisition of application assets should be opportunistic, unless justified otherwise (\textbf{R\arabic{req_count}})
 
 \end{itemize} 
 
