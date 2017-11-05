@@ -6,21 +6,23 @@ With the advent of Internet of Things, the evolution of mobile computing, and th
 
 \item Cloud services may fail to satisfy the requirements of real-time and low-latency client applications; and
 
-\item Offloading of delay-sensitive computation from devices with constrained resources to cloud servers (also known as Mobile Cloud Computing~\cite{}) is unlikely to work
+\item Offloading of delay-sensitive computation from devices with constrained resources to cloud servers is unlikely to work due to network-latency.
 
 \end{enumerate}
 
-To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. The realization of edge computing, however, still poses many challenges. 
+To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. The realization of this paradigm, however, still poses many challenges:
 
 %
-First, a highly distributed edge infrastructure is not expected to exhibit virtually unlimited resources as cloud datacenters. This limitation requires an efficient usage of edge resources. Current models based on virtualization and containerization, although broadly adopted by cloud providers, may not be feasible in the context of edge computing.
+--- Firstly, a highly distributed edge infrastructure is not expected to exhibit virtually unlimited resources as cloud datacenters. This limitation requires an efficient usage of edge resources. Current models based on virtualization and containerization, although successfully adopted by cloud providers, may not be feasible in the context of edge computing.
 
-Second, cloud services cover very large areas from which clients requests are always expected. In contrast, edge infrastructure features a fine-grained coverage area~\cite{5Gchallenges}, where many edge services would remain idle while in certain nodes when less clients of these services are nearby. Therefore, to optimize the usage of edge resources, service deployment to edge infrastructure should happen on-demand in an opportunistic fashion. 
+--- Secondly, cloud services cover very large areas from which clients requests are always expected. In contrast, edge infrastructure features a fine-grained coverage area~\cite{5Gchallenges}; edge services would remain idle whenever no clients are in their coverage area. Therefore, to optimize the usage of edge resources, service deployment to edge infrastructure should happen on-demand in an opportunistic fashion. 
 
 %, accessible through well-known Internet names, edge services 
 
-Finally, cloud servers should not be disregarded as a part of the Cloud-to-Edge continuum. %not sure whether to call it Cloud-to-Things or Cloud-to-Edge
-. First, because client applications may still rely on Cloud backends for traditiona, non delay-sensitive computation. Second, because edge servers may be unavailable from the certain locations. Thus, client applications must rely on a runtime mechanism to discover and negotiate the use of nearby edge infrastructure. As the alternative infrastructures (including the cloud) may exhibit uneven loads in different moments, the decision of which to use, must take into account their current status as well as the client application requirements in terms of latency and computational power. 
+--- Thirdly, different types of edge computing infrastructure may exist, including servers located at cellular base stations, temporarily placed nearby public events, or even inside buildings and houses to provide support for smart environment applications. The eventual co-existence of these alternatives would require the client-side participation on the decision of which alternative to use.
+
+%--- Last but not least, cloud servers should not be disregarded as a part of the Cloud-to-Edge continuum. %not sure whether to call it Cloud-to-Things or Cloud-to-Edge
+%First, because client applications may still rely on Cloud backends for traditional, non delay-sensitive computation. Second, because edge servers may be unavailable from the certain locations. Thus, client applications must rely on a runtime mechanism to discover and negotiate the use of nearby edge infrastructure. As the alternative infrastructures (including the cloud) may exhibit uneven loads in different moments, the decision of which to use, must take into account their current status as well as the client application requirements in terms of latency and computational power. 
 
 
 %Finally, to avoid increasing the burden of application development, computation to be executed at the edge should follow, to the extent possible, a common architecture and implementation with respect to its cloud counterpart. The same applies to the computation that may be offloaded from resource constrained devices to nearby edge infrastructure.  
