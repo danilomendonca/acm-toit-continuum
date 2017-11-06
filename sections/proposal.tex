@@ -10,24 +10,6 @@
 	\label{fig:A3-E-phases}
 \end{figure}
 
-\begin{center}
-	\begin{table}[th]
-		\caption{Oi tabela}\label{tab:A3-E-instances}
-		\begin{tabular}{ c c c c c }
-			\toprule
-			& \textbf{A}WARENESS & \textbf{A}CQUISITION 	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT 	\\
-			\midrule
-						Cloud	& ---	& ---				& \textbullet			& \textbullet\\
-			\textbf{PP}-Edge	& ---	& ---				& \textbullet			& \textbullet\\
-			\textbf{PR}-Edge	& ---	&\textbullet	& \textbullet			& \textbullet\\
-			\textbf{RP}-Edge	& \textbullet	& ---	& \textbullet			& \textbullet\\
-			\textbf{RR}-Edge	& \textbullet	& \textbullet	& \textbullet	& \textbullet\\
-			\bottomrule
-		\end{tabular}
-	\end{table}
-\end{center}
-
-
 %To address the requirements R[1-8], we propose a unified model from which concrete models corresponding to different scenarios of edge computing are later instantiated. First, the interaction between potential clients and edge servers is decomposed into phases (Section~\ref{sec:a3-e-phases}). 
 
 %Each phase is characterized by a main activity from both sides. These activities are later refined with an activity diagram (Section~\ref{sec:a3-e-activities}). Finally, a reference architecture is provided (Section~\ref{sec:a3-e-reference-architecture}).
@@ -38,25 +20,17 @@ The A3-E provisioning model consists of four phases: \textit{(\textbf{A}wareness
 
 %A3-E addresses all actors in the computational continuum formed by mobile devices, edge, and cloud servers. 
 
-A3-E model is flexible with respect to its constituting phases and addresses all the constituents of the computational continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which an edge domain first contacts an application hosted by a mobile client. This instance of the A3-E model is used to illustrate the use of all four phases in the model. In addition to this, Table~\ref{tab:A3-E-instances} correlates other possible instances of the A3-E model with scenarios of the mobile-edge-cloud continuum, namely:
-
-%Later in this section, it will be explained how both mobile and cloud alternatives are considered by the \textit{selection} activity of the client's allocation phase.
-
-
-%Thus, whereas the \textit{engagement} phase represents the core of the interaction between clients and servers and the \textit{allocation} phase is already part of today's cloud computing, the additional phases of \textit{acquisition} and \textit{awareness} address the particularities of different types of edge computing.
-
-
---- Cloud: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no awareness phase is needed). Assets used by these services are preliminarily deployed to cloud servers (thus, no acquisition is needed). Finally, cloud's elasticity mechanisms take care of the (de)allocation of infrastructure or platform resources according to a service level agreement (SLA). The later corresponds to A3-E's allocation phase. Finally, cloud services are invoked by clients (engagement phases). 
-
---- \textbf{XX}-Edge: services hosted in the edge, in contrast, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), make them ready for invocation (allocation phase), before finally been able to expose the required computation as services to be consumed. Such opportunistic modality of edge computing, nonetheless, may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired; and 3) services are pre-allocated in order to increase the readiness required by certain types of applications. 
-
-A3-E's flexibility enables different types of applications to rely on edge services that comply with their requirements for low-latency and readiness. \textbf{\textit{P}}roactivelly performing the acquisition and allocation of services incurs in less time taken for the initial request to be served. In the other direction, \textbf{\textit{R}}eactivelly performing the acquisition and allocation of services incurs in less resources that may remain idle whenever clients are not in the edge coverage area. 
-
-Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. 
+A3-E model is flexible with respect to its constituting phases and addresses all the constituents of the computational continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which an edge domain first contacts an application hosted by a mobile client. This instance of the A3-E model is used to illustrate the use of all four phases in the model. Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the mobile-edge-cloud continuum.
 
 \subsubsection{Awareness Phase}\label{sec:A3-E-awareness}
 
-In accordance with \textbf{RQx}, certain scenarios of mobile and local edge computing require the awareness of clients with respect to the existence of nearby edge services. Moreover, to support the dynamic deployment of services (performed at acquisition and allocation phases), a client must first become aware of the existence of an edge domain in order to proceed with the identification of its service requirements and ultimately by the dynamic deployment to that domain. 
+%Why do we need awareness?
+%CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests. however, this limits the 
+%A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers
+
+In accordance with \textbf{RQx}, the eventual co-existence of alternative edge domains require the awareness of clients with respect to the existence of nearby domains....
+
+Moreover, to support the opportunistic deployment of edge services (performed at acquisition and allocation phases), a client must first become aware of the existence of an edge domain in order to . 
 
 \subsubsection{Acquisition Phase}\label{sec:A3-E-acquisition}
 
@@ -70,7 +44,7 @@ The \textit{engagement} phase represents the simple interaction between a client
 
 At this stage, a client must be aware of the service address: 
 
-\subsubsection{Reactive and Proactive Phase Transitions}
+\subsection{Phase Transitions}
 
 \begin{figure}[htbp]
 	\raggedright
@@ -80,9 +54,9 @@ At this stage, a client must be aware of the service address:
 	\caption{States and transitions among A3-E phases} \label{fig:A3-E-phases}
 \end{figure}
 
-TODO: update bellow
 
-Fig. x presents the possible transitions among the three A phases of an edge domain regarding a given application. The awareness-acquisition transition is modelled by three alternative policies: 
+
+Fig.~\ref{fig:A3-E-phases} presents the possible transitions among the three A phases of an edge domain regarding a given application. The awareness-acquisition transition is modelled by three alternative policies: 
 
 \begin{itemize}
 
@@ -110,7 +84,44 @@ In accordance with Requirement R6, the aforementioned policies are useful for di
 
 TODO: discuss below how each of the aforementioned policies address specific requirements elicited in the previous section; pros-cons
 
-\subsubsection{A3-E: Reference Architecture}\label{sec:a3-e-reference-architecture}
+\subsection{Other A3-E Instances}
+
+
+\begin{center}
+	\begin{table}[th]
+		\small
+		\caption{Oi tabela}\label{tab:A3-E-instances}
+		\begin{tabular}{ r c c c c }
+			\toprule
+			& \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT 	\\
+			\midrule
+	Cloud					& ---	& ---			& HOT-START		& BY REQUEST\\			
+	FaaS-Cloud				& ---	& ---			& COLD-START	& BY REQUEST\\						
+	FaaS-Edge				& ---	& ---			& COLD-START	& BY REQUEST\\
+	\textbf{XX}-Edge		& ---	& OPPORTUNISTIC	& COLD-START	& BY REQUEST\\
+	\textbf{A2}-Edge		& A\&D	& ---			& COLD-START	& BY REQUEST\\
+	\textbf{A3}-Edge		& A\&D	& OPPORTUNISTIC	& COLD-START	& BY REQUEST\\
+	\bottomrule
+		\end{tabular}
+	\end{table}
+\end{center}
+\normalsize
+
+%Later in this section, it will be explained how both mobile and cloud alternatives are considered by the \textit{selection} activity of the client's allocation phase.
+
+%Thus, whereas the \textit{engagement} phase represents the core of the interaction between clients and servers and the \textit{allocation} phase is already part of today's cloud computing, the additional phases of \textit{acquisition} and \textit{awareness} address the particularities of different types of edge computing.
+
+Table~\ref{tab:A3-E-instances} correlates other possible instances of the A3-E model with different scenarios of the mobile-edge-cloud continuum, namely:
+
+--- \textbf{Cloud}: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no awareness phase is needed). Assets used by these services are preliminarily deployed to cloud servers (thus, no acquisition is needed). Cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA), which corresponds to A3-E's allocation phase. Finally, cloud services are invoked by clients (engagement phases). 
+
+--- \textbf{FaaS-Cloud}: the FaaS model . 
+
+--- \textbf{XX-Edge}: services hosted in the edge, in contrast, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), make them ready for invocation (allocation phase), before finally been able to expose the required computation as services to be consumed. Such opportunistic modality of edge computing, nonetheless, may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired; and 3) services are pre-allocated in order to increase the readiness required by certain types of applications. 
+
+A3-E's flexibility enables different types of applications to rely on edge services that comply with their requirements for low-latency and readiness. \textbf{\textit{P}}roactivelly performing the acquisition and allocation of services incurs in less time taken for the initial request to be served. In the other direction, \textbf{\textit{R}}eactivelly performing the acquisition and allocation of services incurs in less resources that may remain idle whenever clients are not in the edge coverage area. 
+
+\subsection{A3-E: Reference Architecture}\label{sec:a3-e-reference-architecture}
 
 \begin{figure}
   \includegraphics[width=0.6\textwidth]{figs/reference-architecture.png}
