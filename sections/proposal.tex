@@ -17,9 +17,11 @@
 			\toprule
 			& \textbf{A}WARENESS & \textbf{A}CQUISITION 	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT 	\\
 			\midrule
-			Cloud	& ---		& ---			& X			& X			\\
-			Mobile Edge	& ---		& X				&	X			& X			\\
-			Indoor Edge	& X			& X				&	X			& X			\\
+			Cloud	& ---			& ---			& X			& X			\\
+			PP-Edge	& ---			& ---			& X			& X			\\
+			PR-Edge	& ---			& X				& X			& X			\\
+			RP-Edge	& X				& ---			& X			& X			\\
+			RR-Edge	& X				& X				& X			& X			\\
 			\bottomrule
 		\end{tabular}
 	\end{table}
@@ -44,11 +46,13 @@ A3-E model is flexible with respect to its constituting phases and addresses all
 %Thus, whereas the \textit{engagement} phase represents the core of the interaction between clients and servers and the \textit{allocation} phase is already part of today's cloud computing, the additional phases of \textit{acquisition} and \textit{awareness} address the particularities of different types of edge computing.
 
 
---- Cloud services are reachable by means of a well-known Internet name (therefore, no awareness phase is needed). Also, application assets are preliminarily deployed to cloud servers (thus, no acquisition is needed). Finally, cloud's elasticity mechanisms take care of the (de)allocation of infrastructure or platform resources according to a SLA (allocation phase) so that cloud services can be invoked by clients (engagement phases). 
+--- Cloud: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no awareness phase is needed). Assets used by these services are preliminarily deployed to cloud servers (thus, no acquisition is needed). Finally, cloud's elasticity mechanisms take care of the (de)allocation of infrastructure or platform resources according to a service level agreement (SLA). The later corresponds to A3-E's allocation phase. Finally, cloud services are invoked by clients (engagement phases). 
 
---- Edge services, in the other hand, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), deploy them (allocation phase), before finally been able to expose the required services. Such opportunistic modality of edge computing, nonetheless, may co-exist with others in which edge services are transparently accessed through well-known Internet names and application assets are pre-acquired/deployed in order to increase the readiness of these services for applications demanding such QoS levels. 
+--- Edge: services hosted in the edge, in contrast, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), make them ready for invocation (allocation phase), before finally been able to expose the required computation as services to be consumed. Such opportunistic modality of edge computing, nonetheless, may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired; and 3) services are pre-allocated in order to increase the readiness required by certain types of applications. 
 
-Next, each phase of A3-E is further described and mapped to requirements from Section~\ref{sec:requirements}.
+A3-E's flexibility enables different types of applications to rely on edge services that comply with their requirements for low-latency and readiness. \textbf{\textit{P}}roactivelly performing the acquisition and allocation of services incurs in less time taken for the initial request to be served. In the other direction, \textbf{\textit{R}}eactivelly performing the acquisition and allocation of services incurs in less resources that may remain idle whenever clients are not in the edge coverage area. 
+
+Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}.
 
 \subsubsection{Awareness Phase}\label{sec:A3-E-awareness}
 
