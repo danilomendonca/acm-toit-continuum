@@ -27,38 +27,7 @@ To reduce network latency, data processing must be performed closer to where it 
 
 %Finally, to avoid increasing the burden of application development, computation to be executed at the edge should follow, to the extent possible, a common architecture and implementation with respect to its cloud counterpart. The same applies to the computation that may be offloaded from resource constrained devices to nearby edge infrastructure.  
 
-\subsection{Computational Continuum}
-
-\begin{figure}[htbp]
-	\centering
-	\subfloat[TODO: replace this image to avoid copyright problems.\label{fig:connected-vehicles}] {\includegraphics[width=0.47\textwidth]{figs/connected-vehicles.jpg}}\hfill
-	~
-	\subfloat[TODO: replace this with a less depressive image of augmented reality :)\label{fig:augmented-reality}]{\includegraphics[width=0.53\textwidth]{figs/augmented-reality.jpg}}\hfill
-	\caption{Different application types can be enabled or benefit from the low-latency of services deployed to nearby edge servers} \label{fig:motivational-cases}
-\end{figure}
-
-Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{\textbf{computational continuum}} on which new and disruptive types of applications can rely. 
-
-To illustrate such scenario, we put together the two application examples previously described as part of a continuum that starts in the user's office and finishes in his home. 
-
-In the office, let's assume the existence of a local edge server, which will be called from now on \textit{indoor-edge}. This server is owned by the company to allow employees to extend the computational capabilities of their mobile devices. Our user, e.g., makes use of an augmented reality application to TODO: describe here how an employee would use AR at work or change it to a home scenario.
-
-Later on, the user leaves his office and enters his connected vehicle. During its way home, this autonomous vehicle will make use of nearby edge servers deployed at cellular base stations and owned by telecoms to receive low-latency updates on the best plan to reach its destination, considering the multitude of other users been driven home during the hush hour. For instance, within milliseconds, the vehicle is suggested to make a turn just in time to avoid an accident two blocks ahead. 
-
-Already at home, the user's smartphone gets in reach of communication with the indoor edge server owned by him. In that specific day, the user found out about a new mobile game application that makes use of augmented reality. Upon installation, the edge server becomes aware of it and proceeds with the acquisition and deployment of the game components and assets that will be exposed as a service. After this, the client application, which was already running locally, becomes aware of the edge service and start consuming it with the purpose of offloading computation and preserving the smartphone resources. Not only the game performance improves, but also the battery consumption is reduced.  
-
-In the scenario above, different types of edge infrastructure have been employed by user's devices. In specific, our idea of a computation continuum refers to the pervasiveness of computational resources and to the seamlessly transition of computation among mobile, edge, and cloud resources. Needless to say, for all the applications cited above, cloud infrastructure is  fundamental, as different services for which network latency is not disruptive are still in the cloud (e.g., authentication, persistence, large part of the business logic).
-
-\subsection{Serverless Computing}
-
-Serverless computing~\cite{roberts2016serverless, hendrickson2016serverless}, also known as Functions-as-a-Service (FaaS)~\cite{mateosFaas17}, emerged as an alternative execution model within cloud computing. In particular, its name derives from the fact that server management and capacity planning decisions are hidden from the software application engineers. Instead, third party providers of the serverless platform dynamically manage the allocation of machine resources for the execution of different types of computational tasks, known as \textit{functions}. Today, multiple vendors provide serverless runtime and database services. 
-
-Among its main advantages, the serverless model is considered to be cost- and resource-efficient in comparison to virtual machine and container-based provisioning models, which generally involve significant periods of underutilization or idle time. As it has been argued elsewhere~\cite{ESOCC'17}, a serverless architecture can be employed to enable low-latency applications to make use of edge computing computational resources in an efficient and scalable way. Additionally, mobile devices could make use of compute runtimes deployed at nearby edge servers to extend their capabilities. Notwithstanding the potential of such combination, a complete model for its realization is still missing~\cite{NasticServerlessEdge17}. 
-
 \subsection{Motivation}
-
-TODO: merge this subsection with the computational continuum one
-
 
 \subsubsection{Low-Latency Applications}
 
@@ -100,11 +69,39 @@ In the paradigm of Mobile Cloud Computing (MCC)~\cite{}, this problem has been a
 
 As an example, the previously mentioned feature extraction task from MAR applications is a type of heavyweight computation based on image processing. Instead of performing it locally (as proposed in~\cite{}), mobile devices could also offload this task to nearby edge servers. 
 
+\subsection{Computational Continuum}
+
+\begin{figure}[htbp]
+	\centering
+	\subfloat[TODO: replace this image to avoid copyright problems.\label{fig:connected-vehicles}] {\includegraphics[width=0.47\textwidth]{figs/connected-vehicles.jpg}}\hfill
+	~
+	\subfloat[TODO: replace this with a less depressive image of augmented reality :)\label{fig:augmented-reality}]{\includegraphics[width=0.53\textwidth]{figs/augmented-reality.jpg}}\hfill
+	\caption{Different application types can be enabled or benefit from the low-latency of services deployed to nearby edge servers} \label{fig:motivational-cases}
+\end{figure}
+
+Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{\textbf{computational continuum}} on which new and disruptive types of applications can rely. 
+
+To illustrate such scenario, we put together the two application examples previously described as part of a continuum that starts in the user's office and finishes in his home. 
+
+In the office, let's assume the existence of a local edge server, which will be called from now on \textit{local-edge}. This server is owned by the company to allow employees to extend the computational capabilities of their tablet devices. Our user, e.g., makes use of an augmented reality application to TODO: describe here how an employee would use AR at work or change it to a home scenario.
+
+After work, the user leaves his office and enters his connected vehicle. During its way home, this autonomous vehicle will make use of nearby edge computing servers deployed at cellular base stations and owned by telecoms, which will be called from now on \textit{mobile-edge}. In specific, the connected vehicle gets updates about the best plan to reach its destination, considering the multitude of other users been driven home during the hush hour. For instance, within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident two blocks ahead. 
+
+Already at home, the user's smartphone gets in reach of communication with the local-edge server owned by him. The user finds out about a new mobile game application that makes use of augmented reality. Upon installation, the local-edge server becomes aware of a new edge-compliant application and proceeds with the acquisition and deployment of the game components and assets that will be exposed as a service. After this, the game application, which was already running locally, becomes aware of the edge service and starts consuming it with the purpose of offloading computation and preserving the smartphone resources. Not only the game performance improves, but also the battery consumption is reduced.  
+
+In the scenario above, different types of edge infrastructure have been employed by user's devices. In specific, our idea of a computation continuum refers to the pervasiveness of computational resources and to the seamlessly transition of computation among mobile, edge, and cloud resources. Needless to say, for all the applications cited above, cloud infrastructure is  fundamental, as different services for which network latency is not disruptive are still in the cloud (e.g., persistence and large part of the business logic).
+
+\subsection{Serverless Computing}
+
+Serverless computing~\cite{roberts2016serverless, hendrickson2016serverless}, also known as Functions-as-a-Service (FaaS)~\cite{mateosFaas17}, emerged as an alternative execution model within cloud computing. In particular, its name derives from the fact that server management and capacity planning decisions are hidden from the software application engineers. Instead, third party providers of the serverless platform dynamically manage the allocation of machine resources for the execution of different types of computational tasks, known as \textit{functions}. Today, multiple vendors provide serverless runtime and database services. 
+
+Among its main advantages, the serverless model is considered to be cost- and resource-efficient in comparison to virtual machine and container-based provisioning models, which generally involve significant periods of underutilization or idle time. As it has been argued elsewhere~\cite{ESOCC'17}, a serverless architecture can be employed to enable low-latency applications to make use of edge computing computational resources in an efficient and scalable way. Additionally, mobile devices could make use of compute runtimes deployed at nearby edge servers to extend their capabilities. Notwithstanding the potential of such combination, a complete model for its realization is still missing~\cite{NasticServerlessEdge17}. 
+
 \subsection{Contributions of this Work}
 
-In this work, we propose A3-E, a unified model for the computation continuum formed by mobile, edge, and cloud computational resources. The proposed model is strongly coped with the paradigm of serverless computing. In specific, A3-E explores the emerging execution model of FaaS to allow stateless computation to be quickly acquired, deployed, and made ready for execution. Due to the its particular characteristics, the A3-E model provides a scalable solution for the emerging paradigm of edge computing. 
+In this work, we propose A3-E, a unified model for the computation continuum formed by mobile, edge, and cloud computational resources. The proposed model is strongly coped with the paradigm of serverless computing. In specific, A3-E explores the FaaS model to allow stateless computation to be quickly acquired, deployed, and made ready for execution. Due to the its particular characteristics, the A3-E model provides a scalable solution for the emerging paradigm of edge computing. 
 
-As has been demonstrated with experiments, client applications can rely on dynamically and opportunistically selected services implemented as functions that are executable locally, in the edge, or in the cloud. Additionally, our experiments have shown a substantial reduction of latency when services are deployed to nearby edge infrastructure, as well as the battery consumption when computation is offloaded from mobile devices to edge servers.
+As has been demonstrated with experiments, client applications can rely on opportunistically selected services implemented as functions that are executable locally, in the edge, or in the cloud. Our experiments have shown a substantial reduction of latency when services are deployed to nearby edge infrastructure, as well as the battery consumption when computation is offloaded from mobile devices to edge or cloud servers.
 
 %Last but not least, our contribution also includes a reference architecture for the realization of the proposed model. 
 
