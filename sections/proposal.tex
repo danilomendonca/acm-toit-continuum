@@ -25,24 +25,37 @@ A3-E model is flexible with respect to its constituting phases and addresses all
 \subsubsection{Awareness Phase}\label{sec:A3-E-awareness}
 
 %Why do we need awareness?
-%CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests. however, this limits the 
-%A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers
+%CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests.  
+%A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers; a given domain my count on network components to traffic route to its servers instead of negociating directly with clients aware of its existance; nonetheless, the lack of awareness limits the acquisition and deployment of services to reactive, as the domain would only identify a given service upon the first request has been made. Clients, in the other hand, would not be able to choose from alternative domains. 
 
-In accordance with \textbf{RQx}, the eventual co-existence of alternative edge domains require the awareness of clients with respect to the existence of nearby domains....
+In A3-E, the Awareness phase of the model has the following purposes:
 
-Moreover, to support the opportunistic deployment of edge services (performed at acquisition and allocation phases), a client must first become aware of the existence of an edge domain in order to . 
+\begin{itemize}
+	
+	\item To enable edge domains to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about client applications hosted by clients in the domain coverage area (Requirement Rx);
+	
+	\item To enable clients to choose from alternative domains based on their awareness about these domains (Requirements Ry); 
+	
+\end{itemize}
+
+From the domain side, the lack of (client) awareness prevents the triggering of the acquisition and subsequently allocation phases based on the detection of a client. From the client side, the lack of (domain) awareness prevents clients of deciding which alternative domains must be used. 
 
 \subsubsection{Acquisition Phase}\label{sec:A3-E-acquisition}
 
-In accordance with \textbf{RQx}, 
+In its turn, the acquisition phase models the download, from the domain side, of assets used by a service that must become available in that domain. 
+
+Like previously mentioned, domains that become aware of clients' presence may pro-actively start the acquisition phase and become ready for allocation even before the first service requests arrive; otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\delta_A$, become ready for allocation. 
 
 \subsubsection{Allocation Phase}\label{sec:A3-E-allocation}
 
+The allocation phase models the automated process of making a service ready for execution, i.e., the allocation of computational resources required for the service execution. 
+
+The end of the acquisition phase may either be a sufficient condition for triggering the start of the allocation phase, or it may just be a necessary condition to be combined with other(s) condition(s) required for the allocation phase to start. For instance, the additional condition may be the awareness of client's presence, which may happen pro-actively through the Awareness phase, or reactively by means of the detection of a first service request. 
+
+
 \subsubsection{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase represents the simple interaction between a client and a service, e.g., by means of a stateless protocol such as used by RESTful services. 
-
-At this stage, a client must be aware of the service address: 
+Finally, the \textit{engagement} phase represents the simple interaction between a client and a service. TODO...
 
 \subsection{Phase Transitions}
 
