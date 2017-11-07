@@ -92,15 +92,13 @@ The use of a specific policy may depend on factors like:
 
 \begin{itemize}
 
-\item the type of domain (e.g., cloud, mobile-edge, local-edge); and
+\item The type of domain (e.g., cloud, mobile-edge, local-edge); and
 
-\item the type of application and the SLA among clients and service  providers;
+\item The type of application and the SLA among clients and service  providers;
 
 \end{itemize}
 
-Above all, the choice of a policy is affected by two conflicting properties: 1) the efficiency of domain resource usage (domain side); and 2) the application tolerance for delay (client side). 
-
-The more \textit{reactive} the acquisition and allocation are, the less time domain resources are likely to remain idle. Conversely, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served. Eq.~\ref{eq:setup_delay} models the total delay of service setup.
+Above all, the choice of a policy is affected by two conflicting properties: 1) the efficiency of domain resource usage (domain side); and 2) the application tolerance for service setup delay (client side). Eq.~\ref{eq:setup_delay} models the total delay of service setup.
 
 %\Delta_{NET} + 
 \begin{equation}\label{eq:setup_delay}
@@ -109,6 +107,36 @@ L_{SETUP} = \Delta_{AW} + \Delta_{AQ} + \Delta_{AL};
 
 The first term represents the time it takes for clients and domains to become aware of each other. The second term represents the time for downloading all assets of a specific service, whilst the last term represents the time for allocating resources for the service execution. 
 
+Considering the first request from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens. Conversely, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served. 
+
+\subsubsection{Acquisition Policies}
+
+The awareness-acquisition transition policies: 
+
+\begin{itemize}
+
+\item proactive: acquisition phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); 
+
+\item sequential: acquisition phase starts as soon as awareness phase finishes; or
+
+\item reactive: acquisition phase starts as soon as the first request for a service arrives (frozen start).
+
+\end{itemize}
+
+
+\subsubsection{Allocation Policies}
+
+The awareness-acquisition transition policies: 
+
+\begin{itemize}
+
+\item proactive: acquisition phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); 
+
+\item sequential: acquisition phase starts as soon as awareness phase finishes; or
+
+\item reactive: acquisition phase starts as soon as the first request for a service arrives (frozen start).
+
+\end{itemize}
 
 
 %The client must either have opted for that specific domain during allocation phase or, in case of awareness/allocation has not been employed by the client, it must rely on external components to route its request to a given domain in a transparent way.
@@ -121,19 +149,7 @@ The first term represents the time it takes for clients and domains to become aw
 %
 %In contrast, a local-edge domains may advertise its existence to clients in connection range. Each client, upon awareness of multiple domains (in this case, the edge and the cloud), decides which domain to use. If the client QoS requirement is network latency, the decision should favor the local-edge. 
 
-%
-%The awareness-acquisition transition is modelled by three alternative policies: 
-%
-%\begin{itemize}
-%
-%\item proactive acquisition: phase starts as soon as the edge domain becomes active; 
-%
-%\item partially proactive acquisition: phase starts as soon as awareness phase finishes; or
-%
-%\item reactive acquisition: phase starts as soon as awareness phase finishes and the client notifies its intention for using that domain.
-%
-%\end{itemize}
-%
+
 %The acquisition-allocation transition, in its turn, is modelled by two alternative policies: 
 %
 %\begin{itemize}
