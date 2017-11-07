@@ -6,12 +6,23 @@
 \subsection{Serverless Computing and Functions as a Service}
 
 Serverless Computing is an emerging and compelling paradigm for the deployment of cloud applications, largely due to the recent shift of enterprise application architectures to containers and microservices~\cite{baldini2017serverless}.  A Serverless Architecture is a refined cloud computing model to process requested functionality without pre-allocating any computing capability. Provider-managed containers are used to execute functions (often called lambdas), which are automatically provisioned on demand in few milliseconds, elastically scaled as needed, and ephemeral (may only last for one invocation)~\cite{Roberts2016serverless}. This approach allows one to write and deploy code without considering the server runtime
-environment, resource allocation, load balancing, and scalability; all these aspects are handled by the provider --- hence the term serverless. Functions are charged per invocation and per product of period of time and resource usage (with a millisecond granularity), leading to an almost perfect pay-as-you-go utility pricing model~\cite{3 MateosFaas}. 
+environment, resource allocation, load balancing, and scalability; all these aspects are automatically handled by the provider --- hence the term serverless. Functions are charged per invocation and per product of period of time and resource usage (with a millisecond granularity), leading to an almost perfect pay-as-you-go utility pricing model~\cite{3 MateosFaas}.  This allows companies to drastically reduce the cost of their infrastructures with regard to a typical monolithic architecture or even a microservices architecture [Villamizar et al. 2017].
 
-From the point of view of the everything-as-a-service (XaaS) cloud computing taxonomies, serverless is also known as Function-as-a-Service (FaaS)~\cite{2 MateosFaas}. There is still a controversy regarding how this differs from the Platform-as-a-Service (PaaS) model, which also abstracts away the management of servers. However, a Serverless model is a refinement of the platform layer where, unlike PaaS, developers can write arbitrary code and are not limited to using a pre-packaged application, but explicitly use functions as the deployment unit.
+The Serverless architecture has many benefits with respect to more traditional, server-based approaches. Functions share the runtime environment (typically a pool of containers), and the code specific to a particular application is small and stateless by design. Hence, the deployment of a pool of shared containers (workers) on a machine (or a cluster of machines) and the execution of some code onto any of them becomes inexpensive and efficient. In this manner, the serverless model represents the logical conclusion of the evolution of sharing between applications, from hardware to operating systems to (finally) the runtime environments themselves (Figure~\ref{fig:Evolution-of-Sharing}).
 
-From the automation point of view, it is important to consider the varying levels of control that the application developer has over the cloud infrastructure, as illustrated in Figure~\ref{fig:developer-control-serverless}. 
-The Infrastructure-as-a-Service (IaaS) model is where less automation is achieved, while the application developer has the most control over both the application code and operating infrastructure.
+\begin{figure}
+  \centering
+    \includegraphics[width=0.8\textwidth]{figs/evolution-platform-sharing.png}
+    \label{fig:Evolution-of-Sharing}
+    \caption{Evolution of platform sharing~\cite{hendrickson2016serverless}}
+\end{figure}
+
+
+From the everything-as-a-service (XaaS) cloud computing taxonomies point of view, serverless is also known as Function-as-a-Service (FaaS)~\cite{2 MateosFaas}. There is still a controversy regarding how this differs from the Platform-as-a-Service (PaaS) model, which also abstracts away the management of servers. However, a Serverless model is a refinement of the platform layer where, unlike PaaS, developers can write arbitrary code and are not limited to using a pre-packaged application, but explicitly use functions as the deployment unit. 
+
+
+From the automation point of view, it is important to consider the varying levels of control that the application developer has over the cloud infrastructure, as illustrated in Figure~\ref{fig:developer-control-serverless}. The Infrastructure-as-a-Service (IaaS) model is where less automation is achieved, while the application developer has the most control over both the application code and operating infrastructure. On the opposite extreme are the PaaS and SaaS models, where the developer is unaware of any infrastructure and uses pre-packaged applications and services. Consequently, she no longer has control since the infrastructure provision is completely automated. In the middle, where serverless lives, the application developer has control over the code they deploy into the Cloud, though that code has to be written in the form of stateless functions.  The operational aspects of deployment and maintenance are completely automated, fault-tolerant and
+auto-scaling. In particular, the code may be scaled to zero where no servers are actually running when the user's function code is not used, and there is no cost to the user. This is in contrast to PaaS solutions where the user is often charged even during idle periods~\cite{baldini2017serverless}.
 
 \begin{figure}
 	\includegraphics[width=0.9\textwidth]{figs/DeveloperControl.png}
@@ -19,8 +30,27 @@ The Infrastructure-as-a-Service (IaaS) model is where less automation is achieve
 	\label{fig:developer-control-serverless}
 \end{figure}
 
-On the opposite extreme are the PaaS and SaaS models, where the developer is unaware of any infrastructure and uses pre-packaged applications and services. Consequently, he no longer has control since the infrastructure provision is completely automated. In the middle, where serverless lives, the application developer has control over the code they deploy into the Cloud, though that code has to be written in the form of stateless functions.  The operational aspects of deployment and maintenance are completely automated, fault-tolerant and
-auto-scaling. In particular, the code may be scaled to zero where no servers are actually running when the user's function code is not used, and there is no cost to the user. This is in contrast to PaaS solutions where the user is often charged even during idle periods~\cite{baldini2017serverless}.
+
+Finally, from the Cloud providers point of view, serverless represents another revenue opportunity: the provider offers an ecosystem of preexisting services that augment the user's functions. For example, there may be services to manage state, record and monitor logs, send alerts, trigger events, or perform authentication and authorization. Such rich ecosystems can be attractive to developers, leading to an increased adoption of the vendor's solutions. Several cloud providers have developed serverless platforms recently, many of which are still in their explicit or implicit beta testing phase\footnote{\url{https://blog.zhaw.ch/icclab/faas-function-hosting-services-and-their-technical-characteristics}}. Table~\ref{tab:FaaS-providers-and} summarizes the main serverless solutions, with AWS Lambda that appeared 1.5 years before the others (around 2015). All these alternatives provide similar capabilities, while IBM/Apache Openwhisk is the only open-source solution among the major vendors. Other academic alternatives exist, such as OpenLambda\cite{hendrickson2016serverless}, but these are mostly suitable for research purposes.
+
+\begin{table}[hbt]
+\centering
+\caption{Serverless providers and supported languages\label{tab:FaaS-providers-and}}{
+\begin{tabular}{ll}
+\toprule 
+\textbf{Provider} & \textbf{Languages}\tabularnewline
+\midrule
+AWS Lambda & Node.js, Java, Python\tabularnewline
+Google Cloud Functions & Node.js\tabularnewline
+Azure Functions & Node.js, C\#\tabularnewline
+IBM OpenWhisk & Node.js, Swift, Binary (Docker)\tabularnewline
+Webtask.io & Node.js\tabularnewline
+OpenLambda & Python\tabularnewline
+\bottomrule
+\end{tabular}}
+\end{table}
+
+
 
 
 

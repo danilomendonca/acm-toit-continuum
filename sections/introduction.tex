@@ -1,6 +1,6 @@
 \section{Introduction}
 
-With the advent of Internet of Things, the evolution of mobile computing, and the emergence of real-time applications, the processing of an exponentially increasing volume of data must be performed in a timely fashion, i.e., with minimum latency. Despite the elasticity and vast computing power of existing cloud platforms, the access to these resources involves multiple hops of network communication, adding to the latency in which requisitions are processed. Such limitation has the following implications:
+With the advent of Internet of Things, the evolution of mobile computing, and the emergence of real-time applications, the processing of an exponentially increasing volume of data must be performed in a timely fashion, i.e., with minimum latency. Despite the elasticity and vast computing power of existing cloud platforms, the access to these resources involves multiple hops of network communication, adding prohibitive latency to requests' processing. Such limitation has the following implications:
 
 \begin{enumerate}
 
@@ -13,13 +13,13 @@ With the advent of Internet of Things, the evolution of mobile computing, and th
 To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. The realization of this paradigm, however, still poses many challenges:
 
 %
---- Firstly, a highly distributed edge infrastructure is not expected to exhibit virtually unlimited resources as cloud datacenters. This limitation requires an efficient usage of edge resources. Current models based on virtualization and containerization, although successfully adopted by cloud providers, may not be feasible in the context of edge computing.
+--- First, a highly distributed edge infrastructure is not expected to exhibit virtually unlimited resources as cloud datacenters. This limitation requires an efficient usage of edge resources. Current models based on virtualization and containerization, although successfully adopted by cloud providers, may not be feasible in the context of edge computing.
 
---- Secondly, cloud services cover very large areas from which clients requests are always expected. In contrast, edge infrastructure features a fine-grained coverage area~\cite{5Gchallenges}; edge services would remain idle whenever no clients are in their coverage area. Therefore, to optimize the usage of edge resources, service deployment to edge infrastructure should happen on-demand in an opportunistic fashion. 
+--- Second, cloud services cover very large areas from which clients requests are always expected. In contrast, edge infrastructure features a fine-grained coverage area~\cite{Dehos14millimeter5g} where edge services would remain idle whenever no clients are in their coverage area. Therefore, to optimize the usage of edge resources, service deployment to edge infrastructure should happen on-demand in an opportunistic fashion. 
 
 %, accessible through well-known Internet names, edge services 
 
---- Thirdly, different types of edge computing infrastructure may exist, including servers located at cellular base stations, temporarily placed nearby public events, or even inside buildings and houses to provide support for smart environment applications. The eventual co-existence of these alternatives would require the client-side participation on the decision of which alternative to use.
+--- Third, different types of edge computing infrastructure may exist, including servers located at cellular base stations, temporarily placed nearby public events, or even inside buildings and houses to provide support for smart environment applications. The eventual co-existence of these alternatives would require the client-side participation on the decision of which alternative to use.
 
 %--- Last but not least, cloud servers should not be disregarded as a part of the Cloud-to-Edge continuum. %not sure whether to call it Cloud-to-Things or Cloud-to-Edge
 %First, because client applications may still rely on Cloud backends for traditional, non delay-sensitive computation. Second, because edge servers may be unavailable from the certain locations. Thus, client applications must rely on a runtime mechanism to discover and negotiate the use of nearby edge infrastructure. As the alternative infrastructures (including the cloud) may exhibit uneven loads in different moments, the decision of which to use, must take into account their current status as well as the client application requirements in terms of latency and computational power. 
@@ -33,10 +33,10 @@ To reduce network latency, data processing must be performed closer to where it 
 
 The main motivation for shifting computation from cloud to edge infrastructure is to mitigate network latency. In specific, real-time applications are the main candidates for benefiting of services deployed at nearby edge infrastructure. Among these, some have a higher degree of criticallity with respect to latency and readiness of services (e.g., delay can have severe consequences to users), whereas others can greatly benefit from lower latencies (e.g., by improving the user experience).
 
-As an example of a critical application, connected vehicles~\cite{} are expected to be the computing device of the next decade. They are expected to generate XX petabytes of data by XXXX year~\cite{connectedCars} huge amounts of data %how much, cite survey
+As an example of a critical application, connected vehicles~\cite{} are expected to be the computing device of the next decade. They are expected to generate XX petabytes of data by XXXX year~\cite{connectedCars} \textcolor{blue}{how much, cite survey}
 . In addition to the analysis performed locally, more complex data analysis shall be delegated to remote servers, which must respond quickly if the result involves critical information, e.g., the notification of an accident in the current path of the vehicle. With edge computing, computational resources located at mobile base stations or even composing the traffic infrastructure (e.g., highways) could provide low-latency services for connected vehicles passing by their coverage area.
 
-In contrast, Augmented Reality (AR) is a type of application that would benefit from the low-latency of edge services~\cite{hu2015mobile}. These applications enrich the interaction of users with the physical
+Moreover, Augmented Reality (AR) is a type of application that would benefit from the low-latency of edge services~\cite{hu2015mobile,GarrigaMendonca2017}. These applications enrich the interaction of users with the physical
 world by augmenting their vision of the reality with relevant information (e.g., historical information about buildings and monuments), modifying it (e.g., by translating captured text in a different language), or by adding virtual elements that can mimic interactions with the real world (e.g., virtual objects or creatures
 from a fantasy game), or helping users fulfill physical tasks (e.g., by highlighting a free parking spot) 
 

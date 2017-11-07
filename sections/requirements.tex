@@ -7,7 +7,11 @@
 \stepcounter{req_count}
 
 %Finally, also considering the multiplicity of edge servers and the need for a scalable solution for the provisioning of edge infrastructure as a service, the following requirement have been defined:
-TODO: introduce the need for automation, possibly linking to serverless computing
+TODO: introduce the need for automation, possibly linking to serverless computing.
+\textcolor{blue}{Martin's comment: I've added the following paragraph linked with what is said about serverless+automation. Please check.}
+
+In order to materialize the computational continuum, it is crucial to detach the control and management of the infrastructure from the application developer. The model should be automated and transparent, where the developer is unaware of which infrastructure is using to run her applications. Following a serverless architecture, the application developer has control over the code they deploy into the infrastructure.  The operational aspects of deployment and maintenance should be completely automated and
+auto-scaling. In particular, the code may be scaled to zero where no servers are actually running when the application's function code is not used, and there is no cost to the user nor overload to the platform.
 
 Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R\arabic{req_count}}).
 
