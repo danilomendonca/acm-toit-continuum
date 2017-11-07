@@ -1,26 +1,22 @@
-\section{Proposal}\label{sec:proposal}
+\section{The A3-E Model}\label{sec:proposal}
 
-\include{sections/requirements}
+\input{sections/requirements}
 
-\subsection{The A3-E Model}
+\subsection{A3-E Phases}
 
-\begin{figure}
+\begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/A3-E.png}
 	\caption{Different phases of the A3-E model; phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain (client) with respect to a client (domain)}
-	\label{fig:A3-E-phases}
+	\label{fig:A3-E-model}
 \end{figure}
-
-%To address the requirements R[1-8], we propose a unified model from which concrete models corresponding to different scenarios of edge computing are later instantiated. First, the interaction between potential clients and edge servers is decomposed into phases (Section~\ref{sec:a3-e-phases}). 
-
-%Each phase is characterized by a main activity from both sides. These activities are later refined with an activity diagram (Section~\ref{sec:a3-e-activities}). Finally, a reference architecture is provided (Section~\ref{sec:a3-e-reference-architecture}).
-
-%For instance, an edge domain could be composed of a grid of powerful servers at a cellular base station or a single cloudlet unit at some public event area. Also, it could be one or more single-board computer in a working office. 
 
 The A3-E provisioning model consists of four phases: \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each of these phases encompasses activities that take care of specific concerns in the interaction among clients and different types of server infrastructure. 
 
 %A3-E addresses all actors in the computational continuum formed by mobile devices, edge, and cloud servers. 
 
-A3-E model is flexible with respect to its constituting phases and addresses all the constituents of the computational continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which an edge domain first contacts an application hosted by a mobile client. This instance of the A3-E model is used to illustrate the use of all four phases in the model. Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the mobile-edge-cloud continuum.
+A3-E model is flexible with respect to its constituting phases and addresses all the constituents of the computational continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which an edge domain first contacts an application hosted by a mobile client. This instance of the A3-E model is used to illustrate the use of all four phases in the model. 
+
+Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the computational continuum.
 
 \subsubsection{Awareness Phase}\label{sec:A3-E-awareness}
 
@@ -28,38 +24,63 @@ A3-E model is flexible with respect to its constituting phases and addresses all
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests.  
 %A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers; a given domain my count on network components to traffic route to its servers instead of negociating directly with clients aware of its existance; nonetheless, the lack of awareness limits the acquisition and deployment of services to reactive, as the domain would only identify a given service upon the first request has been made. Clients, in the other hand, would not be able to choose from alternative domains. 
 
-In A3-E, the Awareness phase of the model has the following purposes:
+In A3-E, the Awareness phase has the following purposes:
 
 \begin{itemize}
 	
-	\item To enable edge domains to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about client applications hosted by clients in the domain coverage area (Requirement Rx);
+	\item To enable a domain to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about client applications hosted by clients in the domain coverage area (Requirement Rx);
 	
 	\item To enable clients to choose from alternative domains based on their awareness about these domains (Requirements Ry); 
 	
 \end{itemize}
 
-From the domain side, the lack of (client) awareness prevents the triggering of the acquisition and subsequently allocation phases based on the detection of a client. From the client side, the lack of (domain) awareness prevents clients of deciding which alternative domains must be used. 
+Thus, from the domain side, the lack of (client) awareness prevents the triggering of the acquisition and subsequently allocation phases based on the detection of a client. From the client side, the lack of (domain) awareness prevents clients of deciding which alternative domains must be used. 
 
 \subsubsection{Acquisition Phase}\label{sec:A3-E-acquisition}
 
-In its turn, the acquisition phase models the download, from the domain side, of assets used by a service that must become available in that domain. 
+In its turn, the Acquisition phase has the following purposes:
 
-Like previously mentioned, domains that become aware of clients' presence may pro-actively start the acquisition phase and become ready for allocation even before the first service requests arrive; otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\delta_A$, become ready for allocation. 
+\begin{itemize}
+
+	\item To enable a domain to pro-actively download assets used by services that must become available in that domain (Requirement Rx);
+	
+	\item To enable clients to pro-actively identify their requirements (services) and allow the domain to pro-actively download them (Requirement Rx);
+
+\end{itemize}
+
+From the domain side, the lack of acquisition implies that service assets must be previously made available. Nonetheless, the preliminary acquisition of a large number of assets is limited by the domain storage capability. 
+
+Conversely, the automated and opportunistic acquisition of service assets improves storage efficiency with the cost of a setup time $\Delta_AQ$. For instance, domains that become aware of clients' requirements may pro-actively start the acquisition phase and become ready for allocation before the first service request arrives.
+
+%otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\Delta_A$, become ready for allocation. 
 
 \subsubsection{Allocation Phase}\label{sec:A3-E-allocation}
 
-The allocation phase models the automated process of making a service ready for execution, i.e., the allocation of computational resources required for the service execution. 
+The allocation phase addresses has the following purposes:
 
-The end of the acquisition phase may either be a sufficient condition for triggering the start of the allocation phase, or it may just be a necessary condition to be combined with other(s) condition(s) required for the allocation phase to start. For instance, the additional condition may be the awareness of client's presence, which may happen pro-actively through the Awareness phase, or reactively by means of the detection of a first service request. 
+\begin{itemize}
 
+\item To enable the automated process of making a service ready for execution through the allocation of computational resources (Requirement Rx); and
+
+\item To enable clients to choose among different alternative domains that may happen to be available (Requirement Ry).
+
+\end{itemize}
+ 
+Cloud providers already implement automated scaling mechanisms, e.g, with the allocation of virtual machines and container instances on demand. More recently, the FaaS model introduced zero-allocation mechanism, in which stateless functions may remain deallocated until they are invoked (cold start). Once the demand increases, the FaaS platform may respond with additional instances of the required functions.
+
+From the domain side, A3-E adheres to the dynamic allocation of computational resources for services execution. Applications that can not afford the delay (hereafter named $\Delta_{AL}$) of a cold start must rely on services that are always kept available with minimum allocation. Instead, whenever cold start is acceptable, the zero-allocation provides a more efficient usage of computational resources.
+
+From the client-side, once the awareness phase has been active and identified the current alternative domains, the client may consider QoS values from each domain to make the decision of which one to engage. Conversely, the lack of awareness implies that client engagement with a specific domain must be solved by means of a well-known name. In the later case, networking traffic components are responsible for routing client requests to specific domains.
 
 \subsubsection{Engagement Phase}\label{sec:A3-E-engagement}
 
-Finally, the \textit{engagement} phase represents the simple interaction between a client and a service. TODO...
+Finally, the \textit{engagement} phase models the interaction between a client and a service. At this stage, the requested service must be already acquired and allocated for execution. 
 
-\subsection{Phase Transitions}
+\subsection{Phase Transitions and Policies}
 
-\begin{figure}[htbp]
+The A3-E model is also flexible with respect to the transition among subsequent phases. In particular, distinct policies may define different domain behaviors. Figures~\ref{fig:A3-E-domain} and~\ref{fig:A3-E-client} depict, respectively, the possible transitions among states of a domain with respect to a client application and vice-versa. Each state is mapped to the corresponding phase in Fig.~\ref{fig:A3-E-phases}.
+
+\begin{figure}[tbp]
 	\raggedright
 	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and application\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
 	
@@ -67,53 +88,107 @@ Finally, the \textit{engagement} phase represents the simple interaction between
 	\caption{States and transitions among A3-E phases} \label{fig:A3-E-phases}
 \end{figure}
 
-
-
-Fig.~\ref{fig:A3-E-phases} presents the possible transitions among the three A phases of an edge domain regarding a given application. The awareness-acquisition transition is modelled by three alternative policies: 
+The use of a specific policy may depend on factors like:
 
 \begin{itemize}
 
-\item proactive acquisition: phase starts as soon as the edge domain becomes active; 
+\item The type of domain (e.g., cloud, mobile-edge, local-edge); and
 
-\item partially proactive acquisition: phase starts as soon as awareness phase finishes; or
-
-\item reactive acquisition: phase starts as soon as awareness phase finishes and the client notifies its intention for using that domain.
+\item The type of application and the SLA among clients and service  providers;
 
 \end{itemize}
 
-The acquisition-allocation transition, in its turn, is modelled by two alternative policies: 
+Above all, the choice of a policy is affected by two conflicting properties: 1) the efficiency of domain resource usage (domain side); and 2) the application tolerance for service setup delay (client side). Eq.~\ref{eq:setup_delay} models the total delay of service setup.
+
+%\Delta_{NET} + 
+\begin{equation}\label{eq:setup_delay}
+L_{SETUP} = \Delta_{AW} + \Delta_{AQ} + \Delta_{AL};
+\end{equation}
+
+The first term represents the time it takes for clients and domains to become aware of each other. The second term represents the time for downloading all assets of a specific service, whilst the last term represents the time for allocating resources for the service execution. 
+
+Considering the first request from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens. Conversely, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served. 
+
+%\subsubsection{Acquisition Policies}
+
+The \textit{acquisition policies} in Fig.~\ref{fig:A3-E-domain} can be:
 
 \begin{itemize}
 
-\item proactive allocation: phase starts as soon as acquisition phase finishes; or
+\item Proactive: acquisition phase starts upon external event preceding the arrival of the first request (e.g., the prediction of service usage); 
 
-\item reactive allocation: phase starts as soon as acquisition phase finishes and the client notifies its intention for using that domain.
+\item Sequential: acquisition phase starts as soon as awareness phase finishes; or
+
+\item Reactive: acquisition phase starts as soon as the first request for a service arrives (frozen start).
 
 \end{itemize}
 
-Finally, reverse transitions are single and dependent on the specific policies for deallocating and disposing of application assets. 
-In accordance with Requirement R6, the aforementioned policies are useful for different classes of applications, as well as different types of edge computing infrastructure and different usage contexts.
+%\subsubsection{Allocation Policies}
+
+The \textit{allocation policies} in Fig.~\ref{fig:A3-E-domain} can be:
+
+\begin{itemize}
+
+\item Proactive: allocation phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); 
+
+\item Sequential: allocation phase starts as soon as acquisition phase finishes; or
+
+\item Reactive: allocation phase starts as soon as the first request for a service arrives (cold start).
+
+\end{itemize}
+
+%In the opposite direction, both \textit{deallocation} and \textit{disposal policies} can either be:
+%
+%\begin{itemize}
+%
+%\item Proactive: deallocation/disposal is triggered upon external event (e.g., triggered by a prediction of ); ; 
+%
+%\item Reactive: allocation phase starts as soon as the first request for a service arrives (cold start).
+%
+%\end{itemize}
 
 
-TODO: discuss below how each of the aforementioned policies address specific requirements elicited in the previous section; pros-cons
+%The client must either have opted for that specific domain during allocation phase or, in case of awareness/allocation has not been employed by the client, it must rely on external components to route its request to a given domain in a transparent way.
 
-\subsection{Other A3-E Instances}
+%the start of the allocation phase may be triggered by the end of the acquisition phase, or it may be combined with additional conditions required for the allocation phase to start.
+%
+%For instance, the awareness of a client application, which may happen pro-actively through the awareness phase, may be the additional condition for the allocation phase to start. In this case, allocation may finish before the first request to arrive, eliminating the delay of a cold start.
+%
+%For instance, a client would engage with a cloud service by firing a request to a well-known Internet name. At some point of the network infrastructure (e.g., at the cellular base station), a component diverges the request to the edge servers in that domain.
+%
+%In contrast, a local-edge domains may advertise its existence to clients in connection range. Each client, upon awareness of multiple domains (in this case, the edge and the cloud), decides which domain to use. If the client QoS requirement is network latency, the decision should favor the local-edge. 
 
+
+%The acquisition-allocation transition, in its turn, is modelled by two alternative policies: 
+%
+%\begin{itemize}
+%
+%\item proactive allocation: phase starts as soon as acquisition phase finishes; or
+%
+%\item reactive allocation: phase starts as soon as acquisition phase finishes and the client notifies its intention for using that domain.
+%
+%\end{itemize}
+%
+%Finally, reverse transitions are single and dependent on the specific policies for deallocating and disposing of application assets. 
+%In accordance with Requirement R6, the aforementioned policies are useful for different classes of applications, as well as different types of edge computing infrastructure and different usage contexts.
+%
+%
+
+
+%\subsection{A3-E Instances}\label{sec:A3-E-instances}
 
 \begin{center}
-	\begin{table}[th]
+	\begin{table}[tbp]
 		\small
-		\caption{Oi tabela}\label{tab:A3-E-instances}
+		\caption{Different instances of the A3-E model and  corresponding policies}\label{tab:A3-E-instances}
 		\begin{tabular}{ r c c c c }
 			\toprule
 			& \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT 	\\
 			\midrule
-	Cloud					& ---	& ---			& HOT-START		& BY REQUEST\\			
-	FaaS-Cloud				& ---	& ---			& COLD-START	& BY REQUEST\\						
-	FaaS-Edge				& ---	& ---			& COLD-START	& BY REQUEST\\
-	\textbf{XX}-Edge		& ---	& OPPORTUNISTIC	& COLD-START	& BY REQUEST\\
-	\textbf{A2}-Edge		& A\&D	& ---			& COLD-START	& BY REQUEST\\
-	\textbf{A3}-Edge		& A\&D	& OPPORTUNISTIC	& COLD-START	& BY REQUEST\\
+	Cloud		& ---	& ---		& HOT-START		& BY REQUEST\\			
+	FaaS-Cloud	& ---	& ---		& COLD-START	& BY REQUEST\\						
+	FaaS-Edge	& A\&D	& [ANY]		& [ANY]	& BY REQUEST\\	
+	FaaS-Edge	& ---	& [PROACTIVE, REACTIVE]	& [ANY] & BY REQUEST\\
 	\bottomrule
 		\end{tabular}
 	\end{table}
@@ -126,13 +201,11 @@ TODO: discuss below how each of the aforementioned policies address specific req
 
 Table~\ref{tab:A3-E-instances} correlates other possible instances of the A3-E model with different scenarios of the mobile-edge-cloud continuum, namely:
 
---- \textbf{Cloud}: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no awareness phase is needed). Assets used by these services are preliminarily deployed to cloud servers (thus, no acquisition is needed). Cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA), which corresponds to A3-E's allocation phase. Finally, cloud services are invoked by clients (engagement phases). 
+--- \textbf{Cloud}: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no awareness phase is needed). Assets used by these services are preliminarily deployed to cloud servers (thus, no acquisition is needed). Cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA), which corresponds to A3-E's allocation phase. Finally, cloud services are invoked by clients (engagement phase). 
 
---- \textbf{FaaS-Cloud}: the FaaS model . 
+--- \textbf{FaaS-Cloud}: regarding A3-E, the FaaS model distinguishes from the cloud instance described above by enforcing the use of stateless functions that can be quickly allocated for execution without minimum pre-allocation (cold start).
 
---- \textbf{XX-Edge}: services hosted in the edge, in contrast, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), make them ready for invocation (allocation phase), before finally been able to expose the required computation as services to be consumed. Such opportunistic modality of edge computing, nonetheless, may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired; and 3) services are pre-allocated in order to increase the readiness required by certain types of applications. 
-
-A3-E's flexibility enables different types of applications to rely on edge services that comply with their requirements for low-latency and readiness. \textbf{\textit{P}}roactivelly performing the acquisition and allocation of services incurs in less time taken for the initial request to be served. In the other direction, \textbf{\textit{R}}eactivelly performing the acquisition and allocation of services incurs in less resources that may remain idle whenever clients are not in the edge coverage area. 
+--- \textbf{FaaS-Edge}: services hosted in the edge, in contrast, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), make them ready for invocation (allocation phase), before finally been able to expose the required computation as services to be consumed. Such opportunistic modality of edge computing, nonetheless, may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired; and 3) services are pre-allocated in order to increase the readiness required by certain types of applications. 
 
 \subsection{A3-E: Reference Architecture}\label{sec:a3-e-reference-architecture}
 
