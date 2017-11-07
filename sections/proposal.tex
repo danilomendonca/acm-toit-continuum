@@ -40,7 +40,7 @@ In accordance with \textbf{RQx},
 
 \subsubsection{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase represents the simple interaction between a client and a service, e.g., by means of a stateless protocol such as used by RESTful services. 
+The \textit{engagement} phase represents the simple interaction between a client and a service, e.g., by means of a stateless protocol such as used by RESTful services.
 
 At this stage, a client must be aware of the service address: 
 
@@ -53,8 +53,6 @@ At this stage, a client must be aware of the service address:
 	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client.png}}\hfill
 	\caption{States and transitions among A3-E phases} \label{fig:A3-E-phases}
 \end{figure}
-
-
 
 Fig.~\ref{fig:A3-E-phases} presents the possible transitions among the three A phases of an edge domain regarding a given application. The awareness-acquisition transition is modelled by three alternative policies: 
 
@@ -111,7 +109,7 @@ TODO: discuss below how each of the aforementioned policies address specific req
 
 %Thus, whereas the \textit{engagement} phase represents the core of the interaction between clients and servers and the \textit{allocation} phase is already part of today's cloud computing, the additional phases of \textit{acquisition} and \textit{awareness} address the particularities of different types of edge computing.
 
-Table~\ref{tab:A3-E-instances} correlates other possible instances of the A3-E model with different scenarios of the mobile-edge-cloud continuum, namely:
+Table~\ref{tab:A3-E-instances} correlates other possible instances of the A3-E model with different scenarios of the mobile-edge-cloud continuum, namely: 
 
 --- \textbf{Cloud}: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no awareness phase is needed). Assets used by these services are preliminarily deployed to cloud servers (thus, no acquisition is needed). Cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA), which corresponds to A3-E's allocation phase. Finally, cloud services are invoked by clients (engagement phases). 
 
