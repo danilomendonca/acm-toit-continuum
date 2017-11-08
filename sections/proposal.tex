@@ -117,11 +117,11 @@ Considering the first request from a client application as the reference event, 
 
 \begin{itemize}
 
-\item \textbf{P}roactive: acquisition phase starts upon external event preceding the arrival of the first request (e.g., the prediction of service usage); first request is not delayed by $\Delta_{AQ}$;
+\item Proactive: acquisition phase starts upon external event preceding the arrival of the first request (e.g., the prediction of service usage); first request delay includes $\Delta_{AQ}$;
 
-\item \textbf{S}equential: acquisition phase starts as soon as awareness phase finishes; first request may be delayed by $\Delta_{AQ}$; or
+\item Sequential: acquisition phase starts as soon as awareness phase finishes; first request delay may include $\Delta_{AQ}$; or
 
-\item \textbf{R}eactive: acquisition phase starts as soon as the first request for a service arrives (frozen start); first request may be delayed by $\Delta_{AQ}$.
+\item Reactive: acquisition phase starts as soon as the first request for a service arrives; first request delay does not include $\Delta_{AQ}$ (very cold start).
 
 \end{itemize}
 
@@ -133,11 +133,11 @@ Considering the first request from a client application as the reference event, 
 
 \begin{itemize}
 
-\item \textbf{P}roactive: allocation phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); first request is not delayed by $\Delta_{AL}$;
+\item Proactive: allocation phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); first request is not delayed by $\Delta_{AL}$;
 
-\item \textbf{S}equential: allocation phase starts as soon as acquisition phase finishes; first request may be delayed by $\Delta_{AL}$; or
+\item Sequential: allocation phase starts as soon as acquisition phase finishes; first request may be delayed by $\Delta_{AL}$; or
 
-\item \textbf{R}eactive: allocation phase starts as soon as the first request for a service arrives; first request may be delayed by $\Delta_{AL}$ (also known as cold start).
+\item Reactive: allocation phase starts as soon as the first request for a service arrives; first request may be delayed by $\Delta_{AL}$ (cold start).
 
 \end{itemize}
 
@@ -184,7 +184,7 @@ Considering the first request from a client application as the reference event, 
 \begin{center}
 \begin{table}[htbp]
 \small
-\caption{Different domain instances of the A3-E model and  corresponding policies}\label{tab:A3-E-instances}
+\caption{Different domain instances of the A3-E model and  corresponding policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive)}\label{tab:A3-E-instances}
 \begin{tabular}{ r c c c c }
 \toprule
 
