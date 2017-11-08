@@ -78,14 +78,14 @@ Finally, the \textit{engagement} phase models the interaction between a client a
 
 \subsection{Phase Transitions and Policies}
 
-The A3-E model is also flexible with respect to the transition among subsequent phases. In particular, distinct policies may define different domain behaviors. Figures~\ref{fig:A3-E-domain} and~\ref{fig:A3-E-client} depict, respectively, the possible transitions among states of a domain with respect to a client application and vice-versa. Each state is mapped to the corresponding phase in Fig.~\ref{fig:A3-E-phases}.
+The A3-E model is also flexible with respect to the transitions among subsequent phases. In particular, distinct policies may define different transition behaviors. Figures~\ref{fig:A3-E-domain} and~\ref{fig:A3-E-client} depict, respectively, the possible transitions among states of a domain with respect to a client application and vice-versa. Each state is mapped to the corresponding phase in Fig.~\ref{fig:A3-E-model}.
 
 \begin{figure}[tbp]
 	\raggedright
 	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and application\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
 	
 	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client.png}}\hfill
-	\caption{States and transitions among A3-E phases} \label{fig:A3-E-phases}
+	\caption{States and transitions among A3-E phases} \label{fig:A3-E-states}
 \end{figure}
 
 The use of a specific policy may depend on factors like:
@@ -107,7 +107,7 @@ L_{SETUP} = \Delta_{AW} + \Delta_{AQ} + \Delta_{AL};
 
 The first term represents the time it takes for clients and domains to become aware of each other. The second term represents the time for downloading all assets of a specific service, whilst the last term represents the time for allocating resources for the service execution. 
 
-Considering the first request from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens. Conversely, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served. 
+Considering the first request from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens. Conversely, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served with. 
 
 %\subsubsection{Acquisition Policies}
 
@@ -115,11 +115,11 @@ The \textit{acquisition policies} in Fig.~\ref{fig:A3-E-domain} can be:
 
 \begin{itemize}
 
-\item Proactive: acquisition phase starts upon external event preceding the arrival of the first request (e.g., the prediction of service usage); 
+\item \textbf{P}roactive: acquisition phase starts upon external event preceding the arrival of the first request (e.g., the prediction of service usage); first request is not delayed by $\Delta_{AQ}$;
 
-\item Sequential: acquisition phase starts as soon as awareness phase finishes; or
+\item \textbf{S}equential: acquisition phase starts as soon as awareness phase finishes; first request may be delayed by $\Delta_{AQ}$; or
 
-\item Reactive: acquisition phase starts as soon as the first request for a service arrives (frozen start).
+\item \textbf{R}eactive: acquisition phase starts as soon as the first request for a service arrives (frozen start); first request may be delayed by $\Delta_{AQ}$.
 
 \end{itemize}
 
@@ -129,11 +129,11 @@ The \textit{allocation policies} in Fig.~\ref{fig:A3-E-domain} can be:
 
 \begin{itemize}
 
-\item Proactive: allocation phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); 
+\item \textbf{P}roactive: allocation phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); first request is not delayed by $\Delta_{AL}$;
 
-\item Sequential: allocation phase starts as soon as acquisition phase finishes; or
+\item \textbf{S}equential: allocation phase starts as soon as acquisition phase finishes; first request may be delayed by $\Delta_{AL}$; or
 
-\item Reactive: allocation phase starts as soon as the first request for a service arrives (cold start).
+\item \textbf{R}eactive: allocation phase starts as soon as the first request for a service arrives; first request may be delayed by $\Delta_{AL}$ (also known as cold start).
 
 \end{itemize}
 
@@ -178,20 +178,24 @@ The \textit{allocation policies} in Fig.~\ref{fig:A3-E-domain} can be:
 %\subsection{A3-E Instances}\label{sec:A3-E-instances}
 
 \begin{center}
-	\begin{table}[tbp]
-		\small
-		\caption{Different instances of the A3-E model and  corresponding policies}\label{tab:A3-E-instances}
-		\begin{tabular}{ r c c c c }
-			\toprule
-			& \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT 	\\
-			\midrule
-	Cloud		& ---	& ---		& HOT-START		& BY REQUEST\\			
-	FaaS-Cloud	& ---	& ---		& COLD-START	& BY REQUEST\\						
-	FaaS-Edge	& A\&D	& [ANY]		& [ANY]	& BY REQUEST\\	
-	FaaS-Edge	& ---	& [PROACTIVE, REACTIVE]	& [ANY] & BY REQUEST\\
-	\bottomrule
-		\end{tabular}
-	\end{table}
+\begin{table}[htbp]
+\small
+\caption{Different instances of the A3-E model and  corresponding policies}\label{tab:A3-E-instances}
+\begin{tabular}{ r c c c c }
+\toprule
+
+& \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT  	\\
+
+\midrule
+
+IaaS-Cloud		& DNS	& OFFLINE				& HOT-START		& BY REQUEST\\
+FaaS-Cloud	& DNS	& OFFLINE				& COLD-START	& BY REQUEST\\						
+FaaS-Edge	& A\&D	& [P, S, R]				& [P, S, R]		& BY REQUEST\\	
+FaaS-Edge	& DNS	& [P, R]				& [P, S, R] 	& BY REQUEST\\
+
+\bottomrule
+\end{tabular}
+\end{table}
 \end{center}
 \normalsize
 
@@ -199,13 +203,13 @@ The \textit{allocation policies} in Fig.~\ref{fig:A3-E-domain} can be:
 
 %Thus, whereas the \textit{engagement} phase represents the core of the interaction between clients and servers and the \textit{allocation} phase is already part of today's cloud computing, the additional phases of \textit{acquisition} and \textit{awareness} address the particularities of different types of edge computing.
 
-Table~\ref{tab:A3-E-instances} correlates other possible instances of the A3-E model with different scenarios of the mobile-edge-cloud continuum, namely:
+Table~\ref{tab:A3-E-instances} correlates the possible instances of the A3-E model with different scenarios of the cloud-edge-mobile continuum and the policies that may be adopted. The policy adopted by a phase affects which policies may be adopted by the subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation). The possible instances in Table~\ref{tab:A3-E-instances} are:
 
---- \textbf{Cloud}: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no awareness phase is needed). Assets used by these services are preliminarily deployed to cloud servers (thus, no acquisition is needed). Cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA), which corresponds to A3-E's allocation phase. Finally, cloud services are invoked by clients (engagement phase). 
+--- \textbf{IaaS-Cloud}: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no dynamic awareness is employed). Assets used by these services are preliminarily deployed to cloud servers (thus, no dynamic acquisition is employed). Virtual machines and containers are pre-allocated (hot start), and cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA). Finally, cloud services are invoked by clients (engagement phase). 
 
---- \textbf{FaaS-Cloud}: regarding A3-E, the FaaS model distinguishes from the cloud instance described above by enforcing the use of stateless functions that can be quickly allocated for execution without minimum pre-allocation (cold start).
+--- \textbf{FaaS-Cloud}: the FaaS model distinguishes from the cloud instance described above by enforcing the use of stateless functions that can be quickly allocated for execution without minimum pre-allocation (cold start).
 
---- \textbf{FaaS-Edge}: services hosted in the edge, in contrast, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), make them ready for invocation (allocation phase), before finally been able to expose the required computation as services to be consumed. Such opportunistic modality of edge computing, nonetheless, may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired; and 3) services are pre-allocated in order to increase the readiness required by certain types of applications. 
+--- \textbf{FaaS-Edge}: services hosted in the edge, in contrast, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), make them ready for invocation (allocation phase), before finally been able to expose the required computation as services to be consumed. Such opportunistic modality of edge computing, nonetheless, may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired (offline acquisition); and 3) services are pre-allocated in order to increase the readiness required by certain types of applications (hot start). 
 
 \subsection{A3-E: Reference Architecture}\label{sec:a3-e-reference-architecture}
 
