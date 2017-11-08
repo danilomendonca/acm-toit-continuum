@@ -20,7 +20,7 @@ Therefore, the management of computational resources must be automated and not d
 
 \stepcounter{req_count}
 
-Edge computing encompasses distinct types of computational resources located at the edge of the network and nearby users (Figure~\ref{fig:edge-heterogeneity}). The unified model should be agnostic with respect to the capabilities and specific technology details of different modalities of edge computing (\textbf{R\arabic{req_count}}).
+Edge computing encompasses distinct types of computational resources located at the edge of the network and nearby users (Fig.~\ref{fig:edge-heterogeneity}). The unified model should be agnostic with respect to the capabilities and specific technology details of different modalities of edge computing (\textbf{R\arabic{req_count}}).
 
 From this point on, the term edge domain is used to abstract whatever computational resources can be employed by different types of edge computing (e.g., mobile edge computing, local edge computing, etc). It is also implied that edge domains are accessible by mobile clients through some (network) access point. Fig.~\ref{fig:edge-domain-client} illustrates these abstractions. 
 
@@ -64,19 +64,19 @@ Second, because it is unlikely that edge domains from different providers or typ
 
 %In addition to the client participation in a edge-or-edge kind of decision, there is an argument in favor of giving the client also the responsibility for the edge-or-cloud type of decision: mobility. 
 
-Finally, as mobile clients can enter or exit a given area, their connectivity with a given edge domain may be lost. The less time a mobile client remains connected to an edge domain, the lower the chances of loosing connection before it is still processing that client's request. Thus, if services are not currently available at local edge servers (Fig.~\ref{fig:domain-selection}), clients should perform direct requests to the cloud instead of having their request forwarded by the edge network components. 
+Finally, as mobile clients can enter or exit a given area, their connectivity with a given edge domain may be lost. The less time a mobile client remains connected to an edge domain, the lower the chances of loosing connection before it is still processing that client's request. Thus, if services are not currently available at local edge servers, clients should perform direct requests to the cloud instead of having their request forwarded by the edge network components. 
 
-\begin{figure}[tbp]
-	\centering
-	\captionsetup[subfigure]{width=0.5\textwidth}	
-	\null\hfill
-	\subfloat[Heterogeneus and indpendent types of edge domains (mobile and indoor) in range of communication with a client device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.5\textwidth]{figs/edge-heterogeneity.png}}
-	\captionsetup[subfigure]{width=0.45\textwidth}	
-	\hfill
-	\subfloat[In the case no edge service is available, client performs direct requests to the cloud and eliminate the dependency with intermediary edge domain infrastructure\label{fig:domain-selection}] {\includegraphics[width=0.45\textwidth]{figs/domain-selection.png}}
-	\hfill\null
-	\caption{Edge heterogeneity and client awareness}\label{fig:1}
-\end{figure}
+%\begin{figure}[tbp]
+%	\centering
+%	\captionsetup[subfigure]{width=0.5\textwidth}	
+%	\null\hfill
+%	\subfloat[Heterogeneus and indpendent types of edge domains (mobile and indoor) in range of communication with a client device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.5\textwidth]{figs/edge-heterogeneity.png}}
+%	\captionsetup[subfigure]{width=0.45\textwidth}	
+%	\hfill
+%	\subfloat[In the case no edge service is available, client performs direct requests to the cloud and eliminate the dependency with intermediary edge domain infrastructure\label{fig:domain-selection}] {\includegraphics[width=0.45\textwidth]{figs/domain-selection.png}}
+%	\hfill\null
+%	\caption{Edge heterogeneity and client awareness}\label{fig:no-label-here}
+%\end{figure}
 
 Thus, the following requirements have been elicited for the discovery and selection of different computational resources:
 
