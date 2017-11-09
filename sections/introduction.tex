@@ -10,14 +10,6 @@ With the advent of Internet of Things, the evolution of mobile computing, and th
 
 \end{enumerate}
 
-\begin{figure}[htbp]
-	\centering
-	\subfloat[TODO: replace this image to avoid copyright problems.\label{fig:connected-vehicles}] {\includegraphics[width=0.47\textwidth]{figs/connected-vehicles.jpg}}\hfill
-	~
-	\subfloat[TODO: replace this with a less depressive image of augmented reality :)\label{fig:augmented-reality}]{\includegraphics[width=0.53\textwidth]{figs/augmented-reality.jpg}}\hfill
-	\caption{Different application types can be enabled or benefit from the low-latency of services deployed to nearby edge servers} \label{fig:motivational-cases}
-\end{figure}
-
 \subsection{Edge Computing}
 
 To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. The realization of this paradigm, however, still poses many challenges:
@@ -31,7 +23,7 @@ To reduce network latency, data processing must be performed closer to where it 
 
 --- Third, different types of edge computing infrastructure may exist, including servers located at cellular base stations, temporarily placed nearby public events, and inside buildings and houses to provide support for smart environment applications. The eventual co-existence of edge alternatives would require the client-side participation on the decision of which alternative to use.
 
---- Last but not least, edge computing should complement rather than replace the cloud-based services. In this sense, edge computing should be seen as part of a continuum with the cloud in which opportunistic edge services are backed by cloud counterparts with high availability. Additionally, given the physical proximity between mobile clients and edge servers, the offloading of delay-sensitive computation from resource constrained devices to edge servers becomes possible. In this case, the opportunistic nature of edge services should be backed by the high availability of local computation. Together, cloud, edge, and mobile should form what we call a \textit{computational continuum}.
+--- Last but not least, edge computing should complement rather than replace the cloud-based services. In this sense, edge computing should be seen as part of a continuum with the cloud in which opportunistic edge services are backed by cloud counterparts with high availability. Additionally, given the physical proximity between mobile clients and edge servers, the offloading of delay-sensitive computation from these resource constrained devices to edge servers becomes possible. In this case, the opportunistic nature of edge services should be backed by the high availability of local computation. Together, cloud, edge, and mobile should form what we call a \textit{computational continuum}.
 
 %--- Last but not least, cloud servers should not be disregarded as a part of the Cloud-to-Edge continuum. %not sure whether to call it Cloud-to-Things or Cloud-to-Edge
 %First, because client applications may still rely on Cloud backends for traditional, non delay-sensitive computation. Second, because edge servers may be unavailable from the certain locations. Thus, client applications must rely on a runtime mechanism to discover and negotiate the use of nearby edge infrastructure. As the alternative infrastructures (including the cloud) may exhibit uneven loads in different moments, the decision of which to use, must take into account their current status as well as the client application requirements in terms of latency and computational power. 
