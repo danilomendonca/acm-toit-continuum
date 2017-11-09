@@ -105,6 +105,10 @@ Above all, the choice of a policy is affected by two conflicting properties: 1) 
 L_{SETUP} = \Delta_{AW} + \Delta_{AQ} + \Delta_{AL};
 \end{equation}
 
+%\begin{equation}\label{eq:setup_cost}
+%C_{SETUP} = STORAGE + MEMORY;
+%\end{equation}
+
 The first term represents the time it takes for clients and domains to become aware of each other. The second term represents the time for downloading all assets of a specific service, whilst the last term represents the time for allocating resources for the service execution. 
 
 Considering the first request from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens. Conversely, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served with. In specific, the domain-side policies in Fig.~\ref{fig:A3-E-domain} can be:
