@@ -10,7 +10,7 @@ With the advent of Internet of Things, the evolution of mobile computing, and th
 
 \end{enumerate}
 
-\subsection{Edge Computing}
+%\subsection{Edge Computing}
 
 To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. The realization of this paradigm, however, still poses many challenges:
 
@@ -32,23 +32,23 @@ To reduce network latency, data processing must be performed closer to where it 
 
 %Finally, to avoid increasing the burden of application development, computation to be executed at the edge should follow, to the extent possible, a common architecture and implementation with respect to its cloud counterpart. The same applies to the computation that may be offloaded from resource constrained devices to nearby edge infrastructure.  
 
-\subsection{Serverless Computing}
+%\subsection{Serverless Computing}
 
-Serverless computing~\cite{Roberts:2016, Hendrickson:2016}, also known as Functions-as-a-Service (FaaS)~\cite{mateosFaas17}, emerged as an alternative execution model within cloud computing. In particular, its name derives from the fact that server management and capacity planning decisions are hidden from the software application engineers. Instead, third party providers of the serverless platform dynamically manage the allocation of machine resources for the execution of different types of computational tasks, known as \textit{functions}. Today, multiple vendors provide serverless runtime and database services. 
-
-Among its main advantages, the serverless model is considered to be cost- and resource-efficient in comparison to virtual machine and container-based provisioning models, which generally involve significant periods of underutilization or idle time. In previous work~\cite{GarrigaMendonca2017}, we discussed the suitability of a serverless architecture to enable low-latency applications to use edge computing computational resources in an efficient, scalable and automated way. In this work, serverless computing is further explored in the realization of the computational continuum composed also by cloud and mobile devices by means of a unified model.
+%Serverless computing~\cite{Roberts:2016, Hendrickson:2016}, also known as Functions-as-a-Service (FaaS)~\cite{mateosFaas17}, emerged as an alternative execution model within cloud computing. In particular, its name derives from the fact that server management and capacity planning decisions are hidden from the software application engineers. Instead, third party providers of the serverless platform dynamically manage the allocation of machine resources for the execution of different types of computational tasks, known as \textit{functions}. Today, multiple vendors provide serverless runtime and database services. 
+%
+%Among its main advantages, the serverless model is considered to be cost- and resource-efficient in comparison to virtual machine and container-based provisioning models, which generally involve significant periods of underutilization or idle time. In previous work~\cite{GarrigaMendonca2017}, we discussed the suitability of a serverless architecture to enable low-latency applications to use edge computing computational resources in an efficient, scalable and automated way. In this work, serverless computing is further explored in the realization of the computational continuum composed also by cloud and mobile devices by means of a unified model.
 
 %mobile devices could make use of compute runtimes deployed at nearby edge servers to extend their capabilities. Notwithstanding the potential of such combination, a complete model for its realization is still missing~\cite{NasticServerlessEdge17}. 
 
 \subsection{Contributions of this Work}
 
-In this paper, we propose A3-E, a unified model for the computation continuum formed by cloud, edge, and mobile computing. The proposed model is based on the serverless computing paradigm. In specific, A3-E explores the FaaS model to allow stateless functions to be quickly deployed and exposed as services, proving and efficient and scalable allocation of resources. A3-E further extends FaaS with the complete automation of the execution life-cycle, including the acquisition and installation of service artifacts by servers. Such an autonomy releases developers and administrators from the burden of deployment and maintenance.
+In this paper, we propose A3-E, a unified model for the computation continuum formed by cloud, edge, and mobile computing. In accordance with our previous work~\cite{GarrigaMendonca2017}, A3-E is based on the serverless computing paradigm. In specific, A3-E explores the function-as-a-service (FaaS) model to allow stateless functions to be quickly deployed and exposed as services, proving an efficient and scalable allocation of computing resources. A3-E further extends FaaS with the complete automation of services life-cycle, including the acquisition and installation of service artifacts by servers. Such an autonomy releases developers and administrators from the burden of deployment and maintenance and further supports the materialization of a fine-grained distribution of computing power in the network edge.
 
 As has been demonstrated with experiments, client applications can rely on services dynamically selected and implemented as functions that are executable locally, in the edge, or in the cloud, according to the application requirements and the actual context of the continuum as perceived by the client. The experiments have shown a XX\% reduction of latency when edge services were consumed instead of cloud services, and a YY\% decrease of battery consumption when computation was offloaded from the mobile device to nearby edge server. Finally, experiments with an augmented reality application have also shown the feasibility of A3-E model in the realization of the computational continuum, with a single client application been able to seamlessly alternate local, edge, and cloud according to its requirements and monitored context.
 
 %Last but not least, our contribution also includes a reference architecture for the realization of the proposed model. 
 
-\subsection{Paper Organization}
+%\subsection{Paper Organization}
 
 The rest of this paper is organized as follows. Section~\ref{sec:motivation} describes the main motivation behind this work, including application scenarios and the computational continuum. Section~\ref{sec:background} provides a brief background on the main topics and concepts used by this work. Section~\ref{sec:proposal} provides a detailed description of the A3-E model. Section~\ref{sec:evaluation} reports on the experiments performed to evaluate our proposal with an augment reality application. Finally, Section~\ref{sec:conclusion} concludes this paper with our conclusions and future works.
 

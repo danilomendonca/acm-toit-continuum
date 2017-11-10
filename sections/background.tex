@@ -1,6 +1,6 @@
 \section{Background}\label{sec:background}
 
-\subsection{The Cloud Infrastructure as a Service}
+\subsection{Cloud Computing and Infrastructure as a Service}
 
 
 \subsection{Serverless Computing and Functions as a Service}
@@ -12,9 +12,9 @@ The Serverless architecture has many benefits with respect to more traditional, 
 
 \begin{figure}
   \centering
-    \includegraphics[width=0.7\textwidth]{figs/evolution-platform-sharing.png}
-    \label{fig:Evolution-of-Sharing}
+    \includegraphics[width=0.7\textwidth]{figs/evolution-platform-sharing.png}    
     \caption{Evolution of platform sharing~\cite{hendrickson2016serverless}}
+    \label{fig:Evolution-of-Sharing}
 \end{figure}
 
 
@@ -53,8 +53,12 @@ OpenLambda & Python\tabularnewline
 %provide what is been called as \textit{Functions as a Service} (FaaS). A FaaS is a realization of the serverless paradigm in which stateless functions  
 
 
-\subsection{Edge Computing and Low-Latency Applications}
+\subsection{Edge Computing}
 
-Edge computing predicts the displacement of computing power to the network edge. Cloudlets~\cite{CLOUDLETS} have been first presented as mobile cloud servers which can be positioned at strategic locations with expected high density of users and mobile devices (e.g., at concert halls, stadiums) or areas with temporary infrastructure limitations (e.g., after disasters). In contrast, mobile edge computing (MEC)~\cite{MEC} relies on cellular infrastructure to enable a low-latency communication between mobile devices and edge servers. 
+Edge computing can be defined by the set of technologies that enable computation to be performed at the network edge~\cite{Shi:2016}. Its main goal is to allow data produced and consumed at the network edge to be processed with low-latency and without overstressing the more centralized cloud infrastructure.
 
-In addition to the aforementioned types of edge computing, in this paper we explore the usage of \textit{local-edge} as servers deployed as part of a building infrastructure to further improve the computational power of nearby devices. 
+As examples of edge technologies, Cloudlets~\cite{Satyanarayanan:2009} have been first presented as mobile cloud servers that can be positioned at strategic locations to provide computing resources to resource constrained devices with low-latency. 
+%with expected high density of users (e.g., at concert halls, stadiums) or areas with temporary infrastructure limitations (e.g., after disasters). 
+Additionally, mobile edge computing (MEC)~\cite{ahmed2016isco} relies on cellular infrastructure to enable a low-latency communication between user equipment (i.e., mobile devices) and servers. 
+
+%In addition to the aforementioned types of edge computing, in this paper we explore the usage of \textit{local-edge} as servers deployed as part of a building infrastructure to further improve the computational power of nearby devices. 
