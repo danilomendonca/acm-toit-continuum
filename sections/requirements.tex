@@ -2,33 +2,25 @@
 
 \newcounter{req_count}
 
-\subsubsection{Automation}
+\subsubsection{Heterogeneity}
 
-\stepcounter{req_count}
+The continuum encompasses distinct types of computational resources located at the cloud and at the edge of the network (Fig.~\ref{fig:edge-heterogeneity}). Accordingly, the unified model should be:
 
-%Finally, also considering the multiplicity of edge servers and the need for a scalable solution for the provisioning of edge infrastructure as a service, the following requirement have been defined:
-TODO: introduce the need for automation, possibly linking to serverless computing.
-\textcolor{blue}{Martin's comment: I've added the following paragraph linked with what is said about serverless+automation. Please check.}
+\begin{itemize}
 
-In order to materialize the computational continuum, it is crucial to detach the control and management of the infrastructure from the application developer. The model should be automated and transparent, where the developer is unaware of which infrastructure is using to run her applications. Following a serverless architecture, the application developer has control over the code they deploy into the infrastructure.  The operational aspects of deployment and maintenance should be completely automated and
-auto-scaling. In particular, the code may be scaled to zero where no servers are actually running when the application's function code is not used, and there is no cost to the user nor overload to the platform.
+\item 1) Agnostic with respect to the capabilities and specific technology details of different computing platforms (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and
 
-Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R\arabic{req_count}}).
+\item 2) Flexible, so that different instances of the model can address the particularities of distinct types of computing platforms (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
+\end{itemize}
 
-\subsubsection{Edge Heterogeneity}
-
-\stepcounter{req_count}
-
-Edge computing encompasses distinct types of computational resources located at the edge of the network and nearby users (Figure~\ref{fig:edge-heterogeneity}). The unified model should be agnostic with respect to the capabilities and specific technology details of different modalities of edge computing (\textbf{R\arabic{req_count}}).
-
-From this point on, the term edge domain is used to abstract whatever computational resources can be employed by different types of edge computing (e.g., mobile edge computing, local edge computing, etc). It is also implied that edge domains are accessible by mobile clients through some (network) access point. Fig.~\ref{fig:edge-domain-client} illustrates these abstractions. 
+From this point on, the term \textit{domain} is used to abstract whatever computational resources can be employed by different computing platforms (i.e., those used by cloud, mobile-edge, local-edge, and local). It is also implied that edge domains are accessible by mobile clients through some (network) access point. Fig.~\ref{fig:edge-domain-client} illustrates these abstractions. 
 
 \begin{figure}[tbp]
 	\centering
 	\captionsetup[subfigure]{width=0.5\textwidth}	
 	\null\hfill
-	\subfloat[Heterogeneus and indpendent types of edge computing infrastructure (mobile and indoor) in range of communication with a client device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.5\textwidth]{figs/edge-heterogeneity.png}}
+	\subfloat[Heterogeneus and indpendent types of edge computing infrastructure (mobile and local) in range of communication with a client device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.5\textwidth]{figs/edge-heterogeneity.png}}
 	\captionsetup[subfigure]{width=0.45\textwidth}	
 	\hfill
 	\subfloat[Computational resources abstracted under different edge domains; a mobile client within connection range to edge domains A and B through access points A and B\label{fig:edge-domain-client}] {\includegraphics[width=0.45\textwidth]{figs/edge-domain-client.png}}
@@ -38,7 +30,43 @@ From this point on, the term edge domain is used to abstract whatever computatio
 
 %In addition, different kinds of edge infrastructure (e.g., more powerful servers or single board computers) or the same kind of edge infrastructure at different contexts (e.g., the number of clients in an area is too high in one region and low in another) may fit better with different policies for edge resources usage. 
 
-\subsubsection{Client Awareness and Domain Selection}
+Client applications may also significantly differ in terms of the QoS they require from service providers. For example, autonomous vehicles may eventually rely on edge services for low-latency operations. An autonomous vehicle entering a given region for the first time is unlikely to be waiting until the edge servers covering that region become ready for providing the service the vehicle requires. 
+
+Conversely, users of an augmented reality application could eventually wait for a setup time whenever the edge domain nearby are not ready. In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not. Accordingly:
+
+\begin{itemize}
+	\stepcounter{req_count}
+	\item The unified model should enable the co-existence of applications requiring different QoS levels (\textbf{R\arabic{req_count}}); and
+	
+	\stepcounter{req_count}
+	\item The priority of the usage of edge computational resources must be in accordance with the application category and its QoS requirements (\textbf{R\arabic{req_count}})
+\end{itemize}
+
+
+\subsubsection{Automation and Encapsulation}
+
+\stepcounter{req_count}
+
+%Finally, also considering the multiplicity of edge servers and the need for a scalable solution for the provisioning of edge infrastructure as a service, the following requirement have been defined:
+
+In order to materialize the computational continuum, the fine grained distribution of edge infrastructure has to be encapsulated and managed in an automated way. This encompasses the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (\textbf{R\arabic{req_count}}). 
+\stepcounter{req_count}
+Additionally, the installation of services to heterogeneous servers in the continuum should also be automated, including the fetching and building of service artifacts (\textbf{R\arabic{req_count}}).
+
+
+%Following a serverless architecture, the application developer has control over the code they deploy into the infrastructure. 
+%The model should be automated and transparent, where the developer is unaware of which infrastructure is using to run her applications. 
+
+%In specific, the allocated resources should be scaled to zero where no servers are actually running when the application's function code is not used, and there is no cost to the user nor overload to the platform.
+
+
+%Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R\arabic{req_count}}).
+
+
+%Differently from classical \textit{on-premise} servers, edge should benefit from the automation and other characteristics of the A3-E model. As a result, local-edge servers can be seen as automated black boxes requiring no manual maintenance.
+
+
+\subsubsection{Context-Awareness}
 
 An important aspect of edge computing consists of how edge services should be discovered and consumed by clients. 
 
@@ -56,7 +84,7 @@ In contrast, in a fine grained geographical distribution of edge computing infra
 
 First, because clients can switch from one network to the other at their discretion or make simultaneous use of different connections. For instance, once inside a building with some local edge servers accessible through Wi-Fi direct, the client may still decide for the edge servers available at the cellular base station it is connected (e.g., through 5G~\footnote{Fifth generation of broadband cellular technology}). 
 
-Second, because it is unlikely that edge domains from different providers or types will be able to coordinate and decide which one will serve a given client request. For instance, at a given moment, a client device may be in contact with both MEC and indoor edge domains. If both can provide the same services, but are unable to communicate and coordinate, it is up to the client to make this decision.
+Second, because it is unlikely that edge domains from different providers or types will be able to coordinate and decide which one will serve a given client request. For instance, at a given moment, a client device may be in contact with both MEC and local-edge domains. If both can provide the same services, but are unable to communicate and coordinate, it is up to the client to make this decision.
 
 
 
@@ -64,19 +92,19 @@ Second, because it is unlikely that edge domains from different providers or typ
 
 %In addition to the client participation in a edge-or-edge kind of decision, there is an argument in favor of giving the client also the responsibility for the edge-or-cloud type of decision: mobility. 
 
-Finally, as mobile clients can enter or exit a given area, their connectivity with a given edge domain may be lost. The less time a mobile client remains connected to an edge domain, the lower the chances of loosing connection before it is still processing that client's request. Thus, if services are not currently available at local edge servers (Fig.~\ref{fig:domain-selection}), clients should perform direct requests to the cloud instead of having their request forwarded by the edge network components. 
+Finally, as mobile clients can enter or exit a given area, their connectivity with a given edge domain may be lost. The less time a mobile client remains connected to an edge domain, the lower the chances of loosing connection before it is still processing that client's request. Thus, if services are not currently available at local edge servers, clients should perform direct requests to the cloud instead of having their request forwarded by the edge network components. 
 
-\begin{figure}[tbp]
-	\centering
-	\captionsetup[subfigure]{width=0.5\textwidth}	
-	\null\hfill
-	\subfloat[Heterogeneus and indpendent types of edge domains (mobile and indoor) in range of communication with a client device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.5\textwidth]{figs/edge-heterogeneity.png}}
-	\captionsetup[subfigure]{width=0.45\textwidth}	
-	\hfill
-	\subfloat[In the case no edge service is available, client performs direct requests to the cloud and eliminate the dependency with intermediary edge domain infrastructure\label{fig:domain-selection}] {\includegraphics[width=0.45\textwidth]{figs/domain-selection.png}}
-	\hfill\null
-	\caption{Edge heterogeneity and client awareness}\label{fig:1}
-\end{figure}
+%\begin{figure}[tbp]
+%	\centering
+%	\captionsetup[subfigure]{width=0.5\textwidth}	
+%	\null\hfill
+%	\subfloat[Heterogeneus and indpendent types of edge domains (mobile and indoor) in range of communication with a client device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.5\textwidth]{figs/edge-heterogeneity.png}}
+%	\captionsetup[subfigure]{width=0.45\textwidth}	
+%	\hfill
+%	\subfloat[In the case no edge service is available, client performs direct requests to the cloud and eliminate the dependency with intermediary edge domain infrastructure\label{fig:domain-selection}] {\includegraphics[width=0.45\textwidth]{figs/domain-selection.png}}
+%	\hfill\null
+%	\caption{Edge heterogeneity and client awareness}\label{fig:no-label-here}
+%\end{figure}
 
 Thus, the following requirements have been elicited for the discovery and selection of different computational resources:
 
@@ -92,21 +120,6 @@ Thus, the following requirements have been elicited for the discovery and select
 \end{itemize}
 
 %TODO: replace R2 with: Control over forwarding from edge to cloud. Soft vs. strong constraint. Soft = I can also run on cloud if needed. Strong = Never go to cloud.
-
-\subsubsection{Client Heterogeneity}
-
-Client applications may significantly differ in terms of the QoS they require from service providers. For example, autonomous vehicles may eventually rely on edge services for low-latency operations. An autonomous vehicle entering a given region for the first time is unlikely to be waiting until the edge servers covering that region become ready for providing the service the vehicle requires. 
-
-Conversely, users of an augmented reality application could eventually wait for a setup time whenever the edge domain nearby are not ready. In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not. Accordingly:
-
-\begin{itemize}
-	\stepcounter{req_count}
-	\item The unified model should enable the co-existence of applications requiring different QoS levels (\textbf{R\arabic{req_count}}); and
-	
-	\stepcounter{req_count}
-	\item The priority of the usage of edge computational resources must be in accordance with the application category and its QoS requirements (\textbf{R\arabic{req_count}})
-\end{itemize}
-
 
 \subsubsection{Efficiency}
 

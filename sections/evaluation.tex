@@ -1,1 +1,16 @@
 \section{Evaluation}\label{sec:evaluation}
+
+\subsection{Experiments Setup}
+
+TODO: add here the details about the mobile, edge, and cloud
+
+\subsection{Latency} In order to compare the latency among a cloud, edge, and local computation, we performed separated experiments. Each experiment consisted of a fixed number of requests in a fixed interval for the extraction and matching of features from an image. Each experiment was repeated X times.
+
+%We could fire like 100 requests and measure the latency of each one and later have the average and the 
+
+The Fig.~\ref{fig:latency_results} shows the results obtained from the latency experiments. 
+
+
+\subsection{Battery} The second set of experiments targeted the measurement of battery consumption of a mobile device in two scenarios: 1) in which feature extraction and matching were performed locally, and 2) these tasks were offloaded to edge servers.
+
+\subsection{Continuum} The third and final set of experiments targeted the evaluation of A3-E with a computational continuum scenario. In specific, the evaluation consisted of a mobile device hosting a simplified version of an AR application with the feature extraction and matching modeled as stateless functions that can be executed locally (Java Functions), in an edge-based FaaS platform (OpenWhisk), or a cloud-based FaaS platform (Amazon Lambda).
