@@ -30,7 +30,7 @@ In A3-E, the Awareness phase has the following purposes:
 	
 	\item To enable a domain to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about client applications hosted by clients in the domain coverage area (Requirement Rx);
 	
-	\item To enable clients to choose from alternative domains based on their awareness about these domains (Requirements Ry); 
+	\item To enable clients to choose from alternative domains based on their awareness about these domains (Requirements Ry);
 	
 \end{itemize}
 
@@ -98,7 +98,7 @@ The use of a specific policy may depend on factors like:
 
 \end{itemize}
 
-Above all, the choice of a policy is affected by two conflicting properties: 1) the efficiency of domain resource usage (domain side); and 2) the application tolerance for service setup delay (client side). Eq.~\ref{eq:setup_delay} models the total delay of service setup.
+Above all, the choice of a policy is affected by two conflicting properties: 1) the efficiency of domain resource usage (domain side); and 2) the application tolerance for service setup delay (client side). Eq.~\ref{eq:setup_delay} models the total delay of service setup. 
 
 %\Delta_{NET} + 
 \begin{equation}\label{eq:setup_delay}
@@ -111,7 +111,11 @@ L_{SETUP} = \Delta_{AW} + \Delta_{AQ} + \Delta_{AL};
 
 The first term represents the time it takes for clients and domains to become aware of each other. The second term represents the time for downloading all assets of a specific service, whilst the last term represents the time for allocating resources for the service execution. 
 
-Considering the first request from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens. Conversely, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served with. In specific, the domain-side policies in Fig.~\ref{fig:A3-E-domain} can be:
+Considering the first request from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens. Conversely, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served with. 
+
+From the efficiency perspective, the relation is the opposite: the more \textit{reactive} the policies are with respect to the first request arrival event, the lower the periods of underutilization and idleness of the domain resources. In contrast, the chances of underutilization and idleness are higher with \textit{proactive} policies.
+
+In specific, the domain-side policies in Fig.~\ref{fig:A3-E-domain} can be:
 \medskip
 \medskip
 
@@ -121,11 +125,11 @@ Considering the first request from a client application as the reference event, 
 
 \begin{itemize}
 
-\item Proactive: acquisition phase starts upon external event preceding the arrival of the first request (e.g., the prediction of service usage); first request delay includes $\Delta_{AQ}$;
+\item Proactive: acquisition phase starts upon external event preceding the arrival of the first request (FRA) (e.g., the prediction of service usage); first response delay does not include $\Delta_{AQ}$;
 
-\item Sequential: acquisition phase starts as soon as awareness phase finishes; first request delay may include $\Delta_{AQ}$; or
+\item Sequential: acquisition phase starts as soon as awareness phase finishes; first response delay may include a fraction of $\Delta_{AQ}$ if FRA precedes the end of acquisition; or
 
-\item Reactive: acquisition phase starts as soon as the first request for a service arrives; first request delay does not include $\Delta_{AQ}$ (very cold start).
+\item Reactive: acquisition phase starts as soon as the first request for a service arrives; first response delay includes $\Delta_{AQ}$.
 
 \end{itemize}
 
@@ -137,11 +141,11 @@ Considering the first request from a client application as the reference event, 
 
 \begin{itemize}
 
-\item Proactive: allocation phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); first request is not delayed by $\Delta_{AL}$;
+\item Proactive: allocation phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); first response is not delayed by $\Delta_{AL}$;
 
-\item Sequential: allocation phase starts as soon as acquisition phase finishes; first request may be delayed by $\Delta_{AL}$; or
+\item Sequential: allocation phase starts as soon as acquisition phase finishes; first response may be delayed by a fraction of $\Delta_{AL}$ if FRA precedes the end of allocation; or
 
-\item Reactive: allocation phase starts as soon as the first request for a service arrives; first request may be delayed by $\Delta_{AL}$ (cold start).
+\item Reactive: allocation phase starts as soon as the first request for a service arrives; first response may be delayed by $\Delta_{AL}$ (also known as \textit{cold start}).
 
 \end{itemize}
 
@@ -189,17 +193,19 @@ Considering the first request from a client application as the reference event, 
 \begin{table}[htbp]
 \small
 \caption{Different domain instances of the A3-E model and  corresponding policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive)}\label{tab:A3-E-instances}
-\begin{tabular}{ r c c c c }
+\begin{tabular}{ r c c c c c }
 \toprule
 
-INSTANCE & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT  	\\
+INSTANCE & TYPE & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT  	\\
 
 \midrule
 
-IaaS-Cloud		& DNS	& OFFLINE		& HOT-START		& BY REQUEST\\
-FaaS-Cloud		& DNS	& OFFLINE		& COLD-START	& BY REQUEST\\						
-FaaS-Edge		& A\&D	& [P, S, R]		& [P, S, R]		& BY REQUEST\\	
-FaaS-Edge		& DNS	& [P, R]		& [P, S, R] 	& BY REQUEST\\
+\multirow{2}{*}{ Cloud }
+& IaaS	& DNS	& OFFLINE		& PRE-ALLOCATED	& BY REQUEST\\
+& FaaS		& DNS	& OFFLINE		& COLD-START	& BY REQUEST\\\midrule					
+\multirow{2}{*}{ Edge }
+& FaaS		& DNS	& [P, R]		& [P, S, R] 	& BY REQUEST\\
+& FaaS		& A\&D	& [P, S, R]		& [P, S, R]		& BY REQUEST\\	
 
 \bottomrule
 \end{tabular}
