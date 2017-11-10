@@ -12,12 +12,12 @@ With the advent of Internet of Things, the evolution of mobile computing, and th
 
 \subsection{Edge Computing}
 
-To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. The realization of this paradigm, however, still poses many challenges:
+To reduce network latency, data must be processed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. The realization of this paradigm, however, still poses many challenges:
 
 %
 --- First, a highly distributed edge infrastructure is not expected to exhibit virtually unlimited resources as cloud datacenters. This limitation requires a more efficient allocation of edge resources. Current models based on virtualization and containerization, although successfully adopted by cloud providers, may not be feasible in the context of edge computing.
 
---- Second, cloud services cover very large areas in which requests from clients are always expected. In contrast, edge infrastructure features a fine-grained coverage area~\cite{Dehos14millimeter5g} where edge services would remain idle whenever clients are absent in their coverage area. Therefore, to optimize the usage of edge resources, edge infrastructure should support the opportunistic deployment of services.
+--- Second, cloud services cover very large areas in which requests from clients are always expected. In contrast, edge infrastructure features a fine-grained coverage area~\cite{Dehos14millimeter5g} where edge services would remain idle whenever clients are absent in their coverage area. Therefore, to optimize the usage of edge resources, its infrastructure should support the opportunistic deployment of services.
 
 %, accessible through well-known Internet names, edge services 
 
@@ -34,9 +34,9 @@ To reduce network latency, data processing must be performed closer to where it 
 
 \subsection{Serverless Computing}
 
-Serverless computing~\cite{Roberts:2016, Hendrickson:2016}, also known as Functions-as-a-Service (FaaS)~\cite{mateosFaas17}, emerged as an alternative execution model within cloud computing. In particular, its name derives from the fact that server management and capacity planning decisions are hidden from the software application engineers. Instead, third party providers of the serverless platform dynamically manage the allocation of machine resources for the execution of different types of computational tasks, known as \textit{functions}. Today, multiple vendors provide serverless runtime and database services. 
+Serverless computing~\cite{Roberts:2016, Hendrickson:2016}, also known as Functions-as-a-Service (FaaS)~\cite{MateosFaaster17}, emerged as an alternative execution model within cloud computing. In particular, its name derives from the fact that server management and capacity planning decisions are hidden from the software application engineers. Instead, third party providers of the serverless platform dynamically manage resource allocation and sharing for the execution of different types of computational tasks, known as \textit{functions}. Nowadays, all major cloud vendors provide serverless runtimes an associated ecosystem of services. 
 
-Among its main advantages, the serverless model is considered to be cost- and resource-efficient in comparison to virtual machine and container-based provisioning models, which generally involve significant periods of underutilization or idle time. In previous work~\cite{GarrigaMendonca2017}, we discussed the suitability of a serverless architecture to enable low-latency applications to use edge computing computational resources in an efficient, scalable and automated way. In this work, serverless computing is further explored in the realization of the computational continuum composed also by cloud and mobile devices by means of a unified model.
+Among its main advantages, the serverless model is cost- and resource-efficient in comparison to virtual machine and container-based provisioning models, which generally involve significant periods of underutilization or idle time. In previous work~\cite{GarrigaMendonca2017}, we discussed the suitability of a serverless architecture to enable low-latency applications to use edge computing computational resources in an efficient, scalable and automated way. In this work, serverless computing is further explored in the realization of the computational continuum composed also by cloud and mobile devices by means of a unified model.
 
 %mobile devices could make use of compute runtimes deployed at nearby edge servers to extend their capabilities. Notwithstanding the potential of such combination, a complete model for its realization is still missing~\cite{NasticServerlessEdge17}. 
 
