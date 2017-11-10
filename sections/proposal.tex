@@ -14,7 +14,7 @@ The A3-E provisioning model consists of four phases: \textit{(\textbf{A}wareness
 
 %A3-E addresses all actors in the computational continuum formed by mobile devices, edge, and cloud servers. 
 
-A3-E model is flexible with respect to its constituting phases and addresses all the constituents of the computational continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which an edge domain first contacts an application hosted by a mobile client. This instance of the A3-E model is used to illustrate the use of all four phases in the model. 
+A3-E is flexible with respect to its constituting phases and addresses all the constituents of the computational continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which an edge domain first contacts an application hosted by a mobile client. This instance of the A3-E model is used to illustrate the use of all four phases in the model. 
 
 Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the computational continuum.
 
@@ -28,17 +28,17 @@ In A3-E, the Awareness phase has the following purposes:
 
 \begin{itemize}
 	
-	\item To enable a domain to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about client applications hosted by clients in the domain coverage area (Requirement Rx);
+	\item To enable a domain to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about  applications hosted by clients in the domain coverage area (Requirement Rx);
 	
 	\item To enable clients to choose from alternative domains based on their awareness about these domains (Requirements Ry);
 	
 \end{itemize}
 
-Thus, from the domain side, the lack of (client) awareness prevents the triggering of the acquisition and subsequently allocation phases based on the detection of a client. From the client side, the lack of (domain) awareness prevents clients of deciding which alternative domains must be used. 
+Thus, from the domain side, the lack of (client) awareness prevents the triggering of the acquisition and subsequently allocation phases based on the detection of a client. From the client side, the lack of (domain) awareness prevents clients of deciding which alternative domains must be used. %I'm not sure if I understand this paragraph (Martin)
 
 \subsubsection{Acquisition Phase}\label{sec:A3-E-acquisition}
 
-In its turn, the Acquisition phase has the following purposes:
+In turn, the Acquisition phase has the following purposes:
 
 \begin{itemize}
 
@@ -50,31 +50,31 @@ In its turn, the Acquisition phase has the following purposes:
 
 From the domain side, the lack of acquisition implies that service assets must be previously made available. Nonetheless, the preliminary acquisition of a large number of assets is limited by the domain storage capability. 
 
-Conversely, the automated and opportunistic acquisition of service assets improves storage efficiency with the cost of a setup time $\Delta_AQ$. For instance, domains that become aware of clients' requirements may pro-actively start the acquisition phase and become ready for allocation before the first service request arrives.
+Conversely, the automated and opportunistic acquisition of service assets improves storage efficiency with the cost of a setup time $\Delta_{AQ}$. For instance, domains that become aware of clients' requirements may pro-actively start the acquisition phase and become ready for allocation before the first service request arrives.
 
 %otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\Delta_A$, become ready for allocation. 
 
 \subsubsection{Allocation Phase}\label{sec:A3-E-allocation}
 
-The allocation phase addresses has the following purposes:
+The allocation phase has the following purposes:
 
 \begin{itemize}
 
 \item To enable the automated process of making a service ready for execution through the allocation of computational resources (Requirement R1); and
 
-\item To enable clients to choose among different alternative domains that may happen to be available (Requirement Ry).
+\item To enable clients to choose among different alternative domains that may be available (Requirement Ry).
 
 \end{itemize}
  
 Cloud providers already implement automated scaling mechanisms, e.g, with the allocation of virtual machines and container instances on demand. More recently, the FaaS model introduced zero-allocation mechanism, in which stateless functions may remain deallocated until they are invoked (cold start). Once the demand increases, the FaaS platform may respond with additional instances of the required functions.
 
-From the domain side, A3-E adheres to the dynamic allocation of computational resources for services execution. Applications that can not afford the delay (hereafter named $\Delta_{AL}$) of a cold start must rely on services that are always kept available with minimum allocation. Instead, whenever cold start is acceptable, the zero-allocation provides a more efficient usage of computational resources.
+From the domain side, A3-E adheres to the dynamic allocation of computational resources for services execution. Applications that can not afford the delay (hereafter named $\Delta_{AL}$) of a cold start must rely on services that are always kept available with minimum allocation. Instead, whenever cold start is acceptable, the zero-allocation provides a more efficient usage of computational resources. Needless to say, $\Delta_{AL}$ is only perceived by the first request after a cold start, while subsequent calls are processed normally hereafter.
 
-From the client-side, once the awareness phase has been active and identified the current alternative domains, the client may consider QoS values from each domain to make the decision of which one to engage. Conversely, the lack of awareness implies that client engagement with a specific domain must be solved by means of a well-known name. In the later case, networking traffic components are responsible for routing client requests to specific domains.
+From the client-side, once the awareness phase has been active and identified the current alternative domains, the client may consider QoS values from each domain to make the decision of which one to engage. Conversely, the lack of awareness implies that client engagement with a specific domain must be solved by means of a well-known name. In the later case, the network backbone is responsible for routing client requests to specific domains.
 
 \subsubsection{Engagement Phase}\label{sec:A3-E-engagement}
 
-Finally, the \textit{engagement} phase models the interaction between a client and a service. At this stage, the requested service must be already acquired and allocated for execution. 
+Finally, the \textit{engagement} phase models the actual interaction between a client and a service. At this stage, the requested service must be already acquired and allocated for execution. 
 
 \subsection{Phase Transitions and Policies}
 
@@ -112,7 +112,7 @@ L_{SETUP} = \Delta_{AW} + \Delta_{AQ} + \Delta_{AL};
 %\end{equation}
 
 \noindent
-In which the first term represents the time it takes for clients and domains to become aware of each other. The second term represents the time for downloading all assets of a specific service, whilst the last term represents the time for allocating resources for the service execution. 
+In which first term ($\Delta_{AW}$) represents the time it takes for clients and domains to become aware of each other. The second term ($\Delta_{AQ}$) represents the time for acquiring all assets of a specific service, whilst the last term ($\Delta_{AL}$) represents the time for allocating resources for the service execution. 
 
 From the efficiency perspective, the relation is the opposite: the more \textit{reactive} the policies are with respect to the first request arrival event, the lower the periods of underutilization and idleness of the domain resources. In contrast, the chances of underutilization and idleness are higher with \textit{proactive} policies. Eq.~\ref{eq:setup_delay} models the total delay of service setup. 
 
@@ -234,3 +234,6 @@ Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of 
 %Notwithstanding this, in this paper we focus on the alternatives described by lines 3 and 4 of Table~\ref{tab:A3-E-instances}, as they represent suitable alternatives for mobile and local types of edge computing.
 
 %\subsection{A3-E: Reference Architecture}\label{sec:a3-e-reference-architecture}
+
+\subsection{Example}
+TBW: Example with one of the applications mentioned in the motivation (AR/CV).
