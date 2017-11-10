@@ -10,7 +10,7 @@
 
 \subsection{Low-Latency Applications}
 
-The main motivation for shifting computation from cloud to edge infrastructure is to mitigate network latency. In specific, real-time applications are the main candidates for benefiting of services deployed at nearby edge infrastructure. Among these, some have a higher degree of criticallity with respect to latency and readiness of services (e.g., delay can have severe consequences to the users and/or the environment), whereas others can greatly benefit from lower latencies (e.g., by improving the user experience).
+The main motivation for shifting computation from cloud to edge infrastructure is to mitigate network latency~\cite{Bonomi2014}. In specific, real-time applications are the main candidates for benefiting of services deployed at nearby edge infrastructure. Among these, some have a higher degree of criticallity with respect to latency and readiness of services (e.g., delay can have severe consequences to the users and/or the environment), whereas others can greatly benefit from lower latencies (e.g., by improving the user experience).
 
 As an example of a critical application, connected vehicles (CV)~\cite{Bonomi:2012} are expected to be the computing device of the next decade, with each vehicle generating 25GB/hour of data~\cite{HitachiInternetOnWheels16}. In addition to local data analysis, more complex analysis shall be delegated to remote servers, which must respond quickly if the result involves critical information, e.g., the notification of an accident in the current path of the vehicle. With edge computing, computational resources located at mobile base stations or even composing the traffic infrastructure (e.g., highways) could provide low-latency services for connected vehicles passing by their coverage area.
 
@@ -59,7 +59,7 @@ Together, the computational resources from mobile, edge, and cloud computing hav
 
 To illustrate such scenario, we put together the two application examples previously described as part of a continuum that starts in the user's office and finishes in his home (Fig.~\ref{fig:continuum}). 
 
-To start with, let's assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to allow employees to extend the computational capabilities of mobile devices. Our user, e.g., makes use of a \textit{smartglass} application to craft three dimensional virtual objects added to his desk table.
+Let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to allow employees to extend the computational capabilities of mobile devices. The user, e.g., makes use of a \textit{smartglass} application to craft three dimensional virtual objects added to his desk table.
 
 After work, our user leaves his office and enters his CV. During its way home, the autonomous vehicle will make use of edge services deployed at servers located at cellular base stations and owned by telecoms (hereafter called \textit{mobile-edge}). The connected vehicle gets low-latency updates about the best plan to reach its destination. For example, within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead.
 

@@ -1,19 +1,29 @@
 \section{Background}\label{sec:background}
 
-\subsection{Cloud Computing and Infrastructure as a Service}
+\subsection{Cloud Computing and Virtualization}
+
+The Cloud infrastructure is typically offered through different virtualization techniques and degrees. It is considered to be a black box: this means that we do not have access to the hypervisor or to
+the underlying physical machines. A Cloud instance or \textit{node} is traditionally materialized as a Virtual Machine (VM). However,
+nowadays a node might also be a container. Containers provide yet another virtualization technique that operates at the Operating System (OS) level, to create isolated views of the operating environment for different applications. A container has its own process space, virtualized network interface, and file system; and the operating system can allocate different amounts of resources (e.g., CPU, memory, and I/O) to each of them.
+
+Multiple VMs are managed by a single hypervisor that resides on a single host operating system. Each VM then contains its own guest operating system, its own platform stack composed of different libraries, middleware, and application servers, and its own application code. On the other hand, containers are executed directly on top of the host operating system, optionally with the help
+of a container manager like Docker\footnote{Docker -- \url{http://docker.com}}. Each container has its own platform stack and its own application code. Containers have various advantages when compared to VMs: they are more lightweight and they are faster to boot and
+to terminate because they do not have to deal with a guest
+operating system~\cite{FelterContainerVm15,SoletzContainerVirt14}.
+%Industry is widely adopting containers as a means to favor portability and they are considered to be one of the main technological enablers of the DevOps movement [36]. Different development teams may use different operating systems and different platform stacks, making feature integration hard. However, thanks to containerization technology, features can be developed in isolation, with the guarantee that they will work the exact same way on any machine that supports containers.
 
 
 \subsection{Serverless Computing and Functions as a Service}
 
 Serverless Computing is an emerging and compelling paradigm for the deployment of cloud applications, largely due to the recent shift of enterprise application architectures to containers and microservices~\cite{baldini2017serverless}.  A Serverless Architecture is a refined cloud computing model to process requested functionality without pre-allocating any computing capability. Provider-managed containers are used to execute functions (often called lambdas), which are automatically provisioned on demand in few milliseconds, elastically scaled as needed, and ephemeral (may only last for one invocation)~\cite{Roberts2016serverless}. This approach allows one to write and deploy code without considering the server runtime
-environment, resource allocation, load balancing, and scalability; all these aspects are automatically handled by the provider --- hence the term serverless. Functions are charged per invocation and per product of period of time and resource usage (with a millisecond granularity), leading to an almost perfect pay-as-you-go utility pricing model~\cite{MateosFaaster17}.  This allows companies to drastically reduce the cost of their infrastructures with regard to a typical monolithic architecture or even a microservices architecture [Villamizar et al. 2017].
+environment, resource allocation, load balancing, and scalability; all these aspects are automatically handled by the provider --- hence the term serverless. Functions are charged per invocation and per product of period of time and resource usage (with a millisecond granularity), leading to an almost perfect pay-as-you-go utility pricing model~\cite{MateosFaaster17}.  This allows companies to drastically reduce the cost of their infrastructures with regard to a typical monolithic architecture or even a microservices architecture~\cite{Villamizar2017lambda}.
 
 The Serverless architecture has many benefits with respect to more traditional, server-based approaches. Functions share the runtime environment (typically a pool of containers), and the code specific to a particular application is small and stateless by design. Hence, the deployment of a pool of shared containers (workers) on a machine (or a cluster of machines) and the execution of some code onto any of them becomes inexpensive and efficient. In this manner, the serverless model represents the logical conclusion of the evolution of sharing between applications, from hardware to operating systems to (finally) the runtime environments themselves (Figure~\ref{fig:Evolution-of-Sharing}).
 
 \begin{figure}
   \centering
     \includegraphics[width=0.7\textwidth]{figs/evolution-platform-sharing.png}    
-    \caption{Evolution of platform sharing~\cite{hendrickson2016serverless}}
+    \caption{Evolution of platform sharing~\cite{Hendrickson:2016}}
     \label{fig:Evolution-of-Sharing}
 \end{figure}
 
