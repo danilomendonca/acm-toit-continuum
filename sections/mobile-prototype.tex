@@ -5,7 +5,7 @@
 
 In order to assess the feasibility of the presented model and to validate it with an experimental evaluation we implemented a working prototype of the \textit{mobile middleware}. As described in Section~\ref{sec:proposal} this component interacts with  domains that could be either discoverable using a DNS-like mechanism or advertisement. The prototype is one of the possible materialization of the A3-E model, therefore it embraces the computing continuum: client applications can invoke functions without knowing where they will be actually executed (either locally, in one of the surrounding edge servers or in the cloud). The selection algorithm is based on the functions requirements, the domains availability and a multi-objective decision algorithm that will be described in the following. The implementation\footnote{Documentation and source code are available at \url{https://github.com/gioenn/a3e-android}} was written in Java for the Android operating system but could be easily generalized to any mobile platforms. 
 \begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/a3e-mobile-prototype}
+	\includegraphics[width=1\textwidth]{figs/a3e-mobile-prototype}
 	\caption{Mobile Middleware Architecture}
 	\label{fig:mobile-prototype}
 \end{figure}
@@ -81,7 +81,7 @@ To summarize, supporting the continuum with A3E in a client application consists
 
 \begin{enumerate}
 	\item Register static \textit{A3EDomain}s such as cloud endpoints.
-	\item Create \textit{A3EFunction}s and override the specific methods to customize the requests for the technologies of interests 
+	\item Create \textit{A3EFunction}s and override the specific methods to customize the requests for the technologies of interest
 	\item Register the functions
 	\item Execute the functions in the continuum as a plain programmatic calls 
 \end{enumerate}
