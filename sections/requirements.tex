@@ -9,13 +9,13 @@ The continuum encompasses distinct types of computational resources located at t
 \begin{itemize}
 
 
-\item  Agnostic with respect to the capabilities and specific technology details of different computing platforms (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and
+\item  Agnostic with respect to the capabilities and specific technology details of different computing platforms and infrastructures in the continuum (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and
 
-\item Flexible, so that different instances of the model can address the particularities of distinct types of computing platforms (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
+\item Flexible, so that different instances of the model can address the many particularities in the continuum (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
 \end{itemize}
 
-From this point on, the term \textit{domain} is used to abstract whatever computational resources can be employed by different computing platforms (i.e., those used by cloud, mobile-edge, local-edge, and local). It is also implied that edge domains are accessible by mobile clients through some (network) access point. Fig.~\ref{fig:edge-domain-client} illustrates these abstractions. 
+From this point on, the term \textit{domain} is used to abstract whatever computational resources can be employed by different computing platforms (i.e., those used by cloud, mobile-edge, local-edge, and local). It is also implied that edge domains are accessible by clients through some (network) access point. Fig.~\ref{fig:edge-domain-client} illustrates these abstractions. 
 
 \begin{figure}[tbp]
 	\centering
@@ -24,9 +24,9 @@ From this point on, the term \textit{domain} is used to abstract whatever comput
 	\subfloat[Heterogeneus and independent types of edge computing infrastructure (mobile and local) in range of communication with a client device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.5\textwidth]{figs/edge-heterogeneity.png}}
 	\captionsetup[subfigure]{width=0.45\textwidth}	
 	\hfill
-	\subfloat[Computational resources abstracted under different edge domains; a mobile client within connection range to edge domains A and B through access points A and B\label{fig:edge-domain-client}] {\includegraphics[width=0.45\textwidth]{figs/edge-domain-client.png}}
+	\subfloat[The heterogeneity of different compute platforms and infrastructures abstracted as domains\label{fig:edge-domain-client}] {\includegraphics[width=0.45\textwidth]{figs/edge-domain-client.png}}
 	\hfill\null
-	\caption{Edge heterogeneity}\label{fig:1}
+	\caption{Continuum heterogeneity}\label{fig:1}
 \end{figure}
 
 %In addition, different kinds of edge infrastructure (e.g., more powerful servers or single board computers) or the same kind of edge infrastructure at different contexts (e.g., the number of clients in an area is too high in one region and low in another) may fit better with different policies for edge resources usage. 
@@ -50,7 +50,7 @@ Conversely, users of an augmented reality application could eventually wait for 
 
 %Finally, also considering the multiplicity of edge servers and the need for a scalable solution for the provisioning of edge infrastructure as a service, the following requirement have been defined:
 
-In order to materialize the computational continuum, the fine grained distribution of edge infrastructure has to be encapsulated and managed in an automated way. This encompasses the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (\textbf{R\arabic{req_count}}). 
+In order to materialize the compute continuum, the fine grained distribution of edge infrastructure has to be encapsulated and managed in an automated way. This encompasses the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (\textbf{R\arabic{req_count}}). 
 \stepcounter{req_count}
 Additionally, the installation of services to heterogeneous servers in the continuum should also be automated, including the fetching and building of service artifacts (\textbf{R\arabic{req_count}}).
 
