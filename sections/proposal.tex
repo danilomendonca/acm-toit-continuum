@@ -235,24 +235,4 @@ Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of 
 
 %\subsection{A3-E: Reference Architecture}\label{sec:a3-e-reference-architecture}
 
-\subsection{Case Example}
-
-\begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/continuum.png}
-	\caption{Heterogeneous applications (AR and CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
-	\label{fig:continuum}
-\end{figure}
-
-Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{computational continuum} on which new and disruptive types of applications can rely. 
-
-To illustrate such scenario, we put together the two application examples previously described as part of a continuum that starts in the user's office and finishes in his home (Fig.~\ref{fig:continuum}). 
-
-Let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to allow employees to extend the computational capabilities of mobile devices. The user, e.g., makes use of a \textit{smartglass} application to craft three dimensional virtual objects added to his desk table.
-
-After work, our user leaves his office and enters his CV. During its way home, the autonomous vehicle will make use of edge services deployed at servers located at cellular base stations and owned by telecoms (hereafter called \textit{mobile-edge}). The connected vehicle gets low-latency updates about the best plan to reach its destination. For example, within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead.
-
-Already at home, the user's smartphone gets in reach of communication with the local-edge server owned by him. In that day, the user finds out about a new mobile game application that makes use of AR. Upon installation, the local-edge server becomes aware of a new edge-compliant application and, meanwhile the user is already playing, proceeds with the acquisition and deployment of the game services into the local-edge server. After this, the client application becomes aware of these services and switches from local to edge with the purpose of preserving the smartphone's resources. Not only the game performance improves, but also the battery consumption is reduced.  
-
-In the scenario described above, different parts of the continuum have been employed by user's devices. Whilst edge was privileged, cloud-based services remain fundamental, as edge infrastructure may not be available and services for which network latency is not disruptive are in the cloud (e.g., persistence, stateful components, and large part of the business logic).
-
 TBW: Example with one of the applications mentioned in the motivation (AR/CV).
