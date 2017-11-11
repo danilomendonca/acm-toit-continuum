@@ -18,7 +18,7 @@ Moreover, Augmented Reality (AR) is a type of application that would benefit fro
 world by augmenting their vision of the reality with relevant information (e.g., historical information about buildings and monuments), modifying it (e.g., by translating captured text in a different language), or by adding virtual elements that can mimic interactions with the real world (e.g., virtual objects or creatures
 from a fantasy game), or helping users fulfill physical tasks (e.g., by highlighting a free parking spot).
 
-AR applications commonly depend on two key computational tasks: 1) extracting features from physical elements in the captured scene; and 2) matching these features against a feature database to obtain the corresponding information to be added to the scene. 
+AR applications commonly depend on two key tasks: 1) extracting features from physical elements in the captured scene; and 2) matching these features against a feature database to obtain the corresponding information to be added to the scene. 
 
 With the advent of mobile computing, AR applications can be deployed to companion devices like smartphones, tablets, and special purpose glasses. In many cases, these applications must process large volumes of data. Plus, this data can be volatile, which further limits the feasibility of storing it locally. Instead, data must be acquired from remote services. In order to augment the reality captured live from devices camera, the AR application needs to perform its tasks in a timely fashion, which poses a strong restriction on the latency requirement for remote services consumed. As such, a cloud-based solution tends to fail to meet this requirement~\cite{GarrigaMendonca2017}. 
 
@@ -39,7 +39,7 @@ With the advent of mobile computing, AR applications can be deployed to companio
 
 In addition to the problem of network latency, mobile devices exhibit limitations that may further motivate the use of edge computing as part of a continuum. 
 
-For instance, some mobile applications rely on heavyweight tasks that can overstress the platform and limit the concurrent execution of other applications. Moreover, battery is a valuable resource that may be significantly affected by the kind of computational task performed by mobile devices. 
+For instance, some mobile applications rely on heavyweight tasks that can overstress the platform and limit the concurrent execution of other applications. Moreover, battery is a valuable resource that may be significantly affected by the kind of task performed by mobile devices. 
 
 In the paradigm of Mobile Cloud Computing (MCC)~\cite{Khan:14}, this problem has been addressed with the offloading of mobile computation to cloud servers. This approach, however, is limited by network latency. In contrast, edge computing could be an alternative to allow heavyweight or complex computation with low-latency requirements to be offloaded from resource constrained devices to nearby servers.
 
@@ -47,5 +47,25 @@ In the paradigm of Mobile Cloud Computing (MCC)~\cite{Khan:14}, this problem has
 
 As an example, the previously mentioned feature extraction task from AR applications is a type of heavyweight computation based on image processing. Instead of performing it locally (as proposed in~\cite{Huang2012}), mobile devices could also offload this heavyweight task to nearby edge servers. 
 
-%\subsection{Computational Continuum}
+\subsection{Computational Continuum}
 
+
+\begin{figure}[tbp]
+	\includegraphics[width=0.9\textwidth]{figs/continuum.png}
+	\caption{Heterogeneous applications (AR and CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
+	\label{fig:continuum}
+\end{figure}
+
+Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{continuum} on which new and disruptive types of applications can rely. 
+
+To illustrate such scenario, we put together the two case examples previously described as part of a continuum that starts in the user's office and finishes in his home (Fig.~\ref{fig:continuum}). 
+
+First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to allow employees to extend the computational capabilities of mobile devices. In our example, the user makes use of a \textit{smartglass} application to craft three dimensional virtual objects added to his desk table.
+
+After work, our user leaves his office and enters his CV. During its way home, the autonomous vehicle will make use of edge services deployed at servers located at cellular base stations and owned by telecoms (hereafter called \textit{mobile-edge}). The connected vehicle gets low-latency updates about the best plan to reach its destination. For example, within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead. In particular, the new path consists of residential streets without coverage of mobile-edge services. The CV continue to fetch updates, this time from cloud services; the additional network latency is compensated with the low speed limit of the residential area.
+
+Already at home, the user's smartphone gets in reach of communication with the local-edge server owned by him. In that day, the user finds out about a new mobile game application that makes use of AR. Upon installation, the local-edge server becomes aware of a new edge-compliant application and, meanwhile the game is already running locally, proceeds with the acquisition and deployment of the game services into the local-edge server. Once available, the client application becomes aware of these services and switches from local to edge with the purpose of preserving the smartphone's resources. Not only the game performance improves, but also the battery consumption is reduced.  
+
+In the scenario described above, different parts of the continuum have been employed by user's devices. Whilst edge services were privileged, cloud services remain fundamental, as edge infrastructure was not always available. The services consumed by AR in a office scenario and the services consumed by a CV were pre-allocated. In contrast, a client application was able to make use of local resources from a mobile device until edge services were opportunistically made available. 
+
+%services for which network latency is not disruptive are in the cloud (e.g., persistence, stateful components, and large part of the business logic). 
