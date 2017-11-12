@@ -2,7 +2,7 @@
 % -*- root: ../main.tex -*-
 \section{Implementation}
 
-Figure~\ref{fig:abstract_architecture} shows the proposed architecture for the computational continuum. Particular focus is put on the interaction between devices and Edge domain servers, since it is the main contribution of this paper. 
+Figure~\ref{fig:abstract-architecture} shows the proposed architecture for the computational continuum. Particular focus is put on the interaction between devices and Edge domain servers, since it is the main contribution of this paper. 
 The main physical elements are mobile devices and domain servers. Mobile devices can be of any type (e.g., tablets, smartphones), running several low-latency applications that needs offloading part of its computation to more powerful servers. For this, the devices send the information to be processed to the domain server through standardized network protocols~\cite{Sill17standards}.  A Base Transceiver Station\footnote{Different generations of wireless mobile networks use distinct names (e.g., eNodeB in 4G).} (BTS) bridges mobile devices and domain servers as a part of the cellular infrastructure and  Edge architecture, according to its current specifications~\cite{hu2015mobile}. In this scenario, mobile devices and Edge domain servers are at no more than a few hops from each other. These servers host a serverless infrastructure, where stateless functions are deployed and executed according to the phases defined by the A3-E model. 
 The following sections provide details about the A3-E middleware (Section~\ref{subsec:A3-E}) and the serverless infrastructure that materializes Edge domain servers (Section~\ref{subsec:ServerlessArchCont}).
 
@@ -103,10 +103,10 @@ To summarize, supporting the continuum with A3E in a client application consists
 
 Following we briefly describe the serverless architecture that materializes the notion of Edge domains --- as shown in Figure~\ref{fig:domain-edge-arch}. 
 
-\begin{figure}[tbp]
-	\includegraphics[width=.8\textwidth]{figs/ServerlessGenericArchEdit}
-	\caption{Serverless Architecture in the Edge Domain}
-	\label{fig:abstract-architecture}
+\begin{figure}[htb]
+	\includegraphics[width=.7\textwidth]{figs/ServerlessGenericArchEdit}
+	\caption{Serverless Architecture in the Domain Server}
+	\label{fig:domain-edge-arch}
 \end{figure}
 
 While Edge servers are ideal candidates for offloading the computation to preserve devices' battery life and reduce latency, these domain nodes are themselves potentially resource-constrained. Accordingly, the feasibility of hosting dedicated \textit{virtual machines}, \textit{containers}, and \textit{stateful applications} would also be limited, as these nodes cannot scale ``infinitely" to host always-running VMs/containers as the cloud itself. To overcome this limitation, we propose to materialize Edge domain servers through a serverless architecture~\cite{roberts2016serverless,GarrigaMendonca2017}. 
