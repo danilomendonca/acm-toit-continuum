@@ -39,9 +39,9 @@ With the advent of mobile computing, AR applications can be deployed to companio
 
 In addition to the problem of network latency, mobile devices exhibit limitations that may further motivate the use of edge computing as part of a continuum. 
 
-For instance, some mobile applications rely on heavyweight tasks that can overstress the platform and limit the concurrent execution of other applications. Moreover, battery is a valuable resource that may be significantly affected by the kind of task performed by mobile devices. 
+For instance, some mobile applications rely on heavyweight tasks that can overstress the platform and limit the concurrent execution of other applications. Moreover, battery is a valuable resource that may be significantly affected by the kind of task performed by mobile devices~\cite{Carroll:2010}. 
 
-In the paradigm of Mobile Cloud Computing (MCC)~\cite{Khan:14}, this problem has been addressed with the offloading of mobile computation to cloud servers. This approach, however, is limited by network latency. In contrast, edge computing could be an alternative to allow heavyweight or complex computation with low-latency requirements to be offloaded from resource constrained devices to nearby servers.
+In the paradigm of Mobile Cloud Computing (MCC)~\cite{Khan:14}, this problem has been addressed with the offloading of mobile computation to cloud servers. This approach, however, is limited by network latency~\cite{Satyanarayanan:2009}. In contrast, edge computing could be an alternative to allow heavyweight or complex computation with low-latency requirements to be offloaded from resource constrained devices to nearby servers.
 
 %The paradigm of edge computing can be explored to mitigate the problems related to the resource limitations of mobile devices. For this, heavyweight computation from mobile applications could be offloaded to nearby edge servers. 
 
@@ -52,13 +52,13 @@ As an example, the previously mentioned feature extraction task from AR applicat
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/continuum.png}
-	\caption{Heterogeneous applications (AR and CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
-	\label{fig:continuum}
+	\caption{Heterogeneous applications (AR and CV) interact with services deployed along the compute continuum (cloud, mobile-edge, local-edge, and mobile)}
+	\label{compute continuumnuum}
 \end{figure}
 
 Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{continuum} on which new and disruptive types of applications can rely. Sometimes referred to as the Cloud-to-Things continuum, it enables the seamless convergence of infrastructure stretching from the cloud datacenter to devices on the network edge (including intermediate devices like ISP gateways, cellular base stations, and private cloud deployments) into a continuum of resources, to be provisioned to multiple tenants for hosting applications. Components of an application are hence able to run in a geo-distributed fashion using the services provided by the distributed infrastructure~\cite{GuptaIfogSim17}.   The key notion to bridge the gap in such a continuum is that of Edge\footnote{In the literature the term ``edge'' is often used interchangeably with the term ``fog''.} computing, whose defining characteristics are edge location, dense geographical distribution, large-scale of deployment, support for mobility, resource and interface heterogeneity, and interplay with the cloud properties in order to address requirements of mobile applications that need low latency with a wide and dense geographical distribution~\cite{Bonomi2014}.  
 
-To illustrate such scenario, we put together the two case examples previously described as part of a continuum that starts in the user's office and finishes in his home (Fig.~\ref{fig:continuum}). 
+To illustrate such scenario, we put together the two case examples previously described as part of a continuum that starts in the user's office and finishes in his home (Fig.~\ref{compute continuumnuum}). 
 
 First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to allow employees to extend the computational capabilities of mobile devices. In our example, the user makes use of a \textit{smartglass} application to craft three dimensional virtual objects added to his desk table.
 
