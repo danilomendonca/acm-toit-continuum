@@ -82,7 +82,7 @@ The A3-E model is also flexible with respect to the transitions among subsequent
 
 \begin{figure}[tbp]
 	\raggedright
-	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and application\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
+	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and the service level agreement (SLA)\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
 	
 	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client.png}}\hfill
 	\caption{States and transitions among A3-E phases} \label{fig:A3-E-states}
@@ -223,7 +223,7 @@ INSTANCE & TYPE & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATIO
 
 Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of the A3-E model with different scenarios of the cloud-edge-mobile continuum along with the policies that may be adopted in each scenario. The policy adopted by a phase affects which policies may be adopted by the subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation). The possible instances in Table~\ref{tab:A3-E-instances} are:
 
---- \textbf{Cloud-IaaS}: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no dynamic awareness is employed). Assets used by these services are preliminarily deployed to cloud servers (thus, no dynamic acquisition is employed). Virtual machines and containers are pre-allocated (hot start), and cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA). Finally, cloud services are invoked by clients (engagement phase). Target services: stateful and delay-tolerant computation and persistence.
+--- \textbf{Cloud-IaaS}: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no dynamic awareness is employed). Assets used by these services are preliminarily deployed to cloud servers (thus, no dynamic acquisition is employed). Virtual machines and containers are pre-allocated (hot start), and cloud's elasticity mechanisms take care of the (de)allocation of resources according to a SLA. Finally, cloud services are invoked by clients (engagement phase). Target services: stateful and delay-tolerant computation and persistence.
 
 --- \textbf{Cloud-FaaS}: the FaaS model distinguishes from the cloud instance described above by enforcing the use of stateless functions that can be quickly allocated for execution without minimum pre-allocation (cold start). Targeted services: delay-tolerant stateless computation.
 
