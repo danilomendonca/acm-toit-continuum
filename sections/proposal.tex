@@ -6,6 +6,7 @@
 	\label{fig:A3-E-model}
 \end{figure}
 
+\subsection{A3-E Process}\label{sec:A3-E-process}
 
 %What: the process within A3-E
 The A3-E model encompasses a process with four phases: \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each of these phases are refined by activities that take care of specific concerns in the interaction among clients and the compute continuum.
@@ -14,7 +15,7 @@ A3-E is flexible with respect to its process phases and addresses all the consti
 
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
-\subsubsection{Awareness Phase}\label{sec:A3-E-awareness}
+\subsubsection*{Awareness Phase}\label{sec:A3-E-awareness}
 
 %Why do we need awareness?
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests.  
@@ -24,7 +25,7 @@ In A3-E, the Awareness phase has the following purposes: 1) to enable a domain t
 
 %From the domain side, the lack of awareness of clients in the domain coverage area prevents triggering the acquisition and subsequently allocation phases based on this event. From the client side, the lack of awareness from surrounding domains prevents them to make the decision of which domains to use. In the later case, clients must rely on external components to reach servers (e.g., traffic managers and DNS servers).
 
-\subsubsection{Acquisition Phase}\label{sec:A3-E-acquisition}
+\subsubsection*{Acquisition Phase}\label{sec:A3-E-acquisition}
 
 The Acquisition phase has the following purposes: 1) to enable a domain to pro-actively install artifacts used by services that must become available in that domain (Requirement R2); and 2) to enable clients to pro-actively identify their requirements (services) and allow the domain to pro-actively install them (Requirement Rx).
 
@@ -34,7 +35,7 @@ The Acquisition phase has the following purposes: 1) to enable a domain to pro-a
 
 %otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\Delta_A$, become ready for allocation. 
 
-\subsubsection{Allocation Phase}\label{sec:A3-E-allocation}
+\subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
 
 The allocation phase has the following purposes: 1) to enable the automated process of making a service ready for execution through the allocation of computational resources (Requirement R1); and to enable clients to choose among different alternative domains that may be available (Requirement Ry).
  
@@ -44,7 +45,7 @@ The allocation phase has the following purposes: 1) to enable the automated proc
 
 %From the client-side, once the awareness phase has been active and identified the current alternative domains, the client may consider QoS values from each domain to make the decision of which one to engage. Conversely, the lack of awareness implies that client engagement with a specific domain must be solved by means of a well-known name. In the later case, the network backbone is responsible for routing client requests to specific domains.
 
-\subsubsection{Engagement Phase}\label{sec:A3-E-engagement}
+\subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
 Finally, the \textit{engagement} phase models the actual interaction between a client and a service. At this stage, the requested service must be already acquired and allocated for execution. 
 
@@ -196,3 +197,15 @@ Additionally, Table~\ref{tab:A3-E-instances} correlates the possible domain-side
 %\subsection{A3-E: Reference Architecture}\label{sec:a3-e-reference-architecture}
 
 %TBW: Example with one of the applications mentioned in the motivation (AR/CV).
+
+\subsection{Reference Architecture}
+
+Figure~\ref{fig:reference-architecture} shows the proposed architecture for the compute continuum. Particular focus is put on the interaction between devices and Edge domain servers, since it is the main contribution of this paper. 
+The main physical elements are mobile devices and domain servers. Mobile devices can be of any type (e.g., tablets, smartphones), running several low-latency applications that needs offloading part of their computation to more powerful servers. For this, the devices send information to be processed to the domain server through standardized network protocols~\cite{Sill17standards}.  A Base Transceiver Station\footnote{Different generations of wireless mobile networks use distinct names (e.g., eNodeB in 4G).} (BTS) bridges mobile devices and domain servers as a part of the cellular infrastructure and  Edge architecture, according to its current specifications~\cite{hu2015mobile}. In this scenario, mobile devices and Edge domain servers are at no more than a few hops from each other. These servers host a serverless infrastructure, where stateless functions are deployed and executed according to the phases defined by the A3-E model. 
+The following sections provide details about the A3-E middleware (Section~\ref{subsec:A3-E}) and the serverless infrastructure that materializes Edge domain servers (Section~\ref{subsec:ServerlessArchCont}).
+
+\begin{figure}[tbp]
+	\includegraphics[width=.6\textwidth]{figs/reference-architecture.png}
+	\caption{A3-E architecture in Mobile Devices and Edge Domains TODO: UPDATE THIS DIAGRAM}
+	\label{fig:reference-architecture}
+	\end{figure}
