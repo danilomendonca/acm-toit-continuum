@@ -215,7 +215,7 @@ INSTANCE & TYPE & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATIO
 & Opportunistic		& A\&D	& [P, S, R]		& [P, S, R]		& BY REQUEST\\	
 & Critical		& DNS	& [P, R]		& [P, S, R] 	& BY REQUEST\\\midrule					
 \multirow{1}{*}{ Mobile }
-& FaaS	& LOCAL  & [R]		& [R] 	& BY REQUEST\\
+& FaaS	& LOCAL  & [P]		& [P] 	& BY REQUEST\\
 
 \bottomrule
 \end{tabular}
@@ -223,7 +223,7 @@ INSTANCE & TYPE & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATIO
 \end{center}
 \normalsize
 
-Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of the A3-E model with different scenarios of the cloud-edge-mobile continuum along with the policies that may be adopted in each scenario. The policy adopted by a phase affects which policies may be adopted by the subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation). The possible instances in Table~\ref{tab:A3-E-instances} are:
+Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of the A3-E model with different scenarios of the cloud-edge-mobile continuum along with the policies that may be adopted in each scenario. The policy adopted by a phase affects which policies may be adopted by the subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation). The possible variations in Table~\ref{tab:A3-E-instances} are:
 
 --- \textbf{Cloud-IaaS}: services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no dynamic awareness is employed). Assets used by these services are preliminarily deployed to cloud servers (thus, no dynamic acquisition is employed). Virtual machines and containers are pre-allocated (hot start), and cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA). Finally, cloud services are invoked by clients (engagement phase). Target services: delay-tolerant and stateful computation; persistence.
 
@@ -235,7 +235,7 @@ Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of 
 
 TODO: replace mobile text
 
---- \textbf{Mobile}: the later modality of edge computing may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired (offline acquisition); and 3) services are pre-allocated in order to increase the readiness required by certain types of applications (hot start). Targeted services: critical applications with strict requirements for low-latency.
+--- \textbf{Mobile}: this instance represents the local computation performed by mobile devices. It provides a zero network latency with high availability; in contrast, the resource constraints of mobile devices may result in lower processing performance and undesirable battery drain, therefore justifying the use of other instances (mobile computation offloading), unless none is available. Targeted services: latency-sensitive and lightweight computation.
 
 %Notwithstanding this, in this paper we focus on the alternatives described by lines 3 and 4 of Table~\ref{tab:A3-E-instances}, as they represent suitable alternatives for mobile and local types of edge computing.
 
