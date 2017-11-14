@@ -31,27 +31,17 @@ In the scenario described above, different parts of the continuum have been empl
 
 \subsubsection*{Heterogeneity}
 
-The continuum encompasses distinct types of computational resources located at the cloud and at the edge of the network, as well as in mobile devices (Fig.~\ref{fig:edge-heterogeneity}). Accordingly, the unified model should be:
+The continuum encompasses distinct types of computational resources located at the cloud and at the edge of the network, as well as in mobile devices (Fig.~\ref{fig:edge-heterogeneity}). Accordingly, the unified model should be agnostic with respect to the capabilities and specific technology details of different computing platforms and infrastructures in the continuum (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and flexible, so that different instances of the model can address the many particularities in the continuum (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
-\begin{itemize}
-
-
-\item  Agnostic with respect to the capabilities and specific technology details of different computing platforms and infrastructures in the continuum (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and
-
-\item Flexible, so that different instances of the model can address the many particularities in the continuum (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
-
-\end{itemize}
-
-From this point on, the term \textit{domain} is used to abstract whatever computational resources can be employed by different computing platforms (i.e., those used by cloud, mobile-edge, local-edge, and local). It is also implied that edge domains are accessible by clients through some (network) access point. Fig.~\ref{fig:edge-domain-client} illustrates these abstractions. 
 
 \begin{figure}[tbp]
 	\centering
-	\captionsetup[subfigure]{width=0.53\textwidth}	
+	\captionsetup[subfigure]{width=0.51\textwidth}	
 	\null\hfill
-	\subfloat[Heterogeneus and independent types of computing platforms and infrastructure (mobile-edge, local-edge, cloud) in range of communication with a mobile device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.53\textwidth]{figs/edge-heterogeneity.png}}
-	\captionsetup[subfigure]{width=0.45\textwidth}	
+	\subfloat[Heterogeneus and independent types of computing platforms and infrastructure (mobile-edge, local-edge, cloud) in range of communication with a mobile device\label{fig:edge-heterogeneity}]{ \includegraphics[width=0.51\textwidth]{figs/edge-heterogeneity.png}}
+	\captionsetup[subfigure]{width=0.43\textwidth}	
 	\hfill
-	\subfloat[The heterogeneity of different cloud and edge compute platforms and infrastructures abstracted as domains\label{fig:edge-domain-client}] {\includegraphics[width=0.45\textwidth]{figs/edge-domain-client.png}}
+	\subfloat[The heterogeneity of different cloud and edge compute platforms and infrastructures abstracted as domains\label{fig:edge-domain-client}] {\includegraphics[width=0.43\textwidth]{figs/edge-domain-client.png}}
 	\hfill\null
 	\caption{Continuum heterogeneity}\label{fig:1}
 \end{figure}
@@ -60,24 +50,17 @@ From this point on, the term \textit{domain} is used to abstract whatever comput
 
 Client applications may also significantly differ in terms of the QoS they require from service providers. For example, autonomous vehicles may eventually rely on edge services for low-latency operations. An autonomous vehicle entering a given region for the first time is unlikely to be waiting until the edge servers covering that region become ready for providing the service the vehicle requires. 
 
-Conversely, users of an augmented reality application could eventually wait for a setup time whenever the edge domain nearby are not ready. In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not. Accordingly:
-
-\begin{itemize}
-	\stepcounter{req_count}
-	\item The unified model should enable the co-existence of applications requiring different QoS levels (\textbf{R\arabic{req_count}}); and
-	
-	\stepcounter{req_count}
-	\item The priority of the usage of computational resources from resource-constrained domains (e.g., most edge domains) must be in accordance with the application category and its QoS requirements (\textbf{R\arabic{req_count}}).
-\end{itemize}
-
+Conversely, users of an augmented reality application could eventually wait for a setup time whenever the nearby edge \textit{domain}
+%
+~\footnote{From this point on, the term \textit{domain} is used to abstract whatever computational resources can be employed by different computing platforms (i.e., those used by cloud, mobile-edge, local-edge, and local). It is also implied that edge domains are accessible by clients through some (network) access point (Fig.~\ref{fig:edge-domain-client}).} 
+%
+is not ready. 
+%In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not.
+Accordingly, the unified model should enable the co-existence of applications requiring different QoS levels (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and the priority of the usage of computational resources from resource-constrained domains must be in accordance with the application category and its QoS requirements (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
 \subsubsection*{Automation and Encapsulation}
 
-\stepcounter{req_count}
-
-In order to materialize the compute continuum, the fine grained distribution of edge infrastructure has to be encapsulated and managed in an automated way to avoid the burden and costs of manual human operation. This encompasses the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (\textbf{R\arabic{req_count}}). 
-\stepcounter{req_count}
-Additionally, the installation of services to heterogeneous servers in the continuum should also be automated, including the fetching and building of service artifacts (\textbf{R\arabic{req_count}}).
+In order to materialize the compute continuum, the fine grained distribution of edge infrastructure has to be encapsulated and managed in an automated way to avoid the burden and costs of manual human operation. This encompasses the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (\stepcounter{req_count}\textbf{R\arabic{req_count}}). Additionally, the installation of services to heterogeneous servers in the continuum should also be automated, including the fetching and building of service artifacts (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
 
 %Following a serverless architecture, the application developer has control over the code they deploy into the infrastructure. 
@@ -94,7 +77,6 @@ Additionally, the installation of services to heterogeneous servers in the conti
 
 \subsubsection*{Context-Awareness}
 
-
 %Santity Check:
 %A client communicates with a domain by means of an access point, which may or may not provide Internet connection to cloud services; 
 
@@ -103,17 +85,8 @@ An important aspect of the continuum is how edge services should be discovered a
 %In contrast, in a , a similar transparency may not be possible. 
 %First, because 
 
-In contrast, in a fine grained geographical distribution of edge computing infrastructure, it is unlikely that edge domains from different providers or categories (e.g., cloud, mobile-edge and local-edge domains) will be able to coordinate and decide which one will serve a given client request. For instance, from inside a building with some local-edge domain accessible through Wi-Fi direct, a client may still be in contact with a mobile-edge accessible through 5G\footnote{Fifth generation of broadband cellular technology}. If both can provide the same services, but are unable to communicate and coordinate the allocation of the client request, it is up to the client to make the decision of which domain to use. Accordingly:
-
-\begin{itemize}
+In contrast, in a fine grained geographical distribution of edge computing infrastructure, it is unlikely that edge domains from different providers or categories (e.g., cloud, mobile-edge and local-edge domains) will be able to coordinate and decide which one will serve a given client request. For instance, from inside a building with some local-edge domain accessible through Wi-Fi direct, a client may still be in contact with a mobile-edge accessible through 5G\footnote{Fifth generation of broadband cellular technology}. If both can provide the same services, but are unable to communicate and coordinate the allocation of the client request, it is up to the client to make the decision of which domain to use. Accordingly, clients must be aware of alternative domains (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and clients should have the control over which domain should be used based on its requirements and awareness of domains alternatives (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 	
-	\stepcounter{req_count}
-	\item Clients must be aware of alternative domains (\textbf{R\arabic{req_count}}); and
-	
-	\stepcounter{req_count}
-	\item Clients should have the control over which domain should be used based on its requirements and its awareness of alternative domains (\textbf{R\arabic{req_count}}).
-	
-\end{itemize}
 
 %Second, because clients can switch from one network to the other at their discretion or make simultaneous use of different connections.
 
@@ -151,7 +124,7 @@ In contrast, in a fine grained geographical distribution of edge computing infra
 
 \subsubsection*{Efficiency}
 
-Another fundamental aspect of the continuum consists of how edge domain resources should be provided and consumed. In cloud IaaS, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies~\cite{Quatrocchi2016discrete}. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability, i.e., it allows these services to remain accessible and operational independently of the number of requests. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the provisioning and usage of its computational resources~\cite{GarrigaMendonca2017}: 
+Another fundamental aspect of the continuum consists of how edge domain resources should be provided and consumed. In cloud IaaS, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies~\cite{Quatrocchi2016discrete}. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability, i.e., it allows these services to remain accessible and operational independently of the number of requests. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the provisioning and usage of its computational resources~\cite{GarrigaMendonca2017}.
 
 %The elasticity of cloud datacenters is enabled by its horizontal scalability, in which virtual machines or containers can be instantiated in new virtually unlimited physical resources. 
 
@@ -160,21 +133,11 @@ Another fundamental aspect of the continuum consists of how edge domain resource
 
 %A direct replication of cloud computing IaaS model with edge computing infrastructure would not be possible. 
 
+First, because applications would have to be deployed to each edge domain, even when there are no clients in the area being served. Such an \textit{always-available} model suits well with services covering either large or dense areas in which requests are always expected. But an alternative and more efficient provisioning model should be adopted otherwise.
 
---- First, because applications would have to be deployed to each edge domain, even when there are no clients in the area being served. Such an \textit{always-available} model suits well with services covering either large or dense areas in which requests are always expected. But an alternative and more efficient provisioning model should be adopted otherwise.
-
---- Second, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous applications would be limited. 
+Second, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous applications would be limited. Accordingly, the allocation of runtime resources should be opportunistic, without minimum preallocation per application, unless justified otherwise (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 	
-In addition to runtime resource allocation, the fine-grained distribution of edge domains and their resource limitations also suggests that an a priori acquisition of different applications assets to all domains would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Accordingly:
+Additionally, the fine-grained distribution of edge domains and their resource limitations also suggests that an a priori acquisition of different applications assets to all domains would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Accordingly, the acquisition of application assets should be opportunistic, unless justified otherwise (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
-\begin{itemize}
-
-	\stepcounter{req_count}
-	\item The allocation of runtime resources should be opportunistic, without minimum preallocation per application, unless justified otherwise (\textbf{R\arabic{req_count}}); and
-	
-	\stepcounter{req_count}
-	\item The acquisition of application assets should be opportunistic, unless justified otherwise (\textbf{R\arabic{req_count}})
-
-\end{itemize} 
 
 %The fulfillment of the above requirements would leverage the potential of edge computing by optimizing the usage of its resources and consequently allowing a larger number of client applications to share the costs of edge infrastructure. Moreover, the resulting unified model would work as an extension of today's cloud IaaS/FaaS with the twofold purpose of enabling applications with low-latency requirements to rely on edge domains and to augment the computational power of mobile devices through mobile-to-edge computation offloading. Last but not least, the computing power of highly available and elastic cloud services would remain as an essential part of the continuum.
