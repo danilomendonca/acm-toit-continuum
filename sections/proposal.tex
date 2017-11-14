@@ -81,10 +81,6 @@ C_{SETUP} = C_{OFFLINE} + C_{RUNTIME};
 In which the first term ($C_{OFFLINE}$) represents the resources required for downloading and installing the services (e.g., network and storage), whilst the later ($C_{RUNTIME}$) represents the resources needed for executing the services (e.g., memory and CPU).
 
 The use of a specific policy may depend on factors like: 1) the type of domain (e.g., cloud, mobile-edge, local-edge); and 2) the type of application and the SLA among clients and service  providers. In specific, the domain-side policies in Fig.~\ref{fig:A3-E-domain} can be:
-\medskip
-\medskip
-
-%\subsubsection{Acquisition Policies}
 
 --- \textbf{Acquisition}:
 
@@ -192,9 +188,30 @@ Additionally, Table~\ref{tab:A3-E-instances} correlates the possible domain-side
 
 --- \textbf{Mobile}. This last instance represents the local computation performed by mobile devices. It provides a zero network latency with high availability; in contrast, the resource constraints of mobile devices may result in lower processing performance and undesirable battery drain, therefore justifying the use of other instances (mobile computation offloading), unless none is available. Targeted services: latency-sensitive and lightweight computation.
 
-%Notwithstanding this, in this paper we focus on the alternatives described by lines 3 and 4 of Table~\ref{tab:A3-E-instances}, as they represent suitable alternatives for mobile and local types of edge computing.
+Finally, clients may also adopt different policies for the discovery and selection. In particular, the policies in Fig.~\ref{fig:A3-E-client} can be:
 
-%\subsection{A3-E: Reference Architecture}\label{sec:a3-e-reference-architecture}
+\begin{itemize}
+
+\item \textbf{Discovery policies (Awareness)}:
+
+\begin{itemize}
+	
+	\item TODO: ...; or
+	
+	\item TODO: ...
+	
+\end{itemize}
+
+\item \textbf{Selection policies (Allocation)}:
+
+\begin{itemize}
+	
+	\item TODO: ... or
+	
+	\item TODO: ...
+	
+\end{itemize}
+\end{itemize}
 
 %TBW: Example with one of the applications mentioned in the motivation (AR/CV).
 
