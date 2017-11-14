@@ -1,7 +1,7 @@
 \section{Introduction}
 
 %What: The need of edge computing to enable low latency and mobile computation offloading
-\subsection*{Problem Statement}
+\subsubsection*{Problem Statement}
 
 With the advent of Internet of Things, the evolution of mobile computing, and the emergence of real-time applications, the processing of an exponentially increasing volume of data must be performed in a timely fashion, i.e., with minimum latency. Despite the elasticity and vast computing power of existing cloud platforms, the access to these resources involves multiple hops of network communication, adding prohibitive latency to requests' processing. Such limitation has the following implications:
 
@@ -14,7 +14,7 @@ With the advent of Internet of Things, the evolution of mobile computing, and th
 \end{enumerate}
 
 %What: The challenges in realizing edge computing
-\subsection*{Edge Computing}
+\subsubsection*{Edge Computing}
 
 To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. The realization of this paradigm, however, still poses many challenges:
 
@@ -32,7 +32,7 @@ To reduce network latency, data processing must be performed closer to where it 
 
 %What: The need for a single model for the computing continuum
 
-\subsection*{Compute Continuum}
+\subsubsection*{Compute Continuum}
 
 Considering a high availability and elasticity of cloud-based services and an opportunistic nature of edge-based services that may not always be available, the later should complement rather than replace the former. This vision also extends to the computation that may opportunistically be offloaded from resource constrained mobile devices to nearby edge servers. In this sense, cloud, edge, and mobile computing should be seen as a \textit{compute continuum}, as depicted in Figure~\ref{fig:continuum-intro}. Its materialization requires not only the realization of edge computing, but also a model that allows computation to be seamlessly displaced from one part of the continuum to the other depending on the context. 
 
@@ -57,7 +57,7 @@ Considering a high availability and elasticity of cloud-based services and an op
 
 %mobile devices could make use of compute runtimes deployed at nearby edge servers to extend their capabilities. Notwithstanding the potential of such combination, a complete model for its realization is still missing~\cite{NasticServerlessEdge17}. 
 
-\subsection*{Contributions of this Work}
+\subsubsection*{Contributions of this Work}
 
 %What: A3-E model (process?) as a contribution
 
@@ -77,7 +77,7 @@ As demonstrated through different experiments, an AR application could rely on s
 
 %Last but not least, our contribution also includes a reference architecture for the realization of the proposed model. 
 
-\subsection*{Paper Organization}
+\subsubsection*{Paper Organization}
 
 The rest of this paper is organized as follows. Section~\ref{sec:motivation} describes the main motivation behind this work, including application scenarios and the compute continuum. Section~\ref{sec:background} provides a brief background on the main topics and concepts used by this work. Section~\ref{sec:proposal} provides a detailed description of the A3-E model, whereas Section~\ref{sec:implementation} details both the client-side implementation for Android platform and the server-side implementation for edge-computing. Section~\ref{sec:evaluation} reports on the experiments performed to evaluate our proposal with an augment reality application. Section~\ref{sec:related} presents related work. Finally, Section~\ref{sec:conclusions} concludes the paper and delineates future work.
 
