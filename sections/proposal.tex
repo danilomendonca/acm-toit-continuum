@@ -12,11 +12,11 @@
 
 The A3-E provisioning model consists of four phases: \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each of these phases encompasses activities that take care of specific concerns in the interaction among clients and different types of server infrastructure. 
 
-%A3-E addresses all actors in the computational continuum formed by mobile devices, edge, and cloud servers. 
+%A3-E addresses all actors in the compute continuum formed by mobile devices, edge, and cloud servers. 
 
-A3-E is flexible with respect to its constituting phases and addresses all the constituents of the computational continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which an edge domain first contacts an application hosted by a mobile client. This instance of the A3-E model is used to illustrate the use of all four phases in the model. 
+A3-E is flexible with respect to its constituting phases and addresses all the constituents of the compute continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which an edge domain first contacts an application hosted by a mobile client. This instance of the A3-E model is used to illustrate the use of all four phases in the model. 
 
-Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the computational continuum.
+Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 \subsubsection{Awareness Phase}\label{sec:A3-E-awareness}
 
@@ -82,7 +82,7 @@ The A3-E model is also flexible with respect to the transitions among subsequent
 
 \begin{figure}[tbp]
 	\raggedright
-	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and application\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
+	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and the service level agreement (SLA)\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
 	
 	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client.png}}\hfill
 	\caption{States and transitions among A3-E phases} \label{fig:A3-E-states}
@@ -232,8 +232,6 @@ Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of 
 --- \textbf{Edge-Opportunistic}: services hosted in the edge, in contrast, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), make them ready for invocation (allocation phase), before finally been able to expose the required computation as services to be consumed. In this case, the policies employed for acquisition and allocation may vary between proactive, sequential, or reactive. Targeted services: non-critical applications with desirable requirements for low-latency.
 
 --- \textbf{Edge-Critical}: the later modality of edge computing may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired (offline acquisition); and 3) services are pre-allocated in order to increase the readiness required by certain types of applications (hot start). Targeted services: critical applications with strict requirements for low-latency.
-
-TODO: replace mobile text
 
 --- \textbf{Mobile}: this instance represents the local computation performed by mobile devices. It provides a zero network latency with high availability; in contrast, the resource constraints of mobile devices may result in lower processing performance and undesirable battery drain, therefore justifying the use of other instances (mobile computation offloading), unless none is available. Targeted services: latency-sensitive and lightweight computation.
 
