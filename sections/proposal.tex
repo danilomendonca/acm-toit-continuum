@@ -1,15 +1,25 @@
 \section{The A3-E Model}\label{sec:proposal}
 
 \begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/A3-E.png}
-	\caption{Different phases of the A3-E model; phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain (client) with respect to a client (domain)}
+	\includegraphics[width=0.85\textwidth]{figs/A3-E-model.png}
+	\caption{The A3-E Model}
 	\label{fig:A3-E-model}
 \end{figure}
 
+As depicted in Fig.~\ref{fig:A3-E-model}, the A3-E model consists of the different concepts and mechanisms required for the realization of the cloud-edge-mobile continuum. Its name inherits from the four phases process -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement} -- employed both by clients and the different types of computational resources composing the continuum. 
+
+The A3-E model also encompasses the concepts of client applications, services and service requirements, as well as those of a client-side and a domain-side middleware. In specific, the client-side middleware is responsible for proxying requests from client applications and forwarding them to the domain that best satisfies the service requirements in a given moment and situation. In turn, the domain-side middleware is responsible for the self-management of services life-cycle in a given domain. Last but not least, the constituents of the continuum (i.e., cloud datacenters, edge servers, and mobile devices) are represented in the model by the following domain refinements: cloud-domain, edge-domain, and mobile-domain.
+
 \subsection{A3-E Process}\label{sec:A3-E-process}
 
+\begin{figure}[tbp]
+	\includegraphics[width=0.9\textwidth]{figs/A3-E.png}
+	\caption{Different phases of the A3-E model; phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain (client) with respect to a client (domain)}
+	\label{fig:A3-E-process}
+\end{figure}
+
 %What: the process within A3-E
-The A3-E model encompasses a process with four phases: \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each of these phases are refined by activities that take care of specific concerns in the interaction among clients and the compute continuum.
+The A3-E process is composed of four phases. Each of these phases is refined by activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum.
 
 A3-E is flexible with respect to its process phases and addresses all the constituents of the compute continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which a domain first contacts an application hosted by a mobile client. This particular instance of the A3-E model is used to illustrate the use of all four phases in the model. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
