@@ -99,7 +99,7 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 
 \begin{itemize}
 	
-\item Acquisition
+\item \textit{Acquisition}
 
 \begin{itemize}
 
@@ -112,11 +112,8 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 %the notion of a reactive allocation can be extended also to the acquisition of service artifacts. Instead of having functions pre-downloaded and installed, this process could happen in reaction to the first arrival of a request. 
 
 \end{itemize}
-\end{itemize}
 
-\begin{itemize}
-
-\item \textbf{Allocation}
+\item \textit{Allocation}
 
 %The \textit{allocation policies} in Fig.~\ref{fig:A3-E-domain} can be:
 
@@ -129,7 +126,59 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 \item \textbf{Reactive}: allocation phase starts as soon as $FR_A$ is detected. Benefits: eliminates idleness by conditioning allocation to an actual service demand. Drawback: $FR_D$ includes $\Delta_{AL}$ (cold start). Example: stateless functions required by a mobile multiplayer game are allocated by a local-edge domain inside a train following the detection of a $FR_A$ event.
 
 \end{itemize}
+
+\item \textit{Deallocation}
+
+\begin{itemize}
+	
+	\item \textbf{Proactive}: . Benefits: . Drawback: . Example: .
+	
+	\item \textbf{Reactive}: . Benefits: . Drawback: . Example: .
+	
 \end{itemize}
+
+\item \textit{Disposal}
+
+\begin{itemize}
+	
+	\item \textbf{Proactive}: . Benefits: . Drawback: . Example: .
+	
+	\item \textbf{Reactive}: . Benefits: . Drawback: . Example: .
+	
+\end{itemize}
+
+\end{itemize}
+
+\subsubsection*{Client-side Policies}
+
+Clients may also adopt different policies for the selection and deselection of domains, namely:
+
+%domains are selected based on their category (cloud, edge, local) or/and 
+
+\begin{itemize}
+	
+	\item \textit{Selection}
+	
+	\begin{itemize}
+		
+		\item \textbf{Proactive}: 
+		
+		\item \textbf{Reactive}: 
+		
+	\end{itemize}
+	
+	\item \textit{Deselection}
+	
+	\begin{itemize}
+		
+		\item \textbf{Proactive}: 
+		
+		\item \textbf{Reactive}: 
+		
+	\end{itemize}
+\end{itemize}
+
+\subsection{Concrete Scenarios}
 
 \begin{center}
 	\begin{table}[htbp]
@@ -157,38 +206,9 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 \end{center}
 \normalsize
 
-Finally, table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of the A3-E model with different parts of the cloud-edge-mobile continuum along with the approach used for awareness and the policies~\footnote{The policy adopted by a phase affects which policies may be adopted by its subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation).} depicted in Fig.~\ref{fig:A3-E-domain} that may be adopted in each case. 
+Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of the A3-E model with different parts of the cloud-edge-mobile continuum along with the approach used for awareness and the policies~\footnote{The policy adopted by a phase affects which policies may be adopted by its subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation).} depicted in Fig.~\ref{fig:A3-E-domain} that may be adopted in each case. 
 
-\subsubsection*{Client-side Policies}
-
-Clients may also adopt different policies for the discovery and selection. In particular, the policies in Fig.~\ref{fig:A3-E-client} can be:
-
-\begin{itemize}
-	
-	\item \textbf{Discovery policies (Awareness)}:
-	
-	\begin{itemize}
-		
-		\item TODO: ...; or
-		
-		\item TODO: ...
-		
-	\end{itemize}
-	
-	\item \textbf{Selection policies (Allocation)}:
-	
-	\begin{itemize}
-		
-		\item TODO: ... or
-		
-		\item TODO: ...
-		
-	\end{itemize}
-\end{itemize}
-
-\subsection{Concrete Scenarios}
-
-By taking into account the conflicting properties of \textit{efficiency} and \textit{delay}, we envision the following mapping between A3-E instances and scenarios composing the cloud-edge-mobile continuum:
+By taking into account the conflicting properties of \textit{efficiency} and \textit{delay}, we envision the following mapping between A3-E instances and concrete scenarios composing the cloud-edge-mobile continuum:
 
 --- \textbf{Cloud-IaaS}. Services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no dynamic awareness is employed). Assets used by these services are preliminarily deployed to cloud servers (thus, no dynamic acquisition is employed). Virtual machines and containers are pre-allocated (hot start), and cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA). Finally, cloud services are invoked by clients (engagement phase). Target services: delay-tolerant and stateful computation; persistence.
 
