@@ -64,9 +64,9 @@ Finally, the \textit{engagement} phase models the actual interaction between a c
 
 \begin{figure}[tbp]
 	\raggedright
-	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and the service level agreement (SLA)\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain.png}}\hfill
+	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and the service level agreement (SLA)\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain}}\hfill
 	
-	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client.png}}\hfill
+	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client}}\hfill
 	\caption{States and transitions among A3-E phases} \label{fig:A3-E-states}
 \end{figure}
 
@@ -95,7 +95,7 @@ in which the first term ($\Delta_{AW}$) represents the time it takes for clients
 
 For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions, and Apache OpenWhisk) employ on demand allocation of stateless functions, i.e., functions are reactively allocated upon arrival of the first request. Depending on the policy configuration, the platform waits for an idleness interval before deallocating the function~\cite{}. In these cases, the improved efficiency of the platform in allocating computational resources has the drawback of a setup delay (cold start). Next, the domain-side policies in Fig.~\ref{fig:A3-E-domain} are categorized.
 
-\subsubsection*{Domain Policies} The domain-side policies in Fig.~\ref{fig:A3-E-domain} can be refined into three types: \textit{proactive (P)}, \textit{sequential (S)}, and \textit{reactive (R)}. The employment of each type during acquisition and allocation is described as follows:
+\subsubsection*{Domain Policies} The domain-side policies in Fig.~\ref{fig:A3-E-domain} can be refined into three types: \textit{proactive} (P), \textit{sequential} (S), and \textit{reactive} (R). The employment of each type during acquisition and allocation is described as follows:
 
 \begin{itemize}
 	
@@ -116,7 +116,7 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 
 \begin{itemize}
 
-\item Allocation
+\item \textbf{Allocation}
 
 %The \textit{allocation policies} in Fig.~\ref{fig:A3-E-domain} can be:
 
@@ -134,7 +134,7 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 \begin{center}
 	\begin{table}[htbp]
 		\small
-		\caption{Domain-side instances of the A3-E model corresponding to parts of the cloud-edge-mobile continuum (CTN) with corresponding awareness mechanisms (\textbf{W}ell-\textbf{K}nown-\textbf{N}ame or \textbf{A}dvertisement\&\textbf{D}iscovery) and policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive) that may be employed for triggering the acquisition and allocation in each instance. }\label{tab:A3-E-instances}
+		\caption{Domain-side instances of the A3-E model corresponding to parts of the cloud-edge-mobile continuum (CTN) with corresponding execution model (E.M.), awareness mechanisms (\textbf{W}ell-\textbf{K}nown-\textbf{N}ame or \textbf{A}dvertisement\&\textbf{D}iscovery), and policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive) that may be employed for triggering the acquisition and allocation in each instance. }\label{tab:A3-E-instances}
 		\begin{tabular}{ c c c c c c }
 			\toprule
 			
@@ -157,9 +157,11 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 \end{center}
 \normalsize
 
-Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of the A3-E model with different parts of the cloud-edge-mobile continuum along with the approach used for awareness and the policies~\footnote{The policy adopted by a phase affects which policies may be adopted by its subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation).} depicted in Fig.~\ref{fig:A3-E-domain} that may be adopted in each case. 
+Finally, table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of the A3-E model with different parts of the cloud-edge-mobile continuum along with the approach used for awareness and the policies~\footnote{The policy adopted by a phase affects which policies may be adopted by its subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation).} depicted in Fig.~\ref{fig:A3-E-domain} that may be adopted in each case. 
 
-Finally, clients may also adopt different policies for the discovery and selection. In particular, the policies in Fig.~\ref{fig:A3-E-client} can be:
+\subsubsection*{Client-side Policies}
+
+Clients may also adopt different policies for the discovery and selection. In particular, the policies in Fig.~\ref{fig:A3-E-client} can be:
 
 \begin{itemize}
 	
