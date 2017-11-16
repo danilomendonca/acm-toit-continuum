@@ -107,7 +107,11 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 
 \item \textbf{Sequential}: the beginning of acquisition phase is dictated by the completion of the awareness phase. Benefits: service artifacts are only acquired upon detection of a potential client in the domain coverage area, minimizing the likelihood of idleness. Drawbacks: $FR_D$ may include a fraction of $\Delta_{AQ}$ if $FRA$ precedes the end of acquisition. Example: stateless functions to be consumed by a mobile multiplayer game application are acquired by an indoor-edge domain inside a passenger train upon detection of two or more clients in the train.
 
-\item \textbf{Reactive}: acquisition phase starts upon detection of a $FRA$. Benefits: acquisition of service artifacts follows an actual demand, eliminating artifacts storage idleness. Drawbacks: $FR_D$ includes $\Delta_{AQ}$, which may be disruptive for some applications. Example: stateless functions to be consumed by a TODO
+\item \textbf{Reactive}: acquisition phase starts upon detection of a $FRA$. Benefits: acquisition of service artifacts follows an actual demand, eliminating artifacts storage idleness. Drawbacks: $FR_D$ includes $\Delta_{AQ}$, which may be disruptive for some applications. Example: stateless functions to be consumed by a TODO 
+\medskip
+\medskip
+\bigskip
+\bigskip
 
 %the notion of a reactive allocation can be extended also to the acquisition of service artifacts. Instead of having functions pre-downloaded and installed, this process could happen in reaction to the first arrival of a request. 
 
@@ -122,11 +126,11 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 
 \begin{itemize}
 
-\item \textbf{Proactive}: allocation phase starts upon external event preceding the arrival of the first request (e.g., triggered by a prediction of service usage); $FR_D$ does not include $\Delta_{AL}$;
+\item \textbf{Proactive}: allocation phase starts upon external event preceding the arrival of the first request (e.g., the prediction of service usage in the near-future). Benefits: $FR_D$ does not include $\Delta_{AL}$. Drawback: allocated resources remain idle until $FR_A$. Example: stateless functions to be consumed by connected vehicles are pre-allocated by mobile-edge domains in specific day times.
 
-\item \textbf{Sequential}: allocation phase starts as soon as acquisition phase finishes; $FR_D$ may include a fraction of $\Delta_{AL}$ if $FRA$ precedes the end of allocation; or
+\item \textbf{Sequential}: allocation phase starts as soon as acquisition phase finishes. Benefits: depends on the acquisition policy. Drawbacks: depends on the acquisition policy. Example: stateless functions required by a marathon application running on body devices are allocated following their acquisition by the mobile-edge domains along the course.
 
-\item \textbf{Reactive}: allocation phase starts as soon as the first request for a service arrives; $FR_D$ includes $\Delta_{AL}$ (also known as \textit{cold start}).
+\item \textbf{Reactive}: allocation phase starts as soon as $FR_A$ is detected. Benefits: eliminates idleness by conditioning allocation to an actual service demand. Drawback: $FR_D$ includes $\Delta_{AL}$ (cold start). Example: stateless functions required by a mobile multiplayer game are allocated by a local-edge domain inside a train following the detection of a $FR_A$ event.
 
 \end{itemize}
 \end{itemize}
@@ -173,9 +177,9 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 %\subsection{A3-E Instances}\label{sec:A3-E-instances}
 
 \begin{center}
-\begin{table}[htbp]
+\begin{table}[tbp]
 \small
-\caption{Domain-side instances of the A3-E model corresponding to parts of the cloud-edge-mobile continuum (CTN) along with the Awareness approach (\textbf{W}ell-\textbf{K}nown-\textbf{N}ame or \textbf{A}dvertisement\&\textbf{D}iscovery) and the policies that may apply to Acquisition and Allocation in each instance (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive). }\label{tab:A3-E-instances}
+\caption{Domain-side instances of the A3-E model corresponding to parts of the cloud-edge-mobile continuum (CTN) with corresponding awareness mechanisms (\textbf{W}ell-\textbf{K}nown-\textbf{N}ame or \textbf{A}dvertisement\&\textbf{D}iscovery) and the policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive) that may be employed for triggering the acquisition and allocation in each instance. }\label{tab:A3-E-instances}
 \begin{tabular}{ c c c c c c }
 \toprule
 
