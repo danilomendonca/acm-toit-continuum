@@ -108,10 +108,6 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 \item \textbf{Sequential}: the beginning of acquisition phase is dictated by the completion of the awareness phase. Benefits: service artifacts are only acquired upon detection of a potential client in the domain coverage area, minimizing the likelihood of idleness. Drawbacks: $FR_D$ may include a fraction of $\Delta_{AQ}$ if $FRA$ precedes the end of acquisition. Example: stateless functions to be consumed by a mobile multiplayer game application are acquired by an indoor-edge domain inside a passenger train upon detection of two or more clients in the train.
 
 \item \textbf{Reactive}: acquisition phase starts upon detection of a $FRA$. Benefits: acquisition of service artifacts follows an actual demand, eliminating artifacts storage idleness. Drawbacks: $FR_D$ includes $\Delta_{AQ}$, which may be disruptive for some applications. Example: stateless functions to be consumed by a TODO 
-\medskip
-\medskip
-\bigskip
-\bigskip
 
 %the notion of a reactive allocation can be extended also to the acquisition of service artifacts. Instead of having functions pre-downloaded and installed, this process could happen in reaction to the first arrival of a request. 
 
@@ -135,77 +131,60 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 \end{itemize}
 \end{itemize}
 
-
-%In the opposite direction, both \textit{deallocation} and \textit{disposal policies} can either be:
-%
-%\begin{itemize}
-%
-%\item Proactive: deallocation/disposal is triggered upon external event (e.g., triggered by a prediction of ); ; 
-%
-%\item Reactive: allocation phase starts as soon as the first request for a service arrives (cold start).
-%
-%\end{itemize}
-
-
-%The client must either have opted for that specific domain during allocation phase or, in case of awareness/allocation has not been employed by the client, it must rely on external components to route its request to a given domain in a transparent way.
-
-%the start of the allocation phase may be triggered by the end of the acquisition phase, or it may be combined with additional conditions required for the allocation phase to start.
-%
-%For instance, the awareness of a client application, which may happen pro-actively through the awareness phase, may be the additional condition for the allocation phase to start. In this case, allocation may finish before the first request to arrive, eliminating the delay of a cold start.
-%
-%For instance, a client would engage with a cloud service by firing a request to a well-known Internet name. At some point of the network infrastructure (e.g., at the cellular base station), a component diverges the request to the edge servers in that domain.
-%
-%In contrast, a local-edge domains may advertise its existence to clients in connection range. Each client, upon awareness of multiple domains (in this case, the edge and the cloud), decides which domain to use. If the client QoS requirement is network latency, the decision should favor the local-edge. 
-
-
-%The acquisition-allocation transition, in its turn, is modelled by two alternative policies: 
-%
-%\begin{itemize}
-%
-%\item proactive allocation: phase starts as soon as acquisition phase finishes; or
-%
-%\item reactive allocation: phase starts as soon as acquisition phase finishes and the client notifies its intention for using that domain.
-%
-%\end{itemize}
-%
-%Finally, reverse transitions are single and dependent on the specific policies for deallocating and disposing of application assets. 
-%In accordance with Requirement R6, the aforementioned policies are useful for different classes of applications, as well as different types of edge computing infrastructure and different usage contexts.
-%
-%
-
-
-%\subsection{A3-E Instances}\label{sec:A3-E-instances}
-
 \begin{center}
-\begin{table}[htbp]
-\small
-\caption{Domain-side instances of the A3-E model corresponding to parts of the cloud-edge-mobile continuum (CTN) with corresponding awareness mechanisms (\textbf{W}ell-\textbf{K}nown-\textbf{N}ame or \textbf{A}dvertisement\&\textbf{D}iscovery) and policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive) that may be employed for triggering the acquisition and allocation in each instance. }\label{tab:A3-E-instances}
-\begin{tabular}{ c c c c c c }
-\toprule
-
-CTN & E.M. & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT  	\\
-
-\midrule
-
-\multirow{2}{*}{ Cloud }
-& IaaS	& W.K.N.	& OFFLINE		& HOT-START	& BY REQUEST\\
-& FaaS		& W.K.N.	& OFFLINE		& COLD-START	& BY REQUEST\\\midrule					
-\multirow{2}{*}{ Edge }
-& FaaS		& W.K.N.	& [P, R]		& [P, S, R] 	& BY REQUEST\\
-& FaaS		& A\&D	& [P, S, R]		& [P, S, R]		& BY REQUEST\\\midrule	
-\multirow{1}{*}{ Mobile }
-& FaaS	& LOCAL  & OFFLINE	& HOT-START 	& BY REQUEST\\
-
-\bottomrule
-\end{tabular}
-\end{table}
+	\begin{table}[htbp]
+		\small
+		\caption{Domain-side instances of the A3-E model corresponding to parts of the cloud-edge-mobile continuum (CTN) with corresponding awareness mechanisms (\textbf{W}ell-\textbf{K}nown-\textbf{N}ame or \textbf{A}dvertisement\&\textbf{D}iscovery) and policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive) that may be employed for triggering the acquisition and allocation in each instance. }\label{tab:A3-E-instances}
+		\begin{tabular}{ c c c c c c }
+			\toprule
+			
+			CTN & E.M. & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT  	\\
+			
+			\midrule
+			
+			\multirow{2}{*}{ Cloud }
+			& IaaS	& W.K.N.	& OFFLINE		& HOT-START	& BY REQUEST\\
+			& FaaS		& W.K.N.	& OFFLINE		& COLD-START	& BY REQUEST\\\midrule					
+			\multirow{2}{*}{ Edge }
+			& FaaS		& W.K.N.	& [P, R]		& [P, S, R] 	& BY REQUEST\\
+			& FaaS		& A\&D	& [P, S, R]		& [P, S, R]		& BY REQUEST\\\midrule	
+			\multirow{1}{*}{ Mobile }
+			& FaaS	& LOCAL  & OFFLINE	& HOT-START 	& BY REQUEST\\
+			
+			\bottomrule
+		\end{tabular}
+	\end{table}
 \end{center}
 \normalsize
 
 Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of the A3-E model with different parts of the cloud-edge-mobile continuum along with the approach used for awareness and the policies~\footnote{The policy adopted by a phase affects which policies may be adopted by its subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation).} depicted in Fig.~\ref{fig:A3-E-domain} that may be adopted in each case. 
 
+Finally, clients may also adopt different policies for the discovery and selection. In particular, the policies in Fig.~\ref{fig:A3-E-client} can be:
 
-\subsection{A3-E Instances}
+\begin{itemize}
+	
+	\item \textbf{Discovery policies (Awareness)}:
+	
+	\begin{itemize}
+		
+		\item TODO: ...; or
+		
+		\item TODO: ...
+		
+	\end{itemize}
+	
+	\item \textbf{Selection policies (Allocation)}:
+	
+	\begin{itemize}
+		
+		\item TODO: ... or
+		
+		\item TODO: ...
+		
+	\end{itemize}
+\end{itemize}
+
+\subsection{Concrete Scenarios}
 
 By taking into account the conflicting properties of \textit{efficiency} and \textit{delay}, we envision the following mapping between A3-E instances and scenarios composing the cloud-edge-mobile continuum:
 
@@ -219,31 +198,6 @@ By taking into account the conflicting properties of \textit{efficiency} and \te
 
 --- \textbf{Mobile}. This last instance represents the local computation performed by mobile devices. It provides a zero network latency with high availability; in contrast, the resource constraints of mobile devices may result in lower processing performance and undesirable battery drain, therefore justifying the use of other instances (mobile computation offloading), unless none is available. Targeted services: latency-sensitive and lightweight computation.
 
-Finally, clients may also adopt different policies for the discovery and selection. In particular, the policies in Fig.~\ref{fig:A3-E-client} can be:
-
-\begin{itemize}
-
-\item \textbf{Discovery policies (Awareness)}:
-
-\begin{itemize}
-	
-	\item TODO: ...; or
-	
-	\item TODO: ...
-	
-\end{itemize}
-
-\item \textbf{Selection policies (Allocation)}:
-
-\begin{itemize}
-	
-	\item TODO: ... or
-	
-	\item TODO: ...
-	
-\end{itemize}
-\end{itemize}
-
 %TBW: Example with one of the applications mentioned in the motivation (AR/CV).
 
 \subsection{Reference Architecture}
@@ -253,7 +207,7 @@ The main physical elements are mobile devices and domain servers. Mobile devices
 The following sections provide details about the A3-E middleware (Section~\ref{subsec:A3-E}) and the serverless infrastructure that materializes Edge domain servers (Section~\ref{subsec:ServerlessArchCont}).
 
 \begin{figure}[tbp]
-	\includegraphics[width=.6\textwidth]{figs/reference-architecture.png}
+	\includegraphics[width=.95\textwidth]{figs/A3-E-reference-architecture}
 	\caption{A3-E architecture in Mobile Devices and Edge Domains TODO: UPDATE THIS DIAGRAM}
 	\label{fig:reference-architecture}
 	\end{figure}
