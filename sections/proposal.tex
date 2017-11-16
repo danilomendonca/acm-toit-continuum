@@ -71,7 +71,17 @@ Finally, the \textit{engagement} phase models the actual interaction between a c
 
 The A3-E model is also flexible with respect to the transitions among subsequent phases. In particular, distinct policies may define different transition behaviors. Figures~\ref{fig:A3-E-domain} and~\ref{fig:A3-E-client} depict, respectively, the possible transitions among states of a domain with respect to a client application and vice-versa. Each state is mapped to the corresponding phase in Fig.~\ref{fig:A3-E-model}. 
 
-Above all, distinct policies affect the following conflicting properties: 1) the \textit{efficiency} of domain resource usage (domain side); and 2) the application tolerance for service setup \textit{delay} (client side). Considering the first request from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens. Conversely, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served with. Eq.~\ref{eq:setup_delay} models the total delay of service setup:
+
+Above all, the use of specific policies affect the following (conflicting) properties: a) the \textit{efficiency} of domain resource usage (domain side); and b) the application tolerance for service setup \textit{delay} (client side). Considering the first request from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens. In contrast, the chances of underutilization and idleness are higher with \textit{proactive} policies. Eq.~\ref{eq:setup_cost} models the total delay of service setup:
+
+\begin{equation}\label{eq:setup_cost}
+C_{SETUP} = C_{OFFLINE} + C_{RUNTIME};
+\end{equation}
+
+\noindent
+In which the first term ($C_{OFFLINE}$) represents the resources required for downloading and installing the services (e.g., network and storage), whilst the later ($C_{RUNTIME}$) represents the resources needed for executing the services (e.g., memory and CPU).
+
+From the delay point of view, the relation is the opposite: the more \textit{reactive} the policies are with respect to the first request arrival event, the higher the delay the first request to each service is served with. In the other direction, the more \textit{pro-actively} services are made ready for execution, the less delay the first request to each of these services are served with. Eq.~\ref{eq:setup_delay} models the total delay of service setup:
 
 %\Delta_{NET} + 
 \begin{equation}\label{eq:setup_delay}
@@ -81,18 +91,12 @@ L_{SETUP} = \Delta_{AW} + \Delta_{AQ} + \Delta_{AL};
 \noindent
 In which first term ($\Delta_{AW}$) represents the time it takes for clients and domains to become aware of each other. The second term ($\Delta_{AQ}$) represents the time for acquiring all assets of a specific service, whilst the last term ($\Delta_{AL}$) represents the time for allocating resources for the service execution. 
 
-From the efficiency perspective, the relation is the opposite: the more \textit{reactive} the policies are with respect to the first request arrival event, the lower the periods of underutilization and idleness of the domain resources. In contrast, the chances of underutilization and idleness are higher with \textit{proactive} policies. Eq.~\ref{eq:setup_cost} models the total delay of service setup:
+Thus, the use of a specific policy to be employed by a domain depends on the availability of resources at a domain, the delay requirements of the application; and the SLA between the two parts. In specific, the domain-side policies in Fig.~\ref{fig:A3-E-domain} 
 
-\begin{equation}\label{eq:setup_cost}
-C_{SETUP} = C_{OFFLINE} + C_{RUNTIME};
-\end{equation}
 
-\noindent
-In which the first term ($C_{OFFLINE}$) represents the resources required for downloading and installing the services (e.g., network and storage), whilst the later ($C_{RUNTIME}$) represents the resources needed for executing the services (e.g., memory and CPU).
+the notion of a reactive allocation can be extended also to the acquisition of service artifacts. Instead of having functions pre-downloaded and installed, this process could happen in reaction to the first arrival of a request. 
 
-The use of a specific policy may depend on factors like: 1) the type of domain (e.g., cloud, mobile-edge, local-edge); and 2) the type of application and the SLA among clients and service  providers. In specific, the domain-side policies in Fig.~\ref{fig:A3-E-domain} can be:
-
---- \textbf{Acquisition}:
+--- \textbf{Acquisition}: 
 
 \begin{itemize}
 
@@ -102,11 +106,15 @@ The use of a specific policy may depend on factors like: 1) the type of domain (
 
 \item Reactive: acquisition phase just after $FRA$; $FR_D$ includes $\Delta_{AQ}$.
 
+
+
 \end{itemize}
 
 %\subsubsection{Allocation Policies}
 
 --- \textbf{Allocation}:
+
+For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions, and Apache OpenWhisk) employ on demand allocation of stateless functions, i.e., functions are reactively allocated upon arrival of the first request. Depending on the policy configuration, the platform waits for an idleness interval before deallocating the function~\cite{}. In these cases, the improved efficiency of the platform in allocating computational resources has the drawback of a setup delay (cold start). 
 
 %The \textit{allocation policies} in Fig.~\ref{fig:A3-E-domain} can be:
 
