@@ -1,7 +1,7 @@
 \section{The A3-E Model}\label{sec:proposal}
 
 \begin{figure}[tbp]
-	\includegraphics[width=0.95\textwidth]{figs/A3-E-model.pdf}
+	\includegraphics[width=1\textwidth]{figs/A3-E-model.pdf}
 	\caption{The A3-E Model.}
 	\label{fig:A3-E-model}
 \end{figure}
@@ -12,12 +12,6 @@ The A3-E model also encompasses the concepts of client applications, services, r
 
 \subsection{A3-E Process: Phases}\label{sec:A3-E-process}
 
-\begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/A3-E-process}
-	\caption{The A3-E Process. Phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain to a client (and vice-versa)}
-	\label{fig:A3-E-process}
-\end{figure}
-
 %What: the process within A3-E
 The A3-E process is composed of four phases. Each phase encompasses activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum.
 
@@ -26,6 +20,12 @@ A3-E process is flexible with respect to its phases and addresses all the consti
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 \subsubsection*{Awareness Phase}\label{sec:A3-E-awareness}
+
+\begin{figure}[tbp]
+	\includegraphics[width=0.95\textwidth]{figs/A3-E-process}
+	\caption{The A3-E Process. Phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain to a client (and vice-versa)}
+	\label{fig:A3-E-process}
+\end{figure}
 
 %Why do we need awareness?
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests.  
