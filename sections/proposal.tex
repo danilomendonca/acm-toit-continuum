@@ -10,10 +10,10 @@ As depicted in Fig.~\ref{fig:A3-E-model}, the A3-E model consists of the differe
 
 The A3-E model also encompasses the concepts of client applications, services and service requirements, as well as those of a client-side and a domain-side middleware. In specific, the client-side middleware is responsible for proxying requests from client applications and forwarding them to the domain that best satisfies the service requirements in a given moment and situation. In turn, the domain-side middleware is responsible for the self-management of services life-cycle in a given domain. Last but not least, the constituents of the continuum (i.e., cloud datacenters, edge servers, and mobile devices) are represented in the model by the following domain refinements: cloud-domain, edge-domain, and mobile-domain.
 
-\subsection{A3-E Process}\label{sec:A3-E-process}
+\subsection{A3-E Process: Phases}\label{sec:A3-E-process}
 
 \begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/A3-E.png}
+	\includegraphics[width=0.9\textwidth]{figs/A3-E-process}
 	\caption{The A3-E Process. Phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain to a client (and vice-versa)}
 	\label{fig:A3-E-process}
 \end{figure}
@@ -21,7 +21,7 @@ The A3-E model also encompasses the concepts of client applications, services an
 %What: the process within A3-E
 The A3-E process is composed of four phases. Each of these phases is refined by activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum.
 
-A3-E is flexible with respect to its process phases and addresses all the constituents of the compute continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which a domain first contacts an application hosted by a mobile client. This particular instance of the A3-E model is used to illustrate the use of all four phases in the model. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
+A3-E process is flexible with respect to its phases and addresses all the constituents of the compute continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which a domain first contacts an application hosted by a mobile client. This particular instance of the A3-E model is used to illustrate the use of all four phases in the model. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
@@ -60,19 +60,11 @@ The allocation phase has the following purposes: 1) to enable the automated proc
 Finally, the \textit{engagement} phase models the actual interaction between a client and a service. At this stage, the requested service must be already acquired and allocated for execution. 
 
 %What: how different policies may be employed by domains and clients throughout A3-E-Process
-\subsection{Phase Transitions and Policies}
-
-\begin{figure}[tbp]
-	\raggedright
-	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and the service level agreement (SLA)\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain}}\hfill
-	
-	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client}}\hfill
-	\caption{States and transitions among A3-E phases} \label{fig:A3-E-states}
-\end{figure}
+\subsection{A3-E Process: Policies}
 
 %What: the flexibility of A3-E model in terms of policies that regulate the transition among phases
 
-The A3-E model is also flexible with respect to the transitions among subsequent phases. In particular, distinct policies may define different transition behaviors. Figures~\ref{fig:A3-E-domain} and~\ref{fig:A3-E-client} depict, respectively, the possible transitions among states of a domain with respect to a client application and vice-versa. Each state is mapped to the corresponding phase in Fig.~\ref{fig:A3-E-model}. 
+The A3-E process is also flexible with respect to the transitions among subsequent phases. In particular, distinct policies may define different transition behaviors. Figures~\ref{fig:A3-E-domain} and~\ref{fig:A3-E-client} depict, respectively, the possible transitions among states of a domain with respect to a client application and vice-versa. Each state is mapped to the corresponding phase in Fig.~\ref{fig:A3-E-model}. 
 
 Above all, policies affect the following conflicting properties: a) the \textit{efficiency} of domain resource usage (domain side); and b) the application tolerance for service setup \textit{delay} (client side). Considering the first request arrival ($FRA$) from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens (more efficiency). In contrast, the chances of underutilization and idleness are higher with \textit{proactive} policies (less efficiency). Eq.~\ref{eq:setup_cost} models the total delay of service setup:
 
@@ -95,7 +87,15 @@ in which the first term ($\Delta_{AW}$) represents the time it takes for clients
 
 For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions, and Apache OpenWhisk) employ on demand allocation of stateless functions, i.e., functions are reactively allocated upon arrival of the first request. Depending on the policy configuration, the platform waits for an idleness interval before deallocating the function~\cite{}. In these cases, the improved efficiency of the platform in allocating computational resources has the drawback of a setup delay (cold start). Next, the domain-side policies in Fig.~\ref{fig:A3-E-domain} are categorized.
 
-\subsubsection*{Domain Policies} The domain-side policies in Fig.~\ref{fig:A3-E-domain} can be refined into three types: \textit{proactive} (P), \textit{sequential} (S), and \textit{reactive} (R). The employment of each type during acquisition and allocation is described as follows:
+\begin{figure}[tbp]
+	\raggedright
+	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and the service level agreement (SLA)\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain}}\hfill
+	
+	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client}}\hfill
+	\caption{States and transitions among A3-E phases} \label{fig:A3-E-states}
+\end{figure}
+
+\subsubsection{Domain-Side Policies} The domain-side policies in Fig.~\ref{fig:A3-E-domain} can be refined into three types: \textit{proactive} (P), \textit{sequential} (S), and \textit{reactive} (R). The employment of each type during acquisition and allocation is described as follows:
 
 \begin{itemize}
 	
@@ -149,7 +149,7 @@ For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google C
 
 \end{itemize}
 
-\subsubsection*{Client-side Policies}
+\subsubsection{Client-Side Policies}
 
 Clients may also adopt different policies for the selection and deselection of domains (Fig.~\ref{fig:A3-E-client}), namely:
 
@@ -224,12 +224,10 @@ By taking into account the conflicting properties of \textit{efficiency} and \te
 
 \subsection{Reference Architecture}
 
-Figure~\ref{fig:reference-architecture} shows the proposed architecture for the compute continuum. Particular focus is put on the interaction between devices and Edge domain servers, since it is the main contribution of this paper. 
-The main physical elements are mobile devices and domain servers. Mobile devices can be of any type (e.g., tablets, smartphones), running several low-latency applications that needs offloading part of their computation to more powerful servers. For this, the devices send information to be processed to the domain server through standardized network protocols~\cite{Sill17standards}.  A Base Transceiver Station\footnote{Different generations of wireless mobile networks use distinct names (e.g., eNodeB in 4G).} (BTS) bridges mobile devices and domain servers as a part of the cellular infrastructure and  Edge architecture, according to its current specifications~\cite{hu2015mobile}. In this scenario, mobile devices and Edge domain servers are at no more than a few hops from each other. These servers host a serverless infrastructure, where stateless functions are deployed and executed according to the phases defined by the A3-E model. 
-The following sections provide details about the A3-E middleware (Section~\ref{subsec:A3-E}) and the serverless infrastructure that materializes Edge domain servers (Section~\ref{subsec:ServerlessArchCont}).
-
 \begin{figure}[tbp]
 	\includegraphics[width=.95\textwidth]{figs/A3-E-reference-architecture}
-	\caption{A3-E architecture in Mobile Devices and Edge Domains TODO: UPDATE THIS DIAGRAM}
+	\caption{A3-E architecture in Mobile Devices and Edge Domains}
 	\label{fig:reference-architecture}
 	\end{figure}
+	
+TOOD: describe
