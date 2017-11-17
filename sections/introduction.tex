@@ -3,18 +3,18 @@
 %What: The need of edge computing to enable low latency and mobile computation offloading
 \subsubsection*{Problem Statement}
 
-With the advent of Internet of Things, the evolution of mobile computing, and the emergence of real-time applications, the processing of an exponentially increasing volume of data must be performed in a timely fashion, i.e., with minimum latency. Despite the elasticity and vast computing power of existing cloud platforms, the access to these resources involves multiple hops of network communication, adding prohibitive latency to requests' processing. Such limitation has the following implications:
+With the advent of Internet of Things, the evolution of mobile computing, and the emergence of real-time applications, the processing of an exponentially increasing volume of data must be performed in a timely fashion, i.e., with minimum latency. Despite the elasticity and vast computing power of existing cloud platforms, the access to these resources involves multiple hops of network communication, adding prohibitive latency to requests' processing. Such limitation has the following implications: 1) cloud services may fail to satisfy the requirements of real-time and low-latency client applications; and 2) offloading of delay-sensitive computation from devices with constrained resources to cloud servers is unlikely to work due to network-latency.
 
-\begin{enumerate}
-
-\item Cloud services may fail to satisfy the requirements of real-time and low-latency client applications; and
-
-\item Offloading of delay-sensitive computation from devices with constrained resources to cloud servers is unlikely to work due to network-latency.
-
-\end{enumerate}
+%\begin{enumerate}
+%
+%\item Cloud services may fail to satisfy the requirements of real-time and low-latency client applications; and
+%
+%\item Offloading of delay-sensitive computation from devices with constrained resources to cloud servers is unlikely to work due to network-latency.
+%
+%\end{enumerate}
 
 %What: The challenges in realizing edge computing
-\subsubsection*{Edge Computing}
+%\subsubsection*{Edge Computing}
 
 To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{} states that computing power should be pushed from centralized datacenters to the edge of the network. 
 %What: The challenges in the realization of edge computing
@@ -26,17 +26,20 @@ The realization of this paradigm, however, still poses many challenges:
 
 %What: Aways availability does not work
 
---- Second, cloud services cover very large areas in which requests from clients are always expected. In contrast, edge infrastructure features a fine-grained coverage area~\cite{Dehos14millimeter5g} where edge services would remain idle whenever clients are absent in their coverage area. Therefore, to optimize the usage of edge resources, it should support the opportunistic deployment of services.
+--- Second, cloud services cover very large areas in which requests from clients are always expected. In contrast, edge infrastructure features a fine-grained coverage area~\cite{Dehos14millimeter5g} where edge services would remain idle whenever clients are absent in their coverage area. Therefore, to optimize the usage of edge resources, services must be deployed opportunistically.
+
+%it should support the opportunistic deployment of services.
 
 %What: The need for taking alternative edge domains into account
 
---- Third, different types of edge computing infrastructure may exist, including servers located at cellular base stations, temporarily placed nearby public events, and inside buildings and houses to provide support for smart spaces applications. The eventual co-existence of edge alternatives would require the client-side participation on the decision of which alternative to use.
+--- Third, different types of edge computing infrastructure may exist, including servers located at cellular base stations, temporarily placed nearby public events, and inside buildings and houses to provide support for smart spaces applications. The eventual co-existence of edge alternatives would require the client-side participation on the decision of which alternative to use, i.e., the awareness of alternative services by clients.
+
 
 %What: The need for a single model for the computing continuum
 
-\subsubsection*{Compute Continuum}
+%\subsubsection*{Compute Continuum}
 
-Considering a high availability and elasticity of cloud-based services and an opportunistic nature of edge-based services that may not always be available, the later should complement rather than replace the former. This vision also extends to the computation that may opportunistically be offloaded from resource constrained mobile devices to nearby edge servers. In this sense, cloud, edge, and mobile computing should be seen as a \textit{compute continuum}, as depicted in Figure~\ref{fig:continuum}. Its materialization requires not only the realization of edge computing, but also a model that allows computation to be seamlessly displaced from one part of the continuum to the other depending on the context. 
+--- Finally, considering that edge-based services may not always be available and the high availability and elasticity of cloud-based services, the former should complement rather than replace the later. This vision also extends to computation that may opportunistically be offloaded from resource constrained mobile devices to nearby edge servers to complement the computational capabilities of devices. In this sense, cloud, edge, and mobile computing should be seen as a \textit{compute continuum}, as depicted in Figure~\ref{fig:continuum}. Its materialization requires not only the realization of edge computing, but also the mechanisms that allow computation to be seamlessly displaced from one part of the continuum to the other in various contexts. 
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum.pdf}
@@ -44,7 +47,6 @@ Considering a high availability and elasticity of cloud-based services and an op
 	\label{fig:continuum}
 \end{figure}
  
-
 %--- Last but not least, cloud servers should not be disregarded as a part of the Cloud-to-Edge continuum. %not sure whether to call it Cloud-to-Things or Cloud-to-Edge
 %First, because client applications may still rely on Cloud backends for traditional, non delay-sensitive computation. Second, because edge servers may be unavailable from the certain locations. Thus, client applications must rely on a runtime mechanism to discover and negotiate the use of nearby edge infrastructure. As the alternative infrastructures (including the cloud) may exhibit uneven loads in different moments, the decision of which to use, must take into account their current status as well as the client application requirements in terms of latency and computational power. 
 
@@ -61,17 +63,16 @@ Considering a high availability and elasticity of cloud-based services and an op
 
 \subsubsection*{Contributions of this Work}
 
-%What: A3-E model (process?) as a contribution
+%What: A3-E model as a contribution
 
-In this paper, we propose A3-E --- \textit{(A)wareness, (A)cquisition, (A)llocation and (E)ngagement} --- a unified model that empowers applications to leverage the computing continuum formed by cloud, edge, and mobile computing. A3-E processes encompasses different phases and activities to be performed whether by servers or clients. Also, different instances of the process may apply to variations of cloud, edge, and local computing.
-
+In this paper, we propose a unified model for the realization of the compute continuum formed by cloud, edge, and mobile computing. At its core (and providing the name of the model) lies A3-E --- \textit{(A)wareness, (A)cquisition, (A)llocation and (E)ngagement} --- a flexible process targeting the efficient provisioning of computational services from heterogeneous sources in the continuum (e.g., different cloud/edge providers and mobile platforms) to distinct clients (i.e., with different functional and non-functional requirements). 
+%In specific, 
 %What: A3-E and Serverless Computing 
-
-In accordance with our previous work~\cite{GarrigaMendonca2017}, A3-E embraces the paradigm serverless computing~\cite{Hendrickson:2016,baldini2017serverless} in the realization of the continuum. In specific, A3-E explores the function-as-a-service (FaaS) model~\cite{MateosFaaster17} to allow stateless functions to be quickly deployed and exposed as services, providing an efficient and scalable allocation of computing resources that fits well with the resource limitations of edge computing. A3-E further extends FaaS with the complete automation of services life-cycle, including the deployment of services by servers. Such an autonomy releases developers and administrators from the burden of deployment and maintenance, and further supports the materialization of a fine-grained distribution of the network edge and the continuum as a whole.
+Targeting efficiency, A3-E proposes an automated management of services life-cycle by employing and extending the paradigm of serverless computing~\cite{Hendrickson:2016,baldini2017serverless,GarrigaMendonca2017} and the function-as-a-service (FaaS) execution model~\cite{MateosFaaster17}. In specific, stateless functions are autonomously and opportunistically fetched, deployed and exposed as services, providing an efficient and scalable allocation of shared computational resources that suites the resource limitations of edge computing. The achieved degree of automation and efficiency releases developers and infrastructure administrators from the burden of deployment and maintenance and enables the realization of the continuum.
 
 %What: The obtained results for latency and battery; other metrics?
 
-As demonstrated through different experiments, an AR application could rely on services dynamically selected and implemented as functions that are executable locally, in the edge, or in the cloud. The experiments have shown a XX\% reduction of latency when edge services were used instead of cloud services, and a YY\% decrease of battery consumption when computation was offloaded from the mobile device to nearby edge server. These results corroborates the importance of edge computing and the feasibility of A3-E in realizing the cloud-edge-mobile continuum.
+As demonstrated through different experiments, an augmented reality application hosted by an Android devices was able to rely on a client-side middleware to proxy its requests to services dynamically selected from the continuum. In specific, these services were implemented as stateless functions that are executable in a cloud-based, edge-based, and local-based runtime. The experiments have shown a XX\% reduction of latency when edge services were used instead of cloud services, and a YY\% decrease of battery consumption when computation was offloaded from the Android device to edge servers. These results corroborate the importance of edge computing, as well as the feasibility of A3-E in the realization of the cloud-edge-mobile continuum.
 
 %Finally, experiments with an augmented reality application have also shown the feasibility of A3-E model in the realization of the continuum, with a single client application been able to seamlessly alternate among local, edge, and cloud-based services.
 
