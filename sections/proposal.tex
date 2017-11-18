@@ -15,23 +15,23 @@ The A3-E model also encompasses the concepts of client applications, services, r
 %What: the process within A3-E
 The A3-E process is composed of four phases. Each phase encompasses activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum.
 
-A3-E process is flexible (Section~\ref{sec:heterogeneity}, \textbf{R2}) with respect to its phases and addresses all the constituents of the compute continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which a domain first contacts an application hosted by a mobile client. This particular instance of the A3-E model is used to illustrate the use of all four phases in the model. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
+A3-E process is flexible (Sec.~\ref{sec:heterogeneity}, \textbf{R1.2}) with respect to its phases and addresses all the constituents of the compute continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which a domain first contacts an application hosted by a mobile client. This particular instance of the A3-E model is used to illustrate the use of all four phases in the model. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 \subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase models the actual interaction between a client and a service in the continuum. In order to overcome the heterogeneity of the continuum (Section~\ref{sec:heterogeneity}, \textbf{R1}), A3-E adheres to the use of service-oriented protocols in which clients engage with remove services by means of a request/response protocol (e.g., RESTful services over HTTP). 
+The \textit{engagement} phase models the actual interaction between a client and a service in the continuum. In order to overcome the heterogeneity of the continuum (Sec.~\ref{sec:heterogeneity}, \textbf{R1.1}), A3-E adheres to the use of service-oriented protocols in which clients engage with remove services by means of a request/response protocol (e.g., RESTful services over HTTP). 
 
 At this stage, the requested service must be already allocated by the domain hosting the service. For instance, traditional cloud-based services are pre-allocated. In the later case, the remaining A3-3 phases are not employed. Nonetheless, in other scenarios of the continuum --- specially those with resource limitations --- a dynamic and opportunistic allocation shall improve the efficiency in which domain resources are consumed.
 
 \subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
 
-The allocation phase has the following purposes: 1) to enable the automated process of making a service ready for execution through the allocation of computational resources (Requirement R1); and to enable clients to choose among different alternative domains that may be available (Requirement Ry).
+The allocation phase has the following purposes: 1) to enable the automated process of making a service ready for execution through the allocation of computational resources (Sec.~\ref{sec:efficiency}, \textbf{R2.3}); and to enable clients to choose among different alternative domains that may be available (Sec.~\ref{sec:context-awareness}, \textbf{R3.1}).
 
 %cloud providers already implement automated scaling mechanisms, e.g, with the allocation of virtual machines and container instances on demand. 
 
-From the domain perspective, A3-E addresses the needs of resource-constrained domains in the continuum by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\ref{fig:} in which computational resources are allocated and deallocated according to: 1) the SLA between the domain providing services currently deployed or requesting deployment; 2) the allocation policy employed by the domain; and 3) the availability of resources. 
+From the domain perspective, A3-E addresses the needs of resource-constrained domains in the continuum by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources (Sec.~\ref{sec:efficiency}, \textbf{R2.1}). In particular, the allocation phase is modeled by a self-management loop~\ref{fig:} in which computational resources are allocated and deallocated according to: 1) the SLA between the domain providing services currently deployed or requesting deployment; 2) the allocation policy employed by the domain; and 3) the availability of resources. 
 
 %For instance, an edge-domain could feature two main SLA categories: one for critical applications (e.g., connected vehicles) providing higher priority and availability of services; and another for non-critical applications (e.g., augmented reality) providing opportunistic services based on the availability of resources in the domain. Depending on the policy (Section~\ref{sec:A3-E-policies}), 
 
@@ -43,7 +43,7 @@ From the client perspective, the allocation phase refers to the selection, at a 
 
 \subsubsection*{Acquisition Phase}\label{sec:A3-E-acquisition}
 
-The Acquisition phase has the following purposes: 1) to enable a domain to pro-actively install artifacts used by services that must become available in that domain (Requirement R2); and 2) to enable clients to pro-actively identify their requirements (services) and allow the domain to pro-actively install them (Requirement Rx).
+The Acquisition phase has the following purposes: 1) to enable a domain to pro-actively install artifacts used by services that must become available in that domain (Sec.~\ref{sec:efficiency}, \textbf{R2.2}); and 2) to enable clients to pro-actively identify their requirements (services) and allow the domain to pro-actively install them (Sec.~\ref{sec:context-awareness}, \textbf{R3.3}). 
 
 %From the domain side, the lack of acquisition implies that service assets must be previously made available. Nonetheless, the preliminary acquisition of a large number of assets is limited by the domain storage capability. 
 
@@ -64,9 +64,9 @@ The Acquisition phase has the following purposes: 1) to enable a domain to pro-a
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests.  
 %A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers; a given domain my count on network components to traffic route to its servers instead of negociating directly with clients aware of its existance; nonetheless, the lack of awareness limits the acquisition and deployment of services to reactive, as the domain would only identify a given service upon the first request has been made. Clients, in the other hand, would not be able to choose from alternative domains. 
 
-In A3-E, the Awareness phase has the following purposes: 1) to enable a domain to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about applications hosted by clients in the domain coverage area (Requirement Rx); and 2) to enable clients to choose from alternative domains based on their awareness about these domains (Requirements Ry).
+Finally, the Awareness phase has the following purposes: 1) to enable a domain to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about applications hosted by clients in the domain coverage area (Sec.~\ref{sec:context-awareness}, \textbf{R3.3}); and 2) to enable clients to choose from alternative domains based on their awareness about these domains (Sec.~\ref{sec:context-awareness}, \textbf{R3.2}).
 
-From the domain perspective, the awareness of clients allows a proactive acquisition of services artifacts and/or allocation of services for execution. Such behavior alleviates the delay introduced by setup of services when the later are either 
+From the domain perspective, the awareness of clients allows a proactive acquisition of services artifacts and/or allocation of services for execution. Such behavior allows that are opportunistically acquired and/or allocated to mitigate their setup delay by triggering these phases upon awareness of client(s) in their coverage area.
 
 %From the domain side, the lack of awareness of clients in the domain coverage area prevents triggering the acquisition and subsequently allocation phases based on this event. From the client side, the lack of awareness from surrounding domains prevents them to make the decision of which domains to use. In the later case, clients must rely on external components to reach servers (e.g., traffic managers and DNS servers).
 
