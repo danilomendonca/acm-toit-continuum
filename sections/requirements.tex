@@ -21,7 +21,7 @@ The key notion to bridge the gap in such a continuum is that of edge\footnote{In
 %What: the challenge of heterogeneity; 
 %Check: is this a problem that is solved by our proposal? Does not seem so. 
 %TODO: use different types of the continuum in the examples instead of mentioning setup delay
-\subsubsection*{Heterogeneity}
+\subsubsection{Heterogeneity}\label{sec:heterogeneity}
 
 The continuum encompasses distinct types of computational resources located at the cloud and at the edge of the network, as well as in mobile devices (Fig.~\ref{fig:continuum-scenario}). Accordingly, the unified model should be: agnostic with respect to the capabilities and specific technology details of different computing platforms and infrastructures in the continuum (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and flexible, so that different instances of the model can address the many particularities in the continuum (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
@@ -38,29 +38,63 @@ The continuum encompasses distinct types of computational resources located at t
 %	\caption{Continuum heterogeneity}\label{fig:1}
 %\end{figure}
 
-
 %In addition, different kinds of edge infrastructure (e.g., more powerful servers or single board computers) or the same kind of edge infrastructure at different contexts (e.g., the number of clients in an area is too high in one region and low in another) may fit better with different policies for edge resources usage. 
 
-\subsubsection*{Context-Awareness}
+%Client applications heterogeneity
+%Client applications may significantly differ in terms of the QoS they require from services and providers. For example, connected vehicles (CV) may eventually rely on edge services for low-latency computation. A CV entering a given region for the first time is unlikely to be waiting until the edge servers covering that region become ready for providing the service the vehicle requires. Conversely, users of an augmented reality application could eventually wait for a setup time whenever the nearby edge \textit{domain}
+%%
+%~\footnote{From this point on, the term \textit{domain} is used to abstract whatever computational resources can be employed by different computing platforms (i.e., those used by cloud, mobile-edge, local-edge, and local). It is also implied that edge domains are accessible by clients through some (network) access point (Fig.~\ref{fig:edge-domain-client}).} 
+%%
+%is not ready. 
+%%In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not.
+%Accordingly, the unified model should enable the co-existence of applications requiring different QoS levels (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and the priority of the usage of computational resources from resource-constrained domains must be in accordance with the application category and its QoS requirements (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
+
+\subsubsection{Efficiency}
+
+A fundamental aspect of the continuum consists of how edge domain resources should be provided and consumed. In cloud IaaS, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies~\cite{Quatrocchi2016discrete}. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability, i.e., it allows these services to remain accessible and operational independently of the number of requests. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the provisioning and usage of its computational resources~\cite{GarrigaMendonca2017}.
+
+%The elasticity of cloud datacenters is enabled by its horizontal scalability, in which virtual machines or containers can be instantiated in new virtually unlimited physical resources. 
+
+
+%...in which backend applications are deployed to virtual machines and/or containers....
+
+%A direct replication of cloud computing IaaS model with edge computing infrastructure would not be possible. 
+
+First, because applications would have to be deployed to each edge domain, even when there are no clients in the area being served. Such an \textit{always-available} model suits well with services covering either large or dense areas in which requests are always expected. But an alternative and more efficient provisioning model should be adopted otherwise.
+
+Second, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous applications would be limited. Accordingly, the allocation of runtime resources should be opportunistic and without preallocation per application, unless justified otherwise (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
+
+The fine-grained distribution of edge domains and their resource limitations also suggests that an a priori acquisition of different service artifacts to all domains would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Accordingly, the acquisition of service artifacts should be opportunistic, unless justified otherwise (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
+
+%\subsubsection*{Automation and Encapsulation}
+
+Finally, in order to materialize the compute continuum, the fine grained distribution of edge datacenters has to be managed in an automated way to avoid the burden and costs of manual human operation. This encompasses the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (\stepcounter{req_count}\textbf{R\arabic{req_count}}) and the installation of services to heterogeneous servers in the continuum (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
+
+
+%Following a serverless architecture, the application developer has control over the code they deploy into the infrastructure. 
+%The model should be automated and transparent, where the developer is unaware of which infrastructure is using to run her applications. 
+
+%In specific, the allocated resources should be scaled to zero where no servers are actually running when the application's function code is not used, and there is no cost to the user nor overload to the platform.
+
+
+%Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R\arabic{req_count}}).
+
+
+%Differently from classical \textit{on-premise} servers, edge should benefit from the automation and other characteristics of the A3-E model. As a result, local-edge servers can be seen as automated black boxes requiring no manual maintenance.	
+
+
+\subsubsection{Context-Awareness}
 
 %Santity Check:
 %A client communicates with a domain by means of an access point, which may or may not provide Internet connection to cloud services; 
 
-Client applications may significantly differ in terms of the QoS they require from services and providers. For example, connected vehicles (CV) may eventually rely on edge services for low-latency computation. A CV entering a given region for the first time is unlikely to be waiting until the edge servers covering that region become ready for providing the service the vehicle requires. Conversely, users of an augmented reality application could eventually wait for a setup time whenever the nearby edge \textit{domain}
-%
-~\footnote{From this point on, the term \textit{domain} is used to abstract whatever computational resources can be employed by different computing platforms (i.e., those used by cloud, mobile-edge, local-edge, and local). It is also implied that edge domains are accessible by clients through some (network) access point (Fig.~\ref{fig:edge-domain-client}).} 
-%
-is not ready. 
-%In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not.
-Accordingly, the unified model should enable the co-existence of applications requiring different QoS levels (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and the priority of the usage of computational resources from resource-constrained domains must be in accordance with the application category and its QoS requirements (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
-An important aspect of the continuum is how edge services should be discovered and consumed by clients. Today, networking protocols and technologies are the main responsible for allowing client applications to access cloud services in a transparent way. For this, clients access cloud services by means of well-known Internet names that are resolved by traffic managers and domain-name servers (DNS) technologies. The datacenters hosting cloud services are, at best, coarsely distributed among continents, countries, or broader regions. 
+Another important aspect of the continuum is how edge services should be discovered by clients. Today, networking protocols and technologies are the main responsible for allowing client applications to access cloud services in a transparent way. For this, clients access cloud services by means of well-known Internet names that are resolved by traffic managers and domain-name servers (DNS) technologies. The datacenters hosting cloud services are, at best, coarsely distributed among continents, countries, or broader regions. 
 %In these cases, services names are mapped to either the servers hosting them or to intermediate components (e.g., traffic managers) responsible for transparently routing client requests to datacenters covering their area. 
 %In contrast, in a , a similar transparency may not be possible. 
 %First, because 
 
 In contrast, in a fine grained geographical distribution of edge computing infrastructure, it is unlikely that edge domains from different providers or categories (e.g., cloud, mobile-edge and local-edge domains) will be able to coordinate and decide which one will serve a given client request. For instance, from inside a building with some local-edge domain accessible through Wi-Fi direct, a client may still be in contact with a mobile-edge accessible through 5G\footnote{Fifth generation of broadband cellular technology}. If both can provide the same services, but are unable to communicate and coordinate the allocation of the client request, it is up to the client to make the decision of which domain to use. Accordingly, clients must be aware of alternative domains (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and clients should have the control over which domain should be used based on its requirements and awareness of domains alternatives (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
-	
 
 %Second, because clients can switch from one network to the other at their discretion or make simultaneous use of different connections.
 
@@ -95,42 +129,15 @@ In contrast, in a fine grained geographical distribution of edge computing infra
 %\end{figure}
 
 %TODO: replace R2 with: Control over forwarding from edge to cloud. Soft vs. strong constraint. Soft = I can also run on cloud if needed. Strong = Never go to cloud.
-
-\subsubsection*{Efficiency}
-
-Another fundamental aspect of the continuum consists of how edge domain resources should be provided and consumed. In cloud IaaS, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies~\cite{Quatrocchi2016discrete}. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability, i.e., it allows these services to remain accessible and operational independently of the number of requests. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the provisioning and usage of its computational resources~\cite{GarrigaMendonca2017}.
-
-%The elasticity of cloud datacenters is enabled by its horizontal scalability, in which virtual machines or containers can be instantiated in new virtually unlimited physical resources. 
-
-
-%...in which backend applications are deployed to virtual machines and/or containers....
-
-%A direct replication of cloud computing IaaS model with edge computing infrastructure would not be possible. 
-
-First, because applications would have to be deployed to each edge domain, even when there are no clients in the area being served. Such an \textit{always-available} model suits well with services covering either large or dense areas in which requests are always expected. But an alternative and more efficient provisioning model should be adopted otherwise.
-
-Second, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous applications would be limited. Accordingly, the allocation of runtime resources should be opportunistic, without minimum preallocation per application, unless justified otherwise (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 	
-Additionally, the fine-grained distribution of edge domains and their resource limitations also suggests that an a priori acquisition of different service artifacts to all domains would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Accordingly, the acquisition of service artifacts should be opportunistic, unless justified otherwise (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
+
+	
+
+
 
 
 %The fulfillment of the above requirements would leverage the potential of edge computing by optimizing the usage of its resources and consequently allowing a larger number of client applications to share the costs of edge infrastructure. Moreover, the resulting unified model would work as an extension of today's cloud IaaS/FaaS with the twofold purpose of enabling applications with low-latency requirements to rely on edge domains and to augment the computational power of mobile devices through mobile-to-edge computation offloading. Last but not least, the computing power of highly available and elastic cloud services would remain as an essential part of the continuum.
 
-\subsubsection*{Automation and Encapsulation}
-
-In order to materialize the compute continuum, the fine grained distribution of edge infrastructure has to be encapsulated and managed in an automated way to avoid the burden and costs of manual human operation. This encompasses the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (\stepcounter{req_count}\textbf{R\arabic{req_count}}). Additionally, the installation of services to heterogeneous servers in the continuum should also be automated, including the fetching and building of service artifacts (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
-
-
-%Following a serverless architecture, the application developer has control over the code they deploy into the infrastructure. 
-%The model should be automated and transparent, where the developer is unaware of which infrastructure is using to run her applications. 
-
-%In specific, the allocated resources should be scaled to zero where no servers are actually running when the application's function code is not used, and there is no cost to the user nor overload to the platform.
-
-
-%Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R\arabic{req_count}}).
-
-
-%Differently from classical \textit{on-premise} servers, edge should benefit from the automation and other characteristics of the A3-E model. As a result, local-edge servers can be seen as automated black boxes requiring no manual maintenance.
 
 \subsection{Example Scenario}
 

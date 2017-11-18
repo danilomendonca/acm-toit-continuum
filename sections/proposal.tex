@@ -15,13 +15,15 @@ The A3-E model also encompasses the concepts of client applications, services, r
 %What: the process within A3-E
 The A3-E process is composed of four phases. Each phase encompasses activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum.
 
-A3-E process is flexible with respect to its phases and addresses all the constituents of the compute continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which a domain first contacts an application hosted by a mobile client. This particular instance of the A3-E model is used to illustrate the use of all four phases in the model. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
+A3-E process is flexible (Section~\ref{sec:heterogeneity}, \textbf{R2}) with respect to its phases and addresses all the constituents of the compute continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents the scenario in which a domain first contacts an application hosted by a mobile client. This particular instance of the A3-E model is used to illustrate the use of all four phases in the model. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 \subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase models the actual interaction between a client and a service. At this stage, the requested service must be already allocated by the domain. For instance, traditional cloud-based services are pre-allocated and engage with clients by means of a request/response protocol. In the later case, the remaining A3-3 phases are not employed. Nonetheless, in other scenarios of the continuum --- specially those with resource limitations --- a dynamic and opportunistic allocation shall improve the efficiency in which domain resources are consumed.
+The \textit{engagement} phase models the actual interaction between a client and a service in the continuum. In order to overcome the heterogeneity of the continuum (Section~\ref{sec:heterogeneity}, \textbf{R1}), A3-E adheres to the use of service-oriented protocols in which clients engage with remove services by means of a request/response protocol (e.g., RESTful services over HTTP). 
+
+At this stage, the requested service must be already allocated by the domain hosting the service. For instance, traditional cloud-based services are pre-allocated. In the later case, the remaining A3-3 phases are not employed. Nonetheless, in other scenarios of the continuum --- specially those with resource limitations --- a dynamic and opportunistic allocation shall improve the efficiency in which domain resources are consumed.
 
 \subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
 
@@ -29,15 +31,13 @@ The allocation phase has the following purposes: 1) to enable the automated proc
 
 %cloud providers already implement automated scaling mechanisms, e.g, with the allocation of virtual machines and container instances on demand. 
 
-From the domain perspective, A3-E addresses the needs of resource-constrained domains in the continuum by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\ref{} in which resources are allocated and deallocated according to: 1) the SLA between the domain and different applications; 2) the allocation policy employed by the domain. For instance....
+From the domain perspective, A3-E addresses the needs of resource-constrained domains in the continuum by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\ref{fig:} in which computational resources are allocated and deallocated according to: 1) the SLA between the domain providing services currently deployed or requesting deployment; 2) the allocation policy employed by the domain; and 3) the availability of resources. 
 
-%More recently, the FaaS model introduced zero-allocation mechanism, in which stateless functions may remain deallocated until they are invoked (cold start). Once the demand increases, the FaaS platform may respond with additional instances of the required functions. 
+%For instance, an edge-domain could feature two main SLA categories: one for critical applications (e.g., connected vehicles) providing higher priority and availability of services; and another for non-critical applications (e.g., augmented reality) providing opportunistic services based on the availability of resources in the domain. Depending on the policy (Section~\ref{sec:A3-E-policies}), 
 
-From the client perspective, the allocation phase refers to the selection, at a specific context, of the domain that best suits its requirements from a list of available domains and respective quality-of-service (QoS) attributes. Such list and properties must be monitored as part of a self-management loop (Fig.~\ref{}) that checks for the availability of listed domains and the QoS levels of each available domain. For instance....
+From the client perspective, the allocation phase refers to the selection, at a specific context, of the domain that best suits its requirements from a list of available domains and respective quality-of-service (QoS) attributes. The later must be monitored and updated as part of a self-management loop (Fig.~\ref{}) that checks for the availability of listed domains and the QoS levels of each available domain. 
 
-
-
-%adheres to the dynamic allocation of computational resources for services execution. Applications that can not afford the delay (hereafter named $\Delta_{AL}$) of a cold start must rely on services that are always kept available with minimum allocation. Instead, whenever cold start is acceptable, the zero-allocation provides a more efficient usage of computational resources. Needless to say, $\Delta_{AL}$ is only perceived by the first request after a cold start, while subsequent calls are processed normally hereafter.
+%For instance....
 
 %From the client-side, once the awareness phase has been active and identified the current alternative domains, the client may consider QoS values from each domain to make the decision of which one to engage. Conversely, the lack of awareness implies that client engagement with a specific domain must be solved by means of a well-known name. In the later case, the network backbone is responsible for routing client requests to specific domains.
 
@@ -72,7 +72,7 @@ From the domain perspective, the awareness of clients allows a proactive acquisi
 
 
 %What: how different policies may be employed by domains and clients throughout A3-E-Process
-\subsection{A3-E Process: Policies}
+\subsection{A3-E Process: Policies}\label{sec:A3-E-policies}
 
 %What: the flexibility of A3-E model in terms of policies that regulate the transition among phases
 
