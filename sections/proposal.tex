@@ -19,6 +19,39 @@ A3-E process is flexible with respect to its phases and addresses all the consti
 
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
+\subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
+
+The \textit{engagement} phase models the actual interaction between a client and a service. At this stage, the requested service must be already allocated by the domain. For instance, traditional cloud-based services are pre-allocated and engage with clients by means of a request/response protocol. In the later case, the remaining A3-3 phases are not employed. Nonetheless, in other scenarios of the continuum --- specially those with resource limitations --- a dynamic and opportunistic allocation shall improve the efficiency in which domain resources are consumed.
+
+\subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
+
+The allocation phase has the following purposes: 1) to enable the automated process of making a service ready for execution through the allocation of computational resources (Requirement R1); and to enable clients to choose among different alternative domains that may be available (Requirement Ry).
+
+%cloud providers already implement automated scaling mechanisms, e.g, with the allocation of virtual machines and container instances on demand. 
+
+From the domain perspective, A3-E addresses the needs of resource-constrained domains in the continuum by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\ref{} in which resources are allocated and deallocated according to: 1) the SLA between the domain and different applications; 2) the allocation policy employed by the domain. For instance....
+
+%More recently, the FaaS model introduced zero-allocation mechanism, in which stateless functions may remain deallocated until they are invoked (cold start). Once the demand increases, the FaaS platform may respond with additional instances of the required functions. 
+
+From the client perspective, the allocation phase refers to the selection, at a specific context, of the domain that best suits its requirements from a list of available domains and respective quality-of-service (QoS) attributes. Such list and properties must be monitored as part of a self-management loop (Fig.~\ref{}) that checks for the availability of listed domains and the QoS levels of each available domain. For instance....
+
+
+
+%adheres to the dynamic allocation of computational resources for services execution. Applications that can not afford the delay (hereafter named $\Delta_{AL}$) of a cold start must rely on services that are always kept available with minimum allocation. Instead, whenever cold start is acceptable, the zero-allocation provides a more efficient usage of computational resources. Needless to say, $\Delta_{AL}$ is only perceived by the first request after a cold start, while subsequent calls are processed normally hereafter.
+
+%From the client-side, once the awareness phase has been active and identified the current alternative domains, the client may consider QoS values from each domain to make the decision of which one to engage. Conversely, the lack of awareness implies that client engagement with a specific domain must be solved by means of a well-known name. In the later case, the network backbone is responsible for routing client requests to specific domains.
+
+\subsubsection*{Acquisition Phase}\label{sec:A3-E-acquisition}
+
+The Acquisition phase has the following purposes: 1) to enable a domain to pro-actively install artifacts used by services that must become available in that domain (Requirement R2); and 2) to enable clients to pro-actively identify their requirements (services) and allow the domain to pro-actively install them (Requirement Rx).
+
+%From the domain side, the lack of acquisition implies that service assets must be previously made available. Nonetheless, the preliminary acquisition of a large number of assets is limited by the domain storage capability. 
+
+%Conversely, the automated and opportunistic acquisition of service assets improves storage efficiency with the cost of a setup time $\Delta_{AQ}$. For instance, domains that become aware of clients' requirements may pro-actively start the acquisition phase and become ready for allocation before the first service request arrives.
+
+%otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\Delta_A$, become ready for allocation. 
+
+
 \subsubsection*{Awareness Phase}\label{sec:A3-E-awareness}
 
 \begin{figure}[tbp]
@@ -31,33 +64,12 @@ A3-E process is flexible with respect to its phases and addresses all the consti
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests.  
 %A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers; a given domain my count on network components to traffic route to its servers instead of negociating directly with clients aware of its existance; nonetheless, the lack of awareness limits the acquisition and deployment of services to reactive, as the domain would only identify a given service upon the first request has been made. Clients, in the other hand, would not be able to choose from alternative domains. 
 
-In A3-E, the Awareness phase has the following purposes: 1) to enable a domain to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about  applications hosted by clients in the domain coverage area (Requirement Rx); and 2) to enable clients to choose from alternative domains based on their awareness about these domains (Requirements Ry).
+In A3-E, the Awareness phase has the following purposes: 1) to enable a domain to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about applications hosted by clients in the domain coverage area (Requirement Rx); and 2) to enable clients to choose from alternative domains based on their awareness about these domains (Requirements Ry).
+
+From the domain perspective, the awareness of clients allows a proactive acquisition of services artifacts and/or allocation of services for execution. Such behavior alleviates the delay introduced by setup of services when the later are either 
 
 %From the domain side, the lack of awareness of clients in the domain coverage area prevents triggering the acquisition and subsequently allocation phases based on this event. From the client side, the lack of awareness from surrounding domains prevents them to make the decision of which domains to use. In the later case, clients must rely on external components to reach servers (e.g., traffic managers and DNS servers).
 
-\subsubsection*{Acquisition Phase}\label{sec:A3-E-acquisition}
-
-The Acquisition phase has the following purposes: 1) to enable a domain to pro-actively install artifacts used by services that must become available in that domain (Requirement R2); and 2) to enable clients to pro-actively identify their requirements (services) and allow the domain to pro-actively install them (Requirement Rx).
-
-%From the domain side, the lack of acquisition implies that service assets must be previously made available. Nonetheless, the preliminary acquisition of a large number of assets is limited by the domain storage capability. 
-
-%Conversely, the automated and opportunistic acquisition of service assets improves storage efficiency with the cost of a setup time $\Delta_{AQ}$. For instance, domains that become aware of clients' requirements may pro-actively start the acquisition phase and become ready for allocation before the first service request arrives.
-
-%otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\Delta_A$, become ready for allocation. 
-
-\subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
-
-The allocation phase has the following purposes: 1) to enable the automated process of making a service ready for execution through the allocation of computational resources (Requirement R1); and to enable clients to choose among different alternative domains that may be available (Requirement Ry).
- 
-%Cloud providers already implement automated scaling mechanisms, e.g, with the allocation of virtual machines and container instances on demand. More recently, the FaaS model introduced zero-allocation mechanism, in which stateless functions may remain deallocated until they are invoked (cold start). Once the demand increases, the FaaS platform may respond with additional instances of the required functions.
-
-%From the domain side, A3-E adheres to the dynamic allocation of computational resources for services execution. Applications that can not afford the delay (hereafter named $\Delta_{AL}$) of a cold start must rely on services that are always kept available with minimum allocation. Instead, whenever cold start is acceptable, the zero-allocation provides a more efficient usage of computational resources. Needless to say, $\Delta_{AL}$ is only perceived by the first request after a cold start, while subsequent calls are processed normally hereafter.
-
-%From the client-side, once the awareness phase has been active and identified the current alternative domains, the client may consider QoS values from each domain to make the decision of which one to engage. Conversely, the lack of awareness implies that client engagement with a specific domain must be solved by means of a well-known name. In the later case, the network backbone is responsible for routing client requests to specific domains.
-
-\subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
-
-Finally, the \textit{engagement} phase models the actual interaction between a client and a service. At this stage, the requested service must be already acquired and allocated for execution. 
 
 %What: how different policies may be employed by domains and clients throughout A3-E-Process
 \subsection{A3-E Process: Policies}
