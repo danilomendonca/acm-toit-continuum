@@ -1,4 +1,4 @@
-\section{Evaluation}\label{sec:evaluation}
+\section{Experimental Evaluation}\label{sec:evaluation}
 
 \subsection{Domains Setup}
 
@@ -38,9 +38,9 @@ Particularly, Edge-local domain is always placed close to the client application
 The serverless cloud alternative (Cloud-FaaS) for this experiment uses AWS Lambda\footnote{https://aws.amazon.com/lambda/} as the first-available and most mature serverless solution in the market. The functions and associated libraries and services (storage, image recognition) are hosted in the same region, which is enforced by AWS to guarantee a certain degree of data locality. Finally, we also deployed the feature recognition functionality as a ``serverful'' Cloud setup (Cloud-IaaS). However, the main goal of this experiment is not to compare traditional cloud services against a serverless solution, but to demonstrate that the proposed continuum can outperform the Cloud under certain circumstances and requirements.
 
 
-\subsection{Latency} 
+\subsection{Domain Latency Evaluation} 
 
-In order to compare the latency along the continuum, we performed experiments with a fixed number of requests (extraction and matching of features from a sample image) in a fixed interval, and without using the A3-E middleware, since they were aimed to evaluate only the different domains.
+In order to compare the latency along the continuum, we performed experiments with different number of parallel requests firing at a constant rate. Each request consisted on feature extraction and matching from a sample image. This experiment was performed without using the A3-E middleware, since it aims to evaluate only the different domains.
 
 Figure~\ref{fig:exp-setup1} shows the experimental setup. Capturing and uploading an image is emulated using Postman\footnote{https://www.getpostman.com/}, a JavaScript open source application designed to load test functional behaviors and measure the performance of Web APIs. The  payload for this experiment was a sample image of approximately 65 Kb, which is a reasonable size for this use case considering the requirements regarding low-latency, computation time and battery consumption~\cite{rodriguez16mobile}. 
 
@@ -57,29 +57,41 @@ Then, the image is sent through HTTP/POST and different subsequent steps are exe
 	\label{fig:exp-setup1}
 \end{figure}
 
-\subsubsection{Baseline Latency}
+%\subsubsection{Baseline Latency}
 
-To measure the baseline latency, the workload was parameterized as 100 requests fired at a constant rate (two per second), considering not only the default maximum for concurrent executions in AWS Lambda\footnote{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html} and Openwhisk\footnote{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}, but also the limited resources of the edge domains. This was done in order to avoid stressing any of the servers and measure relative latency under normal operation. Figure~\ref{fig:baseline-latency} shows the average latency and standard deviation over 5 executions of 100 calls each. These results do not consider the actual computation time (which will be discussed in the following experiments), but the overhead of network communication per call. 
+To measure the latency, the workload was parameterized using different number of parallel clients, which perform 100 requests each, fired at a constant rate of two per second. This setup considers not only the default maximum for concurrent executions in AWS Lambda\footnote{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html} and Openwhisk\footnote{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}, but also the limited resources of the edge domains. 
+
+The experiment stresses progressively the different domains, and allows to compare the relative latency under each workload. Figure~\ref{fig:latency-domains} shows the average latency for each scenario, averaged through 5 executions. Note that the function computation time (light gray) is distinguished from the overhead (dark gray), which includes network communication (routing, forwarding) and queuing time (when no resources are available to process the request immediately). 
 
 \begin{figure}
 	
 	\centering
-	\includegraphics[width=0.6\textwidth]{figs/latency-baseline}
-	\caption{Baseline latency results for different domains.}
-	\label{fig:baseline-latency}
+	\includegraphics[width=1\textwidth]{figs/latency-domains}
+	\caption{Latency results for each domain and different number of clients.}
+	\label{fig:latency-domains}
 \end{figure}
 
- For this scenario, the latency added by the edge domains is less than the latency in both cloud alternatives. Regarding the serverless cloud alternative, the reduction in latency is 90\% for edge-local and 82\% for edge-mobile respectively, whilst for the traditional cloud domain the reduction is 77\% and 58\% respectively. 
+ For these scenarios, the latency added by the edge domains is less than the latency in both cloud alternatives, considering up to 16 simultaneous clients, with a rate of 2 $requests/second$ each. Regarding the serverless cloud alternative, the overhead reduction is up to 90\% for edge-local and up to 82\% for edge-mobile respectively. Regarding the traditional cloud domain, reductions are up to 77\% and 58\% respectively. Since a scaling-up action triggers when more than one VM instance is needed to handle the workload (that can demand several seconds~\cite{Quatrocchi2016discrete}), requests timeout in the meantime. 
  
- The edge-local domain outperformed all the other alternatives for this scenario, but at the same time is the most resource-constrained, which hinders its availability under heavier workloads, as it will be seen in the stress tests. Interestingly, the traditional cloud domain also outperformed the serverless one (46\% less latency); this can be due to the additional steps performed by the API Gateway in order to forward RESTful calls to lambda functions\footnote{http://docs.aws.amazon.com/lambda/latest/dg/with-on-demand-https.html}. Nevertheless, this advantage is mitigated by the fact that the serverless alternative is more reactive against bursts of workload, scaling automatically and offering a fine-grained cost model~\cite{Villamizar2017lambda,Hendrickson:2016}.
-
-\subsubsection{Stress Tests}
-
-%We could fire like 100 requests and measure the latency of each one and later have the average and the 
-\subsubsection{Discussion}
+ For light to medium workloads, the edge-local and edge-mobile domains outperformed all the other alternatives for this scenario. However, edge-local domain is the most resource-constrained, which hinders its availability under heavier workloads. Interestingly, the traditional cloud domain also outperformed the serverless one (46\% less latency) for light workloads. This can be due to the additional steps performed by the API Gateway in order to forward RESTful calls to lambda functions\footnote{http://docs.aws.amazon.com/lambda/latest/dg/with-on-demand-https.html}. Nevertheless, this advantage is mitigated by the fact that the serverless alternative is more reactive against bursts of workload, scaling faster and offering a fine-grained cost model~\cite{Villamizar2017lambda,Hendrickson:2016}.
 
 
+%\subsection{Battery} The second set of experiments targeted the measurement of battery consumption of a mobile device in two scenarios: 1) in which feature extraction and matching were performed locally, and 2) these tasks were offloaded to edge servers.
 
-\subsection{Battery} The second set of experiments targeted the measurement of battery consumption of a mobile device in two scenarios: 1) in which feature extraction and matching were performed locally, and 2) these tasks were offloaded to edge servers.
+\subsection{Continuum} The next set of experiments targeted the evaluation of A3-E with a computational continuum scenario. In specific, the evaluation consisted of a mobile device hosting a simplified version of an AR application with the feature extraction and matching modeled as stateless functions that can be executed locally (Java Functions), in an edge-based FaaS platform (OpenWhisk), or a cloud-based FaaS platform (Amazon Lambda). We measured the following parameters: Battery consumption, total execution time, and time per call. The experiment featured four different scenarios: With only one domain available (either locally in the device, edge-mobile or cloud-faas), and then with all domains available at the same time (all-domains). \textcolor{blue}{[TODO] (1) Explain the probabilities of having each domain available. (2) Discuss the relevance of the results} 
+Figure~\ref{fig:exp-a3e} shows the results for the experiment, averaged among 5 executions for each scenario.
 
-\subsection{Continuum} The third and final set of experiments targeted the evaluation of A3-E with a computational continuum scenario. In specific, the evaluation consisted of a mobile device hosting a simplified version of an AR application with the feature extraction and matching modeled as stateless functions that can be executed locally (Java Functions), in an edge-based FaaS platform (OpenWhisk), or a cloud-based FaaS platform (Amazon Lambda).
+\begin{figure}[tbp]
+	\raggedright
+	\subfloat[Battery consumption (\%)\label{fig:battery-a3e}] {\includegraphics[width=0.5\textwidth]{figs/total-exec-time-A3E}}
+	\subfloat[Total execution time (seconds)\label{fig:total-exec-a3e}] {\includegraphics[width=0.5\textwidth]{figs/battery-consumption-A3E}}
+	
+	\centering\subfloat[Execution time per call (miliseconds)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.5\textwidth]{figs/time-per-call-A3E}}
+
+	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
+\end{figure}
+
+
+
+
+
