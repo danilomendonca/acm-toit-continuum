@@ -91,6 +91,8 @@ From the domains perspective, the awareness of clients presence in their coverag
 
 %From the domain side, the lack of awareness of clients in the domain coverage area prevents triggering the acquisition and subsequently allocation phases based on this event. From the client side, the lack of awareness from surrounding domains prevents them to make the decision of which domains to use. In the later case, clients must rely on external components to reach servers (e.g., traffic managers and DNS servers).
 
+\input{sections/policies}
+
 \subsection{Concrete Scenarios}
 
 \begin{center}
@@ -133,14 +135,33 @@ By taking into account the conflicting properties of \textit{efficiency} and \te
 
 --- \textbf{Mobile}. This last instance represents the local computation performed by mobile devices. It provides a zero network latency with high availability; in contrast, the resource constraints of mobile devices may result in lower processing performance and undesirable battery drain, therefore justifying the use of other instances (mobile computation offloading), unless none is available. Targeted services: latency-sensitive and lightweight computation.
 
-%TBW: Example with one of the applications mentioned in the motivation (AR/CV).
 
-\subsection{Reference Architecture}
+%
+%\subsection{Reference Architecture}
+%
+%\begin{figure}[tbp]
+%	\includegraphics[width=.95\textwidth]{figs/A3-E-reference-architecture}
+%	\caption{A3-E architecture in Mobile Devices and Edge Domains}
+%	\label{fig:reference-architecture}
+%	\end{figure}
+	
+\subsection{Example Scenario}
 
 \begin{figure}[tbp]
-	\includegraphics[width=.95\textwidth]{figs/A3-E-reference-architecture}
-	\caption{A3-E architecture in Mobile Devices and Edge Domains}
-	\label{fig:reference-architecture}
-	\end{figure}
-	
-TOOD: describe
+	\includegraphics[width=0.9\textwidth]{figs/Continuum-Scenario}
+	\caption{Heterogeneous applications (AR and CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
+	\label{fig:continuum-scenario}
+\end{figure}
+
+
+To illustrate the continuum with a scenario involving two applications: an augmented reality application and a connected vehicle. The example starts in the user's office and finishes in his home (Fig.~\ref{fig:continuum-scenario}). 
+
+First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to allow employees to extend the computational capabilities of mobile devices. In our example, the user makes use of a \textit{smartglass} application to craft three dimensional virtual objects added to his desk table.
+
+After work, our user leaves his office and enters his CV. During its way home, the autonomous vehicle will make use of edge services deployed at servers located at cellular base stations and owned by telecoms (hereafter called \textit{mobile-edge}). The connected vehicle gets low-latency updates about the best plan to reach its destination. For example, within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead. In particular, the new path consists of residential streets without coverage of mobile-edge services. The CV continue to fetch updates, this time from cloud services; the additional network latency is compensated with the low speed limit of the residential area.
+
+Already at home, the user's smartphone gets in reach of communication with the local-edge server owned by him. In that day, the user finds out about a new mobile game application that makes use of AR. Upon installation, the local-edge server becomes aware of a new edge-compliant application and, meanwhile the game is already running locally, proceeds with the acquisition and deployment of the game services into the local-edge server. Once available, the client application becomes aware of these services and switches from local to edge with the purpose of preserving the smartphone's resources. Not only the game performance improves, but also the battery consumption is reduced.  
+
+In the scenario described above, different parts of the continuum have been employed by user's devices. Whilst edge services were privileged, cloud services remain fundamental, as edge infrastructure was not always available. The services consumed by AR in a office scenario and the services consumed by a CV were pre-allocated. In contrast, a client application was able to make use of local resources from a mobile device until edge services were opportunistically made available. 
+
+%services for which network latency is not disruptive are in the cloud (e.g., persistence, stateful components, and large part of the business logic).
