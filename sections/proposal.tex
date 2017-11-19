@@ -13,7 +13,7 @@ The A3-E model also encompasses the concepts of client applications, services, r
 \subsection{A3-E Process: Phases}\label{sec:A3-E-process}
 
 %What: the process within A3-E
-The A3-E process is composed of four phases. Each phase encompasses activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum.
+The A3-E process is composed of four phases. Each phase encompasses activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum. 
 
 A3-E process is flexible (Req. \textbf{R1.2}) with respect to its phases and addresses all the constituents of the compute continuum. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents an instance with the four phases. Later on, other possible instances of the A3-E model are mapped to distinct scenarios of the compute continuum.
 
@@ -21,9 +21,9 @@ A3-E process is flexible (Req. \textbf{R1.2}) with respect to its phases and add
 
 \subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase models the actual interaction between a client and a service in the continuum. In order to overcome the heterogeneity of the continuum (Req. \textbf{R1.1}), A3-E adheres to the use of service-oriented protocols in which clients engage with remove services by means of a request/response protocol (e.g., RESTful services over HTTP). 
+The \textit{engagement} phase models the actual interaction between a client and a service in the continuum. At this stage, the requested service must be already allocated by the domain hosting the service(s).  Moreover, the client must have selected this domain for consuming its service(s). In order to overcome the heterogeneity of the continuum (Req. \textbf{R1.1}), A3-E adheres to the use of service-oriented protocols in which clients engage with remove services by means of a request/response protocol (e.g., RESTful services over HTTP).
 
-At this stage, the requested service must be already allocated by the domain hosting the service. For instance, traditional cloud-based services are pre-allocated. In the later case, the remaining A3-3 phases are not employed. Nonetheless, in other scenarios of the continuum --- specially those with resource limitations --- a dynamic and opportunistic allocation shall improve the efficiency in which domain resources are consumed.
+%For instance, traditional cloud-based services are pre-allocated. In the later case, the remaining A3-3 phases are not employed. Nonetheless, in other scenarios of the continuum --- specially those with resource limitations --- a dynamic and opportunistic allocation shall improve the efficiency in which domain resources are consumed.
 
 \subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
 
@@ -31,7 +31,7 @@ The allocation phase has the following purposes: 1) to enable the automated (Req
 
 %cloud providers already implement automated scaling mechanisms, e.g, with the allocation of virtual machines and container instances on demand. 
 
-From the domain perspective, A3-E addresses the needs of resource-constrained domains in the continuum by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\ref{fig:} in which computational resources are allocated and deallocated according to: 1) the SLA between the domain providing services currently deployed or requesting deployment; 2) the allocation policy employed by the domain; and 3) the availability of resources. 
+From the domain perspective, A3-E addresses efficiency by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\ref{fig:} in which computational resources are allocated and deallocated according to: 1) the SLA between the domain providing services currently deployed or requesting deployment; 2) the allocation policy employed by the domain; and 3) the availability of resources. 
 
 %For instance, an edge-domain could feature two main SLA categories: one for critical applications (e.g., connected vehicles) providing higher priority and availability of services; and another for non-critical applications (e.g., augmented reality) providing opportunistic services based on the availability of resources in the domain. Depending on the policy (Section~\ref{sec:A3-E-policies}), 
 
