@@ -70,25 +70,6 @@ Second, because it is unlikely that a significant number of applications could b
 
 The fine-grained distribution of edge domains and their resource limitations also suggests that an a priori acquisition of different service artifacts to all domains would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Accordingly, the acquisition of service artifacts should be opportunistic, unless justified otherwise (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
-\subsubsection*{Automation and Encapsulation}
-
-\stepcounter{req_count}
-
-As a key aspect to realization of the computational continuum lies automation. First, because the multiplicity of finely distributed edge datacenters requires the self-managing of this infrastructure to avoid the burden and costs of manual human operation. Second, automation is needed to allow services to be seamlessly displaced from different parts of the continuum. Accordingly, automation should encompasses: the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); the installation of services to heterogeneous servers in the continuum (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); and finally, the choice of alternative domains by a client (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
-
-
-%Following a serverless architecture, the application developer has control over the code they deploy into the infrastructure. 
-%The model should be automated and transparent, where the developer is unaware of which infrastructure is using to run her applications. 
-
-%In specific, the allocated resources should be scaled to zero where no servers are actually running when the application's function code is not used, and there is no cost to the user nor overload to the platform.
-
-
-%Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R\arabic{req_count}}).
-
-
-%Differently from classical \textit{on-premise} servers, edge should benefit from the automation and other characteristics of the A3-E model. As a result, local-edge servers can be seen as automated black boxes requiring no manual maintenance.	
-
-
 \subsubsection{Context-Awareness}\label{sec:context-awareness}
 
 \stepcounter{req_count}
@@ -138,7 +119,23 @@ In contrast, in a fine grained geographical distribution of edge computing infra
 
 %TODO: replace R2 with: Control over forwarding from edge to cloud. Soft vs. strong constraint. Soft = I can also run on cloud if needed. Strong = Never go to cloud.
 	
+\subsubsection*{Automation and Encapsulation}
 
+\stepcounter{req_count}
+
+As a key aspect to realization of the computational continuum lies automation. First, because the multiplicity of finely distributed edge datacenters requires the self-managing of this infrastructure to avoid the burden and costs of manual human operation. Second, automation is needed to allow services to be seamlessly displaced from different parts of the continuum. Accordingly, automation should encompasses: the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); the installation of services to heterogeneous servers in the continuum (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); and finally, the choice of alternative domains by a client (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+
+
+%Following a serverless architecture, the application developer has control over the code they deploy into the infrastructure. 
+%The model should be automated and transparent, where the developer is unaware of which infrastructure is using to run her applications. 
+
+%In specific, the allocated resources should be scaled to zero where no servers are actually running when the application's function code is not used, and there is no cost to the user nor overload to the platform.
+
+
+%Therefore, the management of computational resources must be automated and not depend on  manual intervention from human administrators (\textbf{R\arabic{req_count}}).
+
+
+%Differently from classical \textit{on-premise} servers, edge should benefit from the automation and other characteristics of the A3-E model. As a result, local-edge servers can be seen as automated black boxes requiring no manual maintenance.	
 	
 
 
