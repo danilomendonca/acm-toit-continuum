@@ -12,7 +12,7 @@ The key notion to bridge the gap in such a continuum is that of edge\footnote{In
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-overall.png}
 	\caption{The computational continuum formed by coarsely distributed cloud datacenters, finely distributed edge datacenters, and mobile/IoT devices.}
-	\label{fig:continuum-scenario}
+	\label{fig:continuum-overral}
 \end{figure}
 
 \newcounter{req_count}
@@ -25,7 +25,7 @@ The key notion to bridge the gap in such a continuum is that of edge\footnote{In
 
 \stepcounter{req_count}
 
-The continuum encompasses distinct types of computational resources located at the cloud and at the edge of the network, as well as in mobile devices (Fig.~\ref{fig:continuum-scenario}). Accordingly, the unified model should be: agnostic with respect to the capabilities and specific technology details of different computing platforms and infrastructures in the continuum (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); and flexible, so that different instances of the model can address the many particularities in the continuum (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+The continuum encompasses heterogeneous types of computing platforms and technologies located at the cloud and at the edge of the network. It also include those of mobile devices (Fig.~\ref{fig:continuum-overral}). The realization of the continuum requires a model that copes with this heterogeneity, i.e., it should be agnostic with respect to the capabilities and specific technology details of different computing platforms and infrastructures in the continuum (Requirement \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); and it should be flexible, so that different instances of the model can address the many particularities in the continuum (Requirement \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
 
 %\begin{figure}[tbp]
@@ -55,7 +55,7 @@ The continuum encompasses distinct types of computational resources located at t
 
 \stepcounter{req_count}
 
-A fundamental aspect of the continuum consists of how edge domain resources should be provided and consumed. In cloud IaaS, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies~\cite{Quatrocchi2016discrete}. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability, i.e., it allows these services to remain accessible and operational independently of the number of requests. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the provisioning and usage of its computational resources~\cite{GarrigaMendonca2017}.
+A fundamental aspect of the continuum consists of how edge domain resources should be employed. In cloud computing, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability by allowing elastic services to remain accessible and operational independently of the number of requests. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the usage of edge resources~\cite{GarrigaMendonca2017}.
 
 %The elasticity of cloud datacenters is enabled by its horizontal scalability, in which virtual machines or containers can be instantiated in new virtually unlimited physical resources. 
 
@@ -64,15 +64,17 @@ A fundamental aspect of the continuum consists of how edge domain resources shou
 
 %A direct replication of cloud computing IaaS model with edge computing infrastructure would not be possible. 
 
-First, because applications would have to be deployed to each edge domain, even when there are no clients in the area being served. Such an \textit{always-available} model suits well with services covering either large or dense areas in which requests are always expected. But an alternative and more efficient provisioning model should be adopted otherwise.
+First, because applications would have to be deployed to each edge domain, even when there are no clients in the area being served. Such an \textit{always-available} model suits well with services covering either large or dense areas in which requests are always expected. But an alternative and more efficient execution model should be adopted otherwise.
 
-Second, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous applications would be limited. Accordingly, the allocation of runtime resources should be opportunistic and without preallocation per application, unless justified otherwise (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+Second, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous applications would be reduced. Accordingly, the allocation of runtime resources should be opportunistic and without preallocation per application, unless justified otherwise (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
 The fine-grained distribution of edge domains and their resource limitations also suggests that an a priori acquisition of different service artifacts to all domains would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Accordingly, the acquisition of service artifacts should be opportunistic, unless justified otherwise (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
-%\subsubsection*{Automation and Encapsulation}
+\subsubsection*{Automation and Encapsulation}
 
-Finally, in order to materialize the computational continuum, the fine grained distribution of edge datacenters has to be managed in an automated way to avoid the burden and costs of manual human operation. This encompasses the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}) and the installation of services to heterogeneous servers in the continuum (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+\stepcounter{req_count}
+
+As a key aspect to realization of the computational continuum lies automation. First, because the multiplicity of finely distributed edge datacenters requires the self-managing of this infrastructure to avoid the burden and costs of manual human operation. Second, automation is needed to allow services to be seamlessly displaced from different parts of the continuum. Accordingly, automation should encompasses: the operational aspects of deployment and maintenance, including the allocation of resources for different services in the context of a shared platform (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); the installation of services to heterogeneous servers in the continuum (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); and finally, the choice of alternative domains by a client (\stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
 
 %Following a serverless architecture, the application developer has control over the code they deploy into the infrastructure. 
