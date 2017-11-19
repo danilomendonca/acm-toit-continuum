@@ -12,6 +12,12 @@ The A3-E model also encompasses the concepts of client applications, services, r
 
 \subsection{A3-E Process: Phases}\label{sec:A3-E-process}
 
+\begin{figure}[tbp]
+	\includegraphics[width=0.95\textwidth]{figs/A3-E-process}
+	\caption{The A3-E Process. Phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain to a client (and vice-versa)}
+	\label{fig:A3-E-process}
+\end{figure}
+
 %What: the process within A3-E
 The A3-E process is composed of four phases. Each phase encompasses activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum. 
 
@@ -47,6 +53,8 @@ The allocation phase has the following purposes: 1) to enable the efficient (Req
 
 From the domain perspective, A3-E addresses efficiency by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\cite{kephart2003vision} (Fig.~\ref{fig:service-allocation-loop}) in which computational resources are allocated and deallocated according to: 1) the QoS os services in the domain; and 2) the SLA between the domain providing services. 
 
+
+
 %2) the allocation policy employed by the domain; and 3) the availability of resources. 
 
 %For instance, an edge-domain could feature two main SLA categories: one for critical applications (e.g., connected vehicles) providing higher priority and availability of services; and another for non-critical applications (e.g., augmented reality) providing opportunistic services based on the availability of resources in the domain. Depending on the policy (Section~\ref{sec:A3-E-policies}), 
@@ -78,11 +86,6 @@ From the domain perspective, A3-E furthers improve the efficiency of resource us
 
 \subsubsection*{Awareness Phase}\label{sec:A3-E-awareness}
 
-\begin{figure}[tbp]
-	\includegraphics[width=0.95\textwidth]{figs/A3-E-process}
-	\caption{The A3-E Process. Phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain to a client (and vice-versa)}
-	\label{fig:A3-E-process}
-\end{figure}
 
 %Why do we need awareness?
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests.  
