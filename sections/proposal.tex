@@ -93,16 +93,16 @@ From the domains perspective, the awareness of clients presence in their coverag
 
 \input{sections/policies}
 
-\subsection{Concrete Scenarios}
+\subsection{A3-E Instances in the Continuum}
 
 \begin{center}
 	\begin{table}[htbp]
 		\small
-		\caption{Domain-side instances of the A3-E model corresponding to parts of the cloud-edge-mobile continuum (CTN) with corresponding execution model (E.M.), awareness mechanisms (\textbf{W}ell-\textbf{K}nown-\textbf{N}ame or \textbf{A}dvertisement\&\textbf{D}iscovery), and policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive) that may be employed for triggering the acquisition and allocation in each instance. }\label{tab:A3-E-instances}
+		\caption{Domain-side instances of the A3-E model corresponding to domain variations (D.V.) in the continuum along with: execution model (E.M.), awareness mechanisms (\textbf{W}ell-\textbf{K}nown-\textbf{N}ame or \textbf{A}dvertisement\&\textbf{D}iscovery), and transition policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive). }\label{tab:A3-E-instances}
 		\begin{tabular}{ c c c c c c }
 			\toprule
 			
-			CTN & E.M. & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT  	\\
+			D.V. & E.M. & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT  	\\
 			
 			\midrule
 			
@@ -121,9 +121,9 @@ From the domains perspective, the awareness of clients presence in their coverag
 \end{center}
 \normalsize
 
-Table~\ref{tab:A3-E-instances} correlates the possible domain-side instances of the A3-E model with different parts of the cloud-edge-mobile continuum along with the approach used for awareness and the policies~\footnote{The policy adopted by a phase affects which policies may be adopted by its subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation).} depicted in Fig.~\ref{fig:A3-E-domain} that may be adopted in each case. 
+Table~\ref{tab:A3-E-instances} correlates the possible instances of the A3-E model with different domains composing the cloud-edge-mobile continuum. Each instance is described  along with the employed awareness mechanism, execution model, and transition policies~\footnote{The policy adopted by a phase affects which policies may be adopted by its subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation).} that may be adopted in each case. 
 
-By taking into account the conflicting properties of \textit{efficiency} and \textit{delay}, we envision the following mapping between A3-E instances and concrete scenarios composing the cloud-edge-mobile continuum:
+By taking into account the conflicting properties of \textit{efficiency} and \textit{delay}, we envision the following mapping between A3-E instances and application scenarios of the continuum:
 
 --- \textbf{Cloud-IaaS}. Services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no dynamic awareness is employed). Assets used by these services are preliminarily deployed to cloud servers (thus, no dynamic acquisition is employed). Virtual machines and containers are pre-allocated (hot start), and cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA). Finally, cloud services are invoked by clients (engagement phase). Target services: delay-tolerant and stateful computation; persistence.
 
