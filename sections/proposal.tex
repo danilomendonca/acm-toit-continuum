@@ -27,17 +27,29 @@ The \textit{engagement} phase models the actual interaction between a client and
 
 \subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
 
+\begin{figure}[tbp]
+	\centering
+	\captionsetup[subfigure]{width=0.4\textwidth}	
+	\null\hfill
+	\subfloat[Services allocation control loop; domains must monitor the QoS of deployed services and adapt its allocation scheme to prevent SLA violation.\label{fig:service-allocation-loop}]{ \includegraphics[width=0.4\textwidth]{figs/service-allocation-loop}}
+	\captionsetup[subfigure]{width=0.4\textwidth}	
+	\hfill
+	\subfloat[Domain allocation control loop; clients must monitor available domains and select the one that best satisfies its requirements.\label{fig:domain-selection-loop}] {\includegraphics[width=0.4\textwidth]{figs/domain-selection-loop}}
+	\hfill\null
+	\caption{Self-management control loops for service allocation and domain selection}\label{fig:allocation-loops}
+\end{figure}
+
 The allocation phase has the following purposes: 1) to enable the automated (Req. \textbf{R4.1}) and efficient (Req. \textbf{R2.1}) process of making a service ready for execution through the allocation of computational resources; and to enable clients to choose among different alternatives of domains that may be available (Req. \textbf{R3.2}).
 
 %cloud providers already implement automated scaling mechanisms, e.g, with the allocation of virtual machines and container instances on demand. 
 
-From the domain perspective, A3-E addresses efficiency by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\ref{fig:} in which computational resources are allocated and deallocated according to: 1) the SLA between the domain providing services currently deployed or requesting deployment; 2) the allocation policy employed by the domain; and 3) the availability of resources. 
+From the domain perspective, A3-E addresses efficiency by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\cite{kephart2003vision} (Fig.~\ref{fig:service-allocation-loop}) in which computational resources are allocated and deallocated according to: 1) the QoS os services in the domain; and 2) the SLA between the domain providing services. 
+
+%2) the allocation policy employed by the domain; and 3) the availability of resources. 
 
 %For instance, an edge-domain could feature two main SLA categories: one for critical applications (e.g., connected vehicles) providing higher priority and availability of services; and another for non-critical applications (e.g., augmented reality) providing opportunistic services based on the availability of resources in the domain. Depending on the policy (Section~\ref{sec:A3-E-policies}), 
 
-From the client perspective, the allocation phase refers to the selection, at a specific context, of the domain that best suits its requirements from a list of available domains and respective quality-of-service (QoS) attributes. The later must be updated as part of a self-management loop (Fig.~\ref{}) that checks the QoS levels of each available domain and decides for the alternative that best satisfies the its requirements. 
-
-
+From the client perspective, the allocation phase refers to the selection, at a specific context, of the domain that best suits its requirements from a list of available domains and respective quality-of-service (QoS) attributes. The later must be updated as part of a self-management control loop (Fig.~\ref{fig:domain-selection-loop}) in which the client checks for the measured or advertised QoS levels of each available domain and decides for the alternative that best satisfies its requirements. 
 
 %For instance....
 
