@@ -4,7 +4,9 @@
 
 Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{continuum} on which new and disruptive types of applications can rely. Sometimes referred to as the Cloud-to-Things continuum, it enables the seamless convergence of infrastructure stretching from the cloud datacenter to devices on the network edge (including intermediate devices like ISP gateways, cellular base stations, and private cloud deployments) into a continuum of resources, to be provisioned to multiple tenants for hosting applications. Components of an application are hence able to run in a geo-distributed fashion using the services provided by the distributed infrastructure~\cite{GuptaIfogSim17}. 
 
+%TODO: parts of this paragraph are unclear (e.g., interplay with the cloud properties?)
 The key notion to bridge the gap in such a continuum is that of edge\footnote{In the literature the term ``edge'' is often used interchangeably with the term ``fog''.} computing, whose defining characteristics are edge location, dense geographical distribution, large-scale of deployment, support for mobility, resource and interface heterogeneity, and interplay with the cloud properties in order to address requirements of mobile applications that need low latency with a wide and dense geographical distribution~\cite{Bonomi2014}.  
+
 
 %What: the challenges in materializing the continuum
 \subsection{Key Characteristics and Challenges}
@@ -19,23 +21,19 @@ The key notion to bridge the gap in such a continuum is that of edge\footnote{In
 \newcounter{req_sub_count}[req_count]
 
 %What: the challenge of heterogeneity; 
-%Check: is this a problem that is solved by our proposal? Does not seem so. 
-%TODO: use different types of the continuum in the examples instead of mentioning setup delay
-\subsubsection{Heterogeneity}\label{sec:heterogeneity}
+%\subsubsection{Heterogeneity}\label{sec:heterogeneity}
 
-\stepcounter{req_count}
+%\stepcounter{req_count}
 
-The continuum encompasses heterogeneous types of computing platforms and technologies located at the cloud and at the edge of the network, as well as those of mobile devices (Fig.~\ref{fig:continuum-overral}). The realization of the continuum requires a flexible model that copes with this heterogeneity, i.e., different instances of the model should address the many particularities in the continuum (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+The continuum encompasses heterogeneous types of computing platforms and technologies located at the cloud and at the edge of the network, as well as in mobile devices. Next, we identify the key characteristics of the cloud-edge-mobile continuum posing challenges to its realization along with the properties required to address these challenges.
 
+%This heterogeneity poses challenges in terms of how each part of the continuum should allocate its resources to different types of client applications (provisioning) and how these applications should have access to the continuum resources (inter-operation). 
+
+%In particular, 
+
+
+%The realization of the continuum requires a flexible model that copes with this heterogeneity (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).%, i.e., different instances of the model should address the many particularities in the continuum .
 %, i.e., it should be agnostic with respect to the capabilities and specific technology details of different computing platforms and infrastructures in the continuum (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); and 
-
-The discovery of finely distributed edge datacenters is an example of heterogeneity in the continuum. Today, networking protocols and technologies are the main responsible for allowing client applications to access cloud services in a transparent way. For this, clients access cloud services by means of well-known Internet names that are resolved by traffic managers and domain-name servers (DNS) technologies. The datacenters hosting cloud services are, at best, coarsely distributed among continents, countries, or broader regions. Conversely, finely distributed edge datacenters may be part of the local network infrastructure (e.g., domestic and office infrastructures). Such configuration requires the advertisement and discovery of servers and services (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
-
-
-%In these cases, services names are mapped to either the servers hosting them or to intermediate components (e.g., traffic managers) responsible for transparently routing client requests to datacenters covering their area. 
-%In contrast, in a , a similar transparency may not be possible. 
-
-
 
 
 %\begin{figure}[tbp]
@@ -61,11 +59,11 @@ The discovery of finely distributed edge datacenters is an example of heterogene
 %%In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not.
 %Accordingly, the unified model should enable the co-existence of applications requiring different QoS levels (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and the priority of the usage of computational resources from resource-constrained domains must be in accordance with the application category and its QoS requirements (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
-\subsubsection{Efficiency}\label{sec:efficiency}
+\subsubsection*{Efficiency}\label{sec:efficiency}
 
 \stepcounter{req_count}
 
-Another aspect relating to the heterogeneity in the continuum consists of how edge domain resources should be employed. In cloud computing, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability by allowing elastic services to remain accessible and operational independently of the number of requests. ployed to each edge domain, even when there are no clients in the area being served. Such an \textit{always-available} model suits well with services covering either large or dense areas in which requests are always expected. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the usage of its computational resources~\cite{GarrigaMendonca2017}.
+An important aspect is that of efficiency. In cloud computing, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability by allowing elastic services to remain accessible and operational independently of the number of requests. ployed to each edge domain, even when there are no clients in the area being served. Such a high availability suits well with services covering either large or dense areas in which requests are always expected. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the usage of its computational resources~\cite{GarrigaMendonca2017}.
 
 %The elasticity of cloud datacenters is enabled by its horizontal scalability, in which virtual machines or containers can be instantiated in new virtually unlimited physical resources. 
 
@@ -76,13 +74,21 @@ Another aspect relating to the heterogeneity in the continuum consists of how ed
 
 First, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous services and clients would be reduced. Second, because it is unlikely that clients of services covering small areas shall always be present. To improve efficiency and scalability, the allocation of runtime resources to different services should be opportunistic and without minimum preallocation, unless justified otherwise (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). Moreover, the fine-grained distribution of edge domains and their resource limitations also suggests that an a priori acquisition of different service artifacts to all domains would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Accordingly, the acquisition of service artifacts should be opportunistic, unless justified otherwise (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
-\subsubsection{Context-Awareness}\label{sec:context-awareness}
+\subsubsection{Locality \& Context-Awareness}\label{sec:context-awareness}
 
 \stepcounter{req_count}
 
-%Santity Check:
-%A client communicates with a domain by means of an access point, which may or may not provide Internet connection to cloud services; 
-In a fine grained distribution of edge computing, it is unlikely that different service providers will be able to coordinate and decide which one will serve a given client request. For instance, from inside a building with some local-edge domain accessible through Wi-Fi direct, a client may still be in contact with a mobile-edge accessible through 5G\footnote{Fifth generation of broadband cellular technology}. If both can provide the same services, but are unable to communicate and coordinate the allocation of the client request, it is up to the client to make the decision of which domain to use. Accordingly, clients should have the control over which service providers in the continuum should be used based on alternatives awareness (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). Additionally, to allow services to be opportunistically deployed based on the awareness of clients in their coverage area, clients must advertise their requirements to service providers (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+In a fine grained distribution of edge computing, it is unlikely that different service providers will be able to coordinate and decide which one will serve a given client request. For instance, from inside a building with some local-edge domain accessible through Wi-Fi direct, a client may still be in contact with a mobile-edge accessible through 5G\footnote{Fifth generation of broadband cellular technology}. If both can provide the same services, but are unable to communicate and coordinate the allocation of the client request, it is up to the client to make the decision of which domain to use. Accordingly, clients should have the control over which service providers in the continuum should be used (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). 
+
+The discovery of finely distributed edge datacenters is another important aspect to be tackled. Today, networking protocols and technologies are the main responsible for allowing client applications to access cloud services in a transparent way. For this, clients access cloud services by means of well-known Internet names that are resolved by traffic managers and domain-name servers (DNS) technologies. The datacenters hosting cloud services are, at best, coarsely distributed among continents, countries, or broader regions. Conversely, finely distributed edge datacenters may be part of the local network infrastructure (e.g., domestic and office infrastructures). Such configuration requires that servers and services to be discoverable by clients (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+
+
+%In these cases, services names are mapped to either the servers hosting them or to intermediate components (e.g., traffic managers) responsible for transparently routing client requests to datacenters covering their area. 
+%In contrast, in a , a similar transparency may not be possible. 
+
+
+
+%Additionally, to allow services to be opportunistically deployed based on the awareness of clients in their coverage area, clients must advertise their requirements to service providers (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
 %clients must be aware of alternative domains (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}); and 
 
@@ -122,7 +128,7 @@ In a fine grained distribution of edge computing, it is unlikely that different 
 
 %TODO: replace R2 with: Control over forwarding from edge to cloud. Soft vs. strong constraint. Soft = I can also run on cloud if needed. Strong = Never go to cloud.
 	
-\subsubsection*{Automation and Encapsulation}
+\subsubsection{Automation and Encapsulation}
 
 \stepcounter{req_count}
 

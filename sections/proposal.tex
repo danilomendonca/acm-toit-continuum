@@ -13,17 +13,13 @@ The A3-E model also encompasses the concepts of client applications, services, r
 \subsection{A3-E Process: Phases}\label{sec:A3-E-process}
 
 %What: the process within A3-E
-The A3-E process is composed of four phases. Each phase encompasses activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum. 
-
-A3-E process provides flexibility (Req. \textbf{R1.1}) with respect to its phases in order to addresses the particularities of the continuum constituents. In specific, the diagram in Fig.~\ref{fig:A3-E-model} represents an instance with the four phases. Later on, other possible instances of the A3-E model are mapped to distinct scenarios of the compute continuum.
+The A3-E process is composed of four phases. Each phase encompasses activities -- performed by the client-side and domain-side middlewaress -- that take care of specific concerns in the interaction among client applications and the compute continuum. The process provides flexibility with respect to its phases in order to addresses the particularities of the continuum constituents. Next, we describe the four phases depicted in Fig.~\ref{fig:A3-E-process}, which represents an instance with the complete process. Later on, other possible instances of the A3-E model are mapped to distinct scenarios of the compute continuum.
 
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 \subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase models the actual interaction between a client and a service in the continuum. At this stage of the client-domain interaction, the requested service must be already deployed by the domain hosting the service(s).  Moreover, the client must have selected this domain for consuming its service(s). 
-
-%In order to overcome the heterogeneity of the continuum, A3-E adheres to the use of service-orientation in which clients engage with remove services by means of a request/response protocol (e.g., RESTful services over HTTP). 
+The \textit{engagement} phase models the actual interaction between a client and a service in the continuum. At this stage of the client-domain interaction, the requested service must be already deployed by the domain hosting the service(s).  Moreover, the client must have selected this domain for consuming its service(s). In order to overcome the heterogeneity of the continuum and enable inter-operation, A3-E adheres to the use of service-orientation in which clients engage with remove services by means of a request/response protocol (e.g., RESTful services over HTTP).
 
 %For instance, traditional cloud-based services are pre-allocated. In the later case, the remaining A3-3 phases are not employed. Nonetheless, in other scenarios of the continuum --- specially those with resource limitations --- a dynamic and opportunistic allocation shall improve the efficiency in which domain resources are consumed.
 
@@ -35,13 +31,11 @@ The \textit{engagement} phase models the actual interaction between a client and
 
 \subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
 
-The allocation phase has the following purposes: 1) to enable the efficient (Req. \textbf{R2.1}) and automated (Req. \textbf{R4.1}) allocation of domains' computational resources; and to enable clients to choose the best candidate among different available domains (Req. \textbf{R3.1}).
+The allocation phase has the following purposes: 1) to enable the efficient (Req. \textbf{R1.1}) and automated (Req. \textbf{R3.1}) allocation of domains' computational resources; and to enable clients to choose the best candidate among different available domains (Req. \textbf{R2.1}).
 
 %cloud providers already implement automated scaling mechanisms, e.g, with the allocation of virtual machines and container instances on demand. 
 
-From the domains perspective, A3-E addresses efficiency by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\cite{kephart2003vision} (Fig.~\ref{fig:service-allocation-loop}) in which computational resources are allocated and deallocated according to: 1) the monitored QoS os services provided by the domain; and 2) the SLA between the domain provider and client applications. 
-
-
+From the domains perspective, A3-E addresses efficiency by adhering to the FaaS execution model in which stateless functions can be deployed and scaled on demand without minimum pre-allocation of resources. In particular, the allocation phase is modeled by a self-management loop~\cite{kephart2003vision} (Fig.~\ref{fig:service-allocation-loop}) in which computational resources are allocated and deallocated according to: a) the monitored QoS os services provided by the domain; and b) the SLA between the domain provider and client applications. 
 
 %2) the allocation policy employed by the domain; and 3) the availability of resources. 
 
@@ -61,18 +55,18 @@ From the clients perspective, the allocation phase refers to the selection, at a
 	\subfloat[Services allocation control loop; domains must monitor the QoS of deployed services and adapt its allocation scheme to prevent SLA violation.\label{fig:service-allocation-loop}]{ \includegraphics[width=0.4\textwidth]{figs/service-allocation-loop}}
 	\captionsetup[subfigure]{width=0.4\textwidth}	
 	\hfill
-	\subfloat[Domain allocation control loop; clients must monitor available domains and select the one that best satisfies its requirements.\label{fig:domain-selection-loop}] {\includegraphics[width=0.4\textwidth]{figs/domain-selection-loop}}
+	\subfloat[Domain selection control loop; clients must monitor available domains and select the one that best satisfies its requirements.\label{fig:domain-selection-loop}] {\includegraphics[width=0.4\textwidth]{figs/domain-selection-loop}}
 	\hfill\null
 	\caption{Self-management control loops for service allocation and domain selection}\label{fig:allocation-loops}
 \end{figure}
 
 \subsubsection*{Acquisition Phase}\label{sec:A3-E-acquisition}
 
-The Acquisition phase has the following purposes: 1) to enable the efficient (Req. \textbf{R2.2}) and automated (Req. \textbf{R4.2}) download and installation of service artifacts; and 2) to enable clients to identify, among the known domains, those compatible with their requirements.
+The Acquisition phase has the following purposes: 1) to enable the efficient (Req. \textbf{R1.2}) and automated (Req. \textbf{R3.2}) download and installation of service artifacts; and 2) to enable clients to identify, among the known domains, those compatible with their requirements (Req. \textbf{R2.1}).
 
 From the domains perspective, A3-E furthers improve the efficiency of resource usage with the dynamic acquisition of service artifacts. In specific, this phase is modeled by the download and installation of artifacts upon identification of requirements from a given application. 
 %In case the service has already been acquired or as the acquisition finishes, clients should add that domain to their list of available domains. 
-From the clients perspective, acquisition is modeled by the addition of a domain to a list of available domains.
+From the clients perspective, acquisition is modeled by the simple addition of a domain to a list of available domains.
 
 %From the domain side, the lack of acquisition implies that service assets must be previously made available. Nonetheless, the preliminary acquisition of a large number of assets is limited by the domain storage capability. 
 
@@ -88,135 +82,14 @@ From the clients perspective, acquisition is modeled by the addition of a domain
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests.  
 %A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers; a given domain my count on network components to traffic route to its servers instead of negociating directly with clients aware of its existance; nonetheless, the lack of awareness limits the acquisition and deployment of services to reactive, as the domain would only identify a given service upon the first request has been made. Clients, in the other hand, would not be able to choose from alternative domains. 
 
-Finally, the Awareness phase has the following purposes: 1) to enable a domain to pro-actively initialize other phases (namely acquisition and allocation) based on its awareness about application requirements hosted by clients in the domain coverage area (Req. \textbf{R3.2}); and 2) to enable clients to discover the address of domains that are not identified through well-known Internet names (Req.~\textbf{R1.2}).
-
-% can be found and consumed in a opportunistic way (Req. \textbf{R3.2}).
+Finally, the Awareness phase has the following purposes: 1) to enable domains to pro-actively initialize the acquisition and allocation phases based on its 
+awareness of applications whose hosting devices happens to be in the domain coverage area (Req.~\textbf{R2.3}); and 2) to enable clients to discover the address of local domains (Req.~\textbf{R2.2}).
 
 From the domains perspective, the awareness of clients presence in their coverage area allows a proactive download and installation of services artifacts (acquisition phase) and/or the allocation of services (allocation phase) potentially before a first request to that service arrives, alleviating the delay introduced by services setup.  From the clients perspective, the awareness phase increases the range of alternatives from the continuum that can be used to satisfy their requirements.
 
 %Such behavior allows that are opportunistically acquired and/or allocated to mitigate their setup delay by triggering these phases upon awareness of client(s) in their coverage area.
 
 %From the domain side, the lack of awareness of clients in the domain coverage area prevents triggering the acquisition and subsequently allocation phases based on this event. From the client side, the lack of awareness from surrounding domains prevents them to make the decision of which domains to use. In the later case, clients must rely on external components to reach servers (e.g., traffic managers and DNS servers).
-
-
-%What: how different policies may be employed by domains and clients throughout A3-E-Process
-\subsection{A3-E Process: Policies}\label{sec:A3-E-policies}
-
-%What: the flexibility of A3-E model in terms of policies that regulate the transition among phases
-
-The A3-E process is also flexible with respect to the transitions among subsequent phases. In particular, distinct policies may define different transition behaviors. Figures~\ref{fig:A3-E-domain} and~\ref{fig:A3-E-client} depict, respectively, the possible transitions among states of a domain with respect to a client application and vice-versa. Each state is mapped to the corresponding phase in Fig.~\ref{fig:A3-E-model}. 
-
-Above all, policies affect the following conflicting properties: a) the \textit{efficiency} of domain resource usage (domain side); and b) the application tolerance for service setup \textit{delay} (client side). Considering the first request arrival ($FRA$) from a client application as the reference event, the more \textit{reactive} the policies are to that event, the less time domain resources are likely to remain idle before it happens (more efficiency). In contrast, the chances of underutilization and idleness are higher with \textit{proactive} policies (less efficiency). Eq.~\ref{eq:setup_cost} models the total delay of service setup:
-
-\begin{equation}\label{eq:setup_cost}
-C_{SETUP} = C_{OFFLINE} + C_{RUNTIME}
-\end{equation}
-
-\noindent
-in which the first term ($C_{OFFLINE}$) represents the resources required for downloading and installing the services (e.g., network and storage), whilst the later ($C_{RUNTIME}$) represents the resources needed for executing the services (e.g., memory and CPU). 
-
-From the delay point of view, the relation is the opposite: the more \textit{reactive} the policies are with respect to the first request arrival event, the higher the delay the first request to each service is served with. In the other direction, the more \textit{pro-actively} services are made ready for execution, the lower the delay the first request to each of these services is served with. Eq.~\ref{eq:setup_delay} models the total delay of service setup:
-
-%\Delta_{NET} + 
-\begin{equation}\label{eq:setup_delay}
-L_{SETUP} = \Delta_{AW} + \Delta_{AQ} + \Delta_{AL}
-\end{equation}
-
-\noindent
-in which the first term ($\Delta_{AW}$) represents the time it takes for clients and domains to become aware of each other. The second term ($\Delta_{AQ}$) represents the time for acquiring all assets of a specific service, whilst the last term ($\Delta_{AL}$) represents the time for allocating resources for the service execution. 
-
-For instance, existing cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions, and Apache OpenWhisk) employ on demand allocation of stateless functions, i.e., functions are reactively allocated upon arrival of the first request. Depending on the policy configuration, the platform waits for an idleness interval before deallocating the function~\cite{}. In these cases, the improved efficiency of the platform in allocating computational resources has the drawback of a setup delay (cold start). Next, the domain-side policies in Fig.~\ref{fig:A3-E-domain} are categorized.
-
-\begin{figure}[tbp]
-	\raggedright
-	\subfloat[Different states of a given edge domain with respect to a given client application; the transitions between states triggered by domain events are guarded by policies that may vary according to the type of edge infrastructure and the service level agreement (SLA)\label{fig:A3-E-domain}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-domain}}\hfill
-	
-	\subfloat[Different states of a given client with respect to a given edge domain; the transitions between states triggered by client events are guarded by policies that may vary according to the client requirements\label{fig:A3-E-client}] {\includegraphics[width=0.95\textwidth]{figs/A3-E-client}}\hfill
-	\caption{States and transitions among A3-E phases} \label{fig:A3-E-states}
-\end{figure}
-
-\subsubsection{Domain-Side Policies} The domain-side policies in Fig.~\ref{fig:A3-E-domain} can be refined into three types: \textit{proactive} (P), \textit{sequential} (S), and \textit{reactive} (R). The employment of each type during acquisition and allocation is described as follows:
-
-\begin{itemize}
-	
-\item \textit{Acquisition policy}
-
-\begin{itemize}
-
-\item \textbf{Proactive}: acquisition phase starts upon external event preceding the $FR_A$ event (e.g., the prediction of service usage in the near-future). Benefits: first response delay ($FR_D$) does not include $\Delta_{AQ}$. Drawback: acquired artifacts remain idle until usage. Example: stateless functions required by body device applications during a marathon event are fetched the night before the event by mobile-edge domains located along the course. 
-
-\item \textbf{Sequential}: the beginning of acquisition phase is dictated by the completion of the awareness phase. Benefits: service artifacts are only acquired upon detection of a potential client in the domain coverage area, minimizing the likelihood of idleness. Drawbacks: $FR_D$ may include a fraction of $\Delta_{AQ}$ if $FRA$ precedes the end of acquisition. Example: stateless functions to be consumed by a mobile multiplayer game application are acquired by an indoor-edge domain inside a passenger train upon detection of two or more clients in the train.
-
-\item \textbf{Reactive}: acquisition phase starts upon detection of a $FRA$. Benefits: acquisition of service artifacts follows an actual demand, eliminating artifacts storage idleness. Drawbacks: $FR_D$ includes $\Delta_{AQ}$, which may be disruptive for some applications. Example: stateless functions to be consumed by a TODO 
-
-%the notion of a reactive allocation can be extended also to the acquisition of service artifacts. Instead of having functions pre-downloaded and installed, this process could happen in reaction to the first arrival of a request. 
-
-\end{itemize}
-
-\item \textit{Allocation policy}
-
-%The \textit{allocation policies} in Fig.~\ref{fig:A3-E-domain} can be:
-
-\begin{itemize}
-
-\item \textbf{Proactive}: allocation phase starts upon external event preceding the arrival of the first request (e.g., the prediction of service usage in the near-future). Benefits: $FR_D$ does not include $\Delta_{AL}$. Drawback: allocated resources remain idle until $FR_A$. Example: stateless functions to be consumed by connected vehicles are pre-allocated by mobile-edge domains in specific day times.
-
-\item \textbf{Sequential}: allocation phase starts as soon as acquisition phase finishes. Benefits: depends on the acquisition policy. Drawbacks: depends on the acquisition policy. Example: stateless functions required by a marathon application running on body devices are allocated following their acquisition by the mobile-edge domains along the course.
-
-\item \textbf{Reactive}: allocation phase starts as soon as $FR_A$ is detected. Benefits: eliminates idleness by conditioning allocation to an actual service demand. Drawback: $FR_D$ includes $\Delta_{AL}$ (cold start). Example: stateless functions required by a mobile multiplayer game are allocated by a local-edge domain inside a train following the detection of a $FR_A$ event.
-
-\end{itemize}
-
-\item \textit{Deallocation policy}
-
-\begin{itemize}
-	
-	\item \textbf{Proactive}: . Benefits: . Drawback: . Example: .
-	
-	\item \textbf{Reactive}: . Benefits: . Drawback: . Example: .
-	
-\end{itemize}
-
-\item \textit{Disposal policy}
-
-\begin{itemize}
-	
-	\item \textbf{Proactive}: . Benefits: . Drawback: . Example: .
-	
-	\item \textbf{Reactive}: . Benefits: . Drawback: . Example: .
-	
-\end{itemize}
-
-\end{itemize}
-
-\subsubsection{Client-Side Policies}
-
-Clients may also adopt different policies for the selection and deselection of domains (Fig.~\ref{fig:A3-E-client}), namely:
-
-%domains are selected based on their category (cloud, edge, local) or/and 
-
-\begin{itemize}
-	
-	\item \textit{Selection policy}
-	
-	\begin{itemize}
-		
-		\item \textbf{Proactive}: 
-		
-		\item \textbf{Reactive}: 
-		
-	\end{itemize}
-	
-	\item \textit{Deselection policy}
-	
-	\begin{itemize}
-		
-		\item \textbf{Proactive}: 
-		
-		\item \textbf{Reactive}: 
-		
-	\end{itemize}
-\end{itemize}
 
 \subsection{Concrete Scenarios}
 
