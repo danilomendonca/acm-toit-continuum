@@ -35,7 +35,7 @@ Particularly, Edge-local domain is always placed close to the client application
 
 %For the Fog alternative, we deployed the serverless architecture on Policloud\footnote{http://policloud.polimi.it/}, the private IaaS solution of Politecnico di Milano. Here, the computational resources are less constrained, and still low latency can be achieved due to physical proximity (two hops from the client) and data locality. This setup runs on a small cluster of 4 virtual machines with 2x CPU, 4x Gb of Ram and 100 GB SSD, each running a different component of openwhisk (triggers and storage, Http server, controller, and invokers, respectively). Note that in this case the fog node is deployed in the same LAN that originates the requests, to emulate the few-hop scenario in which devices are directly connected to their corresponding MEC.
 
-The serverless cloud alternative (Cloud-FaaS) for this experiment uses AWS Lambda\footnote{https://aws.amazon.com/lambda/} as the first-available and most mature serverless solution in the market. The functions and associated libraries and services (storage, image recognition) are hosted in the same region, which is enforced by AWS to guarantee a certain degree of data locality. Finally, we also deployed the feature recognition functionality as a ``serverful'' Cloud setup (Cloud-IaaS). However, the main goal of this experiment is not to compare traditional cloud services against a serverless solution, but to demonstrate that the proposed continuum can outperform the Cloud under certain circumstances and requirements.
+The serverless cloud alternative (Cloud-FaaS) for this experiment uses AWS Lambda\footnote{https://aws.amazon.com/lambda/} as the first-available and most mature serverless solution in the market. The functions and associated libraries and services (storage, image recognition) are hosted in the same region, which is enforced by AWS to guarantee a certain degree of data locality. Finally, we also deployed the feature recognition functionality as a ``serverful'' Cloud setup (Cloud-IaaS). However, the main goal of this experiment is not to compare traditional cloud services against a serverless solution, but to demonstrate that the proposed continuum can outperform the Cloud under the tested circumstances and requirements.
 
 
 \subsection{Domain Latency Evaluation} 
@@ -59,7 +59,7 @@ Then, the image is sent through HTTP/POST and different subsequent steps are exe
 
 %\subsubsection{Baseline Latency}
 
-To measure the latency, the workload was parameterized using different number of parallel clients, which perform 100 requests each, fired at a constant rate of two per second. This setup considers not only the default maximum for concurrent executions in AWS Lambda\footnote{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html} and Openwhisk\footnote{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}, but also the limited resources of the edge domains. 
+To measure the latency, the workload was parameterized using different number of parallel clients, which perform 100 requests each, at a constant rate of two per second. This setup considers not only the default maximum for concurrent executions in AWS Lambda\footnote{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html} and Openwhisk\footnote{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}, but also the limited resources of the edge domains. 
 
 The experiment stresses progressively the different domains, and allows to compare the relative latency under each workload. Figure~\ref{fig:latency-domains} shows the average latency for each scenario, averaged through 5 executions. Note that the function computation time (light gray) is distinguished from the overhead (dark gray), which includes network communication (routing, forwarding) and queuing time (when no resources are available to process the request immediately). 
 
@@ -78,16 +78,60 @@ The experiment stresses progressively the different domains, and allows to compa
 
 %\subsection{Battery} The second set of experiments targeted the measurement of battery consumption of a mobile device in two scenarios: 1) in which feature extraction and matching were performed locally, and 2) these tasks were offloaded to edge servers.
 
-\subsection{Continuum} The next set of experiments targeted the evaluation of A3-E with a computational continuum scenario. In specific, the evaluation consisted of a mobile device hosting a simplified version of an AR application with the feature extraction and matching modeled as stateless functions that can be executed locally (Java Functions), in an edge-based FaaS platform (OpenWhisk), or a cloud-based FaaS platform (Amazon Lambda). We measured the following parameters: Battery consumption, total execution time, and time per call. The experiment featured four different scenarios: With only one domain available (either locally in the device, edge-mobile or cloud-faas), and then with all domains available at the same time (all-domains). \textcolor{blue}{[TODO] (1) Explain the probabilities of having each domain available. (2) Discuss the relevance of the results} 
-Figure~\ref{fig:exp-a3e} shows the results for the experiment, averaged among 5 executions for each scenario.
+\subsection{Evaluation of A3-E in the Continuum} The next set of experiments targeted the evaluation of A3-E within the computational continuum. In specific, the evaluation consisted of a mobile device~\ref{Samsung Galaxy S6 SM-G90 with 3Gb RAM, 8x Cortex CPU 2Ghz and Android 5.0.2} hosting the A3-E Middleware and a simplified version of an AR application, with feature extraction and matching modeled as stateless functions that can be executed locally (Java Functions), in an edge-based FaaS platform (OpenWhisk), or a cloud-based FaaS platform (Amazon Lambda). In this experiment, A3-E is in charge of dynamically monitoring the QoS of each domain and selecting the best one available for execution, as described in Section~\ref{sec:proposal}.
+The experiment featured four different scenarios. The first three scenarios are simple ones, where only one domain is available: (1) Local execution in the device, (2) edge-mobile domain, or (3) cloud-faas domain. The fourth scenario brings together the three previous domains as a continuum, allowing to select among them by means of A3-E. 
+For the last scenario, the availability of the different domains was modeled probabilistically, with the following considerations. The sensing interval $u$ was set every 2 seconds. This means, A3-E pings for domain availability and perceived latency every two seconds. Then, the average unavailability of the cloud domain (e.g., because the device is outside mobile coverage area) is once every 15 minutes. Using a geometric distribution\footnote{https://math.stackexchange.com/questions/165993/average-number-of-times-it-takes-for-something-to-happen-given-a-chance}, the probability of sensing the cloud as unavailable is: $internetOnToOff=0.022$. Once the cloud is unavailable, the average time for becoming available again is 2 minutes. This means, the probability is: $internetOffToOn=0.166$. The rationale for the edge domain is analogous, but considering a higher probability of being unavailable --- e.g., due to lack of physical proximity to edge servers. In this case, the edge is unavailable once every 10 minutes: $edgeOnToOff = 0.33$. Once unavailable, we considered an average of 5 minutes for becoming available again: $edgeOffToOn=0.066$. Finally, the local domain (device) is considered to be always available, but is selected only when the other domains are unavailable, or the sensed latencies are too high for the application requirements.
+
+
+\begin{comment}
+internetOnToOffProbability = 0.22%
+internetOffToOnProbability = 1.66%
+
+edgeOnToOffProbability = 3.33%;
+edgeOffToOnProbability = 6.66%;
+
+e = 1/p; //average number of trials it takes for the event with probability p to happen
+~t = e * u;  //average time it takes for the event with probability p to happen given a trial interval u
+~t = u/p; //the same, but using the trial interval and the probability p 
+
+###
+
+trial interval u = 2 seconds
+
+average time for disconnecting: 15 x 60 seconds
+prob. of disconnecting: 0.2222222%   
+
+average time for reconnecting: 2 x 60 seconds
+prob. of reconnecting: 1.666666%
+
+average time for edge unavailability: 10 x 60 seconds 
+prob. of edge unavailability: 0.333333%
+
+average time for edge becoming available: 5 x 60 seconds 
+prob. of edge becoming available: 0.666666%
+
+\end{comment}
+
+%(all-domains).
+
+The experiment execution consisted on cascading 2000 sequential requests for feature extraction and matching of a sample image. Then, we measured battery consumption in the mobile device, total execution time, and average time per call. Figure~\ref{fig:exp-a3e} shows the experimental results, averaged among 5 executions for each scenario.
+ For the total execution time (Fig.~\ref{fig:total-exec-a3e}, Considering the Cloud domain as baseline, edge-mobile improved the execution time up to a 72\%, while local and all-domains up to a 69\%  and 49\% respectively. Regarding battery consumption (Fig.~\ref{fig:battery-a3e}), the highest one was when using only the local domain (device), with a battery drop of 4.5\% during the 750 seconds (12.5 minutes) that lasted the execution. Battery savings with cloud, edge and all-domains were 49\%, 35\% and 49\%, respectively. For the average execution time (Fig.~\ref{fig:time-per-call-a3e}), with the cloud domain as baseline (1137 miliseconds per call), the improvements were 76\%, 68\% and 47\% for edge, local and all-domains respectively. For this scenario in particular, Fig.~\ref{fig:calls-per-domain-a3e} shows the average number of calls that were made for each domain in the continuum, showing that 65\% of the calls were served by the edge-mobile domain, followed by the cloud (30\%) and the local device (7\%).
+ 
+  
+
+%that allows to cope with unavailability and fluctuations in QoS 
+
+\textcolor{blue}{TODO:(2) Discuss the relevance of the results }
+
 
 \begin{figure}[tbp]
 	\raggedright
 	\subfloat[Total execution time (seconds)\label{fig:total-exec-a3e}] {\includegraphics[width=0.5\textwidth]{figs/total-exec-time-A3E}}
 	\subfloat[Battery consumption (\%)\label{fig:battery-a3e}] {\includegraphics[width=0.5\textwidth]{figs/battery-consumption-A3E}}
 	
-	\centering\subfloat[Execution time per call (miliseconds)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.5\textwidth]{figs/time-per-call-A3E}}
-
+	\subfloat[Execution time per call (miliseconds)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.5\textwidth]{figs/time-per-call-A3E}}
+	\subfloat[Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.5\textwidth]{figs/calls-per-domain-A3E}}
+	
 	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
 \end{figure}
 
