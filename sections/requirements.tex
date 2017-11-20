@@ -13,7 +13,7 @@ The key notion to bridge the gap in such a continuum is that of edge\footnote{In
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-overall.png}
-	\caption{The computational continuum formed by coarsely distributed cloud datacenters, finely distributed edge datacenters, and mobile/IoT devices.}
+	\caption{The computational continuum formed by coarsely distributed cloud datacenters, finely distributed edge datacenters, and mobile/IoT devices (adapted from~\cite{Tarneberg2017}).}
 	\label{fig:continuum-overral}
 \end{figure}
 
@@ -63,7 +63,7 @@ The continuum encompasses heterogeneous types of computing platforms and technol
 
 \stepcounter{req_count}
 
-An important aspect is that of efficiency. In cloud computing, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability by allowing elastic services to remain accessible and operational independently of the number of requests. Such a high availability suits well the services covering either large or dense areas in which requests are always expected. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the usage of its computational resources~\cite{GarrigaMendonca2017}.
+In cloud computing, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability by allowing elastic services to remain accessible and operational independently of the number of requests. Such a high availability suits well the services covering either large or dense areas in which requests are always expected. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the usage of its computational resources~\cite{GarrigaMendonca2017}.
 
 %The elasticity of cloud datacenters is enabled by its horizontal scalability, in which virtual machines or containers can be instantiated in new virtually unlimited physical resources. 
 
@@ -132,7 +132,7 @@ The discovery of finely distributed edge datacenters is another important aspect
 
 \stepcounter{req_count}
 
-As a key aspect to realization of the computational continuum lies automation. First, because the multiplicity of finely distributed edge datacenters requires the self-managing of this infrastructure to avoid the burden and costs of manual human operation. Second, automation is needed to allow services to be seamlessly displaced from different parts of the continuum. Accordingly, automation should encompass the operational aspects of services life-cycle, including the allocation of resources for different services (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}) and the installation of services (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). Finally, it should also encompass the choice of alternative services by a client (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+The multiplicity of finely distributed edge datacenters requires the self-managing of this infrastructure to avoid the burden and costs of manual human operation. Second, automation is needed to allow services to be seamlessly displaced from different parts of the continuum. Accordingly, automation should encompass the operational aspects of services life-cycle, including resource allocation for different services (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}) and their installation (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). Finally, it should also encompass the choice of alternative services by a client (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
 
 %in the context of a shared platform 
@@ -154,16 +154,16 @@ As a key aspect to realization of the computational continuum lies automation. F
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-Scenario}
-	\caption{Heterogeneous applications (AR and CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
+	\caption{Heterogeneous applications such as Augmented Reality (AR )and Connected Vehicles (CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
 	\label{fig:continuum-scenario}
 \end{figure}
 
 
 We illustrate the realization of the continuum in an example scenario (Fig.~\ref{fig:continuum-scenario}) that starts in a user's office and finishes in his home and involves different applications. 
 
-First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to allow employees to extend the computational capabilities of mobile devices. In our example, the user makes use of a \textit{smartglass} application to craft three dimensional virtual objects added to his desk table.
+First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to allow employees to extend the computational capabilities of mobile devices. In our example, the user makes use of an Augmented Reality (AR) \textit{smartglass} application to craft three dimensional virtual objects added to his desk table.
 
-After work, our user leaves his office and enters his CV. During its way home, the autonomous vehicle will make use of edge services deployed at servers located at cellular base stations and owned by telecoms (hereafter called \textit{mobile-edge}). The connected vehicle gets low-latency updates about the best plan to reach its destination. For example, within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead. In particular, the new path consists of residential streets without coverage of mobile-edge services. The CV continue to fetch updates, this time from cloud services; the additional network latency is compensated with the low speed limit of the residential area.
+After work, our user leaves his office and enters his Connected Vehicle (CV). During its way home, the vehicle will make use of edge services deployed at servers located at cellular base stations and owned by telecoms (hereafter called \textit{mobile-edge}). The connected vehicle gets low-latency updates about the best plan to reach its destination. For example, within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead. In particular, the new path consists of residential streets without coverage of mobile-edge services. The CV continue to fetch updates, this time from cloud services; the additional network latency is compensated with the low speed limit of the residential area.
 
 Already at home, the user's smartphone gets in reach of communication with the local-edge server owned by him. In that day, the user finds out about a new mobile game application that makes use of AR. Upon installation, the local-edge server becomes aware of a new edge-compliant application and, meanwhile the game is already running locally, proceeds with the acquisition and deployment of the game services into the local-edge server. Once available, the client application becomes aware of these services and switches from local to edge with the purpose of preserving the smartphone's resources. Not only the game performance improves, but also the battery consumption is reduced.  
 
