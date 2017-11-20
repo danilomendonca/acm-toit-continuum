@@ -110,3 +110,45 @@ In turn, the allocation phase can be triggered according to the following polici
 %		
 %	\end{itemize}
 %\end{itemize}
+
+\subsection{A3-E Instances in the Continuum}
+
+\begin{center}
+	\begin{table}[htbp]
+		\small
+		\caption{Domain-side instances of the A3-E model corresponding to domain variations (D.V.) in the continuum along with: execution model (E.M.), awareness mechanisms (\textbf{W}ell-\textbf{K}nown-\textbf{N}ame or \textbf{A}dvertisement\&\textbf{D}iscovery), and transition policies (\textbf{P}roactive, \textbf{S}equential, \textbf{R}eactive). }\label{tab:A3-E-instances}
+		\begin{tabular}{ c c c c c c }
+			\toprule
+			
+			D.V. & E.M. & \textbf{A}WARENESS & \textbf{A}CQUISITION	& \textbf{A}LLOCATION 	& \textbf{E}NGAGEMENT  	\\
+			
+			\midrule
+			
+			\multirow{2}{*}{ Cloud }
+			& IaaS	& W.K.N.	& OFFLINE		& HOT-START	& BY REQUEST\\
+			& FaaS		& W.K.N.	& OFFLINE		& COLD-START	& BY REQUEST\\\midrule					
+			\multirow{2}{*}{ Edge }
+			& FaaS		& W.K.N.	& [P, R]		& [P, S, R] 	& BY REQUEST\\
+			& FaaS		& A\&D	& [P, S, R]		& [P, S, R]		& BY REQUEST\\\midrule	
+			\multirow{1}{*}{ Mobile }
+			& FaaS	& LOCAL  & OFFLINE	& HOT-START 	& BY REQUEST\\
+			
+			\bottomrule
+		\end{tabular}
+	\end{table}
+\end{center}
+\normalsize
+
+Table~\ref{tab:A3-E-instances} correlates the possible instances of the A3-E model with different domains composing the cloud-edge-mobile continuum. Each instance is described  along with the employed awareness mechanism, execution model, and transition policies~\footnote{The policy adopted by a phase affects which policies may be adopted by its subsequent phase (e.g., a reactive acquisition implies a reactive allocation, as service assets must first be acquired before been deployed, whilst a proactive acquisition may be combined with a reactive allocation).} that may be adopted in each case. 
+
+By taking into account the conflicting properties of \textit{efficiency} and \textit{delay}, we envision the following mapping between A3-E instances and application scenarios of the continuum:
+
+--- \textbf{Cloud-IaaS}. Services hosted in the cloud are, in most of the cases, reachable by means of a well-known Internet name (therefore, no dynamic awareness is employed). Assets used by these services are preliminarily deployed to cloud servers (thus, no dynamic acquisition is employed). Virtual machines and containers are pre-allocated (hot start), and cloud's elasticity mechanisms take care of the (de)allocation of resources according to a service level agreement (SLA). Finally, cloud services are invoked by clients (engagement phase). Target services: delay-tolerant and stateful computation; persistence.
+
+--- \textbf{Cloud-FaaS}. The FaaS model distinguishes from the cloud instance described above by enforcing the use of stateless functions that can be quickly allocated for execution without minimum pre-allocation (cold start). Targeted services: delay-tolerant and stateless computation.
+
+--- \textbf{Edge-Opportunistic}. Services hosted in the edge, in contrast, may need to opportunistically advertise their existence (awareness phase), acquire application assets (acquisition phase), make them ready for invocation (allocation phase), before finally been able to expose the required computation as services to be consumed. In this case, the policies employed for acquisition and allocation may vary between proactive, sequential, or reactive. Targeted services: non-critical applications with desirable requirements for low-latency.
+
+--- \textbf{Edge-Critical}. The later modality of edge computing may co-exist with others in which: 1) services are transparently accessed through well-known Internet names; 2) service assets are pre-acquired (offline acquisition); and 3) services are pre-allocated in order to increase the readiness required by certain types of applications (hot start). Targeted services: critical applications with strict requirements for low-latency.
+
+--- \textbf{Mobile}. This last instance represents the local computation performed by mobile devices. It provides a zero network latency with high availability; in contrast, the resource constraints of mobile devices may result in lower processing performance and undesirable battery drain, therefore justifying the use of other instances (mobile computation offloading), unless none is available. Targeted services: latency-sensitive and lightweight computation.
