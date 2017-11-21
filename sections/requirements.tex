@@ -10,12 +10,12 @@ The key notion to bridge the gap in such a continuum is that of edge\footnote{In
 
 %What: the challenges in materializing the continuum
 \subsection{Key Characteristics and Challenges}
-
-\begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/Continuum-overall.png}
-	\caption{The computational continuum formed by coarsely distributed cloud datacenters, finely distributed edge datacenters, and mobile/IoT devices (adapted from~\cite{Tarneberg2017}).}
-	\label{fig:continuum-overral}
-\end{figure}
+%
+%\begin{figure}[tbp]
+%	\includegraphics[width=0.9\textwidth]{figs/Continuum.pdf}
+%	\caption{Computational continuum formed by Cloud, Edge, and Mobile Computing}
+%	\label{fig:continuum}
+%\end{figure}
 
 \newcounter{req_count}
 \newcounter{req_sub_count}[req_count]
@@ -25,7 +25,9 @@ The key notion to bridge the gap in such a continuum is that of edge\footnote{In
 
 %\stepcounter{req_count}
 
-The continuum encompasses heterogeneous types of computing platforms and technologies located at the cloud and at the edge of the network, as well as in mobile devices. Next, we identify the key characteristics of the cloud-edge-mobile continuum posing challenges to its realization along with the properties required to address these challenges.
+The continuum encompasses heterogeneous types of computing platforms and technologies located at the cloud and at the edge of the network, as well as in mobile devices. Among others, the heterogeneity includes the granularity in which edge datacenters are geographically distributed, posing the challenges of efficiency and scalability of the later; it also includes the way edge services are discovered and accessed, which poses the challenge of awareness. Finally, it includes the particular constraints of mobile devices in terms of battery, platform, and hardware limitations, which adds to the factors that must be taken into account in the decision of where computation should be placed along the continuum in different contexts of operation.
+
+%Next, we identify the key characteristics of the cloud-edge-mobile continuum posing challenges to its realization along with the properties required to address these challenges.
 
 %This heterogeneity poses challenges in terms of how each part of the continuum should allocate its resources to different types of client applications (provisioning) and how these applications should have access to the continuum resources (inter-operation). 
 
@@ -72,15 +74,17 @@ In cloud computing, the infrastructure responsible for hosting and performing se
 
 %A direct replication of cloud computing IaaS model with edge computing infrastructure would not be possible. 
 
-First, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous services and clients would be reduced. Second, because it is unlikely that clients of services covering small areas shall always be present. To improve efficiency and scalability, the allocation of runtime resources to different services should be opportunistic and without minimum preallocation, unless justified otherwise (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). Moreover, the fine-grained distribution of edge computing and its resource limitations also suggests that an a priori acquisition of different service artifacts to all edge servers would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Accordingly, the acquisition of service artifacts should be opportunistic, unless justified otherwise (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+First, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous services and clients would be reduced. Second, because it is unlikely that clients of services covering small areas shall always be present. 
+To improve efficiency and scalability, the allocation of runtime resources to different services should be opportunistic and without minimum preallocation, unless justified otherwise. % (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). 
+Moreover, the fine-grained distribution of edge computing and its resource limitations also suggests that an a priori installation and deployment to all edge servers would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Instead, the acquisition of service artifacts should be opportunistic, unless justified otherwise. % (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
 \subsubsection{Locality \& Context-Awareness}\label{sec:context-awareness}
 
 \stepcounter{req_count}
 
-In a fine grained distribution of edge computing, it is unlikely that different service providers will be able to coordinate and decide which one will serve a given client request. For instance, from inside a building with some local-edge servers accessible through Wi-Fi direct, a client may still be in contact with a mobile-edge accessible through 5G\footnote{Fifth generation of broadband cellular technology}. If both can provide the same services, but are unable to communicate and coordinate the allocation of the client request, it is up to the client to make the decision of which alternative to use. Accordingly, clients should have the control over which service providers in the continuum should be used (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). 
+In a fine grained distribution of edge computing, it is unlikely that different service providers will be able to coordinate and decide which one will serve a given client request. For example, from inside a building with some local edge servers accessible through Wi-Fi direct, a client may still be in contact with other servers accessible through 5G\footnote{Fifth generation of broadband cellular technology}. If both providers host the same services, but are unable to communicate and coordinate the allocation of the client request, it is up to the client to make the decision of which provider to use. Accordingly, clients should have the control over which service providers in the continuum should be used. % (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). 
 
-The discovery of finely distributed edge datacenters is another important aspect to be tackled. Today, networking protocols and technologies are the main responsible for allowing client applications to access cloud services in a transparent way. For this, clients access cloud services by means of well-known Internet names that are resolved by traffic managers and domain-name servers (DNS) technologies. The datacenters hosting cloud services are, at best, coarsely distributed among continents, countries, or broader regions. Conversely, finely distributed edge datacenters may be part of the local network infrastructure (e.g., domestic and office infrastructures). Such configuration requires that servers and services to be discoverable by clients (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+The discovery of finely distributed edge datacenters is another important aspect to be tackled. Today, networking protocols and technologies are the main responsible for allowing client applications to access cloud services in a transparent way. For this, clients access cloud services by means of well-known Internet names that are resolved by traffic managers and domain-name servers (DNS) technologies. The datacenters hosting cloud services are, at best, coarsely distributed among continents, countries, or broader regions. Conversely, finely distributed edge datacenters may be part of the local network infrastructure (e.g., domestic and office infrastructures). Such configuration requires the discovery of local providers by clients. % (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
 
 %In these cases, services names are mapped to either the servers hosting them or to intermediate components (e.g., traffic managers) responsible for transparently routing client requests to datacenters covering their area. 
@@ -132,7 +136,13 @@ The discovery of finely distributed edge datacenters is another important aspect
 
 \stepcounter{req_count}
 
-The multiplicity of finely distributed edge datacenters requires the self-managing of this infrastructure to avoid the burden and costs of manual human operation. Second, automation is needed to allow services to be seamlessly displaced from different parts of the continuum. Accordingly, automation should encompass the operational aspects of services life-cycle, including resource allocation for different services (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}) and their installation (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). Finally, it should also encompass the choice of alternative services by a client (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+Last but not least, the multiplicity of finely distributed edge datacenters implies not only a limitation in terms of availability of resources, but also a large scale of servers to be managed. Such characteristic motivates the automation of the operational aspects of services life-cycle for two reasons: 1) to avoid the burden and costs of manual operation of a large scale of finely distributed servers; and 2) to allow service life-cycle to be efficiently managed. Whereas the later aspect is addressed by the serverless computing paradigm and the FaaS execution model, a complete self-management of services life-cycle is still missing.
+
+%Automation is also needed to allow services to be seamlessly displaced from different parts of the continuum. Accordingly, automation should encompass the operational aspects of services life-cycle, including resource allocation for different services 
+%(Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}) 
+%and their installation. 
+%(Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). 
+%Finally, automation should also encompass the choice of alternative services by a client. %(Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
 
 %in the context of a shared platform 
@@ -153,20 +163,19 @@ The multiplicity of finely distributed edge datacenters requires the self-managi
 \subsection{Example Scenario}
 
 \begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/Continuum-Scenario}
-	\caption{Heterogeneous applications such as Augmented Reality (AR )and Connected Vehicles (CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
+	\includegraphics[width=0.8\textwidth]{figs/Continuum-Scenario}
+	\caption{Heterogeneous applications such as Augmented Reality (AR) and Connected Vehicles (CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
 	\label{fig:continuum-scenario}
 \end{figure}
 
+We illustrate the computational continuum in an example scenario (Fig.~\ref{fig:continuum-scenario}) that starts in a user's office and finishes in his home and involves different applications that rely on services executed in the cloud, edge, or in the user's own devices. 
 
-We illustrate the realization of the continuum in an example scenario (Fig.~\ref{fig:continuum-scenario}) that starts in a user's office and finishes in his home and involves different applications. 
+First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to extend the computational capabilities of devices operated by its employees. In our example, the user makes use of an Augmented Reality (AR) \textit{smartglass} application to craft three dimensional virtual objects added to his desk table. In specific, this application involves heavyweight image processing from the captured scenes. By offloading this task to the local-edge, the user is exempt from recharging her glasses and can improve productivity. 
 
-First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to allow employees to extend the computational capabilities of mobile devices. In our example, the user makes use of an Augmented Reality (AR) \textit{smartglass} application to craft three dimensional virtual objects added to his desk table.
-
-After work, our user leaves his office and enters his Connected Vehicle (CV). During its way home, the vehicle will make use of edge services deployed at servers located at cellular base stations and owned by telecoms (hereafter called \textit{mobile-edge}). The connected vehicle gets low-latency updates about the best plan to reach its destination. For example, within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead. In particular, the new path consists of residential streets without coverage of mobile-edge services. The CV continue to fetch updates, this time from cloud services; the additional network latency is compensated with the low speed limit of the residential area.
+After work, our user leaves his office and enters his Connected Vehicle (CV). During its way home, the vehicle will make use of edge services deployed at servers located at cellular base stations (hereafter called \textit{mobile-edge}) to receive low-latency updates about the best plan to reach its destination. Within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead. In particular, the new path consists of residential streets without coverage of mobile-edge services. The CV continue to fetch updates, this time from cloud services. The additional network latency is compensated with the low speed limit of the residential area.
 
 Already at home, the user's smartphone gets in reach of communication with the local-edge server owned by him. In that day, the user finds out about a new mobile game application that makes use of AR. Upon installation, the local-edge server becomes aware of a new edge-compliant application and, meanwhile the game is already running locally, proceeds with the acquisition and deployment of the game services into the local-edge server. Once available, the client application becomes aware of these services and switches from local to edge with the purpose of preserving the smartphone's resources. Not only the game performance improves, but also the battery consumption is reduced.  
 
-In the scenario described above, different parts of the continuum have been employed by user's devices. Whilst edge services were privileged, cloud services remain fundamental, as edge infrastructure was not always available. The services consumed by AR in a office scenario and the services consumed by a CV were pre-allocated. In contrast, a client application was able to make use of local resources from a mobile device until edge services were opportunistically made available. 
+In the scenario described above, different parts of the continuum have been employed by user's devices. Whilst edge services were privileged, cloud services remain fundamental, as edge services were always available. Furthermore, the edge services consumed by the AR application and those consumed by the CV application were pre-allocated by the office's local-edge and the mobile-edge services. In contrast, an AR application was able to make use of local resources from a mobile device until edge services were opportunistically made available by the local-edge server at user's home.
 
 %services for which network latency is not disruptive are in the cloud (e.g., persistence, stateful components, and large part of the business logic).
