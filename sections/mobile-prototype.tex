@@ -60,7 +60,7 @@ For each domain, the algorithm computes the overall score (line  $9$ to $14$). T
 
 Two considerations must be added for this algorithm. First, the procedure is an instantiation of the SMART approach~\cite{Olson1996} where multiple competing QoS objectives are considered in the decision process following the formula
 \begin{equation}
-Smart(c) = \frac{\sum_{i=1}^{n} QoSAtrribute_i(c)*weight_i)}{\sum_{i=1}^{n}weight_i} 
+Smart(c) = \frac{\sum_{i=1}^{n} QoSAtrribute_i(c)*weight_i)}{\sum_{i=1}^{n}weight_i} \label{eq:smart}
 \end{equation}
 where, the context of our approach, $c$ is a domain, $n$ is equal to $2$ and the QoS attributes values are networking latency and computational processing time.
 Second, note that \textbf{the edge domains have the highest chances to be selected} (if available) since they usually combine a very low network latency and a medium to high computational power. 
