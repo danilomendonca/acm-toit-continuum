@@ -7,6 +7,7 @@ from subprocess import call
 HELLO_MSG = 'HI'
 CLIENT_IP = '127.0.0.1'
 
+
 s=socket(AF_INET, SOCK_DGRAM)
 s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 s.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
@@ -20,13 +21,16 @@ def heartbeat():
         s.sendto(HELLO_MSG,('', 12345))
         time.sleep(1)
 
+
+
 def recv():
     print 'Domain Receiver Started'
     t = threading.currentThread()
     while getattr(t, "do_run", True):
          data, rcvr = s.recvfrom(1024)
          if data == HELLO_MSG:
-             identification(rcvr)
+            #comment out after client is implemented
+            identification(rcvr)
          else:
              print 'Client Discovered'
              print 'Acquisition URL: ' + data
@@ -34,11 +38,16 @@ def recv():
              CLIENT_IP = rcvr[0]
              checkAcquisition(data)
 
+#comment out after client is implemented
+server_discovered = False
 def identification(server_ip):
+    global server_discovered
     print 'Hello received'
-    print 'Client Sen1ding Identification'
-    FUNCTION_URL = 'https://github.com/mgarriga/example-lambda'
-    s.sendto(FUNCTION_URL,(CLIENT_IP, 12345))
+    if not server_discovered:
+        print 'Client Sending Identification'
+        FUNCTION_URL = 'https://github.com/mgarriga/example-lambda'
+        s.sendto(FUNCTION_URL,(CLIENT_IP, 12345))
+        server_discovered = True
 
 def checkAcquisition(repo_url):
     print 'Checking Acquisition of ' + repo_url
@@ -65,7 +74,14 @@ def performInstallation(repo_name, actionName, actionSourceFile):
     print 'Installing function ' + actionName + ' as ' + actionSourceFile
     add_function_cmd = 'wsk action create ' + actionName + ' ' + actionSourceFile + ' --web yes'
     install_cmd = "cd " + repo_name + '; ' + add_function_cmd
-    return call(install_cmd, shell=True)
+    install_result = call(install_cmd, shell=True)
+    if install_result != 0:
+        print 'Updating function ' + actionName + ' as ' + actionSourceFile
+        update_function_cmd = 'wsk action update ' + actionName + ' ' + actionSourceFile + ' --web yes'
+        update_cmd = "cd " + repo_name + '; ' + update_function_cmd
+        return call(update_cmd, shell=True)
+    else:
+        return install_result
 
 def cloneRepo(repo_url):
     print 'Cloning repo' + repo_url
