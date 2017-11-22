@@ -1,6 +1,9 @@
 import threading
-from socket import *
 import time
+import os
+from socket import *
+from subprocess import call
+
 s=socket(AF_INET, SOCK_DGRAM)
 s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 s.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
@@ -36,8 +39,21 @@ def identification(server_ip):
 
 def checkAcquisition(repo_url):
     print 'Checking Acquisition of ' + repo_url
-    
+    repo_name = repo_url.rsplit('/', 1)[-1]
+    path_exists = os.path.exists(repo_name)
+    if not path_exists:
+        print 'Acquisition result: ', cloneRepo(repo_url)
+    else:
+        print repo_url + ' already acquired, checking for updates'
+        updateRepo(repo_url, repo_name)
 
+def cloneRepo(repo_url):
+    print 'Cloning repo' + repo_url
+    return call("git clone " + repo_url, shell=True)
+
+def updateRepo(repo_url, repo_name):
+    print 'Updating repo' + repo_url
+    return call("cd " + repo_name + ";git pull origin master", shell=True)
 
 CLIENT_IP = '127.0.0.1'
 s.bind((CLIENT_IP,12345))
