@@ -18,6 +18,33 @@ Finally, the model includes a \textit{client-side middleware} (CSM) and a \texti
 
 %whose instances are employed by clients and the different types of computational resources composing the continuum. 
 
+\subsection{Example Scenario}
+
+\begin{figure}[tbp]
+	\includegraphics[width=0.8\textwidth]{figs/Continuum-Scenario}
+	\caption{Heterogeneous applications such as Augmented Reality (AR) and Connected Vehicles (CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
+	\label{fig:continuum-scenario}
+\end{figure}
+
+Throughout this section an example scenario (Fig.~\ref{fig:continuum-scenario}) is used to illustrate the use of A3-E model and the cloud-edge-mobile continuum with different applications employed by a person with visual impairment.
+%We illustrate the computational continuum in an example scenario  that starts in a user's office and finishes in his home and involves different applications that rely on services executed in the cloud, edge, or in the user's own devices. 
+First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to extend the computational capabilities of devices operated by its employees. In our example, the user makes use of an Augmented Reality (AR) application that parses objects from scenes captured from his mobile device camera and produces audible information. The application involves two heavyweight tasks: the image processing from the captured scenes ($IP$); and the text-to-speech ($TTS$).
+%Augmented Reality (AR) application to craft three dimensional virtual objects added to his desk table. In specific, this application involves heavyweight image processing from the captured scenes. By offloading this task to the local-edge, the user is exempt from recharging her glasses and can improve productivity. 
+
+After work, our user leaves his office and enters his Autonomous Vehicle (AV). During its way home, the vehicle will make use of edge services deployed at servers located at cellular base stations (hereafter called \textit{mobile-edge}) to receive low-latency updates about the best plan to reach its destination. Within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead. In particular, the new path consists of residential streets without coverage of mobile-edge services. The CV continue to fetch updates, this time from cloud services. The additional network latency is compensated with the low speed limit of the residential area.
+
+Already at home, the user's smartphone gets in reach of communication with the local-edge server owned by him. In that day, he finds out about a new mobile game application for visually impaired users. Upon installation, the edge server becomes aware of a new edge-compliant application and, meanwhile the app is already running locally, proceeds with the setup of required services. Once available, the client application becomes aware of these services and switches from local to edge with the purpose of preserving the smartphone's resources. Not only the game performance improves, but also the battery consumption is reduced.  
+
+In the scenario described above, different parts of the continuum have been employed by user's devices. Whilst edge services were privileged, cloud services remain fundamental, as edge services were always available. Furthermore, the edge services consumed by the AR application and those consumed by the CV application were pre-allocated by the office's local-edge and the mobile-edge services. In contrast, an AR application was able to make use of local resources from a mobile device until edge services were opportunistically made available by the local-edge server at user's home.
+
+%services for which network latency is not disruptive are in the cloud (e.g., persistence, stateful components, and large part of the business logic).
+
+\begin{figure}[tbp]
+	\includegraphics[width=0.95\textwidth]{figs/A3-E-process}
+	\caption{The A3-E Process. Phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain to a client (and vice-versa)}
+	\label{fig:A3-E-process}
+\end{figure}
+
 Next, we describe the four phases depicted in Fig.~\ref{fig:A3-E-process}, which represents the complete instance of the A3-E process. Along with their description, the possible instances of the process are mapped to distinct scenarios of the compute continuum, including those in which one or more phases are not employed.
 
 %\subsection{A3-E Process: Phases}\label{sec:A3-E-process}
@@ -31,12 +58,6 @@ The \textit{engagement} phase models the interaction between a client applicatio
 In order to overcome the heterogeneity of the continuum, A3-E adheres to the use of service-orientation paradigm to allow clients to engage with remote \textit{services} (i.e., cloud and edge-based services) by means of a request/response protocol (e.g., RESTful services over HTTP). To enforce a common interface between clients and heterogeneous domains, mobile devices should also expose local computation as local services. 
 
 %As an exception, computation provided by mobile devices can be accessed by means of local calls to functions executed by the mobile platform.
-
-\begin{figure}[tbp]
-	\includegraphics[width=0.95\textwidth]{figs/A3-E-process}
-	\caption{The A3-E Process. Phases are delimited by vertical lines and the main activity of each phase by the label within each phase; labels within parenthesis represent the states of a domain to a client (and vice-versa)}
-	\label{fig:A3-E-process}
-\end{figure}
 
 \subsection{Allocation Phase}\label{sec:A3-E-allocation}
 
@@ -67,7 +88,7 @@ As an example, CVs should have priority over an AR application for guiding touri
 
 %2) the allocation policy employed by the domain; and 3) the availability of resources. 
 
-\subsubsection{Client-side} From the client's side, the allocation phase models the selection of the best domain alternative satisfying the client's requirements for a given service. 
+\subsubsection*{Client-side} From the client's side, the allocation phase models the selection of the best domain alternative satisfying the client's requirements for a given service. 
 %, i.e., it models the computation placement along the client's perception of the continuum. 
 %This decision should consider a list of available domains providing services requested by the client application with accompanying QoS attributes. Accordingly, whereas the domains should take care of intra-domain allocation through service placement, the clients are responsible for the inter-domain allocation through service selection.
 Analogously to the domain-side allocation, the client-side allocation is realized by the CSM with a self-management loop (Fig.~\ref{fig:domain-selection-loop}) in which the client checks for the QoS levels of services from each available domain and decides for the alternative that best satisfies the client's requirements. 
