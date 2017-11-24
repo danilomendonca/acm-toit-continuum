@@ -1,13 +1,10 @@
-\subsubsection{Domain-side Middleware}
+\subsection{Domain-side Middleware}
 
+A prototype of the DSM was implemented to demonstrate the feasibility of the domain-side approach targeting local-edge, which include all four phases in A3-E process. The prototype consists of simple python  application~\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}} executed at a Linux-based virtual machine hosting OpenWhisk, an open source FaaS platform. In particular, the prototype implements:
 
+--- An advertisement mechanism that broadcasts UDP messages every 5 seconds using a port also known by clients (i.e, by their CSM); and an unicast channel through which new clients should reply to the discovery of a domain using the address extracted from the advertisement broadcast;
 
-
-
-
-
-
-
+--- An acquisition mechanism that performs the download and installation of new services upon identification of a new application requirements, or updates existing services if they already exist in the domain. In specific, the DSM expects an identification message from the CSM with a well-known format that includes the service name and its public control version repository (Git). After fetching from the repository, the acquisition mechanism looks for a service descriptor file specifying the function source to be installed (e.g., a JavaScript file). Finally, the later is added to OpenWhisk by means of its command-line API and a message is returned to the CSM with the service name and the result of the acquisition process.
 
 %Martin's old server side details
 
