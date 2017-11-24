@@ -4,29 +4,32 @@
 
 %\subsubsection{Domains}
 
-\begin{table}
-	\caption{Continuum Setup for the Experimental Evaluation}
+\begin{table}[htb]
+	\caption{Domains Setup in the Continuum for the Experimental Evaluation}
 	\label{tab:domain-exp-config}
 	\begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}>{\raggedright}p{1.5cm}>{\raggedright}p{6cm}>{\raggedright}p{6cm}}
 		\toprule 
 		Domain & Machine Resources & Execution Environment\tabularnewline
 		\midrule
 		\midrule 
-		Edge-Local & ubuntu/trusty64-2, 4x vCPUs, 4Gb RAM & Openwhisk, 256 Mb/Action, Python 2.7 + OpenCV \tabularnewline
+		Mobile & Samsung Galaxy S6 SM-G90, 3Gb RAM, 8x Cortex CPU 2Ghz & Android 5.0.2 + Java Functions + OpenCV
+		\tabularnewline
 		\midrule 
-		Edge-Mobile & ubuntu/trusty64-2, 8x vCPUs, 16Gb RAM & Openwhisk, 256 Mb/Action, Python 2.7 + OpenCV \tabularnewline
+		Local-edge-1  & ubuntu/trusty64-2, 4x vCPUs, 4Gb RAM & Openwhisk, 256 Mb/Action, Python 2.7 + OpenCV \tabularnewline
+		\midrule 
+		Local-edge-2  & ubuntu/trusty64-2, 8x vCPUs, 16Gb RAM & Openwhisk, 256 Mb/Action, Python 2.7 + OpenCV \tabularnewline
 		\midrule 
 		Cloud-FaaS & N/A & AWS Lambda, 256 Mb/Function, Python 2.7 + OpenCV \tabularnewline
 		\midrule 
-		Cloud-IaaS & Autos Scaling Group with t2.micro instances + Amazon Linux AMI 2017  & NodeJs 6.11 server + Python 2.7 + OpenCv \tabularnewline
+		Cloud-IaaS & Autos Scaling Group with t2.micro instances + Amazon Linux AMI 2017  & NodeJs 6.11 server + Python 2.7 + OpenCv
+		\tabularnewline
 		\bottomrule
 	\end{tabular*}
 \end{table}
 
-Table~\ref{tab:domain-exp-config} shows the different domains that were deployed to materialize the computational continuum for the experiments. Edge domains feature the Apache Openwhisk (formerly IBM Openwhisk) serverless framework\footnote{https://openwhisk.incubator.apache.org/} that manages {\em actions} (equivalent to functions). Being open-source, openwhisk is (to date) the only serverless alternative among the major vendors that can be deployed locally or on private clouds. 
+Table~\ref{tab:domain-exp-config} shows the different domains that were deployed to materialize the computational continuum for the experiments. As a mobile domain we used a smartphone in which we deployed the A3-E middleware and sample functions for feature extraction and matching. local-edge domains feature the Apache Openwhisk (formerly IBM Openwhisk) serverless framework\footnote{https://openwhisk.incubator.apache.org/} that manages {\em actions} (equivalent to functions). Being open-source, openwhisk is (to date) the only serverless alternative among the major vendors that can be deployed locally or on private clouds. 
 %Particularly, openwhisk provides a built-in noSQL database: CouchDB, which is associated with the implemented actions through user-defined triggers and rules. 
-Particularly, Edge-local domain is always placed close to the client applications/devices (one or two network hops). This deployment allows us to represent a situation where latency is close to zero, but the computational resources are highly constrained, as scaling-up is not possible due to inherent physical restrictions of the underlying infrastructure. Similarly, the Edge-mobile domain is placed on an university server, where the computational resources are less constrained, and still low latency can be achieved due to physical proximity and data locality. Note that in both cases the domains are deployed in the same LAN that originates the requests, to emulate the few-hop scenario in which devices are directly connected to their nearest Edge domains.
-
+Both edge-local domains are placed in the same LAN as the origin of the requests (i.e., the client applications/devices), to emulate the few-hop scenario in which devices are directly connected to their nearest Edge domains. Edge-local-1 is placed on a regular laptop, allowing us to represent a situation where latency is close to zero, but the computational resources are highly constrained, as scaling-up is not possible due to inherent physical restrictions of the underlying infrastructure. Similarly, edge-local-2 domain is placed on an university server, where the computational resources are less constrained, and still low latency can be achieved due to physical proximity and data locality.
 
 %In this experiment, we considered two alternatives for deploying the serverless continuum architecture, mimicking the behavior of both an edge node and a fog node (Figure~\ref{fig:exp-edge}).  
 
@@ -40,16 +43,18 @@ The serverless cloud alternative (Cloud-FaaS) for this experiment uses AWS Lambd
 
 \subsection{Domain Latency Evaluation} 
 
-In order to compare the latency along the continuum, we performed experiments with different number of parallel requests firing at a constant rate. Each request consisted on feature extraction and matching from a sample image. This experiment was performed without using the A3-E middleware, since it aims to evaluate only the different domains.
+In order to compare the latency of the different domains along the continuum, we performed a first experiment with different number of parallel clients, which perform 100 requests each, at a constant rate of two per second. Each request consisted on feature extraction and matching from a sample image. This setup considers not only the default maximum for concurrent executions in AWS Lambda\footnote{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html} and Openwhisk\footnote{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}, but also the limited resources of the edge domains. 
 
-Figure~\ref{fig:exp-setup1} shows the experimental setup. Capturing and uploading an image is emulated using Postman\footnote{https://www.getpostman.com/}, a JavaScript open source application designed to load test functional behaviors and measure the performance of Web APIs. The  payload for this experiment was a sample image of approximately 65 Kb, which is a reasonable size for this use case considering the requirements regarding low-latency, computation time and battery consumption~\cite{rodriguez16mobile}. 
+This experiment was performed without using the A3-E middleware nor the device (local domain), since it aims to evaluate the plain latency for remote domains  when processing simultaneous requests. This scenario would not occur in a local domain, which only process local requests.
 
-Then, the image is sent through HTTP/POST and different subsequent steps are executed depending on the domain: Openwhisk actions for both Edge domains, AWS Lambda functions for Cloud-FaaS domain, and a simple Nodejs server that calls a Python function for Cloud-IaaS domain.
+Figure~\ref{fig:exp-setup1} shows the experimental setup for evaluating the remote domains. Capturing and uploading an image is emulated using Postman\footnote{https://www.getpostman.com/}, a JavaScript open source application designed to load test functional behaviors and measure the performance of Web APIs. The  payload for this experiment was a sample image of approximately 65 Kb, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. 
+
+Then, the image is sent through HTTP/POST and different subsequent steps are executed depending on the domain: Openwhisk actions for both edge domains, AWS Lambda functions for Cloud-FaaS domain, and a simple Nodejs server that calls a Python function for Cloud-IaaS domain.
 
 %In our edge domains for the experiment, uploading an image to CouchDB (Step 3.a) triggers the action that performs the feature extraction and matching (Step 4.a)  with the points-of-interest, supported by the OpenCV\footnote{\url{http://opencv.org}} visual recognition library (Step 5.a). 
 
 
-\begin{figure}
+\begin{figure}[htb]
 	
 	\centering
 	\includegraphics[width=0.9\textwidth]{figs/experimental-setup.pdf}
@@ -59,9 +64,7 @@ Then, the image is sent through HTTP/POST and different subsequent steps are exe
 
 %\subsubsection{Baseline Latency}
 
-To measure the latency, the workload was parameterized using different number of parallel clients, which perform 100 requests each, at a constant rate of two per second. This setup considers not only the default maximum for concurrent executions in AWS Lambda\footnote{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html} and Openwhisk\footnote{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}, but also the limited resources of the edge domains. 
-
-The experiment stresses progressively the different domains, and allows to compare the relative latency under each workload. Figure~\ref{fig:latency-domains} shows the average latency for each scenario, averaged through 5 executions. Note that the function computation time (light gray) is distinguished from the overhead (dark gray), which includes network communication (routing, forwarding) and queuing time (when no resources are available to process the request immediately). 
+ Figure~\ref{fig:latency-domains} shows the average latency for each scenario, averaged through 5 executions. Note that the function computation time (light gray) is distinguished from the overhead (dark gray), which includes network communication (routing, forwarding) and queuing time (when no resources are available to process the request immediately). 
 
 \begin{figure}
 	
@@ -71,16 +74,19 @@ The experiment stresses progressively the different domains, and allows to compa
 	\label{fig:latency-domains}
 \end{figure}
 
- For these scenarios, the latency added by the edge domains is less than the latency in both cloud alternatives, considering up to 16 simultaneous clients, with a rate of 2 $requests/second$ each. Regarding the serverless cloud alternative, the overhead reduction is up to 90\% for edge-local and up to 82\% for edge-mobile respectively. Regarding the traditional cloud domain, reductions are up to 77\% and 58\% respectively. Since a scaling-up action triggers when more than one VM instance is needed to handle the workload (that can demand several seconds~\cite{Quatrocchi2016discrete}), requests timeout in the meantime. 
+ For these scenarios, the latency added by the edge domains is less than the latency in both cloud alternatives, considering up to 16 simultaneous clients. Regarding the Cloud-Faas domain, the latency reduction is up to 90\% for edge-local-1 and up to 82\% for edge-local-2 respectively. Regarding the traditional cloud domain, reductions are up to 77\% and 58\% respectively. Since in Cloud-IaaS a scaling-up action (that can demand several seconds~\cite{Quatrocchi2016discrete}) triggers when more than one VM instance is needed to handle the workload, requests timeout in the meantime. 
  
- For light to medium workloads, the edge-local and edge-mobile domains outperformed all the other alternatives for this scenario. However, edge-local domain is the most resource-constrained, which hinders its availability under heavier workloads. Interestingly, the traditional cloud domain also outperformed the serverless one (46\% less latency) for light workloads. This can be due to the additional steps performed by the API Gateway in order to forward RESTful calls to lambda functions\footnote{http://docs.aws.amazon.com/lambda/latest/dg/with-on-demand-https.html}. Nevertheless, this advantage is mitigated by the fact that the serverless alternative is more reactive against bursts of workload, scaling faster and offering a fine-grained cost model~\cite{Villamizar2017lambda,Hendrickson:2016}.
+ For light to medium workloads, the edge-local domains outperformed all the other alternatives for this scenario. However, edge-local-1 is the most resource-constrained, which hinders its availability under heavier workloads. Interestingly, the Cloud-IaaS domain also outperformed the serverless one (46\% less latency) for light workloads. This can be due to the additional steps performed by the API Gateway in order to forward RESTful calls to lambda functions in Cloud-FaaS\footnote{http://docs.aws.amazon.com/lambda/latest/dg/with-on-demand-https.html}. Nevertheless, this advantage is mitigated by the fact that Cloud-FaaS is a serverless alternative, more reactive against bursts of workload by scaling-up faster and scaling-down to zero when functions are not used~\cite{Villamizar2017lambda,Hendrickson:2016}.
 
 
 %\subsection{Battery} The second set of experiments targeted the measurement of battery consumption of a mobile device in two scenarios: 1) in which feature extraction and matching were performed locally, and 2) these tasks were offloaded to edge servers.
 
-\subsection{Evaluation of A3-E in the Continuum} The next set of experiments targeted the evaluation of A3-E within the computational continuum. In specific, the evaluation consisted of a mobile device\footnote{Samsung Galaxy S6 SM-G90 with 3Gb RAM, 8x Cortex CPU 2Ghz and Android 5.0.2} hosting the A3-E Middleware and a simplified version of an AR application, with feature extraction and matching modeled as stateless functions that can be executed locally (Java Functions), in an edge-based FaaS platform (OpenWhisk), or a cloud-based FaaS platform (Amazon Lambda). In this experiment, A3-E is in charge of dynamically monitoring the QoS of each domain and selecting the best one available for execution, as described in Section~\ref{sec:proposal}.
-The experiment featured four different scenarios. The first three scenarios are simple ones, where only one domain is available: (1) Local execution in the device, (2) edge-mobile domain, or (3) cloud-faas domain. The fourth scenario brings together the three previous domains as a continuum, allowing to select among them by means of A3-E. 
-For the last scenario, the availability of different domains was modeled probabilistically, with the following considerations. A3-E pings for domain availability and perceived latency every two seconds ($u = 2$). Then, the average unavailability of the cloud domain (e.g., because the device is outside mobile coverage area) is once every 15 minutes. Using a geometric distribution\footnote{https://math.stackexchange.com/questions/165993/average-number-of-times-it-takes-for-something-to-happen-given-a-chance}, the probability of sensing the cloud as unavailable is: $internetOnToOff=0.022$. Once the cloud is unavailable, the average time for becoming available again is 2 minutes, i.e., probability $internetOffToOn=0.166$. The rationale for the edge domain is analogous, but considering a higher probability of being unavailable --- e.g., due to lack of physical proximity to edge servers. In this case, the edge is unavailable once every 10 minutes: $edgeOnToOff = 0.33$. Once unavailable, we considered an average of 5 minutes for becoming available again: $edgeOffToOn=0.066$. Finally, the local domain (device) is considered to be always available, but is selected only when the other domains are unavailable, or the sensed latencies are too high for the application requirements.
+\subsection{Evaluation of A3-E in the Continuum} 
+
+The next set of experiments targeted the evaluation of A3-E within the computational continuum. In specific, the setup consisted of a mobile device hosting the A3-E Middleware in charge of dynamically allocating the best domain available for execution, based on the perceived QoS, as described in Section~\ref{sec:proposal}. The sample application was a simplified AR application, with feature extraction and matching modeled as stateless functions that can be executed locally (Java Functions), in an edge domain (implemented with OpenWhisk), or a cloud-FaaS domain (AWS Lambda).  A3-E is 
+The experiment featured four different scenarios. The first three scenarios are simple ones, where only one domain is available: (1) the mobile device, (2) edge-local domain, or (3) cloud-faas domain. The fourth scenario brings together the three previous domains as a continuum, allowing to allocate any of them by means of A3-E. 
+
+For the last scenario, the availability of different domains was modeled probabilistically, with the following considerations. The average unavailability of the cloud domain (e.g., because the device is outside mobile coverage area) is once every 15 minutes. A3-E was configured to ping for domain availability and perceived QoS every two seconds ($u = 2$). Using a geometric distribution\footnote{https://math.stackexchange.com/questions/165993/average-number-of-times-it-takes-for-something-to-happen-given-a-chance}, the probability of pinging and the cloud being unavailable is: $internetOnToOff=0.022$. Once the cloud is unavailable, the average time for becoming available again is 2 minutes, i.e., probability $internetOffToOn=0.166$. The rationale for the edge domain is analogous, but considering a higher probability of being unavailable --- e.g., due to lack of physical proximity to edge servers. In this case, the edge is unavailable once every 10 minutes: $edgeOnToOff = 0.33$. Once unavailable, we considered an average of 5 minutes for becoming available again: $edgeOffToOn=0.066$. Finally, the mobile device is considered to be always available, but is selected only when the other domains are unavailable, or the sensed latencies are too high for the application requirements.
 
 
 \begin{comment}
@@ -114,14 +120,14 @@ prob. of edge becoming available: 0.666666%
 
 %(all-domains).
 
-The experiment execution consisted on cascading 2000 sequential requests for feature extraction and matching of a sample image. Then, we measured battery consumption in the mobile device, total execution time, and average time per call. Figure~\ref{fig:exp-a3e} shows the experimental results, averaged among 5 executions for each scenario.
- For the total execution time (Fig.~\ref{fig:total-exec-a3e}), considering the Cloud domain as baseline, edge-mobile improved the execution time up to a 72\%, while local and all-domains up to a 69\%  and 49\% respectively. The highest battery consumption (Fig.~\ref{fig:battery-a3e}) was when using only the local domain (device), with a battery drop of 4.5\% during 750 seconds (12.5 minutes) of execution. Battery savings with cloud, edge and all-domains were 49\%, 35\% and 49\%, respectively. The average execution time (Fig.~\ref{fig:time-per-call-a3e}), with the cloud domain as baseline (1137 milliseconds per call), was improved 76\%, 68\% and 47\% for edge, local and all-domains respectively. Finally, for all-domains scenario, Fig.~\ref{fig:calls-per-domain-a3e} shows the average number of calls that were made for each domain in the continuum, showing that 65\% of the calls were served by the edge-mobile domain, followed by the cloud (30\%) and the local device (7\%).
+The experiment execution consisted on cascading 2000 sequential requests for feature extraction and matching of a sample image. Then, we measured total execution time, battery consumption in the mobile device, and average time per call. Figure~\ref{fig:exp-a3e} shows the experimental results, averaged among 5 executions for each scenario.
+ For the total execution time (Fig.~\ref{fig:total-exec-a3e}), considering the Cloud-FaaS domain as baseline, Edge-local improved the execution time up to a 72\%, while mobile and all-domains up to a 69\%  and 49\% respectively. The highest battery consumption (Fig.~\ref{fig:battery-a3e}) was when using only the mobile-device domain, with a battery drop of 4.5\% during 750 seconds (12.5 minutes) of execution. Battery savings with Cloud-FaaS, Edge-local and All-domains were 49\%, 35\% and 49\%, respectively. The average execution time (Fig.~\ref{fig:time-per-call-a3e}), with Cloud-FaaS as baseline (1137 milliseconds per call), was improved 76\%, 68\% and 47\% for Edge-local, Mobile-device and All-domains respectively. Finally, for All-domains scenario, Fig.~\ref{fig:calls-per-domain-a3e} shows the average number of calls that were processed by each domain in the continuum, with 65\% by the edge-local domain, followed by Cloud-FaaS (30\%) and Mobile-device (7\%).
  
-From this experiment we can highlight the following aspects. First, the total execution time when using only the cloud was two times higher than when using all domains and A3-E to select among them. This is because the requests were performed in cascade, and given the higher RTT per call in the cloud, the total time increases accordingly. Clearly, switching to edge domains (when available) by means of A3-E substantially reduces the latency and improves perceived QoS.
+From this experiment we can highlight the following aspects. First, the total execution time when using only the cloud was two times higher than when using the continuum (all-domains) and A3-E to select among available domains. This is because the requests were performed in cascade, and given the higher latency per call in the cloud, the total time increases accordingly. Clearly, switching to edge domains (when available) by means of A3-E substantially reduces the latency and improves perceived QoS.
 
-Even though, the battery consumption was substantially lower when offloading computation rather than performing it on the device. The local scenario lasted half of the time but used twice as battery (a prohibitive 20\% of battery drain per hour) as the all-domains one, given that it was performing CPU intensive operations. This recalls the importance of computation offloading to preserve devices' resources.
+Even though, the battery consumption was substantially lower when offloading computation rather than performing it on the device. The mobile-device scenario lasted half of the time but used twice as battery (a prohibitive 20\% of battery drain per hour) as the all-domains one, given that it was performing CPU intensive operations. This recalls the importance of computation offloading to preserve devices' resources.
 
-Finally, the domain selection and distribution of computation performed by A3-E in the all domains scenario reflects the underlying idea of the computational continuum: exploit as much as possible edge domains when available (by giving high scores to them in Formula~\ref{eq:smart}) to achieve the better balance among computation time and resource consumption. Then, switch to the cloud or to the local device only when necessary. Note that in this experiment the local computation was given the lowest score possible, thus the cloud was selected as the first alternative to edge domains. This behavior can be tunned by adjusting the application requirements and domain parameters discussed in Section~\ref{sec:implementation}.
+Finally, the domain selection and distribution of computation performed by A3-E in the all-domains scenario reflects the underlying idea of the computational continuum: exploit as much as possible edge domains when available (by giving them high scores in Formula~\ref{eq:smart}) to achieve the better balance among computation time and resource consumption. Then, switch to the cloud or to the local device only when necessary. Note that in this experiment the mobile-device computation was given the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tunned by adjusting the application requirements and domain parameters discussed in Section~\ref{sec:implementation}.
 
 %that allows to cope with unavailability and fluctuations in QoS 
 
@@ -134,7 +140,7 @@ Finally, the domain selection and distribution of computation performed by A3-E 
 	\subfloat[Battery consumption (\%)\label{fig:battery-a3e}] {\includegraphics[width=0.5\textwidth]{figs/battery-consumption-A3E}}
 	
 	\subfloat[Execution time per call (miliseconds)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.5\textwidth]{figs/time-per-call-A3E}}
-	\subfloat[Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.5\textwidth]{figs/calls-per-domain-A3E}}
+	\subfloat[Number of Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.5\textwidth]{figs/calls-per-domain-A3E}}
 	
 	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
 \end{figure}
