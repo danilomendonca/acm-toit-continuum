@@ -8,36 +8,15 @@
 
 As depicted in Fig.~\ref{fig:A3-E-model}, the \textit{A3-E model} consists of the different actors and mechanisms required for the realization of the cloud-edge-mobile continuum. Its name inherits from the four phases process -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each phase encompasses activities that take care of specific concerns in the interaction among client applications and the constituents of the continuum. To address the continuum heterogeneity, the A3-E process is flexible with respect to which phases are employed and how they are employed.
 
-The A3-E model is also composed of \textit{client applications}, which are responsible for triggering \textit{requests} containing \textit{requirements} for  \textit{services} provided by \textit{domains}. The later is an abstraction of whatever networking infrastructure (e.g., access points, radio access networks, etc) is needed to connect clients to the heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc) employed by various service providers in the continuum, namely \textit{cloud-domains}, representing cloud-based FaaS platforms covering a region (e.g., Amazon Lambda in Europe), \textit{edge-domains}, representing local-edge and mobile-edge sites (e.g., servers within an office building or at cellular base stations), and \textit{mobile-domains}, representing mobile device's own resources.
+The A3-E model is also composed of \textit{client applications}, which are responsible for triggering \textit{requests} containing \textit{requirements} for  \textit{services} provided by \textit{domains}. The later is an abstraction of whatever networking infrastructure (e.g., access points, radio access networks, etc) are needed to connect clients to the heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc) employed by various service providers in the continuum, namely \textit{cloud-domains}, representing cloud-based FaaS platforms covering a region (e.g., Amazon Lambda in Europe), \textit{edge-domains}, representing local-edge and mobile-edge sites (e.g., servers within an office building or at cellular base stations), and \textit{mobile-domains}, representing mobile device's own resources.
 %, which in this paper are not shared with other devices.
-Finally, the model includes a \textit{client-side middleware} (CSM) and a \textit{domain-side middleware} (DSM) realizing the \textit{A3-E process}: the former is responsible for handling requests of client applications and forwarding them to the domain best satisfying the client requirements at a given context; and the later is responsible for the self-management of services life-cycle in a given domain. 
+Finally, the model includes a \textit{client-side middleware} (CSM) and a \textit{domain-side middleware} (DSM) realizing the \textit{A3-E process}: the former is responsible for handling application requests and forwarding them to the domain best satisfying the client requirements at a given context; and the later is responsible for the self-management of services life-cycle in a given domain. 
 
 %Finally, the constituents of the continuum (i.e., cloud datacenters, edge servers, and mobile devices) are respectively represented in the model by the \textit{cloud-domain}, \textit{edge-domain}, and \textit{mobile-domain}. 
 
 %Each domain contains its own and potentially heterogeneous pool of \textit{computational resources}.
 
 %whose instances are employed by clients and the different types of computational resources composing the continuum. 
-
-\subsection{Example Scenario}
-
-\begin{figure}[tbp]
-	\includegraphics[width=0.8\textwidth]{figs/Continuum-Scenario}
-	\caption{Heterogeneous applications such as Augmented Reality (AR) and Connected Vehicles (CV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
-	\label{fig:continuum-scenario}
-\end{figure}
-
-Throughout this section an example scenario (Fig.~\ref{fig:continuum-scenario}) is used to illustrate the use of A3-E model and the cloud-edge-mobile continuum with different applications employed by a person with visual impairment.
-%We illustrate the computational continuum in an example scenario  that starts in a user's office and finishes in his home and involves different applications that rely on services executed in the cloud, edge, or in the user's own devices. 
-First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to extend the computational capabilities of devices operated by its employees. In our example, the user makes use of an Augmented Reality (AR) application that parses objects from scenes captured from his mobile device camera and produces audible information. The application involves two heavyweight tasks: the image processing from the captured scenes ($IP$); and the text-to-speech ($TTS$).
-%Augmented Reality (AR) application to craft three dimensional virtual objects added to his desk table. In specific, this application involves heavyweight image processing from the captured scenes. By offloading this task to the local-edge, the user is exempt from recharging her glasses and can improve productivity. 
-
-After work, our user leaves his office and enters his Autonomous Vehicle (AV). During its way home, the vehicle will make use of edge services deployed at servers located at cellular base stations (hereafter called \textit{mobile-edge}) to receive low-latency updates about the best plan to reach its destination. Within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead. In particular, the new path consists of residential streets without coverage of mobile-edge services. The CV continue to fetch updates, this time from cloud services. The additional network latency is compensated with the low speed limit of the residential area.
-
-Already at home, the user's smartphone gets in reach of communication with the local-edge server owned by him. In that day, he finds out about a new mobile game application for visually impaired users. Upon installation, the edge server becomes aware of a new edge-compliant application and, meanwhile the app is already running locally, proceeds with the setup of required services. Once available, the client application becomes aware of these services and switches from local to edge with the purpose of preserving the smartphone's resources. Not only the game performance improves, but also the battery consumption is reduced.  
-
-In the scenario described above, different parts of the continuum have been employed by user's devices. Whilst edge services were privileged, cloud services remain fundamental, as edge services were always available. Furthermore, the edge services consumed by the AR application and those consumed by the CV application were pre-allocated by the office's local-edge and the mobile-edge services. In contrast, an AR application was able to make use of local resources from a mobile device until edge services were opportunistically made available by the local-edge server at user's home.
-
-%services for which network latency is not disruptive are in the cloud (e.g., persistence, stateful components, and large part of the business logic).
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.95\textwidth]{figs/A3-E-process}
@@ -82,7 +61,7 @@ On domains, the allocation phase is managed by the DSM and realized with a self-
 %TODO this should be moved to a case scenario
 For instance, edge providers could support two types of SLA: one for critical applications requiring high service availability; and another for non-critical applications that may cope with lower degrees of availability. 
 %The first type could be achieved with the pre-allocation of resources to these services, whilst the later could rely on the opportunistic allocation of services upon demand and availability of resources. 
-As an example, CVs should have priority over an AR application for guiding tourists. During rush hours, edge services could become unavailable for the AR application, during which they would rely on local services or cloud-based services. In all other moments, the AR would be able to rely on edge-based services. 
+As an example, AVs should have priority over an AR application for guiding tourists. During rush hours, edge services could become unavailable for the AR application, during which they would rely on local services or cloud-based services. In all other moments, the AR would be able to rely on edge-based services. 
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
 

@@ -1,18 +1,52 @@
 \section{The Cloud-Edge-Mobile Continuum}\label{sec:continuum}
 
+Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{continuum} on which new and disruptive types of applications can rely (Fig.~\ref{fig:continuum-overral}). Sometimes referred to as the Cloud-to-Things continuum, it enables the seamless convergence of infrastructure stretching from the cloud datacenter to devices on the network edge (including intermediate devices like ISP gateways, cellular base stations, and private cloud deployments) into a continuum of resources, to be provisioned to multiple tenants for hosting applications. Components of an application are hence able to run in a geo-distributed fashion using the services provided by the distributed infrastructure~\cite{GuptaIfogSim17}. 
+
+\subsection{Cloud}
+
+The Cloud infrastructure is typically offered through different virtualization techniques and degrees~\cite{leitner2016patterns, Quatrocchi2016discrete}. It is considered to be a black box: this means that application developers do not have access to the hypervisor or to the underlying physical machines, which are managed by cloud providers. A Cloud instance or \textit{node} is traditionally materialized as a Virtual Machine (VM). However, nowadays a node might also be a container. Containers provide yet another virtualization technique that operates at the Operating System (OS) level, to create isolated views of the operating environment for different applications. A container has its own process space, virtualized network interface, and file system; and the operating system can allocate different amounts of resources (e.g., CPU, memory, and I/O) to each of them.
+
+Multiple VMs are managed by a single hypervisor that resides on a single host operating system. Each VM then contains its own guest operating system, its own platform stack composed of different libraries, middleware, and application servers, and its own application code. On the other hand, containers are executed directly on top of the host operating system, optionally with the help of a container manager like Docker\footnote{Docker -- \url{http://docker.com}}. Each container has its own platform stack and its own application code. Containers have various advantages when compared to VMs: they are more lightweight and they are faster to boot and terminate because they do not have to deal with a guest
+operating system~\cite{FelterContainerVm15,SoletzContainerVirt14}.
+%Industry is widely adopting containers as a means to favor portability and they are considered to be one of the main technological enablers of the DevOps movement [36]. Different development teams may use different operating systems and different platform stacks, making feature integration hard. However, thanks to containerization technology, features can be developed in isolation, with the guarantee that they will work the exact same way on any machine that supports containers.
+
+\subsection{Edge}
+
+Edge computing can be defined by the set of technologies that enable computation to be performed at the network edge~\cite{Shi:2016}. Its main goal is to allow data produced and consumed at the network edge to be processed with low-latency and without overstressing the more centralized cloud infrastructure.
+
+As examples of edge technologies, Cloudlets~\cite{Satyanarayanan:2009} have been first presented as mobile cloud servers that can be positioned at strategic locations to provide computing resources to resource constrained devices with low-latency. 
+%with expected high density of users (e.g., at concert halls, stadiums) or areas with temporary infrastructure limitations (e.g., after disasters). 
+Additionally, Mobile Edge Computing (MEC)~\cite{ahmed2016isco} relies on cellular infrastructure to enable a low-latency communication between user equipment (i.e., mobile devices) and servers. 
+
+The main motivation for shifting computation from cloud to the network edge is the mitigation of network latency~\cite{Bonomi2014}. In specific, real-time applications are the main candidates for benefiting of services deployed at nearby edge infrastructure. For example, Augmented Reality (AR) is a type of application that would benefit from the low-latency of edge services~\cite{hu2015mobile,GarrigaMendonca2017}. Moreover, mobile devices exhibit limitations that may further motivate the use of edge computing as part of a continuum: some mobile applications rely on heavyweight tasks that can overstress the platform and limit the concurrent execution of other applications; and the battery is a valuable resource that may be significantly affected by the kind of task performed locally, as networking tends to consume less than CPU(s)~\cite{Carroll:2010}. 
+
+\subsection{Mobile}
+
+
+
 \subsection{Definition}
+
+%Fig.~\ref{fig:continuum} describes the different parts of the continuum. Cloud computing features virtually unlimited computational resources and shall remain as the source of services with higher availability. Edge computing, in turn, features low network latency and shall provide services for real-time and delay-sensitive applications. Finally, despite the improvements in the capabilities of mobile devices, the later still suffer from battery drain and other platform/hardware limitations which motivates computation offloading. In addition to the commonly employed mobile-cloud inter-operation, mobile devices can integrate the continuum as both clients of computation that may opportunistically be offloaded to edge servers and providers of their own local services to cope with the situations in which edge is not available. 
+%
+%\begin{figure}[tbp]
+%	\includegraphics[width=0.9\textwidth]{figs/Continuum.pdf}
+%	\caption{Computational continuum formed by Cloud, Edge, and Mobile Computing}
+%	\label{fig:continuum}
+%\end{figure}
+
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-overall.png}
-	\caption{The computational continuum formed by coarsely distributed cloud datacenters, finely distributed edge datacenters, and mobile/IoT devices (adapted from~\cite{Tarneberg2017}).}\newcounter{req_count}
-	\label{fig:continuum-overral}\newcounter{req_sub_count}[req_count]
+	\caption{The computational continuum formed by coarsely distributed cloud datacenters, finely distributed edge datacenters, and mobile/IoT devices (adapted from~\cite{Tarneberg2017}).}
+	\label{fig:continuum-overral}
 \end{figure}
 
+\newcounter{req_count}
+\newcounter{req_sub_count}[req_count]
 
-Together, the computational resources from mobile, edge, and cloud computing have the potential of forming a \textit{continuum} on which new and disruptive types of applications can rely. Sometimes referred to as the Cloud-to-Things continuum, it enables the seamless convergence of infrastructure stretching from the cloud datacenter to devices on the network edge (including intermediate devices like ISP gateways, cellular base stations, and private cloud deployments) into a continuum of resources, to be provisioned to multiple tenants for hosting applications. Components of an application are hence able to run in a geo-distributed fashion using the services provided by the distributed infrastructure~\cite{GuptaIfogSim17}. 
 
 %TODO: parts of this paragraph are unclear (e.g., interplay with the cloud properties?)
-The key notion to bridge the gap in such a continuum is that of edge\footnote{In the literature the term ``edge'' is often used interchangeably with the term ``fog''.} computing, whose defining characteristics are edge location, dense geographical distribution, large-scale of deployment, support for mobility, resource and interface heterogeneity, and interplay with the cloud properties in order to address requirements of mobile applications that need low latency with a wide and dense geographical distribution~\cite{Bonomi2014}.  
+%The key notion to bridge the gap in such a continuum is that of edge\footnote{In the literature the term ``edge'' is often used interchangeably with the term ``fog''.} computing, whose defining characteristics are edge location, dense geographical distribution, large-scale of deployment, support for mobility, resource and interface heterogeneity, and interplay with the cloud properties in order to address requirements of mobile applications that need low latency with a wide and dense geographical distribution~\cite{Bonomi2014}.  
 
 
 %What: the challenges in materializing the continuum
@@ -154,3 +188,27 @@ Last but not least, the multiplicity of finely distributed edge datacenters impl
 %Differently from classical \textit{on-premise} servers, edge should benefit from the automation and other characteristics of the A3-E model. As a result, local-edge servers can be seen as automated black boxes requiring no manual maintenance.	
 	
 %The fulfillment of the above requirements would leverage the potential of edge computing by optimizing the usage of its resources and consequently allowing a larger number of client applications to share the costs of edge infrastructure. Moreover, the resulting unified model would work as an extension of today's cloud IaaS/FaaS with the twofold purpose of enabling applications with low-latency requirements to rely on edge domains and to augment the computational power of mobile devices through mobile-to-edge computation offloading. Last but not least, the computing power of highly available and elastic cloud services would remain as an essential part of the continuum.
+
+\subsection{Example Scenario}
+
+\begin{figure}[tbp]
+	\includegraphics[width=0.8\textwidth]{figs/Continuum-Scenario}
+	\caption{Heterogeneous applications such as Augmented Reality (AR) and Autonomous Vehicles (AV) interact with services deployed along the computational continuum (cloud, mobile-edge, local-edge, and mobile)}
+	\label{fig:continuum-scenario}
+\end{figure}
+
+%Throughout this section an example scenario (Fig.~\ref{fig:continuum-scenario}) is used to illustrate the use of A3-E model and the cloud-edge-mobile continuum with different applications employed by a person with visual impairment.
+We illustrate the computational continuum in an example scenario  that starts in a user's office and finishes in his home and involves different applications that rely on services executed in the cloud, edge, or in the user's own devices. 
+First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company to extend the computational capabilities of devices operated by its employees. In our example, the user makes use of an %Augmented Reality (AR) application that parses objects from scenes captured from his mobile device camera and produces audible information. The application involves two heavyweight tasks: the image processing from the captured scenes ($IP$); and the text-to-speech ($TTS$).
+Augmented Reality (AR) application to craft three dimensional virtual objects added to his desk table. In specific, this application involves heavyweight image processing from the captured scenes. By offloading this task to the local-edge, the user is exempt from recharging her glasses and can improve productivity. 
+
+After work, our user leaves his office and enters his Autonomous Vehicle (AV). During its way home, the vehicle will make use of edge services deployed at servers located at cellular base stations (hereafter called \textit{mobile-edge}) to receive low-latency updates about the best plan to reach its destination. Within milliseconds, the vehicle is suggested to make a turn just in time to avoid the traffic formed by an accident a few blocks ahead. In particular, the new path consists of residential streets without coverage of mobile-edge services. The AV continues to fetch updates, this time from cloud services. The additional network latency is compensated with the low speed limit of the residential area.
+
+Already at home, the user's smartphone gets in reach of communication with the local-edge server owned by him. In that day, he finds out about a new mobile game application 
+%for visually impaired users
+. Upon installation, the edge server becomes aware of a new edge-compliant application and, meanwhile the app is already running locally, proceeds with the setup of required services. Once available, the client application becomes aware of these services and switches from local to edge with the purpose of preserving the smartphone's resources. Not only the game performance improves, but also the battery consumption is reduced.  
+
+In the scenario described above, different parts of the continuum have been employed by user's devices. Whilst edge services were privileged, cloud services remain fundamental, as edge domains were not always available. Furthermore, the edge services consumed by the AR application and those consumed by the AV were pre-allocated by the office's local-edge and the mobile-edge services. In contrast, an AR application was able to make use of local resources from a mobile device until edge services were opportunistically made available by the local-edge server at user's home.
+
+%services for which network latency is not disruptive are in the cloud (e.g., persistence, stateful components, and large part of the business logic).
+

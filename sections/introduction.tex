@@ -5,7 +5,6 @@
 
 %What: The need of edge computing to enable low latency and mobile computation offloading
 With the advent of Internet of Things, the evolution of mobile computing, and the emergence of real-time applications, the processing of an exponentially increasing volume of data must be performed in a timely fashion, i.e., with minimum latency. Despite the elasticity and vast computing power of existing cloud platforms, the access to these resources involves multiple hops of network communication, adding prohibitive latency to requests' processing. Such limitation has the following implications: 1) cloud services may fail to satisfy the requirements of real-time/low-latency applications; and 2) offloading of delay-sensitive computation from devices with constrained resources to cloud servers is unlikely to work due to network-latency.
-
 %What: The challenges in realizing edge computing
 To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{Shi:2016} states that computing power should be pushed from centralized datacenters to the edge of the network. 
 %What: The challenges in the realization of edge computing
@@ -13,29 +12,17 @@ The materialization of this paradigm, however, still poses many challenges:
 
 %What: Resouce limitations of edge computing and the need for a more efficient provisioning
 %What: Aways availability vs opportunistic service setup
---- First, a finely distributed edge infrastructure~\cite{Dehos14millimeter5g} is not expected to exhibit virtually unlimited resources as cloud datacenters. This limitation imposes a more efficient allocation of edge resources. Current models based on virtualization and containerization, although successfully adopted by cloud providers, may not be feasible in the context of edge computing, as they require a minimum pre-allocation of resources. Therefore, a different execution model is needed to deem edge computing scalable~\cite{GarrigaMendonca2017}. Also, while cloud services cover very large areas in which requests from clients are always expected, the fine-grained coverage of edge computing implies that services would remain idle whenever clients are absent, while other services may lack sufficient resources. Therefore, to optimize the usage of edge resources, services should be opportunistically made available.
+--- First, a finely distributed edge infrastructure~\cite{Dehos14millimeter5g} is not expected to exhibit virtually unlimited resources as cloud datacenters. This limitation imposes a more efficient allocation of edge resources. Current models based on virtualization and containerization, although successfully adopted by cloud providers, may not be feasible in the context of edge computing, as they require a minimum pre-allocation of resources. Therefore, a more efficient model is needed to deem edge computing scalable~\cite{GarrigaMendonca2017}. Also, while cloud services cover very large areas in which requests are always expected, the fine-grained coverage of edge computing implies that clients may be absent and services remain idle. Therefore, to optimize the usage of edge resources, services should be opportunistically made available.
 
 %What: The need for taking alternative edge domains into account
---- Second, different sorts of edge computing infrastructures may exist~\cite{1,2,Tarneberg2017}, including servers located at cellular base stations, temporarily placed nearby public events, and inside buildings and houses to provide support for smart space applications. Edge servers that are integrated to local network infrastructures would require the discovery of edge services on-the-fly when inside their coverage area.
+--- Second, different sorts of edge computing infrastructures may exist~\cite{1,2,Tarneberg2017}, including servers located at cellular base stations, temporarily placed nearby public events, and inside buildings and houses to provide support for smart space applications. Those integrated to local network infrastructures would require the discovery of its services on-the-fly when inside their coverage area.
 
 %What: The continuum
---- Finally, considering that edge-based services may not always be available and taking into account the high availability of cloud-based services, the former should complement rather than replace the later. This vision also extends to computation that may opportunistically be offloaded from resource-constrained devices to nearby edge servers in order to augment their capabilities. In this sense, cloud, edge, and mobile computing should be seen as parts of a \textit{computational continuum} serving different sorts of applications. Its realization requires not only the materialization of edge computing,
+--- Finally, considering that edge computing may not always be available and taking into account the high availability of cloud computing, the former should complement rather than replace the later. This vision also extends to computation that may opportunistically be offloaded from resource-constrained devices to nearby edge servers in order to augment their capabilities. In this sense, cloud, edge, and mobile computing should be seen as parts of a \textit{computational continuum} serving different sorts of applications. Its realization requires not only the materialization of edge computing,
 %, whose particular characteristics require an \textit{efficient} management and provisioning of its resources, 
-but also the mechanisms to allow computation to be seamlessly placed onto the heterogeneous parts composing the continuum according to dynamic contexts of clients and servers. % including both the context of clients and service providers.
-
-
-
+but also the mechanisms to allow computation to be seamlessly placed onto the heterogeneous parts of the continuum according to dynamic contexts of clients and servers. % including both the context of clients and service providers.
 
 %Also, the eventual co-existence of alternative service providers would require the client-side participation on the placement of computation along the continuum~\cite{Soyata:2012,Tarneberg2017}, which requires the awareness of alternative services by clients.
-
-Fig.~\ref{fig:continuum} describes the different parts composing the cloud-edge-mobile continuum. Cloud computing features virtually unlimited computational resources and shall remain as the source of services with higher availability. Edge computing, in turn, features low network latency and shall provide services for real-time and delay-sensitive applications. Finally, despite the improvements in the capabilities of mobile devices, the later still suffer from battery drain and other platform/hardware limitations which motivates computation offloading. In addition to the commonly employed mobile-cloud inter-operation, mobile devices can integrate the continuum as both clients of computation that may opportunistically be offloaded to edge servers and providers of their own local services to cope with the situations in which edge is not available. 
-
-\begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/Continuum.pdf}
-	\caption{Computational continuum formed by Cloud, Edge, and Mobile Computing}
-	\label{fig:continuum}
-\end{figure}
-
  
 %--- Last but not least, cloud servers should not be disregarded as a part of the Cloud-to-Edge continuum. %not sure whether to call it Cloud-to-Things or Cloud-to-Edge
 %First, because client applications may still rely on Cloud backends for traditional, non delay-sensitive computation. Second, because edge servers may be unavailable from the certain locations. Thus, client applications must rely on a runtime mechanism to discover and negotiate the use of nearby edge infrastructure. As the alternative infrastructures (including the cloud) may exhibit uneven loads in different moments, the decision of which to use, must take into account their current status as well as the client application requirements in terms of latency and computational power. 
