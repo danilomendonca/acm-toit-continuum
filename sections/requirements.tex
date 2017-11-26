@@ -8,7 +8,14 @@ Together, the computational resources from mobile, edge, and cloud computing hav
 	\label{fig:continuum-overral}
 \end{figure}
 
-The key notion to bridge the gap in such a continuum is that of edge\footnote{In the literature the term ``edge'' is often used interchangeably with the term ``fog''.} computing. The main motivation for shifting computation from cloud to the network edge is the mitigation of network latency~\cite{Bonomi2014}. In specific, real-time applications are the main candidates for benefiting of services deployed at nearby edge infrastructure. For example, Augmented Reality (AR) is a type of application that would benefit from the low-latency of edge services~\cite{hu2015mobile,GarrigaMendonca2017}. Moreover, mobile devices exhibit limitations that may further motivate the use of edge computing as part of a continuum: some mobile applications rely on heavyweight tasks that can overstress the platform and limit the concurrent execution of other applications; and the battery is a valuable resource that may be significantly affected by the kind of task performed locally, as networking tends to consume less than CPU(s)~\cite{Carroll:2010}. 
+The key notion to bridge the gap in such a continuum is that of edge\footnote{In the literature the term ``edge'' is often used interchangeably with the term ``fog''.} computing. The main motivation for shifting computation from cloud to the network edge is the mitigation of network latency~\cite{Bonomi2014}. In specific, real-time applications are the main candidates for benefiting of services deployed at nearby edge infrastructure. For example, Augmented Reality (AR) is a type of application that would benefit from the low-latency of edge services~\cite{GarrigaMendonca2017}. Moreover, despite the significant improvements in the capabilities of mobile devices, the later still suffer from limitations that further motivates the use of edge computing as part of a continuum. In specific, some mobile applications rely on heavyweight tasks that can overstress the platform, imposing battery drain and limiting the concurrent execution of other applications. 
+
+
+%the battery is a valuable resource that may be significantly affected by the kind of task performed locally, as networking tends to consume less than CPU(s)~\cite{Carroll:2010}. 
+
+%of mobile devices, the later still suffer from battery drain and other platform/hardware limitations which motivates their computation offloading. 
+ 
+%Mobile devices can integrate the continuum as both clients of computation that may opportunistically be offloaded to edge servers and providers of their own local services to cope with the situations in which edge is not available. 
 
 
 %, whose defining characteristics are edge location, dense geographical distribution, large-scale of deployment, support for mobility, resource and interface heterogeneity, and interplay with the cloud properties in order to address requirements of mobile applications that need low latency with a wide and dense geographical distribution~\cite{Bonomi2014}.  
@@ -56,11 +63,11 @@ The key notion to bridge the gap in such a continuum is that of edge\footnote{In
 
 
 %What: the challenges in materializing the continuum
-\subsection{Key Characteristics and Challenges}
+\subsection*{Key Characteristics and Challenges}
 
 %\stepcounter{req_count}
 
-The continuum encompasses heterogeneous types of computing platforms and technologies located at the cloud and at the edge of the network, as well as in mobile devices. Among others, the heterogeneity includes the granularity in which edge datacenters are geographically distributed, posing the challenges of efficiency and scalability of the later; it also includes the way edge services are discovered and accessed, which poses the challenge of awareness. Finally, it includes the particular constraints of mobile devices in terms of battery, platform, and hardware limitations, which adds to the factors that must be taken into account in the decision of where computation should be placed along the continuum in different contexts of operation.
+The continuum encompasses \textit{heterogeneous} types of computing platforms and technologies located at the cloud and at the edge of the network, as well as in mobile devices. Among others, the heterogeneity includes the granularity in which edge datacenters are geographically distributed, posing the challenges of efficiency and scalability; it also includes the way edge services are discovered and accessed, which poses the challenge of awareness. Finally, it includes the particular constraints of mobile devices in terms of battery, platform, and hardware limitations, which adds to the factors that must be taken into account in the decision of where computation should be placed along the continuum in different contexts of operation.
 
 %Next, we identify the key characteristics of the cloud-edge-mobile continuum posing challenges to its realization along with the properties required to address these challenges.
 
@@ -96,11 +103,16 @@ The continuum encompasses heterogeneous types of computing platforms and technol
 %%In both cases, low-latency is an important requirement. However, the later type of application could afford a setup delay which the first could not.
 %Accordingly, the unified model should enable the co-existence of applications requiring different QoS levels (\stepcounter{req_count}\textbf{R\arabic{req_count}}); and the priority of the usage of computational resources from resource-constrained domains must be in accordance with the application category and its QoS requirements (\stepcounter{req_count}\textbf{R\arabic{req_count}}).
 
-\subsubsection*{Efficiency}\label{sec:efficiency}
+\subsubsection*{Resource Management}\label{sec:efficiency}
 
 \stepcounter{req_count}
 
-In cloud computing, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies. In particular, the horizontal scalability provided by virtually unlimited cloud resources enables the optimization of cloud services availability by allowing elastic services to remain accessible and operational independently of the number of requests. Such a high availability suits well the services covering either large or dense areas in which requests are always expected. In contrast, the fine grained nature of edge computing suggests the need of a different approach for the usage of its computational resources~\cite{GarrigaMendonca2017}.
+In cloud computing, the infrastructure responsible for hosting and performing services is abstracted away from client applications through virtualization and more recently containerization technologies~\cite{leitner2016patterns, Quatrocchi2016discrete}. The horizontal scalability provided by virtually unlimited resources enables elastic services to remain available regardless of the workload.
+%by allowing services to remain accessible and operational independently of the number of requests. 
+Such a high availability suits well the services covering large or dense areas in which requests are always expected. In contrast, the fine-grained distribution of edge computing suggests that neither computational resources will be abundant, nor the demand for services should be the same as those of cloud-based services. 
+
+%need of a different approach for the provisioning of its resources.  
+
 
 %The elasticity of cloud datacenters is enabled by its horizontal scalability, in which virtual machines or containers can be instantiated in new virtually unlimited physical resources. 
 
@@ -109,11 +121,11 @@ In cloud computing, the infrastructure responsible for hosting and performing se
 
 %A direct replication of cloud computing IaaS model with edge computing infrastructure would not be possible. 
 
-First, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous services and clients would be reduced. Second, because it is unlikely that clients of services covering small areas shall always be present. 
-To improve efficiency and scalability, the allocation of runtime resources to different services should be opportunistic and without minimum preallocation, unless justified otherwise. % (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). 
-Moreover, the fine-grained distribution of edge computing and its resource limitations also suggests that an a priori installation and deployment to all edge servers would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Instead, the acquisition of service artifacts should be opportunistic, unless justified otherwise. % (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
+%First, because it is unlikely that a significant number of applications could be simultaneously hosted by edge servers using technologies such as virtualization and containerization. Even if containers can be allocated faster than virtual machines~\cite{Quatrocchi2016discrete}, at its best, a minimum amount of resources still needs to be allocated to always-deployed containers. Thus, the scalability of edge computing in terms of number of simultaneous services and clients would be reduced. Second, because it is unlikely that clients of services covering small areas shall always be present. 
+%To improve efficiency and scalability, the allocation of runtime resources to different services should be opportunistic and without minimum preallocation, unless justified otherwise. % (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}). 
+%Moreover, the fine-grained distribution of edge computing and its resource limitations also suggests that an a priori installation and deployment to all edge servers would impose unnecessary burden. Even if storage is more abundant and cheaper resource than runtime resources like CPU and memory, a proactive and indiscriminate acquisition of service artifacts could compromise the scalability of edge computing. Instead, the acquisition of service artifacts should be opportunistic, unless justified otherwise. % (Req. \stepcounter{req_sub_count}\textbf{R\arabic{req_count}.\arabic{req_sub_count}}).
 
-\subsubsection{Locality \& Context-Awareness}\label{sec:context-awareness}
+\subsubsection*{Locality \& Context-Awareness}\label{sec:context-awareness}
 
 \stepcounter{req_count}
 
@@ -167,7 +179,7 @@ The discovery of finely distributed edge datacenters is another important aspect
 
 %TODO: replace R2 with: Control over forwarding from edge to cloud. Soft vs. strong constraint. Soft = I can also run on cloud if needed. Strong = Never go to cloud.
 	
-\subsubsection{Automation and Encapsulation}
+\subsubsection*{Automation and Encapsulation}
 
 \stepcounter{req_count}
 
