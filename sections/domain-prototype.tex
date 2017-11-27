@@ -6,7 +6,9 @@ A prototype was implemented to demonstrate the feasibility of the domain-side ap
 
 --- An advertisement mechanism that broadcasts UDP messages every \textit{n} seconds (configurable, default $n=5$) using a port also known by clients; and an unicast channel through which new clients should reply to the discovery of a domain using the address extracted from the advertisement broadcast;
 
---- An acquisition mechanism that performs the download and installation of new services upon identification of a new application requirements, or updates existing services if they already exist in the domain. In specific, the prototype expects an identification message from the client-side middleware with a well-known format that includes the service name and its public control version repository (e.g., Git). After fetching from the repository, the acquisition mechanism looks for a service descriptor file specifying the function source to be installed (e.g., a JavaScript file). Finally, the latter is added to OpenWhisk by means of its command-line API and a message is returned to the client-side middleware with the service name and the result of the acquisition process.
+--- An acquisition mechanism that performs the download and installation of new services upon identification of a new application requirements, or updates existing services if they already exist in the domain. In specific, the prototype expects an identification message from the client-side middleware with a well-known format that includes the service name and its public control version repository (e.g., Git). After fetching from the repository, the acquisition mechanism looks for a service descriptor file specifying the function source to be installed (e.g., a JavaScript file). 
+
+--- An allocation mechanism that adds the acquired function to OpenWhisk by means of its command-line API and returns a message to the client-side middleware with the service name and the result of the acquisition process. Specifically in this case, OpenWhisk takes care of the placement of function instances to its pool of containers.
 
 %Martin's old server side details
 
