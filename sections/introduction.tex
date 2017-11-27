@@ -1,10 +1,10 @@
 \section{Introduction}
 
 
-\subsubsection*{Problem Statement}
+%\subsubsection*{Problem Statement}
 
 %What: The need of edge computing to enable low latency and mobile computation offloading
-With the advent of Internet of Things, the evolution of mobile computing, and the emergence of real-time applications, the processing of an exponentially increasing volume of data must be performed in a timely fashion, i.e., with minimum latency. Despite the elasticity and vast computing power of existing cloud platforms, the access to these resources involves multiple hops of network communication, adding prohibitive latency to requests' processing. Such limitation has the following implications: 1) cloud services may fail to satisfy the requirements of real-time/low-latency applications; and 2) offloading of delay-sensitive computation from devices with constrained resources to cloud servers is unlikely to work due to network-latency.
+With the advent of Internet of Things, the evolution of mobile computing, and the emergence of real-time applications, the processing of an exponentially increasing volume of data must be performed in a timely fashion, i.e., with minimum latency. Despite the elasticity and vast computing power of existing cloud platforms, the access to these resources involves multiple hops of network communication, adding prohibitive latency to requests' processing. Such limitation has the following implications: 1) cloud services may fail to satisfy the requirements of real-time/low-latency applications; and 2) offloading of delay-sensitive computation from devices with constrained resources to cloud servers is unlikely to work due to network latency.
 %What: The challenges in realizing edge computing
 To reduce network latency, data processing must be performed closer to where it is produced and consumed. In accordance with this principle, the emerging paradigm of edge computing~\cite{Shi:2016} states that computing power should be pushed from centralized datacenters to the edge of the network. 
 %What: The challenges in the realization of edge computing
@@ -38,7 +38,7 @@ but also the mechanisms to allow computation to be seamlessly placed onto the he
 
 %mobile devices could make use of compute runtimes deployed at nearby edge servers to extend their capabilities. Notwithstanding the potential of such combination, a complete model for its realization is still missing~\cite{NasticServerlessEdge17}. 
 
-\subsubsection*{Contributions of this Work}
+%\subsubsection*{Contributions of this Work}
 
 %What: A3-E model as a contribution
 
@@ -46,10 +46,10 @@ In this paper, we propose a unified model for the realization of the computation
 %In specific, 
 %What: A3-E and Serverless Computing 
 %Targeting efficiency and scalability, 
-A3-E proposes an automated management of service life-cycle by employing and extending the paradigm of serverless computing~\cite{Hendrickson:2016,baldini2017serverless,GarrigaMendonca2017}. In specific, A3-E explores the function-as-a-service (FaaS) execution model~\cite{MateosFaaster17} to allow stateless functions to be autonomously and opportunistically fetched, deployed and exposed as services with the twofold objective of achieving an efficient usage of computational resources needed for the realization of edge computing and consequently of the continuum. Additionally, A3-E encompasses the mutual client-server awareness and the dynamic placement of stateless computation along the continuum.
+A3-E proposes an automated management of service life-cycle by employing and extending to the edge the paradigm of serverless computing~\cite{Hendrickson:2016,baldini2017serverless,GarrigaMendonca2017}. In specific, A3-E explores the function-as-a-service (FaaS) execution model~\cite{MateosFaaster17} to allow stateless functions to be autonomously and opportunistically fetched, deployed and exposed as services with the twofold objective of achieving an efficient usage of computational resources needed for the realization of edge computing and consequently of the continuum. Additionally, A3-E encompasses the mutual client-server awareness and the dynamic placement of stateless computation along the continuum.
 
 %What: The obtained results for latency and battery; other metrics?
-As demonstrated through different experiments, an augmented reality application hosted by an Android platform device was able to rely on a client-side middleware implementing the A3-E process to proxy its requests to services dynamically selected from the continuum. In specific, these services were implemented as stateless functions that were executed in a cloud-based, edge-based, and mobile-based runtimes. The experiments have shown up to 90\% reduction of latency when edge services were used instead of cloud services, and a 74\% decrease of battery consumption when computation was offloaded from the Android device to edge servers. These results corroborate the importance of edge computing, as well as the feasibility of A3-E in the realization of the cloud-edge-mobile continuum.
+As demonstrated through different experiments, an augmented reality application hosted by an Android platform device was able to rely on a client-side middleware implementing the A3-E process to proxy its requests to services dynamically selected from the continuum. In specific, these services were implemented as functions that were executed in a cloud-based, edge-based, and mobile-based runtimes. The experiments have shown up to 90\% reduction of latency when edge services were used instead of cloud services, and a 74\% decrease of battery consumption when computation was offloaded from the Android device to edge servers. These results corroborate the importance of edge computing, as well as the feasibility of A3-E in the realization of the cloud-edge-mobile continuum.
 
 %Finally, experiments with an augmented reality application have also shown the feasibility of A3-E model in the realization of the continuum, with a single client application been able to seamlessly alternate among local, edge, and cloud-based services.
 
@@ -57,10 +57,12 @@ As demonstrated through different experiments, an augmented reality application 
 
 %Last but not least, our contribution also includes a reference architecture for the realization of the proposed model. 
 
-\subsubsection*{Paper Organization}
+%\subsubsection*{Paper Organization}
 
 The rest of this paper is organized as follows. 
 %Section~\ref{sec:motivation} describes the main motivation behind this work, including application scenarios and the computational continuum.  
-Section~\ref{sec:background} provides a brief background on the main topics and concepts used by this work. Section~\ref{sec:continuum} details our concept of a cloud-edge-mobile continuum and specifies requirements for its realization. Section~\ref{sec:proposal} provides a detailed description of the A3-E model, whereas Section~\ref{sec:implementation} details both the client-side implementation for Android platform and the server-side implementation for edge-computing. Section~\ref{sec:evaluation} reports on the experiments performed to evaluate our proposal with an augment reality application. Section~\ref{sec:related} presents related work. Finally, Section~\ref{sec:conclusions} concludes the paper and delineates future work.
+%Section~\ref{sec:background} provides a brief background on the main topics and concepts used by this work. 
+Section~\ref{sec:continuum} details our concept of a cloud-edge-mobile continuum and specifies requirements for its realization. Section~\ref{sec:proposal} provides a detailed description of the A3-E model, whereas Section~\ref{sec:implementation} describes its implementation as a client-side and a domain-side middleware. %details both the client-side implementation for Android platform and the server-side implementation for edge-computing. 
+Section~\ref{sec:evaluation} reports on the experiments performed to evaluate our proposal with an augment reality application. Section~\ref{sec:related} presents related work. Finally, Section~\ref{sec:conclusions} concludes the paper and delineates future work.
 
 %TODO: I like the new organization but I think we are missing to define and characterize serverless computing [Martin]
