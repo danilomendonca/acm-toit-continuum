@@ -4,11 +4,38 @@
 
 A prototype was implemented to demonstrate the feasibility of the domain-side approach targeting local-edge, which include all four phases in the A3-E process. It consists of a simple python application\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}} executed at a Linux-based virtual machine, which also hosts OpenWhisk\footnote{\url{http://openwhisk.incubator.apache.org/}}, an open source FaaS platform. In particular, the prototype implements:
 
---- An advertisement mechanism that broadcasts UDP messages every \textit{n} seconds (configurable, default $n=5$) using a port also known by clients; and an unicast channel through which new clients should reply to the discovery of a domain using the address extracted from the advertisement broadcast;
+--- An advertisement mechanism that broadcasts UDP messages every \textit{n} seconds (configurable, default $n=5$) using a port known by clients; and a unicast channel through which new clients should reply to the discovery of a domain using the address extracted from the advertisement broadcast and a port also known;
 
---- An acquisition mechanism that performs the download and installation of new services upon identification of a new application requirements, or updates existing services if they already exist in the domain. In specific, the prototype expects an identification message from the client-side middleware with a well-known format that includes the service name and its public control version repository (e.g., Git). After fetching from the repository, the acquisition mechanism looks for a service descriptor file specifying the function source to be installed (e.g., a JavaScript file). 
+--- An acquisition mechanism that performs the download and installation of new services upon identification of a new application requirements, or updates existing services if they already exist in the domain. In specific, the prototype expects an identification message from the client-side middleware with a well-known format that includes the service name and its public control version repository (e.g., Git). After fetching from the repository, the acquisition mechanism looks for a service descriptor file specifying the source-file(s) of function(s) to be installed (e.g., JavaScript). 
 
---- An allocation mechanism that adds the acquired function to OpenWhisk by means of its command-line API and returns a message to the client-side middleware with the service name and the result of the acquisition process. Specifically in this case, OpenWhisk takes care of the placement of function instances to its pool of containers.
+--- An allocation mechanism that adds the acquired function to OpenWhisk by means of its command-line API and returns a message to the client-side middleware with the service name and the result of the acquisition process. Specifically in this case, OpenWhisk takes care of the placement of function instances to a pool of containers. Once the function(s) required by the service has been setup, an REST endpoint is made available. Whilst the endpoint is mapped to a single function in OpenWhisk, the later may perform internal calls to other functions composing the service.
+
+\definecolor{lightgrey}{gray}{0.98}
+\definecolor{blue}{rgb}{0, 0, 0.25}
+
+\lstset{
+	backgroundcolor=\color{lightgrey},
+	basicstyle=\footnotesize\color{black},
+    string=[s]{"}{"},
+    stringstyle={\footnotesize\bfseries\color{blue}},
+    comment=[l]{:},
+    commentstyle={\footnotesize\color{black}},
+    upquote=true,
+    %numbers=left,
+    %numbersep=5pt,
+	%numberstyle=\tiny\color{black}    
+}
+
+\begin{lstlisting}[caption=Feature extraction service descriptor, label=lst:ms_criteria, captionpos=t]
+{
+	"service-name":	"feature-extraction",
+	"service-URI": 	"featureExtraction",
+	"functions": [{	
+		"source": "featureExtraction.js",
+		"web"	: "true" 
+	}]
+}
+\end{lstlisting}
 
 %Martin's old server side details
 
