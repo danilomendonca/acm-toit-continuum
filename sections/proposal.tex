@@ -173,10 +173,13 @@ The DSM achieves this by broadcasting its existence and by waiting for clients t
 %For example, in the real-time translation application previously introduced, the service setup delay was mitigated by having the acquisition of the data and codebase composing the service to start as soon as the user entered the edge domain's coverage area.
 %For example, the setup of services required by the mobile multiplayer game application by the user's local-edge server follows the awareness of a new application.
 
-From the client's perspective, the awareness phase models the discovery of domains and corresponding services whose network address is not previously known. In specific, it targets edge domains that are integrated with the local network infrastructure of buildings and public spaces. This modality contrasts with cloud and possibly mobile-edge domains~\cite{ahmed2016isco} featuring a well-known Internet name that is solved by networking components such as traffic managers and DNS technology. Needless to say, the awareness phase is not considered by mobile domains.
+From the client's perspective, the awareness phase models the discovery of domains, and corresponding micro-services, whose network addresses are not previously known. 
 
-The CSM realizes this phase by intercepting the broadcast advertisement messages on a reactive way, to then send its application requirements to the newly available domain.
-This process should happen once and in a timely fashion upon connection to new networks to mitigate battery consumption overhead. As an example, the same local-edge server in our user's home is discovered whenever his device(s) connect to his private network. Once the domain is ready, this domain becomes an alternative for the provisioning of services required by the many applications (e.g., the mobile multiplayer game) hosted by the user's smartphone, tablet, and/or other of his IoT gadgets. 
+In particular, it tackles edge domains that are integrated with the local network infrastructures of buildings and public spaces. This modality contrasts with cloud, and possibly mobile-edge domains~\cite{ahmed2016isco}, which have well-known Internet names. Needless to say, the awareness phase is not considered by mobile domains.
+
+The CSM intercepts the provider's broadcast messages, and reacts by sending the domain its application requirements. This process should happen once, and in a timely fashion, upon connection to new networks to mitigate battery consumption. As an example, the local-edge server in our user's home might be discovered when her mobile device connects to the private network. 
+
+%Once the domain is ready, this domain becomes an alternative for the provisioning of services required by the many applications (e.g., the mobile multiplayer game) hosted by the user's smartphone, tablet, and/or other of his IoT gadgets. 
 
 
 %Finally, the Awareness phase has the following purposes: 1) to enable domains to pro-actively initialize the acquisition and allocation phases based on its awareness of applications whose hosting devices happens to be in the domain coverage area (Req.~\textbf{R2.3}); and 2) to enable clients to discover the address of local domains (Req.~\textbf{R2.2}).
