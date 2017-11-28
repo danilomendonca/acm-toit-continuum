@@ -120,19 +120,27 @@ If we go back to our running example, in the absence of appropriate edge domains
 
 %The Acquisition phase has the following purposes: 1) to enable the efficient (Req. \textbf{R1.2}) and automated (Req. \textbf{R3.2}) download and installation of service artifacts; and 2) to enable clients to identify, among the known domains, those compatible with their requirements (Req. \textbf{R2.1}).
 
-From the domain's perspective, the allocation phase models the dynamic and automated acquisition of service artifacts upon identification of requirements from a given application. Its ultimate goal is to mitigate the usage of domain resources before actual service demand and, more importantly, encapsulate this operational aspect from developers and administrators. The later are relevant for the realization of finely distributed edge domains, 
-%specially those integrated to local network infrastructures (e.g., local-edge domains integrated to domestic and office infrastructures), 
-as manual and external administration of a large scale of services may be cumbersome and expensive. In addition, cloud-based providers may also benefit from the automated acquisition of services artifacts. To the best of our knowledge,
-%the automated acquisition in today's IaaS providers is limited to the replication of virtual machines and containers in which services are already deployed as full applications~\cite{Quatrocchi2016discrete}. More recently, 
-cloud-based FaaS platforms support the uploading of functions through a public interface. that can be employed by automated processes triggered and executed outside the domain. Following the A3-E approach, the acquisition of functions would be managed by a process within the cloud domain, allowing services to be downloaded and installed on demand. In contrast, mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
+From the domain's perspective, the acquisition phase models the dynamic and automated acquisition of the micro-service artifacts that will need to be placed during the allocation phase. 
+
+%upon identification of requirements from a given application. 
+
+
+The ultimate goal of this phase is to mitigate the use of domain resources before the micro-service is actually needed, while also facilitating ops for developers and administrators. 
+
+Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of micro-services can prove cumbersone and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current functions as a service platforms only support the uploading of functions through public interfaces. Following the A3-E approach, the acquisition of functions would be managed by a process within the cloud domain, therefore allowing micro-services to be downloaded (e.g., from a repository) and installed on demand. In contrast, mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
-The acquisition phase is realized by the DSM with the following sub-process: first, receiving from the CSM the set of application requirements, namely the services to be installed along with a repository URL from which their artifacts can be downloaded. Then, fetching all artifacts and installing all dependencies. Finally, whenever service acquisition finishes, the DSM informs their clients about its (un)availability according to the acquisition result. Throughout the services life-cycle, the DSM also checks for new versions of acquired services from the same repositories and updates them accordingly. As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
+The acquisition phase is realized by the DSM using the following sub-process. Forst of all, it receives a set of application requirements from the client's CSM, namely the list of micro-services to install and the URL of a micro-service repository. The desired micro-service artifacts are then downloaded and installed, at which point the DSM informs the client whether the micros-services can be considered ``acquired'' or not. Throughout the micro-services life-cycle, the DSM periodically checks for new versions of acquired services and updates them accordingly. 
+
+%As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
 
 %In case the service has already been acquired or as the acquisition finishes, clients should add that domain to their list of available domains. 
 
-From the client's perspective, acquisition models the simple addition of a domain to a list of available domains, which should follow the identification of the domain's capability in providing the requested service. This phase is realized by the CSM with the following sub-process: the CSM should expect a confirmation from the DSM regarding its compliance in providing the service required by the application. Once confirmed, the CSM adds that domain to a list of available domains used by the client-side allocation phase. 
+From the client's perspective, the acquisition phase models the simple addition of a domain to a list of known and available domains. This is done once the domain has proven that it can actually provide the requested micro-service. 
+
+
+ %follow the identification of the domain's capability in providing the requested service. This phase is realized by the CSM with the following sub-process: the CSM should expect a confirmation from the DSM regarding its compliance in providing the service required by the application. Once confirmed, the CSM adds that domain to a list of available domains used by the client-side allocation phase. 
 
 %As an example, a real-time translation application from/to streams of different spoken languages require services with low-latency. The translation can either rely on local services provided by the mobile domain (zero network latency) or on remote services provided by the edge domain (low network latency). Given the battery constraints of the mobile device, edge services are preferred. Instead of having all artifacts pre-installed, the edge's DSM acquires the data and codebase from a repository informed by the CSM upon detection of the user in its coverage area. The setup process takes no more than a minute, during which local services were consumed. Once the setup is ready, the application can start streaming captured conversations to edge-based services, which in turn reply with a translated audio stream.
 
@@ -145,22 +153,25 @@ From the client's perspective, acquisition models the simple addition of a domai
 
 \subsection*{Awareness Phase}\label{sec:A3-E-awareness}
 
-
-
 %Why do we need awareness?
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate services upon detection of the first requests.  
 %A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers; a given domain may count on network components to traffic route to its servers instead of negociating directly with clients aware of its existance; nonetheless, the lack of awareness limits the acquisition and deployment of services to reactive, as the domain would only identify a given service upon the first request has been made. Without awareness, clients would not be able to choose from alternative domains. 
 
-Last but not least, from the domain's side, the awareness phase models the discovery by a domain of client applications in the domain's coverage area. Its main purpose is to enable domains to pro-actively initialize the acquisition and allocation phases based on the physical awareness of hosting devices in the domain's coverage are. Cloud-based FaaS platforms like Amazon Lambda adopt a cold start policy in which functions are allocated after their first call following a period of idleness. Taking advantage of edge's locality, the proposed awareness has two benefits: 1) it alleviates the cold start issue by pro-actively allocating functions just before they are needed; and 2) it enables service acquisition to be opportunistic.
+From the domain's side, the awareness phase models how providers can discover new client applications in its network coverage. Its main purpose is to enable domains to pro-actively initialize the acquisition and allocation phases, based on the physical awareness of devices in the area. 
+
+Cloud-based functions as a service platforms like Amazon Lambda adopt a cold start policy in which functions are allocated after their first call following a period of idleness. Taking advantage of the edge's locality, the proposed awareness has two benefits: (i) it alleviates the cold start by pro-actively allocating functions just before they are needed; and (ii) it enables service acquisition to be opportunistic.
 
 %It copes with the need for efficiency and scalability of finely distributed edge domains by allowing acquisition and/or allocation of services to happen just in time, i.e., just before the client application needs them.
 %and enables not only functions to be allocated, but also acquired in an opportunistic fashion.
 %The benefit lies in the anticipation of (opportunistic) services setup with respect to the arrival of the first service request, i.e., in the mitigation of service setup delay (also known as cold start). Since cloud domains cover a large area, the later do not employ the awareness phase. Needless to say, mobile domains do not require awareness for sharing the same platform with client applications.
 
-The DSM realizes this phase with the broadcast of its existence (advertisement) and the discovery of client applications along with their requirements (i.e., services). The later are passed to the following phase of acquisition.
+The DSM achieves this by broadcasting its existence and by waiting for clients to pass along their requirements. In our running example this occured when the user's domestic local-edge server became aware of the new mobile game that the user had just installed. 
+
+
+%nd the discovery of client applications along with their requirements (i.e., services). The later are passed to the following phase of acquisition.
 %then receive all client application requirements (i.e., services) as soon as the client's mobile device enters the domain's coverage area, and then pro-actively starting acquisition and allocation. 
 %For example, in the real-time translation application previously introduced, the service setup delay was mitigated by having the acquisition of the data and codebase composing the service to start as soon as the user entered the edge domain's coverage area.
-For example, the setup of services required by the mobile multiplayer game application by the user's local-edge server follows the awareness of a new application.
+%For example, the setup of services required by the mobile multiplayer game application by the user's local-edge server follows the awareness of a new application.
 
 From the client's perspective, the awareness phase models the discovery of domains and corresponding services whose network address is not previously known. In specific, it targets edge domains that are integrated with the local network infrastructure of buildings and public spaces. This modality contrasts with cloud and possibly mobile-edge domains~\cite{ahmed2016isco} featuring a well-known Internet name that is solved by networking components such as traffic managers and DNS technology. Needless to say, the awareness phase is not considered by mobile domains.
 
