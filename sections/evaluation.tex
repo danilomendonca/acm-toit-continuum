@@ -4,15 +4,15 @@
 
 %\subsubsection{Domains}
 
-To evaluate our approach we deployed a set of domains to materialize the computational continuum --- as shown in Table~\ref{tab:domain-exp-config}. The sample application is a simplified augmented reality application, in which users can capture an image and invoke a service (deployed using functions within the continuum) to perform feature extraction and match them back to the image. 
+To evaluate our approach we deployed a set of domains that materialize the computational continuum --- as shown in Table~\ref{tab:domain-exp-config}. The sample application is a simplified augmented reality application, in which users can capture an image and invoke a microservice (implemented and deployed using functions within the continuum) to perform feature extraction and match them back to the image. 
 
 For our mobile domain we used a smartphone in which we deployed the A3-E domain-side middleware and the functions needed to perform both feature extraction and matching. 
 
-For our local-edge domains we adopted the IBM/Apache Openwhisk serverless framework\footnote{https://openwhisk.incubator.apache.org/}. OpenWhisk is open-source, and therefore is --to date-- the only serverless alternative that can be deployed locally or on private clouds. 
+For our local-edge domains we adopted the IBM/Apache OpenWhisk serverless framework\footnote{https://openwhisk.incubator.apache.org/}. OpenWhisk is open-source, and therefore is --to date-- the only stable serverless alternative that can be deployed locally or on private clouds. 
 
 %Particularly, openwhisk provides a built-in noSQL database: CouchDB, which is associated with the implemented actions through user-defined triggers and rules. 
 
-We had two edge-local domains, and placed both of them in the same LAN as the origin of the requests (i.e., the client applications/devices). This was done to emulate a few-hop scenario in which devices are directly connected to their nearest Edge domains. \texttt{Edge-local-1} was placed on a regular laptop, allowing us to represent a situation in which latency is close to zero, but the computational resources are highly constrained, as scaling-up is not possible due to inherent physical restrictions of the underlying infrastructure. Similarly, \texttt{edge-local-2} domain was placed on a Polimi server. In this case the computational resources are less constrained, yet low latency can still be achieved due to physical proximity.
+We had two local-edge domains, and placed both of them in the same LAN as the origin of the requests (i.e., the client applications/devices). This was done to emulate a few-hop scenario in which devices are directly connected to their nearest edge domains. \texttt{Local-edge-1} was placed on a regular laptop, allowing us to represent a situation in which latency is close to zero, but the computational resources are highly constrained, as scaling-up is not possible due to inherent physical restrictions of the underlying infrastructure. Similarly, \texttt{local-edge-2} domain was placed on a Polimi server. In this case the computational resources are less constrained, yet low latency can still be achieved due to physical proximity.
 
 \begin{table}[htb]
 	\caption{Domains Setup in the Continuum for the Experimental Evaluation}
@@ -25,9 +25,9 @@ We had two edge-local domains, and placed both of them in the same LAN as the or
 		Mobile & Samsung Galaxy S6 SM-G90, 3Gb RAM, 8x Cortex CPU 2Ghz & Android 5.0.2 + Java Functions + OpenCV
 		\tabularnewline
 		\midrule 
-		Local-edge-1  & ubuntu/trusty64-2, 4x vCPUs, 4Gb RAM & Openwhisk, 256 Mb/Action, Python 2.7 + OpenCV \tabularnewline
+		Local-edge-1  & ubuntu/trusty64-2, 4x vCPUs, 4Gb RAM & OpenWhisk, 256 Mb/Action, Python 2.7 + OpenCV \tabularnewline
 		\midrule 
-		Local-edge-2  & ubuntu/trusty64-2, 8x vCPUs, 16Gb RAM & Openwhisk, 256 Mb/Action, Python 2.7 + OpenCV \tabularnewline
+		Local-edge-2  & ubuntu/trusty64-2, 8x vCPUs, 16Gb RAM & OpenWhisk, 256 Mb/Action, Python 2.7 + OpenCV \tabularnewline
 		\midrule 
 		Cloud-FaaS & N/A & AWS Lambda, 256 Mb/Function, Python 2.7 + OpenCV \tabularnewline
 		\midrule 
@@ -56,7 +56,7 @@ To compare the latency of the different domains along the continuum, we performe
 
 This setup was achieved taking into account the default maximum for concurrent executions in AWS Lambda\footnote{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html} and Openwhisk\footnote{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}, as well as the limited resources of the edge domains. 
 
-This experiment excluded the local domain, and focused on the remote ones, i.e., edge and cloud (see Figure~\ref{fig:exp-setup1}). Capturing and uploading an image is emulated using Postman\footnote{https://www.getpostman.com/}, a JavaScript open source application designed to load test the functional behaviors of Web APIs, and to measure their performances. The  payload for this experiment was a sample image of approximately 65 KB, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. 
+This experiment excluded the mobile domain, and focused on the remote ones, i.e., edge and cloud (see Figure~\ref{fig:exp-setup1}). Capturing and uploading an image is emulated using Postman\footnote{https://www.getpostman.com/}, a JavaScript open source application designed to load test the functional behaviors of Web APIs, and to measure their performances. The  payload for this experiment was a sample image of approximately 65 KB, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. 
 
 %Once the image was sent through HTTP/POST, the actual execution depended on the domain being used. triggering Openwhisk actions for both edge domains, AWS Lambda functions for Cloud-FaaS domain, and a Nodejs server that calls a Python function for Cloud-IaaS domain.
 
@@ -89,9 +89,9 @@ This experiment excluded the local domain, and focused on the remote ones, i.e.,
 	\label{fig:latency-domains}
 \end{figure}
 
- When considering up to $16$ simultaneous clients, the latencies added by the edge domains are less than the latencies in both cloud alternatives. Regarding the Cloud-Faas domain, the latency reduction is up to $90$\% for \texttt{edge-local-1} and up to $82$\% for \texttt{edge-local-2} respectively. Regarding the traditional cloud domain, reductions are up to $77$\% and $58$\%, respectively. Since in Cloud-IaaS a scaling-up action (that can demand several seconds~\cite{Quatrocchi2016discrete}) triggers when more than one VM instance is needed to handle the workload, requests timeout in the meantime. 
+ When considering up to $16$ simultaneous clients, the latencies added by the edge domains are less than the latencies in both cloud alternatives. Regarding the Cloud-Faas domain, the latency reduction is up to $90$\% for \texttt{local-edge-1} and up to $82$\% for \texttt{local-edge-2} respectively. Regarding the traditional cloud domain, reductions are up to $77$\% and $58$\%, respectively. Since in Cloud-IaaS a scaling-up action (that can demand several seconds~\cite{Quatrocchi2016discrete}) triggers when more than one VM instance is needed to handle the workload, requests timeout in the meantime. 
  
- For light to medium workloads, the edge-local domains outperformed all the other alternatives. However, \texttt{edge-local-1} is the most resource-constrained, which hinders its availability under heavier workloads. Interestingly, the Cloud-IaaS domain also outperformed the serverless one ($46$\% less latency) for light workloads. This can be due to the additional steps performed by the API Gateway in order to forward RESTful calls to lambda functions in the Cloud-FaaS\footnote{http://docs.aws.amazon.com/lambda/latest/dg/with-on-demand-https.html}. Nevertheless, this advantage is mitigated by the fact that Cloud-FaaS is a serverless alternative, and as such can better react to workload bursts, thanks to its faster horizontal scaling~\cite{Villamizar2017lambda,Hendrickson:2016}.
+ For light to medium workloads, the local-edge domains outperformed all the other alternatives. However, \texttt{local-edge-1} is the most resource-constrained, which hinders its availability under heavier workloads. Interestingly, the Cloud-IaaS domain also outperformed the serverless one ($46$\% less latency) for light workloads. This can be due to the additional steps performed by the API Gateway in order to forward RESTful calls to lambda functions in the Cloud-FaaS\footnote{http://docs.aws.amazon.com/lambda/latest/dg/with-on-demand-https.html}. Nevertheless, this advantage is mitigated by the fact that Cloud-FaaS is a serverless alternative, and as such can better react to workload bursts, thanks to its faster horizontal scaling~\cite{Villamizar2017lambda,Hendrickson:2016}.
 
 
 %\subsection{Battery} The second set of experiments targeted the measurement of battery consumption of a mobile device in two scenarios: 1) in which feature extraction and matching were performed locally, and 2) these tasks were offloaded to edge servers.
@@ -100,7 +100,7 @@ This experiment excluded the local domain, and focused on the remote ones, i.e.,
 
 In our second set of experiments we wanted to evaluate A3-E as an enabler of the computation continuum. A mobile device was setup to host the A3-E client-side middleware, which was in charge of dynamically selecting the best domain for a specific execution, based on the perceived QoS. 
 
-Once again our sample application was the augmented reality application with feature extraction and matching provided through the continuum. In this case we had three domains: the first was the local domain for executing Java functions on the mobile device, the second was an edge domain implemented using OpenWhisk, while the third was an AWS Lambda cloud domain.
+Once again our sample application was the augmented reality application with feature extraction and matching provided through the continuum. In this case we had three domains: the first was the mobile domain for executing Java functions on the mobile device, the second was an edge domain implemented using OpenWhisk, while the third was an AWS Lambda cloud domain.
 
 The experiment featured four different scenarios. The first three scenarios each considered a single different domain. The fourth scenario brought the three domains together to form the continuum. For this last scenario, we probabilistically simulated the availabilities of the three domains. 
 
@@ -143,7 +143,7 @@ prob. of edge becoming available: 0.666666%
 
 The experiment consisted in cascading 2000 sequential requests for feature extraction and matching of a sample image (with a size of 65 KB). We measured the total execution time, the battery consumption in the mobile device, and the average time per call. Figure~\ref{fig:exp-a3e} shows the experimental results, averaged among $5$ executions for each scenario.
 
-For the total execution time (Fig.~\ref{fig:total-exec-a3e}), considering the \texttt{Cloud-FaaS} domain as a baseline, \texttt{Edge-local} improved the execution time up to a $72$\%, while \texttt{mobile} and \texttt{All-domains} up to a $69$\% and $49$\%, respectively. The highest battery consumption (see Figure~\ref{fig:battery-a3e}) was when using only the \texttt{mobile} domain, with a battery drop of $4.5$\% during $750$ seconds (i.e., $12.5$ minutes) of execution. Battery savings with \texttt{Cloud-FaaS}, \texttt{Edge-local} and \texttt{All-domains} were $49$\%, $35$\%, and $49$\%, respectively. The average execution time (see Figure~\ref{fig:time-per-call-a3e}), with \texttt{Cloud-FaaS} as our baseline ($1137$ milliseconds per call), was improved by $76$\%, $68$\% and $47$\% for \texttt{Edge-local}, \texttt{Mobile} and \texttt{All-domains}, respectively. Finally, for the \texttt{All-domains} scenario, Figure~\ref{fig:calls-per-domain-a3e} shows the average number of calls that were processed by each domain in the continuum: $65$\% by the \texttt{Edge-local} domain, followed by \texttt{Cloud-FaaS} ($30$\%) and \texttt{Mobile} ($7$\%).
+For the total execution time (Fig.~\ref{fig:total-exec-a3e}), considering the \texttt{Cloud-FaaS} domain as a baseline, \texttt{local-edge} improved the execution time up to a $72$\%, while \texttt{mobile} and \texttt{All-domains} up to a $69$\% and $49$\%, respectively. The highest battery consumption (see Figure~\ref{fig:battery-a3e}) was when using only the \texttt{mobile} domain, with a battery drop of $4.5$\% during $750$ seconds (i.e., $12.5$ minutes) of execution. Battery savings with \texttt{Cloud-FaaS}, \texttt{local-edge} and \texttt{All-domains} were $49$\%, $35$\%, and $49$\%, respectively. The average execution time (see Figure~\ref{fig:time-per-call-a3e}), with \texttt{Cloud-FaaS} as our baseline ($1137$ milliseconds per call), was improved by $76$\%, $68$\% and $47$\% for \texttt{local-edge}, \texttt{Mobile} and \texttt{All-domains}, respectively. Finally, for the \texttt{All-domains} scenario, Figure~\ref{fig:calls-per-domain-a3e} shows the average number of calls that were processed by each domain in the continuum: $65$\% by the \texttt{local-edge} domain, followed by \texttt{Cloud-FaaS} ($30$\%) and \texttt{Mobile} ($7$\%).
  
 These experiments tell us that the total execution time, when using only the cloud, was two times higher than when using the continuum (all-domains). This is because the requests were performed in cascade, and given the higher latency per call in the cloud, the total time increases accordingly. Clearly, using A3-E to switch to edge domains when possible substantially reduces the latency and improves the perceived QoS.
 
