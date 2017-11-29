@@ -2,13 +2,19 @@
 
 %TODO For the sake of completeness, domain-side should also feature its own figure, now its strange to be less detailed than the client side. Otherwise, explicitly say at the start of the section that the domain side was only a demonstrative prototype [Martin]
 
-A prototype was implemented to demonstrate the feasibility of the domain-side approach targeting local-edge, which include all four phases in the A3-E process. It consists of a simple python application\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}} executed at a Linux-based virtual machine, which also hosts OpenWhisk\footnote{\url{http://openwhisk.incubator.apache.org/}}, an open source FaaS platform. In particular, the prototype implements:
+The domain-side middleware prototype described herein focuses on a local-edge domain, and includes a complete realization of all four of A3-E's phases. It was implemented using Python\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}}, and is run on a Linux-based VM that hosts OpenWhisk\footnote{\url{http://openwhisk.incubator.apache.org/}}, a well-known open source FaaS platform. In particular, the prototype implements:
 
---- An advertisement mechanism that broadcasts UDP messages every \textit{n} seconds (configurable, default $n=5$) using a port known by clients; and a unicast channel through which new clients should reply to the discovery of a domain using the address extracted from the advertisement broadcast and a port also known;
+\begin{itemize}
 
---- An acquisition mechanism that performs the download and installation of new services upon identification of a new application requirements, or updates existing services if they already exist in the domain. In specific, the prototype expects an identification message from the client-side middleware with a well-known format that includes the service name and its public control version repository (e.g., Git). After fetching from the repository, the acquisition mechanism looks for a service descriptor file specifying the source-file(s) of function(s) to be installed (e.g., JavaScript). 
+	\item an advertisement mechanism that broadcasts UDP messages using a port that is known by the clients, with a frequency that is configurable (default $n=5$). A unicast channel is also created through which new clients should reply to the discovery of a domain using the address extracted from the advertisement broadcast. Once again the port is known in advance.
 
---- An allocation mechanism that adds the acquired function to OpenWhisk by means of its command-line API and returns a message to the client-side middleware with the service name and the result of the acquisition process. Specifically in this case, OpenWhisk takes care of the placement of function instances to a pool of containers. Once the function(s) required by the service has been setup, an REST endpoint is made available. Whilst the endpoint is mapped to a single function in OpenWhisk, the later may perform internal calls to other functions composing the service.
+	\item an acquisition mechanism that downloads and installs (or upgrades existing) micro-services based on new application requirements. More precisely, the prototype receives a message from the client-side middleware containing the name of the required micro-service and its public source repository (e.g., git). After fetching the software artifacts from the repository, the acquisition mechanism searches for a service descriptor file that specifies the source-file(s) of the function(s) that need to be installed (e.g., JavaScript). 
+
+	\item an allocation mechanism that adds the acquired function to OpenWhisk by means of its command-line API, and returns a message to the client-side middleware with the final name of the deployed micro-service. OpenWhisk places the function instances on its internal pool of containers, and creates an appropriate REST interface for the micro-service. Whilst the endpoint is mapped to a single function, the function may perform internal calls to other functions to compose micro-services.
+
+\end{itemize}
+
+
 
 \definecolor{lightgrey}{gray}{0.98}
 \definecolor{blue}{rgb}{0, 0, 0.25}
