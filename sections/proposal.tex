@@ -8,7 +8,10 @@
 
 The \textit{A3-E model}, depicted in Fig.~\ref{fig:A3-E-model}, defines the actors and mechanisms required to realize the computing continuum. It inherits its name from its four phases -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each phase addresses specific concerns in the interaction between client applications and the service providers in the continuum. To address the intrinsic heterogeneity of the continuum, the model is flexible with respect to which phases are actually employed, and how.
 
-In the A3-E model, services are provided through \textit{domain}s. The domain provides a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of these domains are \textit{cloud-domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., Amazon Lambda in Europe); \textit{edge-domains}, representing local-edge and mobile-edge sites (e.g., servers within an office building or at cellular base stations); and \textit{mobile-domain}, representing a client device's own resources. A3-E also defines \textit{client applications}~\footnote{In this paper, \textit{client application(s)} share the same hosting (mobile) device with the \textit{mobile domain} providing local services, i.e., we do not consider device-to-device collaboration.} as the software components responsible for sending \textit{requests} to the continuum.
+In the A3-E model, services are provided through \textit{domain}s. The domain provides a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of these domains are \textit{cloud-domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., Amazon Lambda in Europe); \textit{edge-domains}, representing local-edge and mobile-edge sites (e.g., servers within an office building or at cellular base stations); and \textit{mobile-domain}, representing a client device's own resources. 
+
+A3-E also defines \textit{client applications}~\footnote{In this paper, \textit{client application(s)} share the same hosting (mobile) device with the \textit{mobile domain} providing local services, i.e., we do not consider device-to-device collaboration.} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is composed of a normal request with additional requirements for the targeted service. Two types of requirements are considered: \textit{QoS requirements}, that specifies QoS metrics (e.g., maximum latency, minimum availability, etc); and \textit{location requirements}, that fixes the types of domain that may be used (e.g., mobile only, edge or mobile, any, etc). 
+
 
 %TODO CSM and DSM are not well-known acronyms and introduce noise. Better to stick to Domain-side middleware and Client-side middleware [Martin]
 
@@ -50,7 +53,7 @@ The \textit{engagement} phase models the last stage of interaction between a cli
 
 %To enforce a common interface between clients and heterogeneous providers, mobile devices should also expose offered functionality as local services.
 
-In this phase the request has already been provisioned by multiple domains and the client-side middleware (CSM) has already selected a specific domain to make the request. 
+In this phase the request has already been provisioned by one or more domains and the client-side middleware (CSM) has already selected a specific domain to make the request. 
 
 
 %handled and parsed by the client-side middleware (CSM), and . 
@@ -106,7 +109,7 @@ From the client's perspective, the allocation phase models the selection of the 
 
 %This sub-process is the main client-side activity required for the realization of the continuum, as it allows clients to seamlessly alternate among different continuum domains according to the context. 
 
-If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choos between the their local mobile domains and the cloud domain. If the application's requirements favor low-battery consumption, the cloud domain will be chosen. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grow, a multi-objective optimization algorithm~\cite{Olson1996} may be employed to decide among alternative domains.
+If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choose between its local mobile-domain and the cloud-domain. If the application's requirements favor low-battery consumption, the cloud-domain will be chosen. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grow, a multi-objective optimization algorithm may be employed to decide among alternative domains.
 
 %, upon unavailability of edge domains providing services with low latency, the AR application previously introduced would have to choose among mobile or cloud domain. If the application requirements prioritizes low battery consumption (e.g., because battery level is low), it should opt for the cloud domain. Otherwise, if low latency is the priority requirement, it should opt for the cloud domain. 
 
@@ -120,14 +123,14 @@ If we go back to our running example, in the absence of appropriate edge domains
 
 %The Acquisition phase has the following purposes: 1) to enable the efficient (Req. \textbf{R1.2}) and automated (Req. \textbf{R3.2}) download and installation of service artifacts; and 2) to enable clients to identify, among the known domains, those compatible with their requirements (Req. \textbf{R2.1}).
 
-From the domain's perspective, the acquisition phase models the dynamic and automated acquisition of the micro-service artifacts that will need to be placed during the allocation phase. 
+From the domain's perspective, the acquisition phase models the dynamic and automated acquisition of the micro-service artifacts that will need to be placed during the allocation phase. In particular, artifacts refer to: i) the function(s) composing the service (e.g., a Java compiled class); ii) static data (e.g., a trained neural network model); and iii) other dependencies (e.g., software libraries).
 
 %upon identification of requirements from a given application. 
 
 
 The ultimate goal of this phase is to mitigate the use of domain resources before the micro-service is actually needed, while also facilitating ops for developers and administrators. 
 
-Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of micro-services can prove cumbersone and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current functions as a service platforms only support the uploading of functions through public interfaces. Following the A3-E approach, the acquisition of functions would be managed by a process within the cloud domain, therefore allowing micro-services to be downloaded (e.g., from a repository) and installed on demand. In contrast, mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
+Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of micro-services can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current functions-as-a-service platforms only support the uploading of functions through public interfaces. Following the A3-E approach, the acquisition of functions would be managed by a process within the cloud domain, therefore allowing micro-services to be downloaded (e.g., from a repository) and installed on demand. In contrast, mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
