@@ -2,7 +2,7 @@
 
 %As described in Section~\ref{sec:proposal}, the CSM component interacts with DSM from different domains that could be either discoverable using a DNS-like mechanism or advertisement. 
 
-The goal of the client-side middleware is to allow client applications to invoke A3-E micro-services without knowing where they will actually be executed within the computing continuum: locally on the mobile device, in a local-edge server, in a mobile-edge server, or in the cloud. 
+The goal of the client-side middleware is to allow client applications to invoke A3-E microservices without knowing where they will actually be executed within the computing continuum: locally on the mobile device, in a local-edge server, in a mobile-edge server, or in the cloud. 
 
 Its selection algorithm is a multi-objective function that takes into account the requirements of the functions and the availability of the various domains. 
 
@@ -43,9 +43,11 @@ The \textit{A3EFacade} component wraps the \textit{A3EManager}, which manages al
 
 %The loop manager  consists of three main components called \textit{DiscoveryManager}, \textit{IdentificationManager} and \textit{SelectionManager}. 
 
+<<<<<<< HEAD
 Component \textit{DiscoveryManager} manages the discovery of domains. The local domain is registered when the middleware is created, while cloud domains are registered by the client application and their endpoints must be known a-priori. Edge domains, on the other hand, are found at run time. Every time the IP address of the client device changes, the manager starts listening for UDP broadcast message using component \textit{UDPDiscoverer}. If a message is received, the IP address of the sender is retrieved and a new \textit{A3EDomain} is created in the middleware. An \textit{A3EDomain} is identified by a \textit{host} name (URI) and satisfies a specific \textit{LocationRequirement}. Everytime a domain is discovered or, on contrary the connection with is lost, the \textit{DiscoveryManager} updates its list of available domains.
 
  %Component \textit{InvocationResolver} is then used to actually invoke the micro-services. 
+
 %An  \textit{A3EDomain} could be either \textit{static} or \textit{dynamic}. Static domains are added to the discovery manager at launch time, meaning that it is known a-priori that they will be available. Example of this are cloud and local domains. On contrary dynamic domains can be found only at runtime with appropriate technological protocols (such as DNS and advertising). Edge domains are not known a-priori thus they are considered dynamic. Static domains can be added by the client application using the \textit{registerDomain} operation provided by the \textit{A3EFacade} while dynamic domains are automatically discovered by the \textit{DiscoveryManager}.
  %\textit{A3EDomain}s  are identified by a \textit{host} name, that is a unique network identifier by which it is possible to interact with the domain using a network. Moreover, as shown in the figure, a domain is considered \textit{Pingable} that means that it is possible to check for its availability and measure its networking latency (in milliseconds). Each domain satisfy a \textit{LocationRequirement}, intuitively local domains satisfies the \textit{LOCAL} requirement, while the edge and cloud ones the \textit{EDGE} and \textit{CLOUD} respectively.  A domain also provides three additional operations: one to execute a function within the domain, one to retrieve the networking latency (its value is lazily updated after a \textit{ping}) and one to obtain its computational power. Finally a domain also uses an \textit{InvocationResolver} to actually invoke the function. 
 

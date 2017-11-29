@@ -1,8 +1,12 @@
 \subsection{Domain-side Middleware}
 
-%TODO For the sake of completeness, domain-side should also feature its own figure, now its strange to be less detailed than the client side. Otherwise, explicitly say at the start of the section that the domain side was only a demonstrative prototype [Martin]
+The domain-side middleware prototype described herein focuses on a local-edge domain, and includes a complete realization of the Advertisement, Acquisition and Allocation phases of A3-E -- as depicted in Fig.~\ref{fig:domain-prototype}. The Engagement phase is not covered by the middleware since it occurs transparently between the client application and the selected domain, thus no mediation is involved. The prototype was implemented using Python\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}}, and runs within a Linux-based domain hosting also OpenWhisk\footnote{\url{http://openwhisk.incubator.apache.org/}}, a well-known open source FaaS platform. In particular, the prototype implements:
 
-The domain-side middleware prototype described herein focuses on a local-edge domain, and includes a complete realization of all four of A3-E's phases. It was implemented using Python\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}}, and is run on a Linux-based VM that hosts OpenWhisk\footnote{\url{http://openwhisk.incubator.apache.org/}}, a well-known open source FaaS platform. In particular, the prototype implements:
+\begin{figure}[tbp]
+	\includegraphics[width=0.9\textwidth]{figs/domain-side-middleware}
+	\caption{Domain-side Middleware Architecture}
+	\label{fig:domain-prototype}
+\end{figure}
 
 \begin{itemize}
 
