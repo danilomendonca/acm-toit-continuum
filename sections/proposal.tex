@@ -28,6 +28,12 @@ A3-E exploits the Serverless Architecture~\cite{baldini2017serverless} to guaran
 
 Serverless is a cloud computing model in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. Moreover, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. This approach allows one to write and deploy functions (code) without considering the server runtime environment, the resource allocation, the load balancing, or the scalability; all these aspects are automatically handled by the provider --- hence the term serverless.
 
+\begin{figure}[tbp]
+	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
+	\caption{The A3-E Process. Phases are delimited by vertical lines. The main activity of each phase is identified by the label within the phase; labels within parenthesis represent the states of a domain to a client (and vice-versa).}
+	\label{fig:Continuum-arch}
+\end{figure}
+
 
 % in which stateless functions can be allocated on demand without minimum pre-allocation of resources. 
 %Such an architecture is already employed by multiple cloud providers\footnote{\url{https://blog.zhaw.ch/icclab/faas-function-hosting-services-and-their-technical-characteristics}}; its adoption by edge providers would have the following benefits: 1) \textit{scalability}, with the delegation of resource management; 2) \textit{efficiency}, with the provisioning of functions on demand without pre-allocation of computational resources; and 3) \textit{portability}, as functions are stateless and may be implemented in different languages, including those supported by mobile platforms. 
