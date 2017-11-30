@@ -19,7 +19,7 @@ A3-E also defines \textit{client applications}~\footnote{In this paper, \textit{
 %The figure has been placed here to avoid multiple diagrams in the same page [Danilo]
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
-	\caption{The high level architecture of a mobile application exploiting both the computing continuum (by mens of microservices ($\mu$S)) and conventional cloud computing (by means of cloud services (CS)). }
+	\caption{The high level architecture of a mobile application exploiting both the computing continuum -- by mens of microservices ($\mu$S) -- and conventional cloud computing -- by means of cloud services (CS).}
 	\label{fig:Continuum-arch}
 \end{figure}
 
@@ -33,7 +33,8 @@ A3-E exploits the Serverless Architecture~\cite{baldini2017serverless} to guaran
 Serverless is a cloud computing model in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. Moreover, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. This approach allows one to write and deploy functions (code) without considering the server runtime environment, the resource allocation, the load balancing, or the scalability; all these aspects are automatically handled by the provider --- hence the term serverless.
 
 Fig.~\ref{fig:Continuum-arch} illustrates the architecture of a mobile application designed to work with both the continuum and conventional cloud computing. The application consists of 
-client-side logic and user interfaces. Server-side logic (if any) and persistence (if any) are provided by conventional cloud services. Finally, the application relies on the continuum for stateless computation, which is provided by local~\footnote{For the sake of simplicity, services provided by mobile domains are also referred as microservices, as they follow the same proposed implementation of edge and cloud domain's microservices.}, edge, and cloud domains by means of microservices consisting of stateless function(s) and, if any, static dependencies. 
+client-side logic and user interfaces. Server-side logic (if any) and persistence (if any) are provided by conventional cloud services. Finally, the application relies on the continuum for stateless computation, which is provided by mobile, edge, and cloud domains by means of microservices~\footnote{For the sake of simplicity, local services provided by mobile domains are also referred as microservices, as they follow the same proposed implementation of edge and cloud domain's microservices.}. 
+
 %We consider conventional cloud services to be outside of the continuum because they can host virtually any type of application, apart from those that are continuum-compliant. 
 %TODO let's discuss among us where is the best place to add this; here it must have already been said, probably in the explanation about serverless in the previous paragraph [Danilo]
 
