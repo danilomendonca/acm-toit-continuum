@@ -43,7 +43,6 @@ The \textit{A3EFacade} component wraps the \textit{A3EManager}, which manages al
 
 %The loop manager  consists of three main components called \textit{DiscoveryManager}, \textit{IdentificationManager} and \textit{SelectionManager}. 
 
-<<<<<<< HEAD
 Component \textit{DiscoveryManager} manages the discovery of domains. The local domain is registered when the middleware is created, while cloud domains are registered by the client application and their endpoints must be known a-priori. Edge domains, on the other hand, are found at run time. Every time the IP address of the client device changes, the manager starts listening for UDP broadcast message using component \textit{UDPDiscoverer}. If a message is received, the IP address of the sender is retrieved and a new \textit{A3EDomain} is created in the middleware. An \textit{A3EDomain} is identified by a \textit{host} name (URI) and satisfies a specific \textit{LocationRequirement}. Everytime a domain is discovered or, on contrary the connection with is lost, the \textit{DiscoveryManager} updates its list of available domains.
 
  %Component \textit{InvocationResolver} is then used to actually invoke the micro-services. 
