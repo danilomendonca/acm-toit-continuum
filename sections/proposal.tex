@@ -19,7 +19,7 @@ A3-E also defines \textit{client applications}~\footnote{In this paper, \textit{
 %The figure has been placed here to avoid multiple diagrams in the same page [Danilo]
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
-	\caption{TODO}
+	\caption{The high level architecture of a mobile application exploiting both the computing continuum (by mens of microservices ($\mu$S)) and conventional cloud computing (by means of cloud services (CS)). }
 	\label{fig:Continuum-arch}
 \end{figure}
 
@@ -33,14 +33,14 @@ A3-E exploits the Serverless Architecture~\cite{baldini2017serverless} to guaran
 Serverless is a cloud computing model in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. Moreover, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. This approach allows one to write and deploy functions (code) without considering the server runtime environment, the resource allocation, the load balancing, or the scalability; all these aspects are automatically handled by the provider --- hence the term serverless.
 
 Fig.~\ref{fig:Continuum-arch} illustrates the architecture of a mobile application designed to work with both the continuum and conventional cloud computing. The application consists of 
-client-side logic and user interfaces. Server-side logic (if any) and persistence (if any) are provided by conventional cloud services. Finally, the application relies on the continuum for stateless computation, which is provided by microservices implemented as stateless function(s) and, if any, static dependencies. 
-%TODO let's discuss among us where is the best place to add this; here it must have already been said, probably in the explanation about serverless in the previous paragraph [Danilo]
+client-side logic and user interfaces. Server-side logic (if any) and persistence (if any) are provided by conventional cloud services. Finally, the application relies on the continuum for stateless computation, which is provided by local~\footnote{For the sake of simplicity, services provided by mobile domains are also referred as microservices, as they follow the same proposed implementation of edge and cloud domain's microservices.}, edge, and cloud domains by means of microservices consisting of stateless function(s) and, if any, static dependencies. 
 %We consider conventional cloud services to be outside of the continuum because they can host virtually any type of application, apart from those that are continuum-compliant. 
+%TODO let's discuss among us where is the best place to add this; here it must have already been said, probably in the explanation about serverless in the previous paragraph [Danilo]
 
 
-Considering our running example, the client-side mobile game application consists of controllers and user interfaces. Microservices in the continuum provide the functionality for processing and updating the game state, which must be passed as parameter in conjunction with game events (e.g., user inputs). Finally, it also includes cloud services providing stateful business logic (e.g. authentication) and persistence (e.g., players scores). 
+Considering our running example, the client-side mobile game application consists of controllers and user interfaces. The continuum provide the functionality for processing and updating the game state, which must be passed as parameter to a microservice in the continuum in conjunction with game events (e.g., user inputs). Finally, it also includes cloud services providing stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
 
-Also in the running example, the client-side AR application captures scenes from the device's camera and rely on the continuum microservices to extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on a static trained model. It then relies on client-side logic to render the updated 3D virtual object in the scene. In this case, conventional cloud services are not employed.
+Also in the running example, the client-side AR application captures scenes from the glasses' camera and rely on the continuum microservices to extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on a neural network trained model (composing the microservice dependencies) and an image processing library (available in the microservice runtime environment). It then relies on client-side logic to update the 3D virtual object state and render it into the scene displayed by the glass. In this case, conventional cloud services are not employed.
 
 % in which stateless functions can be allocated on demand without minimum pre-allocation of resources. 
 %Such an architecture is already employed by multiple cloud providers\footnote{\url{https://blog.zhaw.ch/icclab/faas-function-hosting-services-and-their-technical-characteristics}}; its adoption by edge providers would have the following benefits: 1) \textit{scalability}, with the delegation of resource management; 2) \textit{efficiency}, with the provisioning of functions on demand without pre-allocation of computational resources; and 3) \textit{portability}, as functions are stateless and may be implemented in different languages, including those supported by mobile platforms. 
