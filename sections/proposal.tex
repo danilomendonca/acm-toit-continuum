@@ -16,7 +16,7 @@ In the A3-E model, \textit{domain}s are in charge of providing \textit{services}
 
 A \textit{service} is a set of artifacts that fulfill certain functionality and can be deployed to and accessed from a remote server. In particular, service artifacts can refer to: (i) the stateless function(s) exposed to the clients (e.g., a Java compiled class); (ii) static data (e.g., a trained neural network model); and (iii) other dependencies (e.g.,  software libraries). Moreover, these services are \textit{microservices}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often an HTTP RESTful API) and are independently deployable by fully automated machinery. 
 
-A3-E also defines \textit{client applications} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is an HTTP request with additional headers specifying requirements for the targeted service in the continuum. Two types of requirements are considered: \textit{QoS requirements}, that specifies QoS metrics (e.g., maximum latency, minimum availability, etc); and \textit{Location requirements}, that fixes the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
+A3-E also defines \textit{client applications} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is an HTTP request with additional headers specifying requirements for the targeted microservice in the continuum. Two types of requirements are considered: \textit{QoS requirements}, that specifies QoS metrics (e.g., maximum latency, minimum availability, etc); and \textit{Location requirements}, that fixes the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
 
 %TODO: who handles the client application request? A client-side middleware. Why its description was removed? The same question for the domain-side middleware. They are not just implementations, but part of the model. [Danilo]
 
@@ -107,7 +107,7 @@ The domain-side middleware (DSM) exploits a self-management control loop~\cite{k
 While in cloud domains scalability is virtually unlimited, in finely distributed edge domains scalability needs to be prioritized to favor applications with more demanding requirements. For instance, edge providers could support two types of SLAs: one for critical applications requiring high service availability, and another for non-critical applications that may cope with lower degrees of availability. 
 
 %The first type could be achieved with the pre-allocation of resources to these services, whilst the latter could rely on the opportunistic allocation of services upon demand and availability of resources. 
-In the scenario introduced in Section~\ref{sec:example}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for turists~\cite{GarrigaMendonca2017}. In this case the edge services might become unavailable to the AR applications, for example during rush hour. In that case the applications would have to rely on services being run in the local mobile domain, or in the cloud domain. 
+In the scenario introduced in Section~\ref{sec:example}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for turists~\cite{GarrigaMendonca2017}. In this case the edge microservices might become unavailable to the AR applications, for example during rush hour. In that case the applications would have to rely on microservices being run in the mobile domain, or in the cloud domain. 
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
 
@@ -142,11 +142,13 @@ From the domain's perspective, the acquisition phase models the dynamic and auto
 
 The ultimate goal of this phase is to mitigate the use of domain resources before the microservice is actually needed, while also facilitating ops for developers and administrators. 
 
-Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of microservices can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current functions-as-a-service platforms only support uploading (pushing) functions through public interfaces. Following the A3-E approach, the acquisition of functions would be managed by a process within the domain, therefore allowing microservices to be downloaded (e.g., pulled from a repository) and installed on demand. Note that mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
+Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of microservices can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current FaaS platforms only support uploading (pushing) functions through public interfaces. Following the A3-E approach, the acquisition of functions would be managed by a process within the domain, therefore allowing microservices to be downloaded (e.g., pulled from a repository) and installed on demand. Note that mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
-The DSM receives a set of application requirements from the client's CSM, namely the list of microservices to install and the URL of their repositories. The desired microservice artifacts are then downloaded and installed, at which point the DSM informs the client whether the microservices can be considered ``acquired'' or not. Throughout the microservices life-cycle, the DSM periodically checks for new versions of acquired services and updates them accordingly. 
+The DSM receives a set of application requirements from the client's CSM, namely the list of microservices to install and the URL of their repositories. The desired microservice artifacts are then downloaded and installed.
+%, at which point the DSM informs the client whether the microservices can be considered ``acquired'' or not
+Throughout the microservices life-cycle, the DSM periodically checks for new versions of acquired services and updates them accordingly. 
 
 %As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
 
@@ -180,7 +182,7 @@ Cloud-based FaaS platforms like Apache OpenWhisk\footnote{A well known open sour
 %and enables not only functions to be allocated, but also acquired in an opportunistic fashion.
 %The benefit lies in the anticipation of (opportunistic) services setup with respect to the arrival of the first service request, i.e., in the mitigation of service setup delay (also known as cold start). Since cloud domains cover a large area, the later do not employ the awareness phase. Needless to say, mobile domains do not require awareness for sharing the same platform with client applications.
 
-The DSM achieves this by broadcasting its existence and by waiting for clients to pass along their requirements. In our running example this occured when the user's domestic local-edge server became aware of the new mobile game that the user had just installed. 
+The DSM achieves this by broadcasting its existence and by waiting for clients to pass along their requirements. In our running example this occurred when the user's domestic local-edge server became aware of the new mobile game that the user had just installed. 
 
 
 %nd the discovery of client applications along with their requirements (i.e., services). The later are passed to the following phase of acquisition.
@@ -192,7 +194,7 @@ From the client's perspective, the awareness phase models the discovery of domai
 
 In particular, it tackles edge domains that are integrated with the local network infrastructures of buildings and public spaces. This modality contrasts with cloud, and possibly mobile-edge domains~\cite{ahmed2016isco}, which have well-known Internet names. Needless to say, the awareness phase is not considered by mobile domains.
 
-The CSM intercepts the provider's broadcast messages, and reacts by sending back its application requirements. This process should happen once, and in a timely fashion, upon connection to new networks to mitigate battery consumption. As an example, the local-edge server in our user's home might be discovered when her mobile device connects to the private network. 
+The CSM intercepts the provider's broadcast messages, and reacts by sending back its application requirements. This process should happen once, and in a timely fashion, upon connection to new networks to mitigate battery consumption. As an example, the local-edge server in our user's home might be discovered when her mobile device connects to her domestic Wi-Fi network. 
 
 %Once the domain is ready, this domain becomes an alternative for the provisioning of services required by the many applications (e.g., the mobile multiplayer game) hosted by the user's smartphone, tablet, and/or other of his IoT gadgets. 
 
