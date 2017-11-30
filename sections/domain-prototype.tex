@@ -2,7 +2,8 @@
 
 
 \subsubsection{Edge Domains}
-The domain-side middleware prototype described herein focuses on a local-edge domain, and includes a complete realization of the Advertisement, Acquisition and Allocation phases of A3-E -- as depicted in Fig.~\ref{fig:domain-prototype}. The Engagement phase is not covered by the middleware since it occurs transparently between the client application and the selected domain, thus no mediation is involved. The prototype was implemented using Python\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}}, and runs within a Linux-based domain hosting also OpenWhisk\footnote{\url{http://openwhisk.incubator.apache.org/}}, a well-known open source FaaS platform. In particular, the prototype implements:
+The domain-side middleware prototype described herein focuses on a local-edge domain, and includes a complete realization of the Advertisement, Acquisition and Allocation phases of A3-E -- as depicted in Fig.~\ref{fig:domain-prototype}. The Engagement phase is not covered by the domain-side middleware since it occurs between the client application (through the CSM) and an already selected domain. The prototype was implemented using Python\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}}, and runs within a Linux-based domain hosting also OpenWhisk. 
+
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/a3e-domain-prototype}
@@ -10,15 +11,11 @@ The domain-side middleware prototype described herein focuses on a local-edge do
 	\label{fig:domain-prototype}
 \end{figure}
 
-\begin{itemize}
+An \textit{AdvertisementManager} broadcasts UDP messages (step 1) using a port that is known by the clients, with a frequency that is configurable (default $n=5$). A unicast channel is also created through which new clients should reply (step 2) to the discovery of a domain using the address extracted from the advertisement broadcast, and a port known in advance. The CSM replies with the specification of its requested services -- Lst.~\ref{lst:service-descriptor} illustrates the descriptor of an image recognition service with a single Java function and two dependencies used for image classification.
 
-	\item an advertisement mechanism that broadcasts UDP messages using a port that is known by the clients, with a frequency that is configurable (default $n=5$). A unicast channel is also created through which new clients should reply to the discovery of a domain using the address extracted from the advertisement broadcast. Once again the port is known in advance.
+Then, the \textit{AcquisitionManager} fetches (step 3), downloads and installs (or upgrades existing) microservices from public source repositories (e.g., git), based on the information in the service descriptor sent by the client. 
 
-	\item an acquisition mechanism that downloads and installs (or upgrades existing) microservices based on new application requirements. More precisely, the prototype receives a message from the client-side middleware containing the name of the required microservice and its public source repository (e.g., git). After fetching the software artifacts from the repository, the acquisition mechanism searches for a service descriptor that specifies the function(s) that need to be (built and) allocated and additional artifacts. Lst.~\ref{lst:service-descriptor} illustrates the descriptor of an image recognition service with a single Java function and two dependencies used for image classification.
-
-	\item an allocation mechanism that adds the acquired function(s) to OpenWhisk by means of its command-line API, and returns a message to the client-side middleware with the final name of the deployed microservice along with the operation result. OpenWhisk places the function instances on its internal pool of containers, and creates an appropriate REST interface for the microservice. Whilst the endpoint is mapped to a single function, the later may perform internal calls to other functions composing the microservices.
-
-\end{itemize}
+After fetching the software artifacts, the \textit{AcquisitionManager} searches for a service descriptor that specifies the function(s), which is then automatically built (step 4) along with its dependencies by means of Gradle\footnote{\url{https://gradle.org/}}.
 
 \definecolor{lightgrey}{gray}{0.994}
 \definecolor{blue}{rgb}{0, 0, 0.25}
@@ -26,33 +23,33 @@ The domain-side middleware prototype described herein focuses on a local-edge do
 \lstset{
 	backgroundcolor=\color{lightgrey},
 	basicstyle=\footnotesize\color{black},
-    string=[s]{"}{"},
-    stringstyle={\footnotesize\bfseries\color{blue}},
-    comment=[l]{:},
-    commentstyle={\footnotesize\color{black}},
-    upquote=true,
-    %numbers=left,
-    %numbersep=5pt,
+	string=[s]{"}{"},
+	stringstyle={\footnotesize\bfseries\color{blue}},
+	comment=[l]{:},
+	commentstyle={\footnotesize\color{black}},
+	upquote=true,
+	%numbers=left,
+	%numbersep=5pt,
 	%numberstyle=\tiny\color{black}    
 }
 
-\begin{minipage}{\linewidth}
-\begin{lstlisting}[caption=Image recognition service descriptor, label=lst:service-descriptor, captionpos=t]
-{
+\begin{minipage}{.9\linewidth}
+	\begin{lstlisting}[caption=Image recognition service descriptor, label=lst:service-descriptor, captionpos=t]
+	{
 	"service-name":	"image-recognition",
 	"functions": [{	
-		"language":	"Java",
-		"name":		"image-recognition",
-		"source":	"it.polimi.a3e.imagerecognition.ImageRecognition",
-		"build":	"true",
-		"web":		"true"
-		
-	]
+	"language":	"Java",
+	"name":		"image-recognition",
+	"source":	"it.polimi.a3e.imagerecognition.ImageRecognition",
+	"build":	"true",
+	"web":		"true"
+	}]
 	"dependencies": ["NetSSD_deploy.prototxt", "NetSSD_deploy.caffemodel"]
-}
-\end{lstlisting}
+	}
+	\end{lstlisting}
 \end{minipage}
 
+In case of proactive allocation, the acquisition manager calls the \textit{AllocationManager} (step 5) that uploads the acquired function(s) to OpenWhisk (step 6) by means of its command-line API, and returns a message to the client-side middleware with the final endpoint of the deployed microservice along with the operation result (step 7). OpenWhisk creates the function along with its RESTful endpoint, and from this moment on, it is ready to be engaged by the client (step 8). Note that whilst the endpoint is mapped to a single function, the later may perform internal calls to other functions composing the microservice.
 
 \subsubsection{Mobile Domain}
 
@@ -61,6 +58,12 @@ The domain-side middleware prototype described herein focuses on a local-edge do
 	\caption{Domain-side Middleware Architecture for Mobile Domain}
 	\label{fig:domain-prototype}
 \end{figure}
+
+
+ 
+
+
+
 
 %Martin's old server side details
 
