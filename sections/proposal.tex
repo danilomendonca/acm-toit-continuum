@@ -100,7 +100,11 @@ From the domain's perspective, the allocation phase models how the microservices
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
 
+
 The domain-side middleware (DSM) exploits a self-management control loop~\cite{kephart2003vision} (see Figure~\ref{fig:service-allocation-loop}) in which the microservices are instantiated according to: (i) a monitored QoS (e.g., the availability of each service), (ii) a Service-Level Agreement (SLA), and (iii) the availability of the computational resources. 
+
+%The very first request %TODO to be continued tonight [Danilo]
+%Once , the DSM informs the client whether the microservices can be considered ``acquired'' or not.
 
 %For instance, in a centralized implementation, the DSM orchestrates the placement of functions to containers distributed along multiple servers.
 
