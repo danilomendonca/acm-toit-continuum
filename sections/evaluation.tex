@@ -143,20 +143,7 @@ prob. of edge becoming available: 0.666666%
 
 The experiment consisted in cascading 2000 sequential requests for feature extraction and matching of a sample image (with a size of 65 KB). We measured the total execution time, the battery consumption in the mobile device, and the average time per call. Figure~\ref{fig:exp-a3e} shows the experimental results, averaged among $5$ executions for each scenario.
 
-For the total execution time (Fig.~\ref{fig:total-exec-a3e}), considering the \texttt{Cloud-FaaS} domain as a baseline, \texttt{local-edge} improved the execution time up to a $72$\%, while \texttt{mobile} and \texttt{All-domains} up to a $69$\% and $49$\%, respectively. The highest battery consumption (see Figure~\ref{fig:battery-a3e}) was when using only the \texttt{mobile} domain, with a battery drop of $4.5$\% during $750$ seconds (i.e., $12.5$ minutes) of execution. Battery savings with \texttt{Cloud-FaaS}, \texttt{local-edge} and \texttt{All-domains} were $49$\%, $35$\%, and $49$\%, respectively. The average execution time (see Figure~\ref{fig:time-per-call-a3e}), with \texttt{Cloud-FaaS} as our baseline ($1137$ milliseconds per call), was improved by $76$\%, $68$\% and $47$\% for \texttt{local-edge}, \texttt{Mobile} and \texttt{All-domains}, respectively. Finally, for the \texttt{All-domains} scenario, Figure~\ref{fig:calls-per-domain-a3e} shows the average number of calls that were processed by each domain in the continuum: $65$\% by the \texttt{local-edge} domain, followed by \texttt{Cloud-FaaS} ($30$\%) and \texttt{Mobile} ($7$\%).
- 
-These experiments tell us that the total execution time, when using only the cloud, was two times higher than when using the continuum (all-domains). This is because the requests were performed in cascade, and given the higher latency per call in the cloud, the total time increases accordingly. Clearly, using A3-E to switch to edge domains when possible substantially reduces the latency and improves the perceived QoS.
-
-Battery consumption was substantially lower when offloading computation, rather than performing it on the device. The \texttt{mobile}-device scenario lasted half the time, but used twice as much battery (a prohibitive $20$\% of battery drain per hour) as the \texttt{all-domains} one, given that it was performing CPU intensive operations. This recalls the importance of computation offloading to preserve a device's resources.
-
-Finally, the domain selection and distribution of computation performed by A3-E in the \texttt{all-domains} scenario reflects the underlying idea of the computation continuum: exploit the edge domains as much as possible (by giving them high scores in Formula~\ref{eq:smart}). This will lead to better balance among computation time and resource consumption. Switch to the cloud, or to the local device, only when necessary. Note that in this experiment the mobile-device computation was given the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tuned by adjusting the application requirements and domain parameters discussed in Section~\ref{sec:implementation}.
-
-%that allows to cope with unavailability and fluctuations in QoS 
-
-%\textcolor{blue}{TODO:(2) Discuss the relevance of the results }
-
-
-\begin{figure}[tbp]
+\begin{figure}[htb]
 	\raggedright
 	\captionsetup[subfigure]{width=0.45\textwidth}	
 	\subfloat[Total execution time (seconds)\label{fig:total-exec-a3e}] {\includegraphics[width=0.45\textwidth]{figs/total-exec-time-A3E}}
@@ -171,10 +158,21 @@ Finally, the domain selection and distribution of computation performed by A3-E 
 	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
 \end{figure}
 
+For the total execution time (Fig.~\ref{fig:total-exec-a3e}), considering the \texttt{Cloud-FaaS} domain as a baseline, \texttt{local-edge} improved the execution time up to a $72$\%, while \texttt{mobile} and \texttt{All-domains} up to a $69$\% and $49$\%, respectively. The highest battery consumption (see Figure~\ref{fig:battery-a3e}) was when using only the \texttt{mobile} domain, with a battery drop of $4.5$\% during $750$ seconds (i.e., $12.5$ minutes) of execution. Battery savings with \texttt{Cloud-FaaS}, \texttt{local-edge} and \texttt{All-domains} were $49$\%, $35$\%, and $49$\%, respectively. The average execution time (see Figure~\ref{fig:time-per-call-a3e}), with \texttt{Cloud-FaaS} as our baseline ($1137$ milliseconds per call), was improved by $76$\%, $68$\% and $47$\% for \texttt{local-edge}, \texttt{Mobile} and \texttt{All-domains}, respectively. Finally, for the \texttt{All-domains} scenario, Figure~\ref{fig:calls-per-domain-a3e} shows the average number of calls that were processed by each domain in the continuum: $65$\% by the \texttt{local-edge} domain, followed by \texttt{Cloud-FaaS} ($30$\%) and \texttt{Mobile} ($7$\%).
+ 
+These experiments tell us that the total execution time, when using only the cloud, was two times higher than when using the continuum (all-domains). This is because the requests were performed in cascade, and given the higher latency per call in the cloud, the total time increases accordingly. Clearly, using A3-E to switch to edge domains when possible substantially reduces the latency and improves the perceived QoS.
+
+Battery consumption was substantially lower when offloading computation, rather than performing it on the device. The \texttt{mobile}-device scenario lasted half the time, but used twice as much battery (a prohibitive $20$\% of battery drain per hour) as the \texttt{all-domains} one, given that it was performing CPU intensive operations. This recalls the importance of computation offloading to preserve a device's resources.
+
+Finally, the domain selection and distribution of computation performed by A3-E in the \texttt{all-domains} scenario reflects the underlying idea of the computation continuum: exploit the edge domains as much as possible (by giving them high scores in Formula~\ref{eq:smart}). This will lead to better balance among computation time and resource consumption. Switch to the cloud, or to the local device, only when necessary. Note that in this experiment the mobile-device computation was given the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tuned by adjusting the application requirements and domain parameters discussed in Section~\ref{sec:implementation}.
+
+%that allows to cope with unavailability and fluctuations in QoS 
+
+%\textcolor{blue}{TODO:(2) Discuss the relevance of the results }
 
 %\paragraph{Threats to validity}
 
-As threats to validity is it worth mentioned that the experiments were performed targeting only one client application and, in the case of the second experiment, one client device performing requests. It is also necessary to perform simulations with multiple clients using several applications with different requirements, and the corresponding functionality deployed along the continuum. Additionally, it is currently not possible to deploy real mobile-edge domains, i.e., to provide computational capabilities on base stations. This can be approximated by deploying edge domains with different specifications in terms of computational power and latency (e.g., deploying on bare metal servers and Polimi private cloud), to better reflect the heterogeneity of the continuum. 
+As threats to validity is it worth mentioning that the experiments were performed targeting only one client application and, in the case of the second experiment, one client device performing requests. It is also necessary to perform simulations with multiple clients using several applications with different requirements, and the corresponding functionality deployed along the continuum. Additionally, it is currently not possible to deploy real mobile-edge domains, i.e., to provide computational capabilities on base stations. This can be approximated by deploying edge domains with different specifications in terms of computational power and latency (e.g., deploying on bare metal servers and Polimi private cloud), to better reflect the heterogeneity of the continuum. 
 
 
 
