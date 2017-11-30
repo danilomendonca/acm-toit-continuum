@@ -8,21 +8,19 @@
 
 The \textit{A3-E model}, depicted in Fig.~\ref{fig:A3-E-model}, defines the actors and mechanisms required to realize the computing continuum. It inherits its name from its four phases -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each phase addresses specific concerns in the interaction between client applications and the service providers in the continuum. To address the intrinsic heterogeneity of the continuum, the model is flexible with respect to which phases are actually employed, and how.
 
-In the A3-E model, \textit{services} are provided through \textit{domain}s. 
+In the A3-E model, a \textit{service} is a set of artifacts that fulfill certain functionality and can be deployed to and accessed from a remote server. In particular, service artifacts can refer to: (i) the actual function(s) exposed to the clients (e.g., a Java compiled class); (ii) static data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries). Moreover, these services can be considered as \textit{microservices}~\cite{lewis2014microservices} as they are small, modular, communicate with lightweight mechanisms (often an HTTP RESTful API) and are independently deployable by fully automated deployment machinery.
 
-A service is a set of artifacts that fulfill certain functionality and can be deployed to and accessed from a remote server. In particular, service artifacts can refer to: (i) the actual function(s) exposed to the clients (e.g., a Java compiled class); (ii) static data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries). Moreover, these services can be considered as \textit{microservices}~\cite{lewis2014microservices} as they are small, modular, communicate with lightweight mechanisms (often an HTTP RESTful API) and are independently deployable by fully automated deployment machinery.
+Services are provided through \textit{domain}s. A domain provides a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of these domains are \textit{cloud-domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., Amazon Lambda in Europe); \textit{edge-domains}, representing local-edge and mobile-edge sites (e.g., servers within an office building or at cellular base stations); and \textit{mobile-domain}, representing a client device's own resources. 
 
-In turn, the domain provides a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of these domains are \textit{cloud-domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., Amazon Lambda in Europe); \textit{edge-domains}, representing local-edge and mobile-edge sites (e.g., servers within an office building or at cellular base stations); and \textit{mobile-domain}, representing a client device's own resources. 
+A3-E also defines \textit{client applications}~\footnote{In this paper, \textit{client applications} share the same hosting device with a \textit{mobile-domain} providing local services, i.e., we do not consider device-to-device collaboration.} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is an HTTP request with additional headers specifying requirements for the targeted service in the continuum. Two types of requirements are considered: \textit{QoS requirements}, that specifies QoS metrics (e.g., maximum latency, minimum availability, etc); and \textit{Location requirements}, that fixes the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
 
-A3-E also defines \textit{client applications}~\footnote{In this paper, \textit{client application(s)} share the same hosting (mobile) device with the \textit{mobile domain} providing local services, i.e., we do not consider device-to-device collaboration.} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is composed of a normal request with additional requirements for the targeted service. Two types of requirements are considered: \textit{QoS requirements}, that specifies QoS metrics (e.g., maximum latency, minimum availability, etc); and \textit{Location requirements}, that fixes the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
+%TODO: who handles the client application request? A client-side middleware. Why its description was removed? The same question for the domain-side middleware. They are not just implementations, but part of the model. [Danilo]
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
 	\caption{TODO}
 	\label{fig:Continuum-arch}
 \end{figure}
-
-%TODO CSM and DSM are not well-known acronyms and introduce noise. Better to stick to Domain-side middleware and Client-side middleware [Martin]
 
 %\subsection*{Functions-as-a-Service (FaaS)}
 
@@ -56,7 +54,6 @@ In this section we shall describe each of the four phases, starting from the mos
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 \subsection*{Engagement Phase}\label{sec:A3-E-engagement}
-%TODO: it's strange to start by explaining (E)ngagement, since it is the last in the model [Martin]
 
 The \textit{engagement} phase models the last stage of interaction between a client application and a provider. Throughout this phase, clients engage with \textit{microservices} --- implemented by the deployed functions --- using a request/response protocol (e.g., RESTful services over HTTP). 
 
@@ -76,7 +73,6 @@ In this phase the request has already been provisioned by one or more domains an
 
 \subsection*{Allocation Phase}\label{sec:A3-E-allocation}
 
-%TODO Within each figure should explicitly say where it happens: Fig. a: DOMAIN, fig. b: CLIENT [Martin]
 \begin{figure}[thbp]
 	\centering
 	\captionsetup[subfigure]{width=0.4\textwidth}	
@@ -99,9 +95,6 @@ The domain-side middleware (DSM) exploits a self-management control loop~\cite{k
 %For instance, in a centralized implementation, the DSM orchestrates the placement of functions to containers distributed along multiple servers.
 
 While in cloud domains scalability is virtually unlimited, in finely distributed edge domains scalability needs to be prioritized to favor applications with more demanding requirements. For instance, edge providers could support two types of SLAs: one for critical applications requiring high service availability, and another for non-critical applications that may cope with lower degrees of availability. 
-
-%For instance, mission critical applications should have priority over non-critical applications that may cope with lower degrees of availability. 
-%TODO this should be moved to a case scenario
 
 %The first type could be achieved with the pre-allocation of resources to these services, whilst the latter could rely on the opportunistic allocation of services upon demand and availability of resources. 
 In the scenario introduced in Section~\ref{sec:example}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for turists~\cite{GarrigaMendonca2017}. In this case the edge services might become unavailable to the AR applications, for example during rush hour. In that case the applications would have to rely on services being run in the local mobile domain, or in the cloud domain. 
