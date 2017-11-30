@@ -14,9 +14,7 @@ An \textit{AdvertisementManager} broadcasts UDP messages (step 1) using a port t
 
 Then, the \textit{AcquisitionManager} fetches (step 3), downloads and installs (or upgrades existing) microservices from public source repositories (e.g., git), based on the information in the service descriptor sent by the client. 
 
-After fetching the software artifacts from the repository, the \textit{AcquisitionManager} searches for a service descriptor that specifies the function(s), which are then automatically built (step 4) along with their dependencies by means of Gradle\footnote{\url{https://gradle.org/}}.
-
-In case of proactive allocation, the acquisition manager calls the \textit{AllocationManager} (step 5) that uploads the acquired function(s) to OpenWhisk (step 6) by means of its command-line API, and returns a message to the client-side middleware with the final endpoint of the deployed microservice along with the operation result (step 7). OpenWhisk creates the function along with its RESTful endpoint, and from this moment on, it is ready to be engaged by the client (step 8). Note that whilst the endpoint is mapped to a single function, the later may perform internal calls to other functions composing the microservice. 
+After fetching the software artifacts, the \textit{AcquisitionManager} searches for a service descriptor that specifies the function(s), which is then automatically built (step 4) along with its dependencies by means of Gradle\footnote{\url{https://gradle.org/}}.
 
 \definecolor{lightgrey}{gray}{0.994}
 \definecolor{blue}{rgb}{0, 0, 0.25}
@@ -24,32 +22,37 @@ In case of proactive allocation, the acquisition manager calls the \textit{Alloc
 \lstset{
 	backgroundcolor=\color{lightgrey},
 	basicstyle=\footnotesize\color{black},
-    string=[s]{"}{"},
-    stringstyle={\footnotesize\bfseries\color{blue}},
-    comment=[l]{:},
-    commentstyle={\footnotesize\color{black}},
-    upquote=true,
-    %numbers=left,
-    %numbersep=5pt,
+	string=[s]{"}{"},
+	stringstyle={\footnotesize\bfseries\color{blue}},
+	comment=[l]{:},
+	commentstyle={\footnotesize\color{black}},
+	upquote=true,
+	%numbers=left,
+	%numbersep=5pt,
 	%numberstyle=\tiny\color{black}    
 }
 
 \begin{minipage}{.9\linewidth}
-\begin{lstlisting}[caption=Image recognition service descriptor, label=lst:service-descriptor, captionpos=t]
-{
+	\begin{lstlisting}[caption=Image recognition service descriptor, label=lst:service-descriptor, captionpos=t]
+	{
 	"service-name":	"image-recognition",
 	"functions": [{	
-		"language":	"Java",
-		"name":		"image-recognition",
-		"source":	"it.polimi.a3e.imagerecognition.ImageRecognition",
-		"build":	"true",
-		"web":		"true"
-		
-	]
+	"language":	"Java",
+	"name":		"image-recognition",
+	"source":	"it.polimi.a3e.imagerecognition.ImageRecognition",
+	"build":	"true",
+	"web":		"true"
+	}]
 	"dependencies": ["NetSSD_deploy.prototxt", "NetSSD_deploy.caffemodel"]
-}
-\end{lstlisting}
+	}
+	\end{lstlisting}
 \end{minipage}
+
+
+
+In case of proactive allocation, the acquisition manager calls the \textit{AllocationManager} (step 5) that uploads the acquired function(s) to OpenWhisk (step 6) by means of its command-line API, and returns a message to the client-side middleware with the final endpoint of the deployed microservice along with the operation result (step 7). OpenWhisk creates the function along with its RESTful endpoint, and from this moment on, it is ready to be engaged by the client (step 8). Note that whilst the endpoint is mapped to a single function, the later may perform internal calls to other functions composing the microservice. 
+
+
 
 %Martin's old server side details
 
