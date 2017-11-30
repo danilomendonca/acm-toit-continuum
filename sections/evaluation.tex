@@ -8,7 +8,7 @@ To evaluate our approach we deployed a set of domains that materialize the compu
 
 For our mobile domain we used a smartphone in which we deployed the A3-E domain-side middleware and the functions needed to perform both feature extraction and object identification. 
 
-For our local-edge domains we adopted the IBM/Apache OpenWhisk serverless framework\footnote{https://openwhisk.incubator.apache.org/}. OpenWhisk is open-source, and therefore is --to date-- the only stable serverless alternative that can be deployed locally or on private clouds. 
+For our local-edge domains we adopted the Apache OpenWhisk serverless framework. OpenWhisk is open-source, and therefore is --to date-- the only stable serverless alternative that can be deployed locally or on private clouds. 
 
 %Particularly, openwhisk provides a built-in noSQL database: CouchDB, which is associated with the implemented actions through user-defined triggers and rules. 
 
@@ -17,7 +17,7 @@ We had two local-edge domains, and placed both of them in the same LAN as the or
 \begin{table}[htb]
 	\caption{Domains Setup in the Continuum for the Experimental Evaluation}
 	\label{tab:domain-exp-config}
-	\begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}>{\raggedright}p{1.5cm}>{\raggedright}p{6cm}>{\raggedright}p{6cm}}
+	\begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}>{\raggedright}p{1.7cm}>{\raggedright}p{6cm}>{\raggedright}p{6cm}}
 		\toprule 
 		Domain & Machine Resources & Execution Environment\tabularnewline
 		\midrule
@@ -31,7 +31,7 @@ We had two local-edge domains, and placed both of them in the same LAN as the or
 		\midrule 
 		Cloud-FaaS & N/A & AWS Lambda, 256 Mb/Function, Python 2.7 + OpenCV \tabularnewline
 		\midrule 
-		Cloud-IaaS & Autos Scaling Group with t2.micro instances + Amazon Linux AMI 2017  & NodeJs 6.11 server + Python 2.7 + OpenCv
+		Cloud-IaaS & Auto Scaling Group with t2.micro instances + Amazon Linux AMI 2017  & NodeJs 6.11 server + Python 2.7 + OpenCv
 		\tabularnewline
 		\bottomrule
 	\end{tabular*}
