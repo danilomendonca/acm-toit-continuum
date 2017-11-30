@@ -49,7 +49,7 @@ Also in our running example, the client-side AR application captures scenes from
 
 The four phases in A3-E, depicted in Figure~\ref{fig:A3-E-process}, support the self-management of service life-cycles. For each phase, A3-E  models the activities of both the \textit{domain} and of the \textit{client}. 
 
-In this section we shall describe each of the four phases, starting from the most general one, i.e., the one that applies to all domains and clients, and moving towards the more specific ones. Keep in mind that in certain domains, one or more phases might not be employed.
+Next, we shall describe each of the four phases, starting from the most general one, i.e., the one that applies to all domains and clients, and moving towards the more specific ones. Keep in mind that in certain domains, one or more phases might not be employed.
 
 %from the moment they become aware of each other to the point they may engage in client-server interactions
 
@@ -65,9 +65,9 @@ In this section we shall describe each of the four phases, starting from the mos
 
 \subsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase models the last stage of interaction between a client application and a provider. Throughout this phase, clients engage with \textit{microservices} using a request/response protocol (e.g., RESTful services over HTTP). 
+The \textit{engagement} phase models the last stage of interaction between a client application and a provider. Throughout this phase, clients engage with edge and cloud \textit{microservices} using a request/response protocol (e.g., RESTful services over HTTP). 
 
-To enforce a common interface between clients and heterogeneous service providers, mobile devices also expose offered functionality as microservices invoked locally. In fact, the FaaS execution model favors this architecture decision, as similar functions may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by FaaS platforms from different providers (e.g., a Java runtime provided by AWS Lambda).
+To enforce a common interface between clients and heterogeneous service providers in the continuum, mobile domains also expose microservices implemented with stateless functions. In fact, the FaaS execution model favors this architectural decision, as similar functions may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by FaaS platforms from different providers (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{A well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
 
 %In this phase the request has already been provisioned by one or more domains and the client-side middleware (CSM) has already selected a specific domain to make the request. 
 
@@ -95,7 +95,7 @@ To enforce a common interface between clients and heterogeneous service provider
 	\caption{Self-management control loops for service allocation and domain selection}\label{fig:allocation-loops}
 \end{figure}
 
-From the domain's perspective, the allocation phase models how the microservices are placed on the domain's resources, i.e., its pool of servers, virtual machines, and containers.
+From the domain's perspective, the allocation phase models how the microservices are placed on the domain's resources, i.e., its pool of servers, virtual machines, and containers. 
 
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
@@ -103,19 +103,18 @@ From the domain's perspective, the allocation phase models how the microservices
 
 The domain-side middleware (DSM) exploits a self-management control loop~\cite{kephart2003vision} (see Figure~\ref{fig:service-allocation-loop}) in which the microservices are instantiated according to: (i) a monitored QoS (e.g., the availability of each service), (ii) a Service-Level Agreement (SLA), and (iii) the availability of the computational resources. 
 
-%The very first request %TODO to be continued tonight [Danilo]
 %Once , the DSM informs the client whether the microservices can be considered ``acquired'' or not.
 
 %For instance, in a centralized implementation, the DSM orchestrates the placement of functions to containers distributed along multiple servers.
 
-While in cloud domains scalability is virtually unlimited, in finely distributed edge domains scalability needs to be prioritized to favor applications with more demanding requirements. For instance, edge providers could support two types of SLAs: one for critical applications requiring high service availability, and another for non-critical applications that may cope with lower degrees of availability. 
+While in cloud domains scalability is virtually unlimited, in finely distributed edge domains scalability needs to be prioritized to favor applications with more demanding requirements. For instance, edge providers could support two types of SLAs: one for critical applications requiring high service availability, and another for non-critical applications that may cope with lower degrees of availability.  
 
 %The first type could be achieved with the pre-allocation of resources to these services, whilst the latter could rely on the opportunistic allocation of services upon demand and availability of resources. 
 In the scenario introduced in Section~\ref{sec:example}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for turists~\cite{GarrigaMendonca2017}. In this case the edge microservices might become unavailable to the AR applications, for example during rush hour. In that case the applications would have to rely on microservices being run in the mobile domain, or in the cloud domain. 
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
 
-From the client's perspective, the allocation phase models the selection of the domain alternative that best satisfies the client's needs. Once again a self-management control loop is exploited (see Figure~\ref{fig:domain-selection-loop}). The loop checks the QoS levels of the microservices available in each domain.
+From the client's perspective, the allocation phase models the selection of the domain alternative that best satisfies the client's needs. Once again a self-management control loop is exploited (see Figure~\ref{fig:domain-selection-loop}). In the loop, the CSM checks the QoS levels of the microservices available in each domain. It then analysis and decides for the alternative best satisfying the application requirements.
 
 
 %, i.e., it models the computation placement along the client's perception of the continuum. 
@@ -150,8 +149,7 @@ Ops mitigation is particularly important in finely distributed edge domains, sin
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
-The DSM receives a set of application requirements from the client's CSM, namely the list of microservices to install and the URL of their repositories. The desired microservice artifacts are then downloaded and installed.
-%, at which point the DSM informs the client whether the microservices can be considered ``acquired'' or not
+The DSM receives a set of application requirements from the client's CSM, namely the list of microservices to install and the URL of their repositories. The desired microservice artifacts are then downloaded and installed, at which point the DSM informs the client whether the microservices can be considered ``acquired'' or not.
 Throughout the microservices life-cycle, the DSM periodically checks for new versions of acquired services and updates them accordingly. 
 
 %As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
@@ -180,7 +178,7 @@ From the client's perspective, the acquisition phase models the simple addition 
 
 From the domain's side, the awareness phase models how to discover new client applications in its network coverage. Its main purpose is to enable domains to pro-actively initialize the acquisition and allocation phases, based on the physical awareness of devices in the area. 
 
-Cloud-based FaaS platforms like Apache OpenWhisk\footnote{A well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} adopt a cold start policy in which functions are allocated after their first call following a period of idleness. Taking advantage of the edge's locality, the proposed awareness has two benefits: (i) it alleviates the cold start by pro-actively allocating functions just before they are needed; and (ii) it enables service acquisition to be opportunistic.
+Cloud-based FaaS platforms like AWS Lambda adopt a cold start policy in which functions are allocated after their first call following a period of idleness. Taking advantage of the edge's locality, the proposed awareness has two benefits: (i) it alleviates the cold start by pro-actively allocating functions just before they are needed; and (ii) it enables service acquisition to be opportunistic.
 
 %It copes with the need for efficiency and scalability of finely distributed edge domains by allowing acquisition and/or allocation of services to happen just in time, i.e., just before the client application needs them.
 %and enables not only functions to be allocated, but also acquired in an opportunistic fashion.
