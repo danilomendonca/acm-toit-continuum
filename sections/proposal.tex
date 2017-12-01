@@ -105,7 +105,7 @@ To enforce a common interface between clients and heterogeneous microservice pro
 
 From the domain's perspective, the allocation phase models how the microservices are placed on the domain's resources, i.e., the intra-domain placement of microservices to its pool of servers, virtual machines, and containers. 
 
-The scope of the domain-side allocation is limited by the domain's boundaries set by its provider. Whereas cloud domains are easily mapped to datacenters covering a large area, an edge domain may encompasses a set of containers in a single server (e.g., a domestic edge server) or distributed servers covering an edge site (e.g., within a building or a 5G base station).
+The scope of the domain-side allocation is limited by the domain's boundaries set by its provider. For instance, cloud domains allocate functions to containers in resourceful datacenters covering a large area. In turn, an edge domain may consist of a single server (e.g., covering an office) with a set of containers or distributed servers and containers covering an edge site (e.g., covering a whole building or a 5G base station).
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
 
@@ -125,7 +125,7 @@ In the scenario introduced in Section~\ref{sec:example}, the AV application shou
 
 From the client's perspective, the allocation phase models the selection of the domain alternative that best satisfies the client's needs. Once again a self-management control loop is exploited (see Fig.~\ref{fig:domain-selection-loop}). 
 
-The adopted microservice architecture based on stateless functions enables the selection of distinct microservices provided by different available domains. In one specific loop, the CSM checks the QoS levels of a microservice from available domains. It then analyses and decides for the alternative best satisfying the application requirements.
+The adopted microservice architecture based on stateless functions enables the selection of distinct microservices provided by different available domains. In each instance of its control loop, the CSM checks the QoS levels of a specific microservice from available domains. It then analyses and decides for the alternative best satisfying the application requirements.
 
 %, i.e., it models the computation placement along the client's perception of the continuum. 
 %This decision should consider a list of available domains providing services requested by the client application with accompanying QoS attributes. Accordingly, whereas the domains should take care of intra-domain allocation through service placement, the clients are responsible for the inter-domain allocation through service selection.
