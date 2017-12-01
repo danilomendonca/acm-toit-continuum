@@ -46,14 +46,17 @@ deploys partitioned servers on the edge node, and receives updates from the edge
 %\textcolor{blue}{[Gupta IfogSim]}
 
 
-%From the industry point of view, the first real-world prototype of the mobile edge~\cite{beck2014mobile} (by Nokia Siemens and Intel~\cite{NokiaMEC13}) features base stations equipped with commodity hardware, and application deployment is based on virtualization and containerization technologies~\cite{ismail2015icos}.  Applications running on the mobile edge are expected to be event-driven, which is in line with the serverless model discussed in our paper. 
+From the industry point of view, the first real-world prototype of the mobile edge~\cite{beck2014mobile} (by Nokia Siemens and Intel~\cite{NokiaMEC13}) features base stations equipped with commodity hardware, and application deployment is based on virtualization and containerization technologies~\cite{ismail2015icos}.  
+Applications running on the mobile edge are expected to be event-driven, which complements the A3-E model that currently relies on request/response RESTful calls. However, this approach does not take into account the inherent resource limitations of edge computing, tackled by A3-E by adhering to the FaaS execution model.
 %This industry prototype suggests that end users
 %benefit mostly from reduced communication delay, benefiting computation intensive applications by means of offloading (as shown throughout this paper). Meanwhile, Telecom providers benefit from bandwidth consumption reduction and better scalability, while application providers profit with respect to faster
 %services.
 
-From the industry point of view, Lambda@Edge\footnote{http://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html} is a new functionality of AWS that allows one to explicitly deploy lambda functions to certain (coarse-grained) edge locations. The functionality covered by Lambda@Edge is still limited to a few scenarios, all of them tied to CloudFront (the AWS content delivery network) events, that is, when a user request to see a given content, when the request is forwarded to the cloud (because such content was not available at the edge location), and vice versa for the response.
+Finally, Lambda@Edge\footnote{http://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html} is a new functionality of AWS that allows one to explicitly deploy lambda functions to certain (coarse-grained) edge locations. The functionality covered by Lambda@Edge is still limited to a few scenarios, all of them tied to CloudFront (the AWS content delivery network) events. 
+%In turn, A3-E deals with heterogeneous and general purpose applications and is not tied to any particular source of events.
+%, that is, when a user request to see a given content, when the request is forwarded to the cloud (because such content was not available at the edge location), and vice versa for the response.
 
-EdgeScale~\cite{Lara2016hierarchical}, by Huawei, also brings the notion of serverless to the edge. It implements serverless functions, storage, routing and additional capabilities from scratch (while we opted for current open technologies such as Apache Openwhisk) in a hierarchy of edge data centers, over a network between the user and traditional wide-area cloud providers. EdgeScale is on an early stage and does not report any empirical evaluation of latency, throughput, bandwidth and cost.
+%EdgeScale~\cite{Lara2016hierarchical}, by Huawei, also brings the notion of serverless to the edge. It implements serverless functions, storage, routing and additional capabilities from scratch (while we opted for current open technologies such as Apache Openwhisk) in a hierarchy of edge data centers, over a network between the user and traditional wide-area cloud providers. Once again, this proposal does not consider independent (and potentially disjoint) domains. Besides, EdgeScale is on an early stage and does not report any empirical evaluation of latency, throughput, bandwidth and cost.
 
 %
 
