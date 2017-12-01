@@ -105,7 +105,7 @@ To enforce a common interface between clients and heterogeneous microservice pro
 
 From the domain's perspective, the allocation phase models how the microservices are placed on the domain's resources, i.e., the intra-domain placement of microservices to its pool of servers, virtual machines, and containers. 
 
-The scope of the domain-side allocation is limited by the domain's boundaries set by its provider. Whereas cloud domains are easily mapped to datacenters covering a large area, an edge domain may encompasses a set of containers in a single server (e.g., a domestic edge server) or distributed servers covering an edge site (e.g., within a building or a cellular base station).
+The scope of the domain-side allocation is limited by the domain's boundaries set by its provider. Whereas cloud domains are easily mapped to datacenters covering a large area, an edge domain may encompasses a set of containers in a single server (e.g., a domestic edge server) or distributed servers covering an edge site (e.g., within a building or a 5G base station).
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
 
@@ -119,7 +119,7 @@ The domain-side middleware (DSM) exploits a self-management control loop~\cite{k
 While in cloud domains scalability is virtually unlimited, in finely distributed edge domains scalability needs to be prioritized to favor applications with more demanding requirements. For instance, edge providers could support two types of SLAs: one for critical applications requiring high availability, and another for non-critical applications that may cope with lower degrees of availability.  
 
 %The first type could be achieved with the pre-allocation of resources to these services, whilst the latter could rely on the opportunistic allocation of services upon demand and availability of resources. 
-In the scenario introduced in Section~\ref{sec:example}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for turists~\cite{GarrigaMendonca2017}. In this case the edge microservices might become unavailable to the AR applications, for example during rush hour. In that case the applications would have to rely on microservices being run in the mobile domain, or in the cloud domain. 
+In the scenario introduced in Section~\ref{sec:example}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for turists~\cite{GarrigaMendonca2017}. In this case the edge microservices might become unavailable to the AR applications, for example during rush hour. In that case the AR and other low-priority applications would have to rely on microservices being run in the mobile domain, or in a cloud domain.
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
 
