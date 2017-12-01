@@ -1,7 +1,13 @@
 \section{Computing Continuum}
 \label{sec:example}
 
-Herein we will discuss the challenges of developing an application that exploits the computing continuum. 
+Herein we will discuss the challenges of developing a mobile application that exploits the computing continuum, as well as present a running example that will be used throughout the rest of the paper to exemplify our work.
+
+As previously stated, the continuum enables the convergence of many heterogeneous infrastructures, from cloud-hosted virtual machines down to mobile devices. Given that the two fundamental elements of computation are state and behavior, the first major challenge of developing an application that exploits the computing continuum consists in \emph{deciding where state and behavior should be deployed}. Moreover, this decision needs to be informed by the profound heterogeneity that exists between the different infrastructures that constitute the continuum. As discussed in Section~\ref{sec:intro}, one must take into account important QoS aspects, such as availability and latency. 
+
+Let us focus on a continuum that comprises a cloud-based solution, an edge-based infrastructure, and a mobile device. State and behavior that are deployed to cloud solutions will benefit from high availability, at the cost of introducing higher latency; while state and behavior deployed to an edge-based infrastructure will benefit from a much lower latency, at the cost of having a lower availability as well. One could also deploy the state and the behavior exclusively to the mobile device; however, this could lead to important battery drains (see Section~\ref{}sec:evaluation}). The main idea of exploiting the continuum is to allow applications to dynamically, and opportunistically, decide where the state and behavior should be deployed. 
+
+When engineering behavior it is common to distinguish between stateful and stateless computation. 
 
 
 
@@ -26,6 +32,19 @@ Herein we will discuss the challenges of developing an application that exploits
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+\subsection{A Running Example}
+\label{sub:example}
 
 %TODO Update the legenda: should be AV (Autonomous Vehicle) instead of CV 
 \begin{figure}[tbp]
