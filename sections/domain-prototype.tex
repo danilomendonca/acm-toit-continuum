@@ -2,7 +2,7 @@
 
 %\subsubsection{Local-Edge Domains}
 
-The domain-side middleware prototype described herein focuses on a local-edge domain, and includes a complete realization of the Advertisement, Acquisition and Allocation phases of A3-E -- as depicted in Fig.~\ref{fig:local-edge-domain-prototype}. The Engagement phase is not covered by the domain-side middleware since it occurs between the client application (through the CSM) and an already selected domain. The prototype was implemented using Python\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}}, and runs within a Linux-based domain hosting also OpenWhisk. 
+The domain-side middleware prototype described herein focuses on a local-edge domain, and includes a complete realization of the Advertisement, Acquisition and Allocation phases of A3-E -- as depicted in Fig.~\ref{fig:local-edge-domain-prototype}. The Engagement phase is not covered by the local-edge DSM since it occurs between the client application (through the client-side middleware) and the FaaS platform (OpenWhisk). The prototype was implemented using Python\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}}, and runs within a Linux-based domain hosting also OpenWhisk. 
 
 
 \begin{figure}[tbp]
@@ -35,17 +35,17 @@ After fetching the software artifacts, the \textit{AcquisitionManager} searches 
 
 \begin{minipage}{.9\linewidth}
 	\begin{lstlisting}[caption=Image recognition service descriptor, label=lst:service-descriptor, captionpos=t]
-	{
+{
 	"service-name":	"image-recognition",
 	"functions": [{	
-	"language":	"Java",
-	"name":		"image-recognition",
-	"source":	"it.polimi.a3e.imagerecognition.ImageRecognition",
-	"build":	"true",
-	"web":		"true"
+		"language":	"Java",
+		"name":		"image-recognition",
+		"source":	"it.polimi.a3e.imagerecognition.ImageRecognition",
+		"build":	"true",
+		"web":		"true"
 	}]
 	"dependencies": ["NetSSD_deploy.prototxt", "NetSSD_deploy.caffemodel"]
-	}
+}
 	\end{lstlisting}
 \end{minipage}
 

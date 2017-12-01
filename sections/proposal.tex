@@ -14,7 +14,7 @@ Serverless is a cloud computing model in which business functionality is provide
 
 In the A3-E model, a \textit{service} is a set of artifacts that fulfill certain functionality and can be deployed to and accessed from a remote server. In particular, service artifacts can refer to: (i) the stateless function(s) exposed to the clients (e.g., a Java compiled class); (ii) static data (e.g., a trained neural network model); and (iii) other dependencies (e.g.,  software libraries). Moreover, these services are \textit{microservices}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often an HTTP RESTful API) and are independently deployable by fully automated machinery. 
 
-A3-E microservices are provided by \textit{domain}s. A domain yields a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of A3-E domains are \textit{cloud-domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., AWS Lambda\footnote{\url{https://aws.amazon.com/lambda}} in Europe); \textit{edge-domains}, representing local-edge and mobile-edge sites (e.g., servers within an office building or at cellular base stations); and \textit{mobile-domain}, representing a client device's own resources.
+A3-E microservices are provided by \textit{domain}s. A domain yields a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of A3-E domains are \textit{cloud domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., AWS Lambda\footnote{\url{https://aws.amazon.com/lambda}} in Europe); \textit{edge domains}, representing local-edge and mobile-edge sites (e.g., servers within an office building or at cellular base stations); and \textit{mobile domain}, representing a client device's own resources.
 
 
 A3-E also defines \textit{client applications} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is an HTTP request with additional headers specifying requirements for the targeted microservice in the continuum. Two types of requirements are considered: \textit{QoS requirements}, that specifies QoS metrics (e.g., maximum latency, minimum availability, etc); and \textit{Location requirements}, that fixes the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
@@ -33,7 +33,7 @@ Figure~\ref{fig:Continuum-arch} illustrates the architecture of a \texttt{client
 
 The client application comprises both \texttt{client-side logic} and \texttt{graphical user interfaces}. While the cloud infrastructure is used for \texttt{server-side logic} and for \texttt{persistence}, the continuum is used for stateless computation, provided by \texttt{stateless functions} that are exposed as \texttt{microservices}.
 
-Although the continuum can hypothetically support any number of heterogeneous infrastructures, Figure~\ref{fig:Continuum-arch} focuses on three domains. The \texttt{Mobile Domain} is deployed to the client's mobile device, and provides local stateless computation. While enabling device-to-device collaboration through distributed mobile domains --i.e., by allowing a client to call a microservice deployed on another mobile device-- is surely interesting, for now we consider it part of our future work. The \texttt{Edge Domains} refer to Edge-based infrastructure that can be deployed to a local server (Local-Edge Domain) or to cellular stations (Mobile-Edge Domain). Finally, the \texttt{Cloud Domain} refers to a cloud-based solution such to AWS Lambda.
+Although the continuum can hypothetically support any number of heterogeneous infrastructures, Figure~\ref{fig:Continuum-arch} focuses on three domains. The \texttt{mobile domain} is deployed to the client's mobile device, and provides local stateless computation. While enabling device-to-device collaboration through distributed mobile domains --i.e., by allowing a client to call a microservice deployed on another mobile device-- is surely interesting, for now we consider it part of our future work. The \texttt{edge domains} refer to Edge-based infrastructure that can be deployed to a local server (local-edge domain) or to cellular stations (mobile-edge domain). Finally, the \texttt{cloud domain} refers to a cloud-based solution such to AWS Lambda.
 
 Considering our running example, the client-side mobile game application consists of controllers and user interfaces. The continuum provide the functionality for processing and updating the game state, which must be passed as parameter to a microservice in the continuum in conjunction with game events (e.g., user inputs). Finally, it also includes cloud services providing stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
 
@@ -43,7 +43,7 @@ Also in our running example, the client-side AR application captures scenes from
 %\subsection*{Functions-as-a-Service (FaaS)}
 
 %TODO compare bellow
-%Aligned to our previous work~\cite{GarrigaMendonca2017}, A3-E addresses the efficiency required by edge domains by adhering to the FaaS execution model in which stateless functions can be allocated on demand without minimum pre-allocation of resources. The same model is employed by cloud-domains, which enables a uniform execution model among cloud and edge. In turn, mobile domains are exempt of implementing the allocation phase, as in this work we assume local services to be allocated along with the client application. 
+%Aligned to our previous work~\cite{GarrigaMendonca2017}, A3-E addresses the efficiency required by edge domains by adhering to the FaaS execution model in which stateless functions can be allocated on demand without minimum pre-allocation of resources. The same model is employed by cloud domains, which enables a uniform execution model among cloud and edge. In turn, mobile domains are exempt of implementing the allocation phase, as in this work we assume local services to be allocated along with the client application. 
 
 
 
@@ -134,7 +134,7 @@ The adopted microservice architecture based on stateless functions enables the s
 
 %This sub-process is the main client-side activity required for the realization of the continuum, as it allows clients to seamlessly alternate among different continuum domains according to the context. 
 
-If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choose between its local mobile-domain and the cloud-domain. If the application's requirements favor low-battery consumption, the cloud-domain will be chosen for allocation. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grow, a multi-objective optimization algorithm may be employed to decide among alternative domains.
+If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choose between its local mobile domain and the cloud domain. If the application's requirements favor low-battery consumption, the cloud domain will be chosen for allocation. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grow, a multi-objective optimization algorithm may be employed to decide among alternative domains.
 
 %, upon unavailability of edge domains providing services with low latency, the AR application previously introduced would have to choose among mobile or cloud domain. If the application requirements prioritizes low battery consumption (e.g., because battery level is low), it should opt for the cloud domain. Otherwise, if low latency is the priority requirement, it should opt for the cloud domain. 
 
@@ -159,7 +159,7 @@ Ops mitigation is particularly important in finely distributed edge domains, sin
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
-The DSM receives a set of application requirements from the client's CSM, namely the list of microservices to install and the URL of their repositories. The desired microservice artifacts are then downloaded and installed, at which point the DSM informs the client whether the microservices can be considered ``acquired'' or not.
+In this phase, the DSM receives a set of application requirements from the client's CSM, namely the list of microservices to install and the URL of their repositories. The desired microservice artifacts are then downloaded and installed, at which point the DSM informs the client whether the microservices can be considered ``acquired'' or not. 
 Throughout the microservices life-cycle, the DSM periodically checks for new versions of acquired services and updates them accordingly. 
 
 %As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
@@ -204,9 +204,9 @@ The DSM achieves this by broadcasting its existence and by waiting for clients t
 
 From the client's perspective, the awareness phase models the discovery of domains, and corresponding microservices, whose network addresses are not previously known. 
 
-In particular, it tackles edge domains that are integrated with the local network infrastructures of buildings and public spaces. This modality contrasts with cloud, and possibly mobile-edge domains~\cite{ahmed2016isco}, which have well-known Internet names. Needless to say, the awareness phase is not considered by mobile domains.
+In particular, it tackles edge domains that are integrated with the local network infrastructures of buildings and public spaces. This modality contrasts with cloud, and possibly mobile-edge domains~\cite{ahmed2016isco}, which are accessed through DNS and traffic managers. Needless to say, the awareness phase is not considered by mobile domains.
 
-The CSM intercepts the provider's broadcast messages, and reacts by sending back its application requirements. This process should happen once, and in a timely fashion, upon connection to new networks to mitigate battery consumption. As an example, the local-edge server in our user's home might be discovered when her mobile device connects to her domestic Wi-Fi network. 
+The CSM intercepts the provider's broadcast messages, and reacts by sending back its application requirements. This process should happen once, and in a timely fashion, upon connection to new networks to mitigate battery consumption. As an example, the local-edge server in our user's home is discovered when her mobile device connects to her domestic Wi-Fi network. 
 
 %Once the domain is ready, this domain becomes an alternative for the provisioning of services required by the many applications (e.g., the mobile multiplayer game) hosted by the user's smartphone, tablet, and/or other of his IoT gadgets. 
 
@@ -227,7 +227,7 @@ The CSM intercepts the provider's broadcast messages, and reacts by sending back
 %
 %\begin{figure}[tbp]
 %	\includegraphics[width=.95\textwidth]{figs/A3-E-reference-architecture}
-%	\caption{A3-E architecture in Mobile Devices and Edge Domains}
+%	\caption{A3-E architecture in Mobile Devices and edge domains}
 %	\label{fig:reference-architecture}
 %	\end{figure}
 	
