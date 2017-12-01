@@ -21,26 +21,33 @@ A3-E also defines \textit{client applications} as the software components respon
 %TODO: who handles the client application request? A client-side middleware. Why its description was removed? The same question for the domain-side middleware. They are not just implementations, but part of the model. [Danilo]
 
 %The figure has been placed here to avoid multiple diagrams in the same page [Danilo]
+
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
 	\caption{The high level architecture of a mobile application exploiting both the computing continuum -- by means of microservices ($\mu$S) provided by mobile, edge, and cloud domains -- and conventional cloud computing -- by means of cloud services (CS).}
 	\label{fig:Continuum-arch}
 \end{figure}
 
+Figure~\ref{fig:Continuum-arch} illustrates the architecture of a \texttt{client application} --deployed to a mobile device-- that exploits both the continuum and conventional cloud infrastructure (IaaS). 
+
+The client application comprises both \texttt{client-side logic} and \texttt{graphical user interfaces}. While the cloud infrastructure is used for \texttt{server-side logic} and for \texttt{persistence}, the continuum is used for stateless computation, provided by \texttt{stateless functions} that are exposed as \texttt{microservices}.
+
+Although the continuum can hypothetically support any number of heterogeneous infrastructures, Figure~\ref{fig:Continuum-arch} focuses on three domains. The \texttt{Mobile Domain} is deployed to the client's mobile device, and provides local stateless computation. While enabling device-to-device collaboration through distributed mobile domains --i.e., by allowing a client to call a microservice deployed on another mobile device-- is surely interesting, for now we consider it part of our future work. The \texttt{Edge Domains} refer to Edge-based infrastructure that can be deployed to a local server (Local-Edge Domain) or to cellular stations (Mobile-Edge Domain). Finally, the \texttt{Cloud Domain} refers to a cloud-based solution similar to AWS Lambda.
+
+Considering our running example, the client-side mobile game application consists of controllers and user interfaces. The continuum provide the functionality for processing and updating the game state, which must be passed as parameter to a microservice in the continuum in conjunction with game events (e.g., user inputs). Finally, it also includes cloud services providing stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
+
+Also in our running example, the client-side AR application captures scenes from the glasses' camera and relies on the microservices in the continuum to extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on a neural network trained model (composing the microservice dependencies) and an image processing library (available in the microservice runtime environment). Client-side logic is then responsible for updating the 3D virtual object state and render it into the scene displayed by the glasses. In this application, conventional cloud services are not required.
+
+
 %\subsection*{Functions-as-a-Service (FaaS)}
 
 %TODO compare bellow
 %Aligned to our previous work~\cite{GarrigaMendonca2017}, A3-E addresses the efficiency required by edge domains by adhering to the FaaS execution model in which stateless functions can be allocated on demand without minimum pre-allocation of resources. The same model is employed by cloud-domains, which enables a uniform execution model among cloud and edge. In turn, mobile domains are exempt of implementing the allocation phase, as in this work we assume local services to be allocated along with the client application. 
 
-Fig.~\ref{fig:Continuum-arch} illustrates the architecture of a mobile application designed to work with both the continuum and conventional cloud computing. The client application~\footnote{In this paper, \textit{client applications} share the same hosting device with a \textit{mobile-domain} providing local services, i.e., we do not consider device-to-device collaboration.} consists of client-side logic and user interfaces. Additionally, server-side logic (if any) and persistence (if any) are provided by conventional cloud services. Finally, the application relies on the continuum for stateless computation, which is provided by mobile, edge, and cloud domains by means of microservices~\footnote{For the sake of simplicity, local services provided by mobile domains are referred as microservices, as they follow the same proposed implementation of edge and cloud domain's microservices.}. 
+
 
 %We consider conventional cloud services to be outside of the continuum because they can host virtually any type of application, apart from those that are continuum-compliant. 
 %TODO let's discuss among us where is the best place to add this; here it must have already been said, probably in the explanation about serverless in the previous paragraph [Danilo]
-
-
-Considering our running example, the client-side mobile game application consists of controllers and user interfaces. The continuum provide the functionality for processing and updating the game state, which must be passed as parameter to a microservice in the continuum in conjunction with game events (e.g., user inputs). Finally, it also includes cloud services providing stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
-
-Also in our running example, the client-side AR application captures scenes from the glasses' camera and relies on the microservices in the continuum to extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on a neural network trained model (composing the microservice dependencies) and an image processing library (available in the microservice runtime environment). Client-side logic is then responsible for updating the 3D virtual object state and render it into the scene displayed by the glasses. In this application, conventional cloud services are not required.
 
 % in which stateless functions can be allocated on demand without minimum pre-allocation of resources. 
 %Such an architecture is already employed by multiple cloud providers\footnote{\url{https://blog.zhaw.ch/icclab/faas-function-hosting-services-and-their-technical-characteristics}}; its adoption by edge providers would have the following benefits: 1) \textit{scalability}, with the delegation of resource management; 2) \textit{efficiency}, with the provisioning of functions on demand without pre-allocation of computational resources; and 3) \textit{portability}, as functions are stateless and may be implemented in different languages, including those supported by mobile platforms. 
