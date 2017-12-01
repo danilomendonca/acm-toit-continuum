@@ -123,8 +123,9 @@ In the scenario introduced in Section~\ref{sec:example}, the AV application shou
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
 
-From the client's perspective, the allocation phase models the selection of the domain alternative that best satisfies the client's needs. Once again a self-management control loop is exploited (see Figure~\ref{fig:domain-selection-loop}). In the loop, the CSM checks the QoS levels of the microservices available in each domain. It then analysis and decides for the alternative best satisfying the application requirements.
+From the client's perspective, the allocation phase models the selection of the domain alternative that best satisfies the client's needs. Once again a self-management control loop is exploited (see Fig.~\ref{fig:domain-selection-loop}). 
 
+The adopted microservice architecture based on stateless functions enables the selection of distinct microservices provided by different available domains. In one specific loop, the CSM checks the QoS levels of a microservice from available domains. It then analyses and decides for the alternative best satisfying the application requirements.
 
 %, i.e., it models the computation placement along the client's perception of the continuum. 
 %This decision should consider a list of available domains providing services requested by the client application with accompanying QoS attributes. Accordingly, whereas the domains should take care of intra-domain allocation through service placement, the clients are responsible for the inter-domain allocation through service selection.
