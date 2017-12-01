@@ -103,8 +103,9 @@ To enforce a common interface between clients and heterogeneous microservice pro
 	\caption{Self-management loops for domain-side microservices allocation and client-side microservice selection}\label{fig:allocation-loops}
 \end{figure}
 
-From the domain's perspective, the allocation phase models how the microservices are placed on the domain's resources, i.e., its pool of servers, virtual machines, and containers. 
+From the domain's perspective, the allocation phase models how the microservices are placed on the domain's resources, i.e., the intra-domain placement of microservices to its pool of servers, virtual machines, and containers. 
 
+The scope of the domain-side allocation is limited by the domain's boundaries set by its provider. Whereas cloud domains are easily mapped to datacenters covering a large area, an edge domain may encompasses a set of containers in a single server (e.g., a domestic edge server) or distributed servers covering an edge site (e.g., within a building or a cellular base station).
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
 
