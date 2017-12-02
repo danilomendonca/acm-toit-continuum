@@ -1,7 +1,7 @@
 \section{Computing Continuum}
 \label{sec:example}
 
-Herein we will discuss the challenges of developing a mobile application that exploits the computing continuum, as well as present a running example that will be used throughout the rest of the paper to exemplify our work.
+%Herein we will discuss the challenges of developing a mobile application that exploits the computing continuum, as well as present a running example that will be used throughout the rest of the paper to exemplify our work.
 
 As previously stated, the continuum enables the convergence of many heterogeneous infrastructures, from cloud-hosted virtual machines down to mobile devices. Given that the two fundamental elements of computation are data and behavior, the first major challenge of developing an application that exploits the computing continuum consists in \emph{deciding where in the continuum the data and the behavior should be deployed}. This decision needs to be informed by the profound heterogeneity that exists between the different infrastructures that constitute the continuum. 
 
@@ -15,7 +15,7 @@ Developing applications in the computing continuum also poses other important ch
 
 Although these challenges are interesting, and important research endeavors in themselves, in this paper we focus on establishing the basis upon which the computing continuum can develop. In particular, we focus on achieving (i) the dynamic and automatic deployment of computation by part of the infrastructures that constitute the continuum, and (ii) the opportunistic selection of where to execute the computation.
 
-\subsection{A Running Example}
+\subsection{Running Example}
 \label{sub:example}
 
 \begin{figure}[tbp]
@@ -25,11 +25,12 @@ Although these challenges are interesting, and important research endeavors in t
 \end{figure}
 
 %Throughout this section an example scenario (Fig.~\ref{fig:continuum-scenario}) is used to illustrate the use of A3-E model and the cloud-edge-mobile continuum with different applications employed by a person with visual impairment.
-We shall now introduce the running example that will be used throughout the rest of the paper. Figure~\ref{fig:continuum-scenario} shows a complete example scenario that starts in a user's office and finishes at her home. It involves different applications that rely on computation executed in the cloud, edge, or in the user's own devices. 
+%We shall now introduce the running example that will be used throughout the rest of the paper. 
+Figure~\ref{fig:continuum-scenario} shows a complete example scenario that starts in a user's office and finishes at her home. It involves different applications that rely on computation executed in the cloud, edge, or in the user's own devices. 
 
 First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company, and it is used to extend the computational capabilities of the devices operated by its employees. In our example, the user makes use of an augmented reality (AR) application to craft virtual 3D objects that are added to her desk table. This application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{detect objects} from a set of features. With the offloading of both tasks to the local-edge, the user can avoid recharging her glasses and can improve her productivity. Also, the additional storage on the edge servers allows a larger set of objects to be recognized, thanks to a more completely trained model.
 
-After work, the user leaves her offices and enters her autonomous vehicle (AV). During her way home, the vehicle makes use of microservices deployed at edge servers located at cellular base stations (hereafter called \textit{mobile-edge}) to receive low-latency updates about the best plan to reach her destination. This way, within milliseconds the vehicle can be suggested to adjust its routes to avoid heavy traffic. In particular, let's say that a new path consists of residential streets without mobile-edge coverage. The AV continues to fetch updates, which are now served by a cloud provider. The additional network latency is compensated with the low speed limit of the residential area.
+After work, the user leaves her offices and enters her autonomous vehicle (AV). During her way home, the vehicle makes use of microservices deployed at edge servers located at cellular base stations (hereafter called \textit{mobile-edge}) to receive low-latency updates about the best plan to reach her destination. This way, within milliseconds the vehicle can be suggested to adjust its routes to avoid heavy traffic. In particular, let's say that a new path consists of residential streets with data services only (without mobile-edge coverage). The AV continues to fetch updates, which are now served by a cloud provider. The additional network latency is partially compensated with the low speed limit of the residential area.
 
 Finally, at home the user can start using her domestic local-edge server. She finds out about a new Mobile Game (MG) application. Upon installation, the local-edge server becomes aware of a new continuum-compliant application and, while the app continues to run locally on her device, it proceeds to setup the services needed to allow the application to offload some of the computation. Once the setup is complete, the application autonomously starts using the edge services with the purpose of preserving the device's resources. Not only does the game's performance improve, battery consumption is also reduced.  
 
