@@ -29,6 +29,7 @@ Figure~\ref{fig:Continuum-arch} illustrates the architecture of a \texttt{client
 
 Given the heterogeneity of the continuum, distinct domains rely on different technologies to expose offered functionalities (e.g., through RESTful endpoints or WebSockets). Particularly, a mobile domain also expose its functionality by means of an interface (e.g., by means of event listener). For the sake of simplicity, the term microservice is also employed with mobile domains.
 
+
 Although the continuum can hypothetically support any number of heterogeneous infrastructures, Figure~\ref{fig:Continuum-arch} focuses on three domains. The \texttt{mobile domain} is deployed to the client's mobile device, and provides local stateless computation. (While enabling device-to-device collaboration through distributed mobile domains --i.e., by allowing a client to call a microservice deployed on another mobile device-- is surely interesting, for now we consider it part of our future work.) The \texttt{edge domains} refer to Edge-based infrastructure that can be deployed to a local server (local-edge domain) or to cellular stations (mobile-edge domain). Finally, the \texttt{cloud domain} refers to a cloud-based solution such to AWS Lambda.
 
 Considering our running example, the client-side mobile game application consists of controllers and user interfaces. The continuum provides the functionality for processing and updating the game state, which must be passed as a parameter to a microservice in the continuum, in conjunction with game events (e.g., user inputs). Finally, it includes cloud services providing stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
@@ -53,8 +54,7 @@ Furthermore, the client-side AR application captures scenes from the glasses' ca
 
 \subsection{Four Phases}
 
-The four phases in A3-E, depicted in Figure~\ref{fig:A3-E-process}, support the self-management of microservice life-cycles. For each phase, A3-E models the activities of both the \textit{domain} and of the \textit{client}. Next, we shall describe each of the four phases. We will start from the most general one, i.e., the one that applies to all domains and clients, and move towards the more specific ones. Keep in mind that in certain domains, one or more phases might not be employed.
-
+The four phases in A3-E, depicted in Figure~\ref{fig:A3-E-process}, support the self-management of microservice life-cycles. For each phase, A3-E models the activities of both the \textit{domain} and of the \textit{client}. Next, we shall describe each of the four phases. We will, starting from the most general one, i.e., the one that applies to all domains and clients, and moveing towards the more specific ones.                                                                                                                                                                                                                                                                                                                             eep in mind that in certain domains, one or more phases might not be employed.
 %from the moment they become aware of each other to the point they may engage in client-server interactions
 
 \begin{figure}[tbp]
@@ -71,7 +71,7 @@ The four phases in A3-E, depicted in Figure~\ref{fig:A3-E-process}, support the 
 
 The \textit{engagement} phase models the last stage of interaction between a client application and a provider. Throughout this phase, clients engage with edge and cloud \textit{microservices} using a request/response protocol (e.g., RESTful microservices over HTTP). 
 
-To enforce a common interface between clients and heterogeneous microservice providers in the continuum, mobile domains also expose microservices implemented with stateless functions. The FaaS execution model favors this architectural decision, as similar functions may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by FaaS platforms from different providers (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{OpenWhisk is a well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
+To enforce a common interface between clients and heterogeneous microservice providers in the continuum, mobile domains also expose microservices implemented with stateless functions. The FaaS execution model favors this decision, as similar functions may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by FaaS platforms from different providers (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{OpenWhisk is a well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
 
 %In this phase the request has already been provisioned by one or more domains and the client-side middleware (CSM) has already selected a specific domain to make the request. 
 
