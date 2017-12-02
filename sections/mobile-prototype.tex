@@ -19,11 +19,15 @@ An \textit{A3EService} is identified by a unique name and the url of its git cod
 
 \begin{enumerate}
 
-	\item \textit{Location Requirement}s constrains where the microservice could be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL-EDGE}, \textit{MOBILE-EDGE}, or \textit{CLOUD} or a combination of them; 
 
-	\item a \textit{Latency Requirement} constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY LOW}; and 
+	\item \textit{Location Requirement}s constrains where the microservice could be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL\_EDGE}, \textit{MOBILE\_EDGE}, or \textit{CLOUD} or a combination of them; 
+
+
+	\item a \textit{Latency Requirement} constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY\_LOW}; and 
 	
-	\item a \textit{Computational Requirement} defines how relevant it is for a microservice to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY FAST}. 
+
+	\item a \textit{Computational Requirement} defines how relevant it is for a microservice to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY\_ FAST}. 
+
 
 \end{enumerate}
 
@@ -41,7 +45,9 @@ The \textit{A3EFacade} component wraps the \textit{A3EManager}, which manages al
 
 %The loop manager consists of three main components called \textit{DiscoveryManager}, \textit{IdentificationManager} and \textit{SelectionManager}. 
 
-Component \textit{DiscoveryManager} manages the discovery of domains. The local domain is registered when the middleware is created, while cloud domains are registered by the client application and their endpoints must be known a-priori. Edge domains, on the other hand, are found at run time. Every time the IP address of the client device changes, the manager starts listening for UDP broadcast message using component \textit{UDPDiscoverer}. If a message is received, the IP address of the sender is retrieved and a new \textit{A3EDomain} is created in the middleware. An \textit{A3EDomain} is identified by a \textit{host} name (URI) and satisfies a specific \textit{LocationRequirement}. Everytime a domain is discovered or, on contrary the connection with is lost, the \textit{DiscoveryManager} updates its list of available domains.
+Component \textit{DiscoveryManager} manages the discovery of domains. The local domain is registered when the middleware is created, while cloud domains are registered by the client application and their endpoints must be known a-priori. Edge domains, on the other hand, are found at run time. Every time the IP address of the client device changes, the manager starts listening for UDP broadcast message using component \textit{UDPDiscoverer}. If a message is received within a fixed timeout of 10 seconds, the IP address of the sender is retrieved. A new \textit{A3EDomain} is then created in the middleware and added to a list of available domains. Each \textit{A3EDomain} is identified by a \textit{host} name (URI) and satisfies a specific \textit{LocationRequirement}. 
+
+%Everytime the connection the domain is lost, the \textit{DiscoveryManager} updates its list of available domains.
 
  %Component \textit{InvocationResolver} is then used to actually invoke the micro-services. 
 
@@ -89,31 +95,28 @@ As soon as a new domain is discovered or registered the \textit{IdentificationMa
 
 Component \textit{SelectionManager} is responsible to manage the selection control loop. The loop is perfomed by three sub-components called \textit{QoSMontior}, \textit{RequirementsAnalyzer} and \textit{DomainSelector} and it is activated every $2$ second by default.
 
-The first sub-component retrieves the domains' computational power and network latency. The former is --- a fixed score ranging from $1$ to $5$\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. The local domain is set to have a score to $1$, the edge domains to $4$ and the cloud ones to $5$. Note that since the cloud provides the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. More sophisticated approaches, such as using dynamic scores that change according to the saturation of the domain, or to the battery level for the local domain, are considered future work.  
+The first sub-component retrieves the domains' computational power and network latency. The former is modeled as a fixed score ranging from $1$ to $5$\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. The local domain is set to have a score to $1$, the edge domains to $4$ and the cloud ones to $5$. Note that since the cloud provides the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. More sophisticated approaches with dynamic scores taking into account the saturation of the domain or the device's battery level (in the case of a mobile domain), are considered as future work.  
  
-
-The analysis of the requirements and the actual domain selection selection, perfomed by respectively components  \textit{RequirementsAnalyzer} and \textit{DomainSelector}, is described in Algorithm~\ref{alg:selection}. The procedure is activated for each registered microservice along with the identified domains (line $1$). The algorithm computes a score ranging from $0$ to $5$ (line $2$) for each domain and selects the highest one. The current implementation considers as quality metrics the networking latency and the computational power. The first step of the selection consists on computing the maximum latency and computational power (line $3$ and $4$) among the identified domains. This data, as already mentioned, were gathered during the previous phases. Then the weights of latency and computational power are retrieved (lines $5$ and $6$). These weights correspond to the values associated to the \textit{LatencyRequirement} and \textit{ComputationalRequirement} of the microservice. The \textit{ANY} value corresponds to a weight of $0$, a latency requirement of \textit{LOW} and a computational power requirement of \textit{FAST} correspond to a weight equal to $1$, while weight equals to $2$ is considered for both latency \textit{VERY LOW} and computational power \textit{VERY FAST}.
+The analysis of the requirements and the actual domain selection, perfomed by respectively components  \textit{RequirementsAnalyzer} and \textit{DomainSelector}, is described in Algorithm~\ref{alg:selection}. The procedure is activated for each registered microservice along with the identified domains (line $1$). The algorithm computes a score ranging from $0$ to $5$ (line $2$) for each domain and selects the highest one. The current implementation considers as quality metrics the networking latency and the computational power. The first step of the selection consists on computing the maximum latency and computational power (line $3$ and $4$) among the identified domains. This data, as already mentioned, were gathered during the previous phases. Then the weights of latency and computational power are retrieved (lines $5$ and $6$). These weights correspond to the values associated to the \textit{LatencyRequirement} and \textit{ComputationalRequirement} of the microservice. The \textit{ANY} value corresponds to a weight of $0$, a latency requirement of \textit{LOW} and a computational power requirement of \textit{FAST} correspond to a weight equal to $1$, while weight equals to $2$ is considered for both latency \textit{VERY\_LOW} and computational power \textit{VERY\_FAST}.
 
 For each domain, the algorithm computes the overall score (line  $9$ to $14$). The latency score is computed by normalizing the value retrieved at line $10$ with the maximum latency previously computed. The normalized value ranges from $0$ to $1$, the higher this value the higher the latency. Since a higher score should mean lower latencies, the algorithm computes the complement of this value and add $1$ to avoid scores equals to $0$. Finally, the latency score is computed to be in the range of $5$ and multiplied by the microservice's latency weight (line $12$). The computational power score is computed by normalizing the domain computational power retrieved at line $11$ with the  maximum value across the identified domains. Then the score for this metric is computed to be in the range of $5$ and multiplied by its weight (line $13$). Finally the overall score is computed by performing a weighted average between the scores obtained by the domains for the two QoS metrics.
 
 %Two considerations must be added for this algorithm. First, 
-The procedure it follows is an instantiation of the SMART decision process~\cite{Olson1996}, in which multiple competing QoS objectives are considered using the following formula
+The followed procedure consists of an instantiation of the SMART decision process~\cite{Olson1996}, in which multiple competing QoS objectives are taken into account using the following formula:
 
 \begin{equation}
 Smart(c) = \frac{\sum_{i=1}^{n} QoSAtrribute_i(c)*weight_i}{\sum_{i=1}^{n}weight_i} \label{eq:smart}
 \end{equation}
 
 \noindent
-where, in the context of our approach, $c$ is a domain, the QoS attributes values are network latency and the computational processing time (thus $n$ is $2$), and their weights are represented by the aforementioned latency and computation requirements. Note that, when available, \textit{edge domains have the highest chances of being selected}, since they usually combine a low network latency and a medium-to-high computational power. Finally, each microservice is mapped to the domain that best satisfies its requirements. 
+where, in the context of our approach, $c$ is a domain (see Fig.~\ref{fig:domain-selection-loop}), the QoS attributes values are network latency and the computational processing time (thus $n$ is $2$), and their weights are represented by the aforementioned latency and computation requirements. Note that, when available, \textit{edge domains have the highest chances of being selected}, since they usually combine a low network latency and a medium-to-high computational power. Finally, each microservice is mapped to the domain that best satisfies its requirements. 
 
 
 During \textit{Engagement} phase the actual microservice invocation takes place. The CSM can invoke a microservice using the \textit{invokeService} operation of the  \textit{A3EFacade}. In addition to the \textit{A3EService}, the operation expects also a \textit{payload} (i.e., the function argument), and a \textit{callback} since the execution is always asynchronous. 
 The \textit{A3EFacade} will retrieve the \textit{A3EDomain} that was selected for the microservice in the last control loop iteration. Since domains use heterogeneous technologies, the actual invocations are performed by the \textit{InvocationResolver} components that are bound to different domains. 
 The \textit{InvocationREsolver} bound to edge and cloud domains will fire an HTTP request, whilst the \textit{InvocationREsolver} bound to a mobile domain will broadcast an Android event containing a request. In all cases, asynchronous \textit{callback}s are used to provide the results back to the client application. %\textit{InvocationResolver}s hide the technological details of the underlying domains. 
-
 % bound to the domain will be used to actually \textit{execute} the function.  
 %Since the control loop runs in a separated thread, the execution will not be affected if the selected domain changes during the invocation. After retrieving the best domain from the continuum, the \textit{A3EFacade} will execute the function by using the \textit{execute} operation of the \textit{A3EDomain}. Since each domains can use different technologies, the \textit{InvocationResolver} binded to the domain will be used to actually invoke the function. 
-
 %addressing the \textit{heterogeneity} property of the continuum. 
 In our current implementation of the client-side middleware we have four types of \textit{InvocationResolver}s: one for invoking microservices provided by a mobile domain, another for Rest HTTP calls (to support multiple FaaS platforms such as OpenWhisk\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/webactions.md}}), and one specifically for AWS Lambda\footnote{\url{https://aws.amazon.com/tools/\#sdk}}. %and finally a local invocation resolver that is binded to the local domain that simply forward the invocation to the function's local \textit{InvocationResolver} (either the \textit{JavaInvocationResolver} or \textit{JSInvocationResolver}).  
 
