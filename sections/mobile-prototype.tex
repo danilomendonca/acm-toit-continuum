@@ -3,10 +3,8 @@
 %As described in Section~\ref{sec:proposal}, the CSM component interacts with DSM from different domains that could be either discoverable using a DNS-like mechanism or advertisement. 
 
 The goal of the client-side middleware is to allow client applications to invoke A3-E microservices without knowing where they will actually be executed within the computing continuum: locally on the mobile device, in a local-edge server, in a mobile-edge server, or in the cloud. 
-
 Its selection algorithm is a multi-objective function that takes into account the measured QoS and the requirements of microservices provided by available domains.
-
-The implementation we present\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-CSM}} is in Java, so that it could be run on Android-based evices. However, it does not use Android-specific technology and can therefore easily be generalized to other mobile platforms. 
+The implementation we present\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-CSM}} is in Java, so that it could be run on Android-based devices. However, it does not use Android-specific technology and can therefore easily be generalized to other mobile platforms. 
 
 \begin{figure}[tbp]
 	\includegraphics[width=1\textwidth]{figs/a3e-mobile-prototype}
@@ -16,16 +14,16 @@ The implementation we present\footnote{Documentation and source code are availab
 
 Figure~\ref{fig:mobile-prototype} shows the high-level architecture of the client-side middleware. Client mobile applications interact with two components: \textit{A3EService}s and \textit{A3EFacade}. The former abstracts the actual domain's microservice to be invoked, while the latter is used to register and invoke domain's microservices. 
 
-An \textit{A3EFunction} is identified by a unique name and the url of its git code repository. It may also specify three types of requirements: 
+An \textit{A3EService} is identified by a unique name and the url of its git code repository. It may also specify three types of requirements: 
 %that corresponds to the name of the function asset that must be communicated to the continuum domains to be first acquired and then executed. Moreover each function must declare a set of non-functional QoS requirements that are organized in three types: 
 
 \begin{enumerate}
 
-	\item a \textit{Location Requirement} constrains where the function will be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL-EDGE}, \textit{MOBILE\_EDGE}, and \textit{CLOUD}; 
+	\item \textit{Location Requirement}s constrains where the microservice could be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL-EDGE}, \textit{MOBILE-EDGE}, or \textit{CLOUD} or a combination of them; 
 
 	\item a \textit{Latency Requirement} constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY LOW}; and 
 	
-	\item a \textit{Computational Requirement} defines how relevant it is for a function to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY FAST}. 
+	\item a \textit{Computational Requirement} defines how relevant it is for a microservice to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY FAST}. 
 
 \end{enumerate}
 
@@ -39,7 +37,7 @@ An \textit{A3EFunction} is identified by a unique name and the url of its git co
 
 %An \textit{A3EFunction} that support the \textit{LOCAL} location requirement should also define a local \textit{InvocationResolver}. As we are going to discuss later in this section, invocation resolvers deal with the invocation technology \textit{heterogenity}  of the continuum. For what regards the local domain we currently support the execution of native Java code and Javascript functions (that could be imported in the project as standard \textit{.js} files). For this purpose we created two \textit{InvocationResolver}s that can execute respectively Java or Javascript functions if the local domain is selected.
 
-The \textit{A3EFacade} component wraps the \textit{A3EManager}, which manages all the registered \textit{A3EFunctions}. It consists of a MAPE control loop~\cite{kephart2003vision} for the discovery, identification and selection of domains, corresponding to the \textit{Awareness}, \textit{Acquisition}, and \textit{Allocation} phases of the A3-E model. 
+The \textit{A3EFacade} component wraps the \textit{A3EManager}, which manages all the registered \textit{A3EService}. It consists of a MAPE control loop~\cite{kephart2003vision} for the discovery, identification and selection of domains, corresponding to the \textit{Awareness}, \textit{Acquisition}, and \textit{Allocation} phases of the A3-E model. 
 
 %The loop manager consists of three main components called \textit{DiscoveryManager}, \textit{IdentificationManager} and \textit{SelectionManager}. 
 
@@ -54,7 +52,7 @@ Component \textit{DiscoveryManager} manages the discovery of domains. The local 
 %The output of this process is the list of the available domains. 
  %This component initializes the identification phase for each new available domain (e.g., domains discovered for the first time). 
 
-As soon as a new domain is discovered or registered the \textit{IdentificationManager} requests to it all the registered functions that are executable in that domain (i.e., satisfying function's location requirement). This is done using component \textit{UDPIndentifier} that communicates  to the domain the functions' unique name and repository address. A function is not ready to be executed in the domain until a UDP confirmation message is received by the domain meaning that it is ready for the engagement phase. 
+As soon as a new domain is discovered or registered the \textit{IdentificationManager} requests to it all the registered microservices that are executable in that domain (i.e., satisfying microservice's location requirement). This is done using component \textit{UDPIndentifier} that communicates  to the domain the microservices' unique name and repository address. A microservice is not ready to be executed in the domain until a UDP confirmation message is received by the domain meaning that it is ready for the engagement phase. 
 
 
 
@@ -63,17 +61,17 @@ As soon as a new domain is discovered or registered the \textit{IdentificationMa
 	\label{alg:selection}
 	\begin{algorithmic}[1]
 		
-		\Function{selectDomain}{A3EFunction $function$, A3EDomain[] $identifiedDomains$}
+		\Function{selectDomain}{A3EService $microservice$, A3EDomain[] $identifiedDomains$}
 		\State$scoreRange \gets 5$
 		\State $maxLatency \gets \Call{computeMaximumLatency}{identifiedDomains}$
 		\State $maxCpuPower \gets \Call{computeMaximumComputationalPower}{identifiedDomains}$
-		\State $latencyWeight \gets function.getLatencyRequirement()$ 
-		\State $cpuPowerWeight \gets function.getComputationalPowerRequirement()$ 
+		\State $latencyWeight \gets microservice.getLatencyRequirement()$ 
+		\State $cpuPowerWeight \gets microservice.getComputationalPowerRequirement()$ 
 		\State $maxScore \gets 0$
 		\State $selectedDomain \gets null$
 		\ForAll{$domain \in identifiedDomains$ } 
 		\State $latency \gets domain.getLatency()$ 
-		\State $cpuPower \gets function.getComputationalPower()$ 
+		\State $cpuPower \gets microservice.getComputationalPower()$ 
 		\State $latencyScore \gets latencyWeight*((scoreRange-1)*(1 - latency/maxLatency)+1)$ 
 		\State $cpuPowerScore \gets cpuPowerWeight*(scoreRange*(cpuPower/maxCpuPower))$
 		\State $score \gets (latencyScore + cpuPowerScore) / (latencyWeight + cpuPowerWeight)$
@@ -94,9 +92,9 @@ Component \textit{SelectionManager} is responsible to manage the selection contr
 The first sub-component retrieves the domains' computational power and network latency. The former is --- a fixed score ranging from $1$ to $5$\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. The local domain is set to have a score to $1$, the edge domains to $4$ and the cloud ones to $5$. Note that since the cloud provides the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. More sophisticated approaches, such as using dynamic scores that change according to the saturation of the domain, or to the battery level for the local domain, are considered future work.  
  
 
-The analysis of the requirements and the actual domain selection selection, perfomed by respectively components  \textit{RequirementsAnalyzer} and \textit{DomainSelector}, is described in Algorithm~\ref{alg:selection}. The procedure is activated for each registered function along with the identified domains (line $1$). The algorithm computes a score ranging from $0$ to $5$ (line $2$) for each domain and selects the highest one. The current implementation considers as quality metrics the networking latency and the computational power. The first step of the selection consists on computing the maximum latency and computational power (line $3$ and $4$) among the identified domains. This data, as already mentioned, were gathered during the previous phases. Then the weights of latency and computational power are retrieved (lines $5$ and $6$). These weights correspond to the values associated to the \textit{LatencyRequirement} and \textit{ComputationalRequirement} of the function. The \textit{ANY} value corresponds to a weight of $0$, a latency requirement of \textit{LOW} and a computational power requirement of \textit{FAST} correspond to a weight equal to $1$, while weight equals to $2$ is considered for both latency \textit{VERY LOW} and computational power \textit{VERY FAST}.
+The analysis of the requirements and the actual domain selection selection, perfomed by respectively components  \textit{RequirementsAnalyzer} and \textit{DomainSelector}, is described in Algorithm~\ref{alg:selection}. The procedure is activated for each registered microservice along with the identified domains (line $1$). The algorithm computes a score ranging from $0$ to $5$ (line $2$) for each domain and selects the highest one. The current implementation considers as quality metrics the networking latency and the computational power. The first step of the selection consists on computing the maximum latency and computational power (line $3$ and $4$) among the identified domains. This data, as already mentioned, were gathered during the previous phases. Then the weights of latency and computational power are retrieved (lines $5$ and $6$). These weights correspond to the values associated to the \textit{LatencyRequirement} and \textit{ComputationalRequirement} of the microservice. The \textit{ANY} value corresponds to a weight of $0$, a latency requirement of \textit{LOW} and a computational power requirement of \textit{FAST} correspond to a weight equal to $1$, while weight equals to $2$ is considered for both latency \textit{VERY LOW} and computational power \textit{VERY FAST}.
 
-For each domain, the algorithm computes the overall score (line  $9$ to $14$). The latency score is computed by normalizing the value retrieved at line $10$ with the maximum latency previously computed. The normalized value ranges from $0$ to $1$, the higher this value the higher the latency. Since a higher score should mean lower latencies, the algorithm computes the complement of this value and add $1$ to avoid scores equals to $0$. Finally, the latency score is computed to be in the range of $5$ and multiplied by the function's latency weight (line $12$). The computational power score is computed by normalizing the domain computational power retrieved at line $11$ with the  maximum value across the identified domains. Then the score for this metric is computed to be in the range of $5$ and multiplied by its weight (line $13$). Finally the overall score is computed by performing a weighted average between the scores obtained by the domains for the two QoS metrics.
+For each domain, the algorithm computes the overall score (line  $9$ to $14$). The latency score is computed by normalizing the value retrieved at line $10$ with the maximum latency previously computed. The normalized value ranges from $0$ to $1$, the higher this value the higher the latency. Since a higher score should mean lower latencies, the algorithm computes the complement of this value and add $1$ to avoid scores equals to $0$. Finally, the latency score is computed to be in the range of $5$ and multiplied by the microservice's latency weight (line $12$). The computational power score is computed by normalizing the domain computational power retrieved at line $11$ with the  maximum value across the identified domains. Then the score for this metric is computed to be in the range of $5$ and multiplied by its weight (line $13$). Finally the overall score is computed by performing a weighted average between the scores obtained by the domains for the two QoS metrics.
 
 %Two considerations must be added for this algorithm. First, 
 The procedure it follows is an instantiation of the SMART decision process~\cite{Olson1996}, in which multiple competing QoS objectives are considered using the following formula
@@ -106,10 +104,10 @@ Smart(c) = \frac{\sum_{i=1}^{n} QoSAtrribute_i(c)*weight_i}{\sum_{i=1}^{n}weight
 \end{equation}
 
 \noindent
-where, in the context of our approach, $c$ is a domain, the QoS attributes values are network latency and the computational processing time (thus $n$ is $2$), and their weights are represented by the aforementioned latency and computation requirements. Note that, when available, \textit{edge domains have the highest chances of being selected}, since they usually combine a low network latency and a medium-to-high computational power. Finally, each function is mapped to the domain that best satisfies its requirements. 
+where, in the context of our approach, $c$ is a domain, the QoS attributes values are network latency and the computational processing time (thus $n$ is $2$), and their weights are represented by the aforementioned latency and computation requirements. Note that, when available, \textit{edge domains have the highest chances of being selected}, since they usually combine a low network latency and a medium-to-high computational power. Finally, each microservice is mapped to the domain that best satisfies its requirements. 
 
 
-During \textit{Engagement} phase the actual microservice invocation takes place. The CSM can invoke a microservice using the \textit{invokeService} operation of the  \textit{A3EFacade}. %In addition to the \textit{A3EFunction}, the operation expects also a \textit{payload} (i.e., the function argument) that could be an object of any Java type, and a \textit{callback} since the execution is always asynchronous. 
+During \textit{Engagement} phase the actual microservice invocation takes place. The CSM can invoke a microservice using the \textit{invokeService} operation of the  \textit{A3EFacade}. In addition to the \textit{A3EService}, the operation expects also a \textit{payload} (i.e., the function argument), and a \textit{callback} since the execution is always asynchronous. 
 The \textit{A3EFacade} will retrieve the \textit{A3EDomain} that was selected for the microservice in the last control loop iteration. Since domains use heterogeneous technologies, the actual invocations are performed by the \textit{InvocationResolver} components that are bound to different domains. 
 The \textit{InvocationREsolver} bound to edge and cloud domains will fire an HTTP request, whilst the \textit{InvocationREsolver} bound to a mobile domain will broadcast an Android event containing a request. In all cases, asynchronous \textit{callback}s are used to provide the results back to the client application. %\textit{InvocationResolver}s hide the technological details of the underlying domains. 
 
@@ -117,7 +115,7 @@ The \textit{InvocationREsolver} bound to edge and cloud domains will fire an HTT
 %Since the control loop runs in a separated thread, the execution will not be affected if the selected domain changes during the invocation. After retrieving the best domain from the continuum, the \textit{A3EFacade} will execute the function by using the \textit{execute} operation of the \textit{A3EDomain}. Since each domains can use different technologies, the \textit{InvocationResolver} binded to the domain will be used to actually invoke the function. 
 
 %addressing the \textit{heterogeneity} property of the continuum. 
-In our current implementation of the client-side middleware we have four types of \textit{InvocationResolver}s: one for invoking microservices provided by a mobile domain and another for Rest HTTP calls (to support multiple FaaS platforms such as OpenWhisk\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/webactions.md}}), and one specifically for AWS Lambda\footnote{\url{https://aws.amazon.com/tools/\#sdk}}. %and finally a local invocation resolver that is binded to the local domain that simply forward the invocation to the function's local \textit{InvocationResolver} (either the \textit{JavaInvocationResolver} or \textit{JSInvocationResolver}).  
+In our current implementation of the client-side middleware we have four types of \textit{InvocationResolver}s: one for invoking microservices provided by a mobile domain, another for Rest HTTP calls (to support multiple FaaS platforms such as OpenWhisk\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/webactions.md}}), and one specifically for AWS Lambda\footnote{\url{https://aws.amazon.com/tools/\#sdk}}. %and finally a local invocation resolver that is binded to the local domain that simply forward the invocation to the function's local \textit{InvocationResolver} (either the \textit{JavaInvocationResolver} or \textit{JSInvocationResolver}).  
 
 
 %Since each function has its own characteristics, for example different REST calls could have different \textit{content-type}s and different format for input/output, we made each function able to modify the invocation with it is own applicative details. For this reason before invoking the actual function (e.g., performing the HTTP call) the \textit{InvocationResolver} creates a technology specific \textit{InvocationMean}. These components are wrappers to technology specific objects used by the invocation resolvers to build the call (e.g., the \textit{InvokeRequest\footnote{\url{http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/lambda/model/InvokeRequest.html}}} object of the AWS Lambda SDK). As shown in Figure~\ref{fig:mobile-prototype} \textit{A3EFunction}s are \textit{InvocationMeanVisitor}s. Thus, just before performing the invocation, the specific \textit{visit} method is call providing to the function a way to fill up the request for the specific type of call. 

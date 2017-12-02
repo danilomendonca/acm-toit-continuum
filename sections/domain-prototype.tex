@@ -11,7 +11,7 @@ The domain-side middleware prototype described herein focuses on a local-edge do
 	\label{fig:local-edge-domain-prototype}
 \end{figure}
 
-An \textit{AdvertisementManager} broadcasts UDP messages (step 1) using a port that is known by the clients, with a frequency that is configurable (default $n=5$). A unicast channel is also created through which new clients should reply (step 2) to the discovery of a domain using the address extracted from the advertisement broadcast, and a port known in advance. The CSM replies with the specification of its requested services. For example, Lst.~\ref{lst:service-descriptor} illustrates the descriptor of an image recognition service with a single Java function and two dependencies used for image classification.
+An \textit{AdvertisementManager} broadcasts UDP messages (step 1) using a port that is known by the clients, with a frequency that is configurable (the default value is $5$ seconds). A unicast channel is also created through which new clients should reply (step 2) to the discovery of a domain using the address extracted from the advertisement broadcast, and a port known in advance. The CSM replies with the specification of its requested services. For example, Lst.~\ref{lst:service-descriptor} illustrates the descriptor of an image recognition service with a single Java function and two dependencies used for image classification.
 
 Then, the \textit{AcquisitionManager} fetches (step 3), downloads and installs (or upgrades existing) microservices from public source repositories (e.g., git), based on the information in the service descriptor sent by the client. 
 
@@ -33,24 +33,25 @@ After fetching the software artifacts, the \textit{AcquisitionManager} searches 
 	%numberstyle=\tiny\color{black}    
 }
 
-\begin{minipage}{.9\linewidth}
-	\begin{lstlisting}[caption=Image recognition service descriptor, label=lst:service-descriptor, captionpos=t]
-	{
-	"service-name":	"image-recognition",
-	"functions": [{	
-	"language":	"Java",
-	"name":		"image-recognition",
-	"source":	"it.polimi.a3e.imagerecognition.ImageRecognition",
-	"build":	"true",
-	"web":		"true"
-	}]
-	"dependencies": ["NetSSD_deploy.prototxt", "NetSSD_deploy.caffemodel"]
-	}
-	\end{lstlisting}
-\end{minipage}
+
 
 Following a proactive allocation, the acquisition manager calls the \textit{AllocationManager} (step 5) that uploads the acquired function(s) to OpenWhisk (step 6) by means of its command-line API, and returns a message to the client-side middleware with the final endpoint of the deployed microservice along with the operation result (step 7). OpenWhisk creates the function along with its RESTful endpoint, and from this moment on, it is ready to be engaged by the client (step 8). Note that whilst the endpoint is mapped to a single function, the later may perform internal calls to other functions composing the microservice.
 
+
+\begin{minipage}{.9\linewidth}
+	\begin{lstlisting}[caption=Image recognition service descriptor, label=lst:service-descriptor, captionpos=t]
+{
+ "service-name": "image-recognition",
+ "functions": [{	
+  "language": "Java",
+  "name": "image-recognition",
+  "source": "it.polimi.a3e.imagerecognition.ImageRecognition",
+  "build": "true",
+  "web": "true" }]
+ "dependencies": ["NetSSD_deploy.prototxt", "NetSSD_deploy.caffemodel"]
+}
+	\end{lstlisting}
+\end{minipage}
 %\subsubsection{Mobile Domain}
 \subsection{Domain-side Middleware: Mobile Domain}
 
@@ -63,11 +64,9 @@ Following a proactive allocation, the acquisition manager calls the \textit{Allo
 The DSM prototype herein proposed focuses on a mobile domain for Android platform. As previously explained, mobile domains are exempt of performing all but the engagement phase. The resulting implementation is depicted in Fig.~\ref{fig:mobile-domain-prototype}.
 
 %As depicted in Fig.~\ref{fig:mobile-domain-prototype}, the mobile-domain DSM implementation consists of a 
+Client applications can register functions to mobile domain using component \textit{FunctionsRepository}. The prototype supports two types of functions: \textit{A3EJavaFunction} and \textit{A3EJSFunction}. In particular, \textit{A3JSFunction} represent JavaScript functions loaded from a \textit{.js} file. The later use \textit{AndroidJSCore}~\footnote{https://github.com/ericwlange/AndroidJSCore}, an Android Java JNI wrapper required for the execution of JS code by Android applications.
 
-The \textit{MobileInvocationListener} class handles specific Android broadcast events created by the CSM.  The request contains a request for a microservice identified by a \textit{unique name}. The later is used by a \textit{FunctionsRepository} in the lookup of the corresponding \textit{A3Function}. 
-
-The prototype supports two types of functions: \textit{A3EJavaFunction} and \textit{A3EJSFunction}. In particular, \textit{A3JSFunction} represent JavaScript functions. The later use \textit{AndroidJSCore}~\footnote{https://github.com/ericwlange/AndroidJSCore}, an Android Java JNI wrapper required for the execution of JS code by Android applications.
-
+The \textit{MobileInvocationListener} class handles specific Android broadcast events created by the CSM.  The request contains a request for a microservice identified by a \textit{unique name}. The later is used by a \textit{FunctionsRepository} in the lookup of the corresponding \textit{A3EFunction}. 
 For each request, the corresponding function is called with the original payload from the microservice request, which also contains a callback to be invoked as a function return.
 
 %Martin's old server side details
