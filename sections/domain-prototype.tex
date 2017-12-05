@@ -1,103 +1,13 @@
-\subsection{Domain-side Middleware: Local-Edge Domain}
+\subsection{Domain-side Middleware: Local-Edge Domain}\label{sec:local-edge-domain-DSM}
 
 %\subsubsection{Local-Edge Domains}
 
-The domain-side middleware prototype described herein focuses on a local-edge domain, and includes a complete realization of the Advertisement, Acquisition and Allocation phases of A3-E -- as depicted in Figure~\ref{fig:local-edge-domain-prototype}. The Engagement phase is not covered by the local-edge DSM since it occurs between the client application (through the client-side middleware) and the FaaS platform (OpenWhisk). The prototype was implemented using Python\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-DSM/}}, and runs within a Linux-based domain that also hosts OpenWhisk. 
+The DSM prototype~\footnote{Documentation available and source code available at \url{https://github.com/deib-polimi/A3-E-DSM-local-edge/}} described herein focuses on a local-edge domain, and includes the Awareness and Acquisition phases of A3-E. Both the Allocation and Engagement phases are delegated to the FaaS platform (OpenWhisk), which is responsible for the placement of functions to its pool of containers and handles client application requests (fired by the CSM) by means of RESTful endpoints mapped to microservice functions.
 
+The local-edge prototype implements the Awareness phase by broadcasting UDP advertisements in a constant interval, to which CSM entering the network should reply with the identification of microservices its client application requires along with the Git repository from which the corresponding artifacts can be fetched during Acquisition phase. Among the downloaded files, a service descriptor provides instructions regarding the artifacts installation (e.g., compilation of Java classes). The Acquisition phase finishes with the deployment of function(s) to OpenWhisk and the CSM success/failure notification. 
 
-\begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/a3e-domain-prototype}
-	\caption{Domain-side Middleware Architecture for Edge local Domain}
-	\label{fig:local-edge-domain-prototype}
-\end{figure}
+\subsection{Domain-side Middleware: Mobile Domain}\label{sec:mobile-domain-DSM}
 
-An \textit{AdvertisementManager} broadcasts UDP messages (step 1) using a port that is known by the clients, with a frequency that is configurable (the default value is $5$ seconds). A unicast channel is also created through which new clients should reply (step 2) to the discovery of a domain using the address extracted from the advertisement broadcast, and a port known in advance. The CSM replies with the specification of its requested services. For example, Listing~\ref{lst:service-descriptor} illustrates the descriptor of an image recognition service with a single Java function and two dependencies used for image classification.
+Herein we describe a mobile domain DSM prototype for Android platform~\footnote{Documentation and source code available at \url{https://github.com/deib-polimi/A3-E-DSM-mobile/}}. As previously explained, mobile domains are exempt of performing all but the engagement phase. The resulting implementation was packaged as a library. The later should be imported by the Android application willing to register functions to be executed by its mobile domain (see Section~\ref{sec:CSM} for details on the selection of domains).
 
-Then, the \textit{AcquisitionManager} fetches (step 3), downloads and installs (or upgrades existing) microservices from public source repositories (e.g., git), based on the information in the service descriptor sent by the client. 
-
-After fetching the software artifacts, the \textit{AcquisitionManager} searches for a service descriptor that specifies the function(s), which is then automatically built (step 4) along with its dependencies by means of Gradle\footnote{\url{https://gradle.org/}}.
-
-\definecolor{lightgrey}{gray}{0.994}
-\definecolor{blue}{rgb}{0, 0, 0.25}
-
-\lstset{
-	backgroundcolor=\color{lightgrey},
-	basicstyle=\footnotesize\color{black},
-	string=[s]{"}{"},
-	stringstyle={\footnotesize\bfseries\color{blue}},
-	comment=[l]{:},
-	commentstyle={\footnotesize\color{black}},
-	upquote=true,
-	%numbers=left,
-	%numbersep=5pt,
-	%numberstyle=\tiny\color{black}    
-}
-
-Following a proactive allocation, the acquisition manager calls the \textit{AllocationManager} (step 5) that uploads the acquired function(s) to OpenWhisk (step 6) by means of its command-line API, and returns a message to the client-side middleware with the final endpoint of the deployed microservice along with the result of the operation (step 7). OpenWhisk creates the function along with its RESTful endpoint, and from this moment on, it is ready to be engaged by the client (step 8). Note that whilst the endpoint is mapped to a single function, the later may perform internal calls to other functions, effectively composing the microservice.
-
-
-\begin{minipage}{.9\linewidth}
-\begin{lstlisting}[caption=Image recognition service descriptor, label=lst:service-descriptor, captionpos=t]
-{
- "service-name": "image-recognition",
- "functions": [{	
-  "language": "Java",
-   "name": "image-recognition",
-   "source": "it.polimi.a3e.imagerecognition.ImageRecognition",
-   "build": "true",
-   "web": "true" }]
- "dependencies": ["NetSSD_deploy.prototxt", "NetSSD_deploy.caffemodel"]
-}
-\end{lstlisting}
-\end{minipage}
-%\subsubsection{Mobile Domain}
-\subsection{Domain-side Middleware: Mobile Domain}
-
-\begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/a3e-mobiledomain-prototype}
-	\caption{Domain-side Middleware Architecture for Mobile Domain}
-	\label{fig:mobile-domain-prototype}
-\end{figure}
-
-The DSM prototype herein proposed focuses on a mobile domain for Android platform. As previously explained, mobile domains are exempt of performing all but the engagement phase. The resulting implementation is depicted in Figure~\ref{fig:mobile-domain-prototype}.
-
-%As depicted in Fig.~\ref{fig:mobile-domain-prototype}, the mobile-domain DSM implementation consists of a 
-Client applications can register functions to their mobile domain using component \textit{FunctionsRepository}. The prototype supports two types of functions: \textit{A3EJavaFunction} and \textit{A3EJSFunction}. In particular, \textit{A3JSFunction} represents JavaScript functions loaded from a \textit{.js} file. The latter use \textit{AndroidJSCore}~\footnote{https://github.com/ericwlange/AndroidJSCore}, an Android Java JNI wrapper required for the execution of JS code by Android applications.
-
-The \textit{MobileInvocationListener} class handles specific Android broadcast events created by the CSM. The request is for a microservice identified by a \textit{unique name}, and is used by a \textit{FunctionsRepository} in the lookup of the corresponding \textit{A3EFunction}. For each request, the corresponding function is called with the original payload from the microservice request, which also contains a callback to be invoked as a function return.
-
-%Martin's old server side details
-
-%Figure~\ref{fig:reference-architecture} shows the proposed architecture for the compute continuum. Particular focus is put on the interaction between devices and Edge domain servers, since it is the main contribution of this paper. 
-%The main physical elements are mobile devices and domain servers. Mobile devices can be of any type (e.g., tablets, smartphones), running several low-latency applications that needs offloading part of their computation to more powerful servers. For this, the devices send information to be processed to the domain server through standardized network protocols~\cite{Sill17standards}.  A Base Transceiver Station\footnote{Different generations of wireless mobile networks use distinct names (e.g., eNodeB in 4G).} (BTS) bridges mobile devices and domain servers as a part of the cellular infrastructure and  Edge architecture, according to its current specifications~\cite{hu2015mobile}. In this scenario, mobile devices and Edge domain servers are at no more than a few hops from each other. These servers host a serverless infrastructure, where stateless functions are deployed and executed according to the phases defined by the A3-E model. 
-%The following sections provide details about the A3-E middleware (Section~\ref{subsec:A3-E}) and the serverless infrastructure that materializes Edge domain servers (Section~\ref{subsec:ServerlessArchCont}).
-%
-%\subsection{Edge-FaaS}
-%\label{subsec:ServerlessArchCont}
-%
-%Following we briefly describe the serverless architecture that materializes the notion of Edge domains --- as shown in Figure~\ref{fig:domain-edge-arch}. 
-%
-%\begin{figure}[htb]
-%	\includegraphics[width=.7\textwidth]{figs/ServerlessGenericArchEdit}
-%	\caption{Serverless Architecture in the Domain Server}
-%	\label{fig:domain-edge-arch}
-%\end{figure}
-%
-%While Edge servers are ideal candidates for offloading the computation to preserve devices' battery life and reduce latency, these domain nodes are themselves potentially resource-constrained. Accordingly, the feasibility of hosting dedicated \textit{virtual machines}, \textit{containers}, and \textit{stateful applications} would also be limited, as these nodes cannot scale ``infinitely" to host always-running VMs/containers as the cloud itself. To overcome this limitation, we propose to materialize Edge domain servers through a serverless architecture~\cite{Roberts:2016,GarrigaMendonca2017}. 
-%
-%Figure~\ref{fig:domain-edge-arch} details the serverless components deployed on the domain server. The entry points are the \textit{triggers} associated with events --- e.g.,  mobile sensor readings or HTTP requests from mobile apps.  
-%%in the MAR application, an event that triggers a function consists of uploading of an image or capturing a frame with the device's camera. --e.g., changes to database records, mobile sensor readings, code commits to a repository, or simple HTTP requests from Web or mobile apps. 
-%These triggers fire requests to an \textit{Http Server} that exposes available functions as REST endpoints. 
-%
-%To achieve network transparency, a local Domain Name Server (DNS), deployed on the cellular infrastructure, must distinguish between requests addressed to the A3-E middleware/RESTful functions exposed by the domain server, and any other request for an Internet endpoint. The main difference from a regular DNS is locality, as the requests must be handled by the domain server on the current base station. To this end, the names of edge resources must be resolved locally without being propagated to public DNS servers. Whereas the specific details of the naming solution are outside the scope of this work, we argue that such a feature should not pose a significant technical challenge.% as it is already partially supported by the cellular infrastructure [CITE? is it right?].
-%
-%Once a request reaches the domain server, it is then forwarded to a \textit{controller} component, which identifies and retrieves the function being called, authorizes the execution of such a function and identifies an available invoker to run it. \textit{Invokers} isolate the \textit{functions} in containerized environments, optimized and managed by the serverless provider to reduce overhead and response time. Note that cold starts can happen when the controller allocates an inactive/new function for the first time. It increases time for the first call while the provider provisions the invoker (runtime container) and then runs the function. However, when the function is still allocated or warm --- since it was engaged recently by the same or a different client --- the environment stays alive, ready and waiting for execution. Eventually, after a period of inactivity (that depends on the size of the function and the current load of the server), the provider can drop the container and the function be deallocated, freeing resources for other functions.
-%
-%
-%Finally, after execution, results and logging information are stored in the \textit{Storage} component, a highly available, noSQL database. Note that most of the components of the serverless architecture of the domain server are shared 
-%%(in grey in Figure~\ref{fig:abstract_architecture}) 
-%among all the functions. The highly shared nature and the automated management of the whole platform allows any function allocated on the domain servers to scale up automatically and elastically to unexpected bursts in the workload, and to scale down when it is not used anymore. In contrast with container-based stateful applications, the serverless platform is responsible for allocating functions of one or more applications on a pool of shared containers, according to the resources available at the domain server. As a result, the use of the computational resources of domain servers is optimized, allowing both more functions to be deployed and more requests to be processed simultaneously.
-%
-%Needless to say, an IaaS/FaaS cloud domain can always be selected to allocate and engage functions when required --- due to unavailability/overload of edge domain servers. Their implementation is similar to those described above, although details can vary among different vendors\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/about.md}}.
-%
-%As an advantage over the traditional, ``serverful'' approaches, it is not necessary to pre-allocate multiple virtual machines or containers to be resilient and responsive against downtime of single instances or bursts of workload. The on-demand execution of functions provides inherent scalability and optimal utilization as the number of running functions always matches the trigger rate. Additionally, the application developer only focuses on the application code and can fully outsource the management of the execution infrastructure to the A3-E middleware. The serverless approach also provides a fine-grained \textit{pay-per-use} billing model with benefits for both application owners and telecom operators (in charge of the domain servers).
+The prototype supports two types of functions: Java functions, which are natively supported, and JavaScript functions, which require a JNI wrapper for their execution by the Android application. Decoupling between the client application and its mobile domain was achieved with the use of Android events triggered by the CSM (see Section~\ref{sec:CSM}) and handled by the DSM. Each request contains the unique name of a microservice. The later is used in the loopup of the corresponding function by a functions registry. Once found, the function is called with the parameters composing the request. Finally, a callback is called with the return of the function.
