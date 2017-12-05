@@ -1,18 +1,20 @@
 \section{Experimental Evaluation}\label{sec:evaluation}
 
 
-We performed three different sets of experiments, using four domains that materialize the continuum. The first set was devised to \emph{study how latency changes with a varying workload}. In this case the mobile domain is obviously omitted. The second set was devised to \emph{evaluate the domains from the perspective of the client}, both in terms of latency and battery consumption. The third set was devised to \emph{evaluate the A3-E approach with domains that change their availability} according to a probabilistic model. Our goal was to demonstrate that the A3-E model is successful in selecting domains at run time and in improving the overall application availability. 
+We performed three different sets of experiments, using four domains that materialize the continuum. The first set was devised to \emph{study how latency changes with a varying workload}. In this case the mobile domain is obviously omitted. The second set was devised to \emph{evaluate the domains from the perspective of the client}, both in terms of latency and battery consumption. The third set was devised to \emph{evaluate the A3-E approach with domains that change their availability} according to a probabilistic model. 
+%Our goal was to demonstrate that the A3-E model is successful in selecting domains at run time and in improving the overall application availability. 
 
 \subsection{Domains Setup}
 
 %\subsubsection{Domains}
 
- We deployed a set of domains that materialize the computing continuum --- as shown in Table~\ref{tab:domain-exp-config}. The sample application is an Image Recognition application, in which users can capture an image and invoke microservices~\footnote{Microservice implementation available in \url{https://github.com/deib-polimi/A3-E-image-recognition}} in the continuum to perform the \textit{extraction of features} and \textit{detection of objects} in the image. For our mobile domain we used a smartphone in which we deployed the A3-E middleware and the functions needed to perform both feature extraction and object identification. For our local-edge domains we adopted the Apache OpenWhisk serverless platform, as the state-of-the-art open-source solution. We had two local-edge domains, and placed both of them in the same LAN as the origin of the requests (i.e., the client applications/devices). This was done to emulate a few-hops scenario in which devices are directly connected to their nearest edge domains. \texttt{local-edge-1} was placed on a regular laptop, allowing us to represent a situation in which latency is close to zero, but the computational resources are highly constrained, as scaling-up is not possible due to the inherent physical restrictions of the underlying infrastructure. Similarly, \texttt{local-edge-2} domain was placed on a local server. In this case computational resources are less constrained, yet low latency can still be achieved due to physical proximity.
+ We deployed a set of domains that materialize the computing continuum --- as shown in Table~\ref{tab:domain-exp-config}. The sample application is an Image Recognition one, in which users can capture an image and invoke microservices\footnote{Microservice implementation available in \url{https://github.com/deib-polimi/A3-E-image-recognition}} in the continuum to perform the \textit{extraction of features} and \textit{detection of objects} in the image. For our mobile domain we used a smartphone in which we deployed the A3-E middleware and the functions needed to perform both feature extraction and object identification. For our local-edge domains we adopted the Apache OpenWhisk serverless platform, as the state-of-the-art open-source solution. We had two local-edge domains, and placed both of them in the same LAN as the origin of the requests (i.e., the client applications/devices). This was done to emulate a few-hops scenario in which devices are directly connected to their nearest edge domains. \texttt{Local-edge-1} allows us to represent a situation in which latency is close to zero, but the computational resources are highly constrained, as scaling-up is not possible due to the inherent physical restrictions of the underlying infrastructure. \texttt{Local-edge-2} has more computational resources and yet low latency can be achieved due to physical proximity.
 
 \begin{table}[htb]
 	\caption{Domains Setup in the Continuum for the Experimental Evaluation}
 	\label{tab:domain-exp-config}
-	\begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}>{\raggedright}p{1.7cm}>{\raggedright}p{6cm}>{\raggedright}p{6cm}}
+	\small
+	\begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}>{\raggedright}p{1.7cm}>{\raggedright}p{6cm}>{\raggedright}p{5cm}}
 		\toprule 
 		Domain & Machine Resources & Execution Environment\tabularnewline
 		\midrule
@@ -40,7 +42,7 @@ We performed three different sets of experiments, using four domains that materi
 
 %For the Fog alternative, we deployed the serverless architecture on Policloud\footnote{http://policloud.polimi.it/}, the private IaaS solution of Politecnico di Milano. Here, the computational resources are less constrained, and still low latency can be achieved due to physical proximity (two hops from the client) and data locality. This setup runs on a small cluster of 4 virtual machines with 2x CPU, 4x Gb of Ram and 100 GB SSD, each running a different component of openwhisk (triggers and storage, Http server, controller, and invokers, respectively). Note that in this case the fog node is deployed in the same LAN that originates the requests, to emulate the few-hop scenario in which devices are directly connected to their corresponding MEC.
 
-The cloud domain for this experiment used AWS Lambda, given that it is currently the most mature serverless solution on the market. The functions and associated libraries and services (storage, feature extraction and matching) were hosted within the same AWS region. This is actually enforced by AWS to guarantee a certain degree of data locality. Finally, we also deployed the functions onto a traditional cloud domain, i.e., using cloud IaaS. 
+The cloud domain for this experiment used AWS Lambda, as the most mature serverless solution on the market. The functions and associated libraries and dependencies (storage, feature extraction and matching) were hosted within the same AWS region. This is actually enforced by AWS to guarantee a certain degree of data locality. Finally, we also deployed the functionality onto a traditional cloud domain, i.e., using cloud IaaS. 
 
 The main goal of this setup was not to compare traditional cloud services against a serverless solution, but to demonstrate that the proposed continuum could outperform the cloud under the tested circumstances and requirements.
 
@@ -49,16 +51,16 @@ The main goal of this setup was not to compare traditional cloud services agains
 \subsection{Domain Latency} 
 
 
-\begin{figure}[htb]
-	\centering
-	\includegraphics[width=0.95\textwidth]{figs/experimental-setup.pdf}
-	\caption{Setup for Domain Latency Experiments}
-	\label{fig:exp-setup1}
-\end{figure}
+%\begin{figure}[htb]
+%	\centering
+%	\includegraphics[width=0.95\textwidth]{figs/experimental-setup.pdf}
+%	\caption{Setup for Domain Latency Experiments}
+%	\label{fig:exp-setup1}
+%\end{figure}
 
 The first experiment assesses how the latency changes with a varying workload, as a baseline to compare different domains. We simulated different number of clients making $100$ requests each, at a constant rate of two requests per second. Each request stimulated both the feature extraction and the matching from a sample image. This setup was achieved taking into account the default maximum for concurrent executions in AWS Lambda\footnote{\url{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html}} and Openwhisk\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}}, as well as the limited resources of the edge domains. 
 
-This experiment excluded the mobile domain and focused on the remote ones, i.e., edge and cloud (see Figure~\ref{fig:exp-setup1}). Capturing and uploading an image was emulated using Postman\footnote{\url{https://www.getpostman.com/}}, an open source application designed to load test the functional behaviors of Web APIs, and to measure their performances. The payload for this experiment was a sample image of approximately 65 KB, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. 
+This experiment excluded the mobile domain and focused on the remote ones, i.e., edge and cloud. Capturing and uploading an image was emulated using Postman\footnote{\url{https://www.getpostman.com/}}, an open source application designed to load test the functional behaviors of Web APIs, and to measure their performances. The payload for this experiment was a sample image of approximately 65 KB, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. 
 
 %Once the image was sent through HTTP/POST, the actual execution depended on the domain being used. triggering Openwhisk actions for both edge domains, AWS Lambda functions for Cloud-FaaS domain, and a Nodejs server that calls a Python function for Cloud-IaaS domain.
 
@@ -131,16 +133,11 @@ prob. of edge becoming available: 0.666666%
 The experiment consisted in cascading $2000$ sequential requests for feature extraction and matching of a sample image (with a size of 65 KB). We measured the total execution time, the battery consumption in the mobile device, and the average time per call. Figure~\ref{fig:exp-a3e} shows the experimental results, averaged among $5$ executions for each scenario.
 
 \begin{figure}[htb]
-	\raggedright
-	\captionsetup[subfigure]{width=0.33\textwidth}	
-	\subfloat[Total execution time (seconds)\label{fig:total-exec-a3e}] {\includegraphics[width=0.33\textwidth]{figs/total-exec-time-A3E}}
-	\captionsetup[subfigure]{width=0.33\textwidth}
-	\subfloat[Battery consumption (\%)\label{fig:battery-a3e}] {\includegraphics[width=0.33\textwidth]{figs/battery-consumption-A3E}}
-	\captionsetup[subfigure]{width=0.33\textwidth}
-	\subfloat[Execution time per call (milliseconds)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.33\textwidth]{figs/time-per-call-A3E}}
+	\raggedright	\captionsetup[subfigure]{width=0.32\textwidth}	
+	\subfloat[Total execution time (seconds)\label{fig:total-exec-a3e}] {\includegraphics[width=0.32\textwidth]{figs/total-exec-time-A3E}}	\captionsetup[subfigure]{width=0.32\textwidth}
+	\subfloat[Battery consumption (\%)\label{fig:battery-a3e}] {\includegraphics[width=0.32\textwidth]{figs/battery-consumption-A3E}}	\captionsetup[subfigure]{width=0.32\textwidth}	\subfloat[Execution time per call (ms)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.32\textwidth]{figs/time-per-call-A3E}}
 	%\captionsetup[subfigure]{width=0.45\textwidth}
-	%\subfloat[Number of Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.45\textwidth]{figs/calls-per-domain-A3E}}
-	
+	%\subfloat[Number of Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.45\textwidth]{figs/calls-per-domain-A3E}}	
 	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
 \end{figure}
 
@@ -161,11 +158,11 @@ Battery consumption was substantially lower when offloading computation, rather 
 
 Finally, we evaluated the capability of the A3-E prototype to select the best domain given low latency and high computational power requirements. In this experiment we used all three domains together to form the continuum, and probabilistically simulated their availabilities. 
 
-A3-E was configured to ping for domain availability, as well as perceived QoS, every two seconds ($u = 2$). We consider that the cloud domain could be unavailable mainly due to absence of mobile network's coverage, since downtimes of cloud services are minimal~\cite{garcia2017bandwidth}. To simulate this, the average network unavailability was set to once every $15$ minutes. Using a geometric distribution, the probability of being unavailable during a ping (\textit{connectionOnToOff}) was $0.022$. Then, the average time for it to become available again was $2$ minutes, i.e., the probability  \textit{connectionOffToOn} was $0.166$. Overall, this gives us a probability \textit{connectionAvailable} $=15/(15+2)=0.88$.
+A3-E was configured to ping for domain availability, as well as perceived QoS, every two seconds ($u = 2$). We consider that the cloud domain could be unavailable mainly due to absence of mobile network's coverage, since downtimes of cloud services are minimal~\cite{garcia2017bandwidth}. To simulate this, the average network unavailability was set to once every $15$ minutes. Then, the average time for it to become available again was $2$ minutes, which gives us a probability \textit{connectionAvailable} $=15/(15+2)=0.88$.
 
 %\footnote{https://math.stackexchange.com/questions/165993/average-number-of-times-it-takes-for-something-to-happen-given-a-chance}
 
-The rationale for the edge domain is analogous, yet with a higher probability of it being unavailable --- e.g., due to the lack of physical proximity with the edge servers. In this case, the edge is unavailable once every $10$ minutes, i.e., the probability  \textit{edgeOnToOff} was  $0.33$. Once unavailable, we considered that it would take an average of $5$ minutes for it to become available again, i.e. the probability \textit{edgeOffToOn} was $0.066$. Therefore, the probability \textit{edgeAvailable} $=10/(10+5)=0.66$. If we consider that edge nodes are only reachable within network coverage, then the probability \textit{edgeAvailableWithConnection}$=0.88*0.66=0.58$.
+The rationale for the edge domain is analogous, yet with a higher probability of it being unavailable --- e.g., due to the lack of physical proximity with the edge servers. In this case, the edge is unavailable once every $10$ minutes, and it would take an average of $5$ minutes for it to become available again. Therefore, the probability \textit{edgeAvailable} $=10/(10+5)=0.66$. If we consider that edge nodes are only reachable within network coverage, then the probability \textit{edgeAvailableWithConnection}$=0.88*0.66=0.58$.
 
 Finally, we consider the mobile device as always available, and therefore it was selected in our experiments when all other domains were unavailable, or the sensed latencies were too high for the application's requirements.
 
@@ -179,7 +176,7 @@ Finally, we consider the mobile device as always available, and therefore it was
 
 Figure~\ref{fig:all-domains} shows detailed results for the \texttt{all-domains} scenario with regards to availability and consistency. Given the availability probabilities for edge and cloud discussed above, the experiment shown (see Fig.~\ref{fig:availability-all-domains}) an average of $93\%$ availability without considering the \texttt{mobile} domain ($5\%$ and $35\%$ improvement regarding cloud and edge respectively), and $100\%$ availability when considering also the \texttt{mobile} domain (which is always available). 
 
-Figure~\ref{fig:calls-per-domain-a3e} shows the average number of calls that were processed by each domain in the continuum: $65$\% by \texttt{local-edge}, followed by \texttt{cloud-FaaS} ($30$\%) and \texttt{mobile} ($7$\%). In terms of consistency, given that all requests were served, on average $70\%$ of the requests perceived low latency, whilst the $30\%$ that relied on the cloud perceived a degradation in the QoS but still were processed successfully. 
+Figure~\ref{fig:calls-per-domain-a3e} shows the average number of calls processed by each domain in the continuum: $63$\% by \texttt{local-edge}, followed by \texttt{cloud-FaaS} ($30$\%) and \texttt{mobile} ($7$\%). In terms of consistency, given that all requests were served, on average $70\%$ of the requests perceived low latency, whilst the $30\%$ that relied on the cloud perceived a degradation in the QoS but still were processed successfully. 
  
 \begin{figure}[htb]
 	\centering
@@ -194,7 +191,7 @@ Figure~\ref{fig:calls-per-domain-a3e} shows the average number of calls that wer
 \end{figure}
 
 Conclusively, the experiment shown that A3-E is capable of performing domain selection and computation distribution at runtime. A3-E also improved availability up to 100\% during the experiment, given that the mobile domain is always available, but it was only selected to serve 7\% of the requests.
-In the context of the \texttt{all-domains} scenario, this reflects the underlying rationale of the computation continuum: exploit the edge domains as much as possible (by giving them high scores in Formula~\ref{eq:smart}). This will lead to better balance among computation time, latency and resource consumption. Switch to the cloud, or to the local device, only when necessary. Note that in this experiment the computation in the mobile device was configured with the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tuned by adjusting application requirements and domain parameters discussed in Section~\ref{sec:implementation}.
+In the context of the \texttt{all-domains} scenario, this reflects the underlying rationale of the computation continuum: exploit the edge domains as much as possible (by giving them high scores in Formula~\ref{eq:smart}). This will lead to better balance among computation time, latency and resource consumption. Switch to the cloud, or to the local device, only when necessary. Note that in this experiment computation in the mobile device was configured with the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tuned by adjusting application requirements and domain parameters discussed in Section~\ref{sec:implementation}.
 
 %that allows to cope with unavailability and fluctuations in QoS 
 
@@ -202,7 +199,7 @@ In the context of the \texttt{all-domains} scenario, this reflects the underlyin
 
 %\paragraph{Threats to validity}
 
-In terms of threats to validity is it worth mentioning that the experiments only targeted one client application (image recognition) and, in the case of the second experiment, only one client device. Further simulations will be needed, considering multiple clients using several applications with different requirements in terms of computation power and latency, and their corresponding functions deployed along the continuum. Additionally, it is currently not possible to test with real mobile-edge domains, i.e., to provide computational capabilities on base stations. This could be approximated either by simulation or by deploying edge domains with different specifications in terms of computational power and latency (e.g., deploying on bare metal servers and our private cloud), to better capture the heterogeneity of the continuum. %Finally, even though the all-domains scenario provided insights regarding availability and consistency, experiments focusing particularly on consistency, correctness and reliability of the model are outside the scope of the paper and thus left as future work.
+In terms of threats to validity is it worth mentioning that the experiments only targeted one client application (image recognition) and, in the case of the second experiment, only one client device. Further tests are needed, considering multiple clients using several applications with different requirements in terms of computation power and latency, and their corresponding functions deployed along the continuum. Additionally, it is currently not possible to test with real mobile-edge domains, i.e., to provide computational capabilities on base stations. This could be approximated either by simulation or by deploying edge domains with different specifications in terms of computational power and latency (e.g., deploying on bare metal servers and our private cloud), to better capture the heterogeneity of the continuum. %Finally, even though the all-domains scenario provided insights regarding availability and consistency, experiments focusing particularly on consistency, correctness and reliability of the model are outside the scope of the paper and thus left as future work.
 
 
 
