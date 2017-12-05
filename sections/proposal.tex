@@ -10,14 +10,14 @@ The \textit{A3-E model}, depicted in Figure~\ref{fig:A3-E-model}, defines the ac
 
 A3-E exploits Serverless Architecture~\cite{baldini2017serverless}, and in particular the Functions-as-a-Service (FaaS) execution model~\cite{MateosFaaster17} to guarantee that the heterogeneous service providers in the continuum are efficient, scalable and automatable~\cite{GarrigaMendonca2017,Hendrickson:2016}.
 
-Serverless is a cloud computing model in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS execution model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. This approach allows one to write and deploy functions (code) without considering the server runtime environment, resource allocation, load balancing, or scalability; all these aspects are automatically handled by the provider.
+FaaS is a cloud computing model in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In this model, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. This approach allows one to write and deploy functions (code) without considering the server runtime environment, resource allocation, load balancing, or scalability; all these aspects are automatically handled by the provider.
 
 In the A3-E model, a \textit{service} is a set of artifacts (deployed to and accessed from a remote server) that fulfill a given functionality. In particular, service artifacts can refer to: (i) the stateless function(s) exposed to the clients (e.g., a Java compiled class); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g.,  software libraries). Moreover, these services are \textit{microservices}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery.
 
 A3-E microservices are provided by \textit{domain}s. A domain yields a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of A3-E domains are \textit{cloud domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., AWS Lambda\footnote{\url{https://aws.amazon.com/lambda}} in Europe); \textit{edge domains}, representing local-edge and mobile-edge sites (e.g., servers within an office building or at cellular base stations); and \textit{mobile domain} representing a client device's own resources.
 
 A3-E also defines \textit{continuum applications} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is an HTTP request with additional headers specifying requirements for the targeted microservice in the continuum. Two types of requirements are considered: \textit{QoS requirements}, that specify metrics such as maximum latency, minimum availability, etc; and \textit{Location requirements}, that fix the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
-%TODO: who handles the client application request? A client-side middleware. Why its description was removed? The same question for the domain-side middleware. They are not just implementations, but part of the model. [Danilo]
+
 %The figure has been placed here to avoid multiple diagrams in the same page [Danilo]
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
@@ -27,14 +27,15 @@ A3-E also defines \textit{continuum applications} as the software components res
 
 Figure~\ref{fig:Continuum-arch} illustrates the architecture of a \texttt{client application} --deployed to a mobile device-- that exploits both the continuum and conventional cloud infrastructure (IaaS). The client application comprises both \texttt{client-side logic} and \texttt{graphical user interfaces}. While the cloud infrastructure is used for \texttt{server-side logic} and for \texttt{persistence}, the continuum is used for stateless computation, provided by \texttt{stateless functions} that are exposed as \texttt{microservices}.
 
-Given the heterogeneity of the continuum, distinct domains rely on different technologies to expose offered functionalities (e.g., through RESTful endpoints or WebSockets). Particularly, a mobile domain also expose its functionality by means of an interface (e.g., by means of event listener). For the sake of simplicity, the term microservice is also employed with mobile domains.
-
-
 Although the continuum can hypothetically support any number of heterogeneous infrastructures, Figure~\ref{fig:Continuum-arch} focuses on three domains. The \texttt{mobile domain} is deployed to the client's mobile device, and provides local stateless computation. (While enabling device-to-device collaboration through distributed mobile domains --i.e., by allowing a client to call a microservice deployed on another mobile device-- is surely interesting, for now we consider it part of our future work.) The \texttt{edge domains} refer to Edge-based infrastructure that can be deployed to a local server (local-edge domain) or to cellular stations (mobile-edge domain). Finally, the \texttt{cloud domain} refers to a cloud-based solution such to AWS Lambda.
 
-Considering our running example, the client-side mobile game application consists of controllers and user interfaces. The continuum provides the functionality for processing and updating the game state, which must be passed as a parameter to a microservice in the continuum, in conjunction with game events (e.g., user inputs). Finally, it includes cloud services providing stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
+Given the heterogeneity of the continuum, distinct domains rely on different technologies to expose offered functionalities (e.g., through RESTful endpoints or WebSockets). Particularly, a mobile domain also expose its functionality by means of an interface (e.g., by means of event listener). For the sake of simplicity, the term microservice is also employed with mobile domains.
 
-Furthermore, the client-side AR application captures scenes from the glasses' camera and uses the microservices in the continuum to extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on a neural network trained model and an image processing library. Client-side logic is then responsible for updating the 3D virtual object state and rendering it into the scene displayed by the glasses. In this application, conventional cloud services are not required.
+Considering our running example, the office AR application captures scenes from the glasses' camera and uses the microservices in the continuum to extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on a neural network trained model and an image processing library. Client-side logic is then responsible for updating the 3D virtual object state and rendering it into the scene displayed by the glasses. In this application, conventional cloud services are not required. The tourist guide AR application follow a similar approach, expect that objects consist of monuments and other specific points of interest from the scenes, i.e., object identification through feature matching requires a more refined database.
+ 
+In turn, the AV services consist of static data representing the city street paths --- obtained at deploy time --- as well as dynamic data regarding the actual condition of different paths --- provided by nearby base stations and by vehicles in the mobile-edge own coverage area. Finally, a function is used for calculating the path from a given origin and destination given the combination of static and dynamic data.
+ 
+Finally, the client-side mobile game application consists of controllers and user interfaces. The continuum provides the functionality for processing and updating the game state, which must be passed as a parameter to a microservice in the continuum, in conjunction with game events (e.g., user inputs). Finally, it includes cloud services providing stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
 
 
 %\subsection*{Functions-as-a-Service (FaaS)}
@@ -54,7 +55,9 @@ Furthermore, the client-side AR application captures scenes from the glasses' ca
 
 \subsection{Four Phases}
 
-The four phases in A3-E, depicted in Figure~\ref{fig:A3-E-process}, support the self-management of microservice life-cycles. For each phase, A3-E models the activities of both the \textit{domain} and of the \textit{client}. Next, we shall describe each of the four phases. We will, starting from the most general one, i.e., the one that applies to all domains and clients, and moveing towards the more specific ones.                                                                                                                                                                                                                                                                                                                             eep in mind that in certain domains, one or more phases might not be employed.
+The four phases in A3-E, depicted in Figure~\ref{fig:A3-E-process}, support the self-management of microservice life-cycles and their placement along the continuum. For each phase, A3-E models the activities of both the \textit{domain} and the \textit{client} throughout an interaction. Next, we shall describe each of the four phases. We start from the most general one, i.e., the one that applies to all client-domain interaction, and move towards the more specific ones, i.e., those employed by specific types of client-domain interactions. 
+
+%Keep in mind that in certain domains, one or more phases might not be employed.
 %from the moment they become aware of each other to the point they may engage in client-server interactions
 
 \begin{figure}[tbp]
@@ -69,9 +72,7 @@ The four phases in A3-E, depicted in Figure~\ref{fig:A3-E-process}, support the 
 
 \subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase models the last stage of interaction between a client application and a provider. Throughout this phase, clients engage with edge and cloud \textit{microservices} using a request/response protocol (e.g., RESTful microservices over HTTP). 
-
-To enforce a common interface between clients and heterogeneous microservice providers in the continuum, mobile domains also expose microservices implemented with stateless functions. The FaaS execution model favors this decision, as similar functions may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by FaaS platforms from different providers (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{OpenWhisk is a well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
+The \textit{engagement} phase models the last stage of interaction between a client application and a continuum microservice provider. Throughout this phase, clients engage with edge and cloud \textit{microservices} using a request/response protocol (e.g., RESTful microservices over HTTP). Moreover, to enforce a common interface between clients and heterogeneous microservice providers in the continuum, mobile domains also expose microservices implemented with stateless functions. The FaaS execution model favors this decision, as similar functions may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by FaaS platforms from different providers (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{OpenWhisk is a well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
 
 %In this phase the request has already been provisioned by one or more domains and the client-side middleware (CSM) has already selected a specific domain to make the request. 
 
@@ -98,7 +99,9 @@ To enforce a common interface between clients and heterogeneous microservice pro
 
 \subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
 
-From the domain's perspective, the allocation phase models how the microservices are placed on the domain's resources, i.e., the intra-domain placement of microservices to its pool of servers, virtual machines, and containers. The scope of the domain-side allocation is limited by the domain's boundaries. For instance, cloud domains allocate functions to containers in resourceful datacenters covering a large area. On the other hand, an edge domain may consist of a single server (e.g., covering an office) with a set of containers, or of a set of distributed servers and containers covering an edge site (e.g., covering a whole building or a 5G base station).
+From the domain's perspective, the allocation phase models how the microservices are placed on the domain's resources, i.e., the intra-domain placement of microservices to its pool of servers, virtual machines, and containers. 
+
+The scope of the domain-side allocation is limited by the domain's boundaries. For instance, cloud domains allocate functions to distributed containers in resourceful datacenters covering a large area. On the other hand, an edge domain may consist of a single server (e.g., covering an office) with a set of containers, or of a set of distributed servers and respective containers covering an edge site (e.g., covering a whole building or a 5G base station).
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
 
@@ -113,12 +116,12 @@ In the scenario introduced in Section~\ref{sec:example}, the AV application shou
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
 
-From the client's perspective, the allocation phase models the selection of the domain alternative that best satisfies the client's needs. Once again a self-management control loop is exploited (see Fig.~\ref{fig:domain-selection-loop}). In each instance of its control loop, the client-sidemiddleware (CSM) checks the QoS levels of a specific microservice from the available domains. It then analyses and decides for the best alternative satisfying the application requirements.
+From the client's perspective, the allocation phase models the selection of the domain alternative that best satisfies the client's needs. Once again a self-management control loop is exploited (see Fig.~\ref{fig:domain-selection-loop}). In each instance of its control loop, the client-side middleware (CSM) checks the QoS levels of a specific microservice from the available domains. It then analyses and decides for the best alternative satisfying the application requirements.
 
 %, i.e., it models the computation placement along the client's perception of the continuum. 
 %This decision should consider a list of available domains providing services requested by the client application with accompanying QoS attributes. Accordingly, whereas the domains should take care of intra-domain allocation through service placement, the clients are responsible for the inter-domain allocation through service selection.
 
-%Analogously to the domain-side, the CSM manages allocation with a self-management loop , this time by checking QoS levels of services from each available domain and deciding for the alternative that best satisfies the client's requirements. 
+%Analogously to the domain-side middleware, the CSM handles allocation with a self-management loop, this time by checking QoS levels of services from each available domain and deciding for the alternative that best satisfies the client's requirements. 
 
 %This sub-process is the main client-side activity required for the realization of the continuum, as it allows clients to seamlessly alternate among different continuum domains according to the context. 
 
