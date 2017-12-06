@@ -132,9 +132,14 @@ prob. of edge becoming available: 0.666666%
 The experiment consisted in cascading $2000$ sequential requests for feature extraction and matching of a sample image (with a size of 65 KB). We measured the total execution time, the battery consumption in the mobile device, and the average time per call. Figure~\ref{fig:exp-a3e} shows the experimental results, averaged among $5$ executions for each scenario.
 
 \begin{figure}[htb]
-	\raggedright	\captionsetup[subfigure]{width=0.32\textwidth}	
-	\subfloat[Total execution time (seconds)\label{fig:total-exec-a3e}] {\includegraphics[width=0.32\textwidth]{figs/total-exec-time-A3E}}	\captionsetup[subfigure]{width=0.32\textwidth}
-	\subfloat[Battery consumption (\%)\label{fig:battery-a3e}] {\includegraphics[width=0.32\textwidth]{figs/battery-consumption-A3E}}	\captionsetup[subfigure]{width=0.32\textwidth}	\subfloat[Execution time per call (ms)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.32\textwidth]{figs/time-per-call-A3E}}
+	\centering
+		\captionsetup[subfigure]{width=0.45\textwidth}	
+	\subfloat[Total execution time (seconds)\label{fig:total-exec-a3e}] {\includegraphics[width=0.45\textwidth]{figs/total-exec-time-A3E}}	\captionsetup[subfigure]{width=0.45\textwidth}
+	\subfloat[Battery consumption (\%)\label{fig:battery-a3e}] {\includegraphics[width=0.45\textwidth]{figs/battery-consumption-A3E}}
+	
+	\centering
+	
+	\captionsetup[subfigure]{width=0.45\textwidth}	\subfloat[Execution time per call (ms)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.45\textwidth]{figs/time-per-call-A3E}}
 	%\captionsetup[subfigure]{width=0.45\textwidth}
 	%\subfloat[Number of Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.45\textwidth]{figs/calls-per-domain-A3E}}	
 	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
