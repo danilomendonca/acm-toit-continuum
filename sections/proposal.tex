@@ -69,7 +69,7 @@ Next, we describe each of the four phases, starting from the most general one, i
 
 \subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase models the last stage of interaction between a client application and a provider. At the begging of this phase, a microservice has been allocated by a domain, which in turn has been \textit{selected} by the client. Throughout this phase, clients engage with the microservice provided by the domain.
+The \textit{engagement} phase models the last stage of interaction between a client application and a provider. At the beginning of this phase, a microservice has been allocated by a domain, which in turn has been \textit{selected} by the client. Throughout this phase, clients engage with the microservice provided by the domain.
 
 Edge and cloud \textit{microservices} are engaged using a request/response protocol (e.g., RESTful microservices over HTTP). To enforce a common interface between clients and heterogeneous microservice providers in the continuum, mobile domains also expose microservices implemented with stateless functions. The FaaS execution model favors this decision, as similar functions~\footnote{Due to its limitations, mobile domains may not be suitable for executing certain functions.} may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by FaaS platforms from different providers (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{OpenWhisk is a well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
 
