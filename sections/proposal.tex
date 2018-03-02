@@ -40,7 +40,7 @@ The application model enforces consistency and allows multiple instances of serv
 
 The proposed model is also aligned with the Function-as-a-Service (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. 
 
-As state is a fundamental aspect of most applications, we argue that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the complexity of potential solutions) that would arise if database were distributed to edge nodes. Moreover, this decision is aligned with the limitations of computational resources of edge nodes, as the deployment of databases to the edge would be unrealistic for large scale applications.
+As state is a fundamental aspect of most applications, we argue that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if database were distributed to edge nodes. Moreover, this decision is aligned with the limitations of computational resources of edge nodes, as the deployment of databases to the edge would be unrealistic for large scale applications.
 
 
 
