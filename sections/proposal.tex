@@ -1,29 +1,49 @@
-\section{The A3-E Model}\label{sec:proposal}
+\section{The Continuum Model}\label{sec:proposal}
 
 \begin{figure}[tbp]
 	\includegraphics[width=1\textwidth]{figs/A3-E-model.pdf}
 	\caption{The A3-E Model.}
-	\label{fig:A3-E-model}
+	\label{fig:Continuum-model}
 \end{figure}
 
-The \textit{A3-E model}, depicted in Figure~\ref{fig:A3-E-model}, defines the actors and mechanisms required to realize the computing continuum. It inherits its name from its four phases -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each phase addresses specific concerns in the interaction between client applications and the service providers in the continuum. The model is flexible with respect to which phases are actually employed and how, to address the intrinsic heterogeneity of the continuum. 
+The \textit{Continuum model}, depicted in Figure~\ref{fig:Continuum-model}, defines the actors and mechanisms involved in the realization of the mobile-edge-cloud continuum. 
 
-A3-E exploits a Serverless Architecture~\cite{baldini2017serverless}, and in particular the Function-as-a-Service (FaaS) execution model~\cite{MateosFaaster17} to guarantee that the heterogeneous service providers in the continuum are efficient, scalable and automatable~\cite{GarrigaMendonca2017,Hendrickson:2016}.
+\subsection{System Model}
 
-Serverless is a cloud computing model in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS execution model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. This approach allows one to write and deploy functions (code) without considering the server runtime environment, resource allocation, load balancing, or scalability; all these aspects are automatically handled by the provider.
+The continuum is composed of computational resources from cloud, edge, and mobile computing devices. Cloud datacenters count with virtually unlimited computational resources needed to cope with the aggregated demand from a wide coverage area. Edge nodes~\footnote{We adopt the more common \textit{node} terminology in detriment of edge datacenters to empathize the fine grained nature of edge computing.}, in contrast, count with limited computational resources covering a narrow area and therefore serving a lower aggregated demand. 
+
+Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. Possible locations include ISP gateways, cellular base stations, and private cloud deployments. The proposed model further distinguishes between mobile- and local-edge after the networking technology used: mobile-edge (a.k.a. Multi-access Edge Computing or MEC~\cite{}) integrates with cellular network infrastructure, whereas local-edge (a.k.a. private cloud~\cite{}) integrates with local area network infrastructure. Later on, this heterogeneity is addressed with variations of the proposed service life-cycle management.
+
+In the continuum, mobile devices play two roles: they are potential clients of continuum services; and they are also providers. The motivation for the inclusion of mobile devices own resources in the model was threefold: i) the substantial increase in computational capacity of modern devices; ii) the compatibility of mobile devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. Figure X illustrates a topology composed of cloud, mobile-/local-edge, and mobile devices.
+
+%Whilst cloud and edge resources are shared among different applications and managed by cloud/edge providers, mobile device resources are exclusively employed by local applications. 
+
+\subsection{Application Model}\label{sec:application_model}
+
+\begin{figure}[tbp]
+	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
+	\caption{The high level architecture of a mobile application exploiting both the computing continuum -- by means of microservices ($\mu$S) provided by mobile, edge, and cloud domains -- and conventional cloud computing -- by means of cloud services (CS).}
+	\label{fig:Continuum-arch}
+\end{figure}
+
+The first major challenge of developing an application that exploits the computing continuum consists in deciding where in the continuum data and the behavior should be deployed. This decision needs to be informed by the profound heterogeneity that exists between the different infrastructures that constitute the continuum.
+
+Persisting data at the edge.. 
+
+Data and behavior that are deployed to the cloud will benefit from high availability, at the cost of introducing higher latency; while data and behavior deployed to an edge-based infrastructure will benefit from a much lower latency, at the cost of having a lower availability as well. Data and the behavior could also be exclusively deployed to the mobile device; however, this could lead to important battery drains (see Section~\ref{sec:evaluation}), not to mention other limitations.
+
+
+
+% [Danilo] I removed the sentence below. We should stress the KPI below as part of our model, otherwise it seams that FaaS by itself solves most of the problem
+%to guarantee that the heterogeneous service providers in the continuum are efficient, scalable and automatable~\cite{GarrigaMendonca2017,Hendrickson:2016}.
+%a Serverless Architecture~\cite{baldini2017serverless}, and in particular 
+A3-E exploits the Function-as-a-Service (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud model in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. This approach allows one to write and deploy functions (code) without considering the server runtime environment, resource allocation, load balancing, or scalability; all these aspects are automatically handled by the provider.
 
 In the A3-E model, a \textit{service} is a set of artifacts (deployed to and accessed from a remote server) that fulfill a given functionality. In particular, service artifacts can refer to: (i) the stateless function(s) exposed to the clients (e.g., a Java compiled class); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g.,  software libraries). Moreover, these services are \textit{microservices}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery.
 
 A3-E microservices are provided by \textit{domain}s. A domain yields a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of A3-E domains are \textit{cloud domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., AWS Lambda\footnote{\url{https://aws.amazon.com/lambda}} in Europe); \textit{edge domains}, representing local-edge (e.g., domestic servers or within an office building) and mobile-edge sites (e.g., servers at cellular base stations~\cite{beck2014mobile}); and \textit{mobile domain} representing a client device's own resources.
 
 A3-E also defines \textit{continuum applications} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is an HTTP request with additional headers specifying requirements for the targeted microservice in the continuum. Two types of requirements are considered: \textit{QoS requirements}, that specify metrics such as maximum latency, minimum availability, etc; and \textit{Location requirements}, that fix the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
-%TODO: who handles the client application request? A client-side middleware. Why its description was removed? The same question for the domain-side middleware. They are not just implementations, but part of the model. [Danilo]
-%The figure has been placed here to avoid multiple diagrams in the same page [Danilo]
-\begin{figure}[tbp]
-	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
-	\caption{The high level architecture of a mobile application exploiting both the computing continuum -- by means of microservices ($\mu$S) provided by mobile, edge, and cloud domains -- and conventional cloud computing -- by means of cloud services (CS).}
-	\label{fig:Continuum-arch}
-\end{figure}
 
 Figure~\ref{fig:Continuum-arch} illustrates the architecture of a \texttt{client application} --deployed to a mobile device-- that exploits both the continuum and conventional cloud infrastructure (IaaS). The client application comprises both \texttt{client-side logic} and \texttt{graphical user interfaces}. While the cloud infrastructure is used for \texttt{server-side logic} and for \texttt{persistence}, the continuum is used for stateless computation, provided by \texttt{stateless functions} that are exposed as \texttt{microservices}.
 
@@ -51,11 +71,14 @@ Furthermore, the client-side AR application captures scenes from the glasses' ca
 
 %The serverless architecture represents the latest step in the recent shift of enterprise application architectures to containers and microservices~\cite{baldini2017serverless}, which also allows the A3-E model to overcome the heterogeneity of the continuum by adhering to service-oriented principles. 
 
-\subsection{Four Phases}
+\section{Services Life-Cycle}\label{sec:A3-E}
+
+%TODO [Danilo] Improve the two paragraphs below
+A3-E inherits its name from its four phases -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each phase addresses specific concerns in the interaction between client applications and the service providers in the continuum. The model is flexible with respect to which phases are actually employed and how, to address the intrinsic heterogeneity of the continuum. 
 
 The four phases in A3-E, depicted in Fig.~\ref{fig:A3-E-process}, support the self-management of microservice life-cycles. For each phase, A3-E models the activities of both the \textit{domain} and of the \textit{client}. 
 %More precisely, Fig.~\ref{fig:A3-E-process} refers to the activities and states (in parenthesis) of a single client-domain interaction.
-Next, we describe each of the four phases, starting from the most general one, i.e., the one that applies to all domains and clients, and moving towards the more specific ones. Keep in mind that in certain domains, one or more phases might not be employed.
+Next, we describe each of the four phases, starting from the most general one, i.e., the one that applies to all domains and clients, and moving towards the more specific ones.
 
 \begin{figure}[tbp]
 	\includegraphics[width=1\textwidth]{figs/A3-E-process}
@@ -67,7 +90,7 @@ Next, we describe each of the four phases, starting from the most general one, i
 
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
-\subsubsection*{Engagement Phase}\label{sec:A3-E-engagement}
+\subsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
 The \textit{engagement} phase models the last stage of interaction between a client application and a provider. At the beginning of this phase, a microservice has been allocated by a domain, which in turn has been \textit{selected} by the client. Throughout this phase, clients engage with the microservice provided by the domain.
 
@@ -97,7 +120,7 @@ Edge and cloud \textit{microservices} are engaged using a request/response proto
 	\caption{Self-management loops for domain-side microservices allocation and client-side microservice selection}\label{fig:allocation-loops}
 \end{figure}
 
-\subsubsection*{Allocation Phase}\label{sec:A3-E-allocation}
+\subsection*{Allocation Phase}\label{sec:A3-E-allocation}
 
 From the domain's perspective, the allocation phase models how the microservices are placed on the domain's resources, i.e., the intra-domain placement of microservices to its pool of servers, virtual machines, and containers. At the begging of this phase, microservice artifacts have been \textit{acquired} by the domain, and the client has been \textit{notified} of this.
 
@@ -135,7 +158,7 @@ If we go back to our running example, in the absence of appropriate edge domains
 
 
 
-\subsubsection*{Acquisition Phase}\label{sec:A3-E-acquisition}
+\subsection*{Acquisition Phase}\label{sec:A3-E-acquisition}
 
 %The Acquisition phase has the following purposes: 1) to enable the efficient (Req. \textbf{R1.2}) and automated (Req. \textbf{R3.2}) download and installation of service artifacts; and 2) to enable clients to identify, among the known domains, those compatible with their requirements (Req. \textbf{R2.1}).
 
@@ -166,7 +189,7 @@ From the client's perspective, the acquisition phase models the simple addition 
 %otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\Delta_A$, become ready for allocation. 
 
 
-\subsubsection*{Awareness Phase}\label{sec:A3-E-awareness}
+\subsection*{Awareness Phase}\label{sec:A3-E-awareness}
 
 %Why do we need awareness?
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate microservices upon detection of the first requests.  
