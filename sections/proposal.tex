@@ -6,15 +6,15 @@
 	\label{fig:Continuum-model}
 \end{figure}
 
-The \textit{Continuum model}, depicted in Figure~\ref{fig:Continuum-model}, defines the actors and mechanisms involved in the realization of the mobile-edge-cloud continuum. 
+The \textit{Continuum model}, depicted in Figure~\ref{fig:Continuum-model}, defines the actors and mechanisms involved in the realization of the mobile-edge-cloud continuum.
 
 \subsection{System Model}
 
-The continuum is composed of computational resources from cloud, edge, and mobile computing devices. Cloud datacenters count with virtually unlimited computational resources needed to cope with the aggregated demand from a wide coverage area. Edge nodes~\footnote{We adopt the more common \textit{node} terminology in detriment of edge datacenters to empathize the fine grained nature of edge computing.}, in contrast, count with limited computational resources covering a narrow area and therefore serving a lower aggregated demand. 
+The continuum is composed of computational resources from cloud, edge, and mobile computing devices. Cloud datacenters count with virtually unlimited computational resources needed to cope with the aggregated demand from a wide coverage area. Edge nodes~\footnote{We adopt the more common \textit{node} terminology in detriment of edge datacenters to empathize the fine grained nature of edge computing.}, in contrast, count with limited computational resources, but cover a much narrower area with lower aggregated demand. 
 
-Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. Possible locations include ISP gateways, cellular base stations, and private cloud deployments. The proposed model further distinguishes between mobile- and local-edge after the networking technology used: mobile-edge (a.k.a. Multi-access Edge Computing or MEC~\cite{}) integrates with cellular network infrastructure, whereas local-edge (a.k.a. private cloud~\cite{}) integrates with local area network infrastructure. Later on, this heterogeneity is addressed with variations of the proposed service life-cycle management.
+Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. The proposed model further distinguishes between mobile- and local-edge after the networking technology used: mobile-edge (also known as Multi-access Edge Computing or MEC~\cite{}) integrates with cellular network infrastructure, whereas local-edge integrates with local area network infrastructure. Later on, this heterogeneity is addressed with variations of the proposed service life-cycle management.
 
-In the continuum, mobile devices play two roles: they are potential clients of continuum services; and they are also providers. The motivation for the inclusion of mobile devices own resources in the model was threefold: i) the substantial increase in computational capacity of modern devices; ii) the compatibility of mobile devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. Figure X illustrates a topology composed of cloud, mobile-/local-edge, and mobile devices.
+In the continuum, mobile devices play two roles: they are potential clients of continuum services; and they are also providers. The motivation for the inclusion of mobile devices own resources in the model was threefold: i) the substantial increase in computational capacity of modern devices; ii) the compatibility of mobile devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); and iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. Figure X illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile devices.
 
 %Whilst cloud and edge resources are shared among different applications and managed by cloud/edge providers, mobile device resources are exclusively employed by local applications. 
 
@@ -26,18 +26,36 @@ In the continuum, mobile devices play two roles: they are potential clients of c
 	\label{fig:Continuum-arch}
 \end{figure}
 
-The first major challenge of developing an application that exploits the computing continuum consists in deciding where in the continuum data and the behavior should be deployed. This decision needs to be informed by the profound heterogeneity that exists between the different infrastructures that constitute the continuum.
+%TODO [Danilo] attempt to merge some content from Sec. 2 here. 
+%The first major challenge of developing an application that exploits the computing continuum consists in deciding where in the continuum data and behavior should be deployed. This decision needs to be informed by the profound heterogeneity that exists between the different infrastructures that constitute the continuum.
 
-Persisting data at the edge.. 
+%Data and behavior that are deployed to the cloud will benefit from high availability, at the cost of introducing higher latency; while data and behavior deployed to an edge-based infrastructure will benefit from a much lower latency, at the cost of having a lower availability as well. Data and the behavior could also be exclusively deployed to the mobile device; however, this could lead to important battery drains (see Section~\ref{sec:evaluation}), not to mention other limitations.
+%End
 
-Data and behavior that are deployed to the cloud will benefit from high availability, at the cost of introducing higher latency; while data and behavior deployed to an edge-based infrastructure will benefit from a much lower latency, at the cost of having a lower availability as well. Data and the behavior could also be exclusively deployed to the mobile device; however, this could lead to important battery drains (see Section~\ref{sec:evaluation}), not to mention other limitations.
+We propose an application model in which stateless components and immutable data composing continuum services are dynamically placed to mobile, edge, and cloud,
+whilst 
+stateful components are deployed to cloud datacenters or the client device itself after application specific design decisions.
+
+The application model enforces consistency and allows multiple instances of services to coexist in different parts of the continuum. Also, instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
+
+The proposed model is also aligned with the Function-as-a-Service (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. 
+
+As state is a fundamental aspect of most applications, we argue that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if database were distributed to edge nodes. Moreover, this decision is aligned with the limitations of computational resources of edge nodes, as the deployment of databases to the edge would be unrealistic for large scale applications.
+
+
+
+%This approach allows one to write and deploy functions (code) without considering the server runtime environment, resource allocation, load balancing, or scalability; all these aspects are automatically handled by the provider.
 
 
 
 % [Danilo] I removed the sentence below. We should stress the KPI below as part of our model, otherwise it seams that FaaS by itself solves most of the problem
 %to guarantee that the heterogeneous service providers in the continuum are efficient, scalable and automatable~\cite{GarrigaMendonca2017,Hendrickson:2016}.
 %a Serverless Architecture~\cite{baldini2017serverless}, and in particular 
-A3-E exploits the Function-as-a-Service (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud model in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. This approach allows one to write and deploy functions (code) without considering the server runtime environment, resource allocation, load balancing, or scalability; all these aspects are automatically handled by the provider.
+
+
+
+
+
 
 In the A3-E model, a \textit{service} is a set of artifacts (deployed to and accessed from a remote server) that fulfill a given functionality. In particular, service artifacts can refer to: (i) the stateless function(s) exposed to the clients (e.g., a Java compiled class); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g.,  software libraries). Moreover, these services are \textit{microservices}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery.
 
