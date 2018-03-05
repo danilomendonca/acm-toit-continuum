@@ -62,7 +62,7 @@ Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a conti
 
 The proposed model enforces consistency and allows multiple instances of continuum services to coexist in different parts of the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
 
-The proposed model is also aligned with the Function-as-a-Service (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. 
+%... is aligned with the Function-as-a-Service (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. 
 
 Last but not least, as state is a fundamental aspect of many applications, we argue that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if database were deployed to finely distributed edge nodes. Moreover, this decision is aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
 
@@ -104,18 +104,22 @@ The mobile game application, in turn, consists of client-side logic and user int
 
 \section{A3-E}\label{sec:A3-E}
 
+%First and foremost, A3-E's main objective is to enable the efficient and scalable placement of microservices along the continuum. In A3-E, clients and providers autonomously interact and decide for the placement of services according to the context. Moreover,  
 
+To address the management of continuum services life-cycle, we propose A3-E, a model supporting the self-management of continuum microservice life-cycles. A3-E inherits its name from its four phases -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. 
 
-%TODO [Danilo] Improve the two paragraphs below
-A3-E inherits its name from its four phases -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each phase addresses specific concerns in the interaction between client applications and the service providers in the continuum. The model is flexible with respect to which phases are actually employed and how, to address the intrinsic heterogeneity of the continuum. 
+A3-E' targets the efficient and scalable placement of microservices along the continuum. For this, clients and providers take part in the automated and dynamic decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in different contexts.
 
-The four phases in A3-E, depicted in Fig.~\ref{fig:A3-E-process}, support the self-management of microservice life-cycles. For each phase, A3-E models the activities of both the \textit{domain} and of the \textit{client}. 
+Each phase in A3-E addresses specific concerns in the interaction between client applications and service providers. To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which phases are actually employed and how. 
+
+The four phases in A3-E are illustrated in Fig.~\ref{fig:A3-E-process}. For each phase, the main activities of a \textit{domain} and a \textit{client} are depicted, along with their mutual relative state at the moment the phase starts: for a domain, a service state ranges from \textit{Free} to \textit{Allocated}, whilst a domain state ranges from \textit{Away} to \textit{Selected} for a client.
 %More precisely, Fig.~\ref{fig:A3-E-process} refers to the activities and states (in parenthesis) of a single client-domain interaction.
-Next, we describe each of the four phases, starting from the most general one, i.e., the one that applies to all domains and clients, and moving towards the more specific ones.
+
+Next, we describe each of the four phases, starting from the most general one, i.e., the one that applies to all types of client-domain interaction, and moving towards the more specific ones.
 
 \begin{figure}[tbp]
 	\includegraphics[width=1\textwidth]{figs/A3-E-process}
-	\caption{The A3-E Process. Phases are delimited by vertical lines. The main activity of each phase is identified by the label within the phase; labels within parenthesis represent the states of a domain with respect to a client (and vice-versa).}
+	\caption{The A3-E Process. Phases are delimited by vertical lines. The main activity of each phase is identified by a bold label; labels within parenthesis represent the states of a domain with respect to a client (and vice-versa).}
 	\label{fig:A3-E-process}
 \end{figure}
 
@@ -125,7 +129,7 @@ Next, we describe each of the four phases, starting from the most general one, i
 
 \subsection*{Engagement Phase}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase models the last stage of interaction between a client application and a provider. At the beginning of this phase, a microservice has been allocated by a domain, which in turn has been \textit{selected} by the client. Throughout this phase, clients engage with the microservice provided by the domain.
+The \textit{engagement} phase models the last stage of interaction between a client application and a provider. At the beginning of this phase, a microservice has been \textit{allocated} by a domain, which in turn has been \textit{selected} by the client. Throughout this phase, clients engage with the microservice provided by the domain.
 
 Edge and cloud \textit{microservices} are engaged using a request/response protocol (e.g., RESTful microservices over HTTP). To enforce a common interface between clients and heterogeneous microservice providers in the continuum, mobile domains also expose microservices implemented with stateless functions. The FaaS execution model favors this decision, as similar functions~\footnote{Due to its limitations, mobile domains may not be suitable for executing certain functions.} may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by FaaS platforms from different providers (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{OpenWhisk is a well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
 
