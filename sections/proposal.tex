@@ -2,19 +2,27 @@
 
 \begin{figure}[tbp]
 	\includegraphics[width=1\textwidth]{figs/A3-E-model.pdf}
-	\caption{The A3-E Model.}
+	\caption{The Continuum Model.}
 	\label{fig:Continuum-model}
 \end{figure}
 
-The \textit{Continuum model}, depicted in Figure~\ref{fig:Continuum-model}, defines the actors and mechanisms involved in the realization of the mobile-edge-cloud continuum.
+%The \textit{Continuum model}, depicted in Figure~\ref{fig:Continuum-model}, defines the actors and mechanisms involved in the realization of the mobile-edge-cloud continuum.
 
-\subsection{System Model}
+\subsection{Physical Model}
+
+%Although the continuum can hypothetically support any number of heterogeneous infrastructures, this paper focuses on three domains. The \texttt{mobile domain} is deployed to the client's mobile device, and provides local stateless computation (while enabling device-to-device collaboration through distributed mobile domains --i.e., by allowing a client to call a microservice deployed on another mobile device-- is surely interesting, for now we consider it part of our future work). The \texttt{edge domains} refer to edge-based infrastructure that can be deployed to a local server (local-edge domain) or to cellular stations (mobile-edge domain). Finally, the \texttt{cloud domain} refers to a cloud-based solution such to AWS Lambda.
 
 The continuum is composed of computational resources from cloud, edge, and mobile computing devices. Cloud datacenters count with virtually unlimited computational resources needed to cope with the aggregated demand from a wide coverage area. Edge nodes~\footnote{We adopt the more common \textit{node} terminology in detriment of edge datacenters to empathize the fine grained nature of edge computing.}, in contrast, count with limited computational resources, but cover a much narrower area with lower aggregated demand. 
 
 Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. The proposed model further distinguishes between mobile- and local-edge after the networking technology used: mobile-edge (also known as Multi-access Edge Computing or MEC~\cite{}) integrates with cellular network infrastructure, whereas local-edge integrates with local area network infrastructure. Later on, this heterogeneity is addressed with variations of the proposed service life-cycle management.
 
-In the continuum, mobile devices play two roles: they are potential clients of continuum services; and they are also providers. The motivation for the inclusion of mobile devices own resources in the model was threefold: i) the substantial increase in computational capacity of modern devices; ii) the compatibility of mobile devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); and iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. Figure X illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile devices.
+In the continuum, mobile devices play two roles: they are potential clients of continuum services; and they are also providers. The motivation for the inclusion of mobile devices own resources in the model is threefold: i) the substantial increase in computational capacity of modern devices; ii) the compatibility of mobile devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); and iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. Figure X illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile devices. 
+
+%TODO
+%Due to mobility, client requests may originate from different geographic locations.
+
+%A domain yields a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of A3-E domains are \textit{cloud domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., AWS Lambda\footnote{\url{https://aws.amazon.com/lambda}} in Europe); \textit{edge domains}, representing local-edge (e.g., domestic servers or within an office building) and mobile-edge sites (e.g., servers at cellular base stations~\cite{beck2014mobile}); and \textit{mobile domain} representing a client device's own resources.
+
 
 %Whilst cloud and edge resources are shared among different applications and managed by cloud/edge providers, mobile device resources are exclusively employed by local applications. 
 
@@ -40,38 +48,28 @@ The application model enforces consistency and allows multiple instances of serv
 
 The proposed model is also aligned with the Function-as-a-Service (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. 
 
-As state is a fundamental aspect of most applications, we argue that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if database were distributed to edge nodes. Moreover, this decision is aligned with the limitations of computational resources of edge nodes, as the deployment of databases to the edge would be unrealistic for large scale applications.
+Continuum services consist of a set of artifacts that fulfill a given functionality. In particular, these artifacts can refer to: (i) the stateless function(s) exposed to the clients (e.g., a Java compiled class); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g.,  software libraries). Moreover, these services are \textit{microservices}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery. Accordingly, hereinafter we refer to continuum microservices.
 
+Continuum microservices are portable, unless they require capabilities that can not be met by specific domains (e.g., lack of computational resources). Like cloud and edge domains, mobile domains also expose functionality by means of a well-known interface (e.g., an observer). For the sake of simplicity, the term microservice is also employed within mobile domains.
 
+As state is a fundamental aspect of many applications, we argue that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if database were deployed to finely distributed edge nodes. Moreover, this decision is aligned with the limitations in computational resources of edge nodes. Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
+
+%The temporal optimization proposed in Section~\ref{sec:A3-E} is based on the premise that services can be allocated on demand in a timely fashion.
 
 %This approach allows one to write and deploy functions (code) without considering the server runtime environment, resource allocation, load balancing, or scalability; all these aspects are automatically handled by the provider.
-
-
 
 % [Danilo] I removed the sentence below. We should stress the KPI below as part of our model, otherwise it seams that FaaS by itself solves most of the problem
 %to guarantee that the heterogeneous service providers in the continuum are efficient, scalable and automatable~\cite{GarrigaMendonca2017,Hendrickson:2016}.
 %a Serverless Architecture~\cite{baldini2017serverless}, and in particular 
 
+Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a \texttt{continuum application} that exploits both the continuum and conventional cloud infrastructure (IaaS). The client application comprises both \texttt{client-side logic} and \texttt{graphical user interfaces}. While the cloud infrastructure is used for \texttt{server-side logic} and for \texttt{persistence}, the continuum is used for stateless computation, provided by \texttt{stateless functions} that are exposed as \texttt{microservices}. 
 
 
+%A3-E also defines \textit{clients} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is an HTTP request with additional headers specifying requirements for the targeted microservice in the continuum. Two types of requirements are considered: \textit{QoS requirements}, that specify metrics such as maximum latency, minimum availability, etc; and \textit{Location requirements}, that fix the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
 
+Considering our running example, the AR application consists of a client-side logic responsible for capturing scenes from the glasses' camera and microservices in the continuum that extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on an image processing library and a neural network trained model. Client-side logic is then responsible for updating the 3D virtual object state and rendering it into the scene displayed by the glasses.
 
-
-In the A3-E model, a \textit{service} is a set of artifacts (deployed to and accessed from a remote server) that fulfill a given functionality. In particular, service artifacts can refer to: (i) the stateless function(s) exposed to the clients (e.g., a Java compiled class); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g.,  software libraries). Moreover, these services are \textit{microservices}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery.
-
-A3-E microservices are provided by \textit{domain}s. A domain yields a common abstraction for the constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). Examples of A3-E domains are \textit{cloud domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., AWS Lambda\footnote{\url{https://aws.amazon.com/lambda}} in Europe); \textit{edge domains}, representing local-edge (e.g., domestic servers or within an office building) and mobile-edge sites (e.g., servers at cellular base stations~\cite{beck2014mobile}); and \textit{mobile domain} representing a client device's own resources.
-
-A3-E also defines \textit{continuum applications} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is an HTTP request with additional headers specifying requirements for the targeted microservice in the continuum. Two types of requirements are considered: \textit{QoS requirements}, that specify metrics such as maximum latency, minimum availability, etc; and \textit{Location requirements}, that fix the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
-
-Figure~\ref{fig:Continuum-arch} illustrates the architecture of a \texttt{client application} --deployed to a mobile device-- that exploits both the continuum and conventional cloud infrastructure (IaaS). The client application comprises both \texttt{client-side logic} and \texttt{graphical user interfaces}. While the cloud infrastructure is used for \texttt{server-side logic} and for \texttt{persistence}, the continuum is used for stateless computation, provided by \texttt{stateless functions} that are exposed as \texttt{microservices}.
-
-Given the heterogeneity of the continuum, distinct domains may rely on different technologies to expose offered functionalities (e.g., through RESTful endpoints or WebSockets). Particularly, a mobile domain also exposes its functionality by means of an interface (e.g., an event listener). For the sake of simplicity, the term microservice is also employed within mobile domains.
-
-Although the continuum can hypothetically support any number of heterogeneous infrastructures, Figure~\ref{fig:Continuum-arch} focuses on three domains. The \texttt{mobile domain} is deployed to the client's mobile device, and provides local stateless computation (while enabling device-to-device collaboration through distributed mobile domains --i.e., by allowing a client to call a microservice deployed on another mobile device-- is surely interesting, for now we consider it part of our future work). The \texttt{edge domains} refer to edge-based infrastructure that can be deployed to a local server (local-edge domain) or to cellular stations (mobile-edge domain). Finally, the \texttt{cloud domain} refers to a cloud-based solution such to AWS Lambda.
-
-Considering our running example, the client-side mobile game application consists of controllers and user interfaces. The continuum provides the functionality for processing and updating the game state, which must be passed as a parameter to a microservice in the continuum, in conjunction with game events (e.g., user inputs). Finally, it includes cloud services providing stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
-
-Furthermore, the client-side AR application captures scenes from the glasses' camera and uses the microservices in the continuum to extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on a neural network trained model and an image processing library. Client-side logic is then responsible for updating the 3D virtual object state and rendering it into the scene displayed by the glasses. In this application, conventional cloud services are not required.
+The mobile game application, in turn, consists of client-side logic and user interfaces (e.g., controllers and views of an MVC model~\footnote{Model-View-Controller}). The continuum provides the logic for processing and updating the game state, which must be passed as a parameter to a microservice in the continuum, in conjunction with game events (e.g., user inputs). Finally, cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
 
 
 %\subsection*{Functions-as-a-Service (FaaS)}
@@ -89,7 +87,7 @@ Furthermore, the client-side AR application captures scenes from the glasses' ca
 
 %The serverless architecture represents the latest step in the recent shift of enterprise application architectures to containers and microservices~\cite{baldini2017serverless}, which also allows the A3-E model to overcome the heterogeneity of the continuum by adhering to service-oriented principles. 
 
-\section{Services Life-Cycle}\label{sec:A3-E}
+\section{A3-E}\label{sec:A3-E}
 
 %TODO [Danilo] Improve the two paragraphs below
 A3-E inherits its name from its four phases -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. Each phase addresses specific concerns in the interaction between client applications and the service providers in the continuum. The model is flexible with respect to which phases are actually employed and how, to address the intrinsic heterogeneity of the continuum. 
@@ -113,6 +111,8 @@ Next, we describe each of the four phases, starting from the most general one, i
 The \textit{engagement} phase models the last stage of interaction between a client application and a provider. At the beginning of this phase, a microservice has been allocated by a domain, which in turn has been \textit{selected} by the client. Throughout this phase, clients engage with the microservice provided by the domain.
 
 Edge and cloud \textit{microservices} are engaged using a request/response protocol (e.g., RESTful microservices over HTTP). To enforce a common interface between clients and heterogeneous microservice providers in the continuum, mobile domains also expose microservices implemented with stateless functions. The FaaS execution model favors this decision, as similar functions~\footnote{Due to its limitations, mobile domains may not be suitable for executing certain functions.} may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by FaaS platforms from different providers (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{OpenWhisk is a well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
+
+%Given the heterogeneity of the continuum, distinct domains may rely on different technologies to expose offered functionalities (e.g., through RESTful endpoints or WebSockets). 
 
 
 %In this phase the request has already been provisioned by one or more domains and the client-side middleware (CSM) has already selected a specific domain to make the request. 
