@@ -8,6 +8,11 @@
 
 %The \textit{Continuum model}, depicted in Figure~\ref{fig:Continuum-model}, defines the actors and mechanisms involved in the realization of the mobile-edge-cloud continuum.
 
+%Domain formalization
+%Application Requirements
+%Service SLA
+%Service Life-cycle
+
 \subsection{Physical Model}
 
 %Although the continuum can hypothetically support any number of heterogeneous infrastructures, this paper focuses on three domains. The \texttt{mobile domain} is deployed to the client's mobile device, and provides local stateless computation (while enabling device-to-device collaboration through distributed mobile domains --i.e., by allowing a client to call a microservice deployed on another mobile device-- is surely interesting, for now we consider it part of our future work). The \texttt{edge domains} refer to edge-based infrastructure that can be deployed to a local server (local-edge domain) or to cellular stations (mobile-edge domain). Finally, the \texttt{cloud domain} refers to a cloud-based solution such to AWS Lambda.
@@ -22,14 +27,12 @@ In the continuum, mobile devices play two roles: they are clients of continuum s
 
 Figure X illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile \textit{domains}. A domain yields a common abstraction for the heterogeneous computational resources (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructure resources (e.g., access points, radio access networks, etc.) composing the continuum.
  
+
 %constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). 
 
 %Examples of A3-E domains are \textit{cloud domains}, i.e., cloud-based FaaS platforms covering a specific geographical region (e.g., AWS Lambda\footnote{\url{https://aws.amazon.com/lambda}} in Europe); \textit{edge domains}, representing local-edge (e.g., domestic servers or within an office building) and mobile-edge sites (e.g., servers at cellular base stations~\cite{beck2014mobile}); and \textit{mobile domain} representing a client device's own resources.
 
 %TODO
-%Due to mobility, client requests may originate from different geographic locations.
-
-
 
 
 %Whilst cloud and edge resources are shared among different applications and managed by cloud/edge providers, mobile device resources are exclusively employed by local applications. 
@@ -64,6 +67,7 @@ The proposed model enforces consistency and allows multiple instances of continu
 
 Last but not least, as state is a fundamental aspect of many applications, we argue that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if database were deployed to finely distributed edge nodes. Moreover, this decision is aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
 
+%Client requests may originate from different geographic locations. Edge nodes may or not be available at that specific area. The demand for different services originated at each location is dynamic due to the variations in application usage and due to the mobility of clients. 
 
 %The temporal optimization proposed in Section~\ref{sec:A3-E} is based on the premise that services can be allocated on demand in a timely fashion.
 
@@ -73,11 +77,27 @@ Last but not least, as state is a fundamental aspect of many applications, we ar
 %to guarantee that the heterogeneous service providers in the continuum are efficient, scalable and automatable~\cite{GarrigaMendonca2017,Hendrickson:2016}.
 %a Serverless Architecture~\cite{baldini2017serverless}, and in particular 
 
+\subsection{Service Life-cycle}
+
+Service requests may originate from different geographic locations. The demand for services originated at each location is dynamic due to variations in application usage and the mobility of clients. With the aim of optimizing the usage of computational resources, continuum services should be instantiated when and where needed, i.e., just-in-time and to the domains best satisfying latency and other application requirements.   
+
+The proposed optimization is aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. 
+
+%TODO cloud?
+
+The particular characteristics of edge domains impose additional challenges and opportunities. In one hand, computational resources limitations should be addressed with the mechanisms that prioritize applications with higher sensitivity to delay. In the other hand, the client-domain awareness should be exploited by mechanisms that mitigates service setup-delay and allows further resource optimization.
+
+%TODO mobile?
+
+%The FaaS execution model also favors portability among domains, as similar functions~\footnote{Due to its limitations, mobile domains may not be suitable for executing certain functions.} may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by dynamically created runtimes provided by cloud- and edge-based~\cite{GarrigaMendonca2017} FaaS platforms (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{OpenWhisk is a well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
 
 
 
 %A3-E also defines \textit{clients} as the software components responsible for sending \textit{C-requests} to the continuum. A C-request is an HTTP request with additional headers specifying requirements for the targeted microservice in the continuum. Two types of requirements are considered: \textit{QoS requirements}, that specify metrics such as maximum latency, minimum availability, etc; and \textit{Location requirements}, that fix the types of domain that may be used (e.g., mobile or edge, mobile only, cloud, etc). 
 
+
+
+%TODO [Danilo] I think the running example would be better placed here, after the model has been presented. Then we can describe each application using the concepts in the model and point to the challenges in the managing the life-cycle of continuum services
 Considering our running example, the office AR application consists of a client-side logic responsible for capturing scenes from the glasses' camera and microservices in the continuum that extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on an image processing library and a neural network trained model. Client-side logic is then responsible for updating the 3D virtual object state and rendering it into the scene displayed by the glasses.
 
 The mobile game application, in turn, consists of client-side logic and user interfaces (e.g., controllers and views of an MVC model~\footnote{Model-View-Controller}). The continuum provides the logic for processing and updating the game state, which must be passed as a parameter to a microservice in the continuum, in conjunction with game events (e.g., user inputs). Finally, cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
@@ -106,11 +126,7 @@ To address the management of continuum services life-cycle, we propose A3-E, a m
 
 A3-E' targets the efficient and scalable placement of microservices along the continuum. For this, clients and providers take part in the automated and dynamic decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in different contexts.
 
-Each phase in A3-E addresses specific concerns in the interaction between client applications and service providers. At the end of the process, an instance of the service required by the client shall be available at the selected domain and ready for been engaged with requests. 
-
-A3-E is aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. 
-
-The FaaS execution model also favors portability among domains, as similar functions~\footnote{Due to its limitations, mobile domains may not be suitable for executing certain functions.} may be executed by a mobile domain's runtime (e.g., a Java runtime in an Android platform) or by dynamically created and runtime instances from edge/cloud FaaS platforms (e.g., a Java runtime provided by Apache OpenWhisk~\footnote{OpenWhisk is a well known open source serverless platform -- \url{http://openwhisk.incubator.apache.org/}} or AWS Lambda).
+Each phase in A3-E addresses specific concerns in the interaction between client applications and service providers. At the end of the process, an instance of the service required by the client shall be available at the selected domain and ready for been engaged with client requests. 
 
 The four A3-E phases are illustrated in Fig.~\ref{fig:A3-E-process}. For each phase, the main activities of a \textit{domain} and a \textit{client} are depicted along with their mutual relative state at the moment the phase starts: for a domain, a service state ranges from \textit{Free} to \textit{Allocated}, whilst a domain state ranges from \textit{Away} to \textit{Selected} for a client. To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which phases are actually employed and how. 
 %More precisely, Fig.~\ref{fig:A3-E-process} refers to the activities and states (in parenthesis) of a single client-domain interaction.
