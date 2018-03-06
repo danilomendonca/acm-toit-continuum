@@ -19,7 +19,7 @@
 
 %REVISED CONTINUUM
 
-\section{The Continuum Model}\label{sec:proposal}
+\section{The Continuum Model}\label{sec:continuum}
 
 \begin{figure}[tbp]
 	\includegraphics[width=1\textwidth]{figs/A3-E-model.pdf}
@@ -80,7 +80,7 @@ Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a conti
 
 The proposed model enforces consistency and allows multiple instances of continuum services to coexist in different parts of the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
 
-Last but not least, as state is a fundamental aspect of many applications, we argue that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. Moreover, this decision is aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
+As state is a fundamental aspect of many applications, we argue that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. Moreover, this decision is aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
 
 %Client requests may originate from different geographic locations. Edge nodes may or not be available at that specific area. The demand for different services originated at each location is dynamic due to the variations in application usage and due to the mobility of clients. 
 
@@ -92,11 +92,24 @@ Last but not least, as state is a fundamental aspect of many applications, we ar
 %to guarantee that the heterogeneous service providers in the continuum are efficient, scalable and automatable~\cite{GarrigaMendonca2017,Hendrickson:2016}.
 %a Serverless Architecture~\cite{baldini2017serverless}, and in particular 
 
-\subsection{Service Life-cycle}
+\subsection{Life-cycle Management}
 
-Service requests may originate from different geographic locations. The demand for services originated at each location is dynamic due to variations in application usage and the mobility of clients. With the aim of optimizing the usage of computational resources, continuum services should be instantiated when and where needed, i.e., just-in-time and to the domains best satisfying latency and other application requirements.   
+Service requests may originate from different parts of the network. The demand for services coming from each location is dynamic due to variations in application usage and the mobility of clients. 
 
-The proposed optimization is aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. 
+With the aim of optimizing the usage of computational resources, continuum microservices should be instantiated on demand. 
+
+%and where needed, i.e., just-in-time and by the domains best satisfying latency and other application requirements. %TODO domain's cost?    
+
+This is aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. 
+
+
+
+Two types of requirements are considered: location and QoS. The first allows the client to fix the type of domain that should serve a request. The latter specifies the QoS levels to be achieved by eligible domains.
+
+The total service latency can be refined by three components: the \textit{network delay} between the client device and the physical node hosting the service execution; the \textit{setup delay} (or \textit{cold start}), which comprises the elapsed time for a service instance to be up and running at a given node; and finally the \textit{computation delay}. 
+
+Network delay should be minimized with the placement of service instances to the nearest edge-domain~\footnote{the precise latency of surrounding domains must be monitored} or nullified if the mobile-domain can afford the resources. Whenever possible, setup delay should be minimized with the anticipation of requests. 
+
 
 %TODO cloud?
 
