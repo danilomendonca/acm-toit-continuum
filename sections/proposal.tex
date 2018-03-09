@@ -2,16 +2,18 @@
 
 %First and foremost, A3-E's main objective is to enable the efficient and scalable placement of microservices along the continuum. In A3-E, clients and providers autonomously interact and decide for the placement of services according to the context. Moreover,  
 
-To address the management of continuum services life-cycle, we propose A3-E, a model supporting the self-management of continuum microservice life-cycles. A3-E inherits its name from its four phases -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. 
+To address the management of continuum services life-cycle, we propose A3-E, a model supporting the self-management of continuum microservice life-cycles. A3-E inherits its name from its four main activities -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. 
 
-A3-E' targets the efficient and scalable placement of microservices along the continuum. For this, clients and providers take part in the automated and dynamic decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in different contexts.
+A3-E targets the efficient and scalable placement of microservices along the continuum. For this, clients and providers take part in the automated and dynamic decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in different contexts.
 
-Each phase in A3-E addresses specific concerns in the interaction between client applications and service providers. At the end of the process, an instance of the service required by the client shall be available at the selected domain and ready for been engaged with client requests. 
+Each phase in A3-E addresses specific concerns in the interaction between client applications and service providers. As an outcome, an instance of the service required by the client shall be available at the selected domain and ready for been engaged by requests.
 
-The four A3-E phases are illustrated in Fig.~\ref{fig:A3-E-process}. For each phase, the main activities of a \textit{domain} and a \textit{client} are depicted along with their mutual relative state at the moment the phase starts: for a domain, a service state ranges from \textit{Free} to \textit{Allocated}, whilst a domain state ranges from \textit{Away} to \textit{Selected} for a client. To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which phases are actually employed and how. 
+A3-E activities are illustrated in Fig.~\ref{fig:A3-E-process}. Each activity is further refined by specific activities carried out by the \textit{domain manager} and by the \textit{mobile middleware}. Activities from both sides are not bound in time, but interact through system events. To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which activities are employed. 
+
+%For each phase, the main activities of a \textit{domain} and a \textit{client} are depicted along with their mutual relative state at the moment the phase starts: for a domain, a service state ranges from \textit{Free} to \textit{Allocated}, whilst a domain state ranges from \textit{Away} to \textit{Selected} for a client. 
 %More precisely, Fig.~\ref{fig:A3-E-process} refers to the activities and states (in parenthesis) of a single client-domain interaction.
 
-Next, we describe each phase in A3-E, starting from the most general one, i.e., the one that applies to all types of client-domain interaction, and moving towards the more specific ones.
+Next, we describe each main activity in A3-E, starting from the most general one, i.e., the one that applies to all types of client-domain interaction, and moving towards the more specific ones.
 
 \begin{figure}[tbp]
 	\includegraphics[width=1\textwidth]{figs/A3-E-process}
@@ -23,16 +25,47 @@ Next, we describe each phase in A3-E, starting from the most general one, i.e., 
 
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
-\subsection{Engagement Phase}\label{sec:A3-E-engagement}
+\subsection{Engagement}\label{sec:A3-E-engagement}
 
-The \textit{engagement} phase models the last stage of interaction between a client application and a continuum domain. In specific, it models the actual provisioning of a continuum microservice after its successful placement: at the beginning of this phase, the continuum microservice has been \textit{allocated} by a domain, which in turn has been previously \textit{selected} by the client. 
+A3-E's \textit{Engagement} models the actual provisioning of a continuum microservice after its successful allocation.
+%: at the beginning of this phase, the continuum microservice has been \textit{allocated} by a domain, which in turn has been previously \textit{selected} by the client. 
+Throughout this activity and as long as the client-domain relation persists, the client is able to engage with that domain by means of invocations to the provided microservice. 
 
-Throughout this phase and as long as the client-domain relation persists, the client is able to engage with that domain by means of invocations to the provided microservice. Remote domains (i.e., cloud and edge) are engaged using a distributed protocol (e.g., through HTTP or WebSockets). To enforce the decoupling between clients and heterogeneous service providers, mobile domains expose (local) microservices by means of application-level interfaces.
+Remote domains (i.e., cloud and edge) are engaged using a distributed protocol (e.g., through HTTP requests or WebSockets). To enforce a common interface between the client middleware and heterogeneous domains, the mobile domain should also expose its functionality as local services decoupled from the client application.
 
-Two types of event dictate the end of an engagement: i) the client makes no further requests after a time interval; ii) the client selects another domain; and iii) the domain manager requires the deallocation of the service instance. 
+During Engagement, the domain manager deals with the following events:
 
-In all three cases, resources become available in the domain. In the latter case, the client is forced to select another domain.
+\begin{itemize}
+	
+\item \textbf{Microservice deallocated:} indicates the unavailability of a given microservice. The manager must react by queuing subsequent requests for that service.
+	
+\item \textbf{Microservice allocated:} indicates the availability of a given microservice. The manager must react by resuming the processing of pending and subsequent requests.
 
+\item \textbf{Request arrived} indicates respectively the arrival of a request for a specific microservice. The manger must handle the event by placing the request to a service instance. %TODO [Danilo] is it?
+
+\end{itemize}
+
+In turn, the mobile middleware deals with the following events:
+
+\begin{itemize}
+	\item \textbf{C-Request arrived:} indicates the client application has sent a new request to the continuum. The event contains the target microservice reference along with any parameters. The middleware must handle it by invoking the microservice from the currently selected domain.
+	
+	\item \textbf{Response arrived:} indicates the arrival of a response from a domain for an invoked service. The middleware must handle it by triggering a system level \textit{C-Request served} event.
+	
+	\item \textbf{C-Request served:} indicates a given C-request has been processed. It contains the original microservice reference along with any return value(s). The client application is responsible for handling the event.
+	
+	\item \textbf{Domain lost:} indicates no domain is currently available for that specific service. The middleware must react by queuing subsequent C-requests and, in case of latency violation, triggering a \textit{C-request failed} event.
+	
+	\item \textbf{Domain found:} indicates a domain has been found for a specific microservice. The middleware must handle it by resuming the forwarding of any queued and subsequent C-requests.
+	
+\end{itemize}
+
+%TODO [Danilo] requirements must be passed by the application before, otherwise the domain selection would need to happen after the request has been fired
+%It also contains continuum requirements that must be taken into account by the middleware in the decision of which 
+
+%Two types of event dictate the end of an engagement: i) the client makes no further requests after a time interval; ii) the client selects another domain; and iii) the domain manager requires the deallocation of the service instance. 
+
+%In all three cases, resources become available in the domain. In the latter case, the client is forced to select another domain.
 
 
 %In this phase the request has already been provisioned by one or more domains and the client-side middleware (CSM) has already selected a specific domain to make the request. 
@@ -45,6 +78,9 @@ In all three cases, resources become available in the domain. In the latter case
 %Current FaaS providers allow functions to be exposed as REST services. The same applies to open source platforms implementing the FaaS model. Finally, different approaches may be used to expose local computation as services in mobile platforms like Android and iOS.
 
 %As an exception, computation provided by mobile devices can be accessed by means of local calls to functions executed by the mobile platform.
+
+\subsection{Allocation}\label{sec:A3-E-allocation}
+
 \begin{figure}[thbp]
 	\centering
 	\captionsetup[subfigure]{width=0.4\textwidth}	
@@ -54,21 +90,22 @@ In all three cases, resources become available in the domain. In the latter case
 	\hfill
 	\subfloat[Domain selection control loop; clients monitor microservices from available domains and select the one that best satisfies its requirements.\label{fig:domain-selection-loop}] {\includegraphics[width=0.4\textwidth]{figs/domain-selection-loop}}
 	\hfill\null
-	\caption{Self-management loops for domain-side microservices allocation and client-side microservice selection}\label{fig:allocation-loops}
+	\caption{Self-management loops for domain-side microservices allocation and client-side domain selection}\label{fig:allocation-loops}
 \end{figure}
 
-\subsection{Allocation Phase}\label{sec:A3-E-allocation}
+The \textit{Allocation} models the placement of functions and dependencies on the domain's resources, i.e., on its pool of servers, virtual machines, and containers. It also captures the client-side selection of the provider domain for each microservice employed by the application.
 
-From the domain's perspective, the allocation phase models the placement of microservices on the domain's resources, i.e., on its pool of servers, virtual machines, and containers. At the beginning of this phase, microservice artifacts have been \textit{acquired} by the domain, and the client has been \textit{notified} of this.
+%From the domain's perspective, the allocation phase models the placement of microservices on the domain's resources, i.e., on its pool of servers, virtual machines, and containers. At the beginning of this phase, microservice artifacts have been \textit{acquired} by the domain, and the client has been \textit{notified} of this.
 
-The scope of the domain-side allocation is limited by the domain's boundaries. For example, a cloud domain allocates functions to containers in resourceful datacenters covering a large area. On the other hand, edge domain allocates functions to a set of containers in single server (e.g., covering an office), or of a set of distributed containers from servers covering an edge site (e.g., covering a whole building or a 5G base station).
+The scope of the domain-side allocation is limited by the domain's boundaries. For example, cloud domains allocate functions to containers in resourceful datacenters covering a large area. On the other hand, edge domains allocates functions to a set of containers one or more servers (e.g., covering an office or a 5G base station). 
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
 
-
-The domain-side middleware (DSM) exploits a self-management control loop~\cite{kephart2003vision} (see Figure~\ref{fig:service-allocation-loop}) in which the microservices are instantiated according to: (i) a monitored QoS (e.g., the availability of each microservice), (ii) a Service-Level Agreement (SLA), and (iii) the availability of the computational resources. 
+During Allocation, the domain manager exploits a self-management control loop~\cite{kephart2003vision} (see Figure~\ref{fig:service-allocation-loop}) in which the microservices are instantiated according to: (i) a monitored QoS (e.g., the latency with each domain), (ii) a Service-Level Agreement (SLA), and (iii) the availability of the computational resources. 
 %Once , the DSM informs the client whether the microservices can be considered ``acquired'' or not.
 %For instance, in a centralized implementation, the DSM orchestrates the placement of functions to containers distributed along multiple servers.
+
+
 While in cloud domains scalability is virtually unlimited, in finely distributed edge domains scalability needs to be prioritized to favor applications with more demanding requirements. For instance, edge providers could support two types of SLAs: one for critical applications requiring high availability, and another for non-critical applications that may cope with lower degrees of availability.  
 
 %The first type could be achieved with the pre-allocation of resources to these services, whilst the latter could rely on the opportunistic allocation of services upon demand and availability of resources. 
@@ -76,7 +113,7 @@ In the scenario introduced in Section~\ref{sec:continuum}, the AV application sh
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
 
-From the client's perspective, the allocation phase models the selection of the domain alternative that best satisfies the client's needs. Once again a self-management control loop is exploited (see Fig.~\ref{fig:domain-selection-loop}). In each instance of its control loop, the client-sidemiddleware (CSM) checks the QoS levels of a specific microservice from the available domains. It then analyses and decides for the best alternative satisfying the application requirements.
+A self-management control loop (see Fig.~\ref{fig:domain-selection-loop}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. In each instance of its control loop, the client-sidemiddleware (CSM) checks the QoS levels of a specific microservice from the available domains. It then analyses and decides for the best alternative satisfying the application requirements.
 
 %, i.e., it models the computation placement along the client's perception of the continuum. 
 %This decision should consider a list of available domains providing services requested by the client application with accompanying QoS attributes. Accordingly, whereas the domains should take care of intra-domain allocation through service placement, the clients are responsible for the inter-domain allocation through service selection.
@@ -87,32 +124,70 @@ From the client's perspective, the allocation phase models the selection of the 
 
 If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choose between their local mobile domain and the cloud domain. If the application's requirements favor low-battery consumption, the cloud domain will be chosen for allocation. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grow, a multi-objective optimization algorithm may be employed to decide among alternative domains.
 
+During Allocation, the domain manager deals with the following event:
+
+\begin{itemize}
+	
+\item \textbf{Microservice acquired:} indicates that function(s) and dependencies have been fetched and the microservice is ready to be deployed.
+
+\end{itemize}
+
+The mobile middleware, in turn, deals with the following event:
+
+\begin{itemize}
+	
+	\item \textbf{Domain confirmed:} indicates the compatibility of a domain in providing a given microservice. The middleware must react by considering this domain in the domain selection control loop.
+	
+\end{itemize}
+
 %, upon unavailability of edge domains providing services with low latency, the AR application previously introduced would have to choose among mobile or cloud domain. If the application requirements prioritizes low battery consumption (e.g., because battery level is low), it should opt for the cloud domain. Otherwise, if low latency is the priority requirement, it should opt for the cloud domain. 
 
 
 
 %The allocation phase has the following purposes: 1) to enable the efficient (Req. \textbf{R1.1}) and automated (Req. \textbf{R3.1}) allocation of domains' computational resources; and to enable clients to choose the best candidate among different available domains (Req. \textbf{R2.1}).
 
-
-
-\subsection{Acquisition Phase}\label{sec:A3-E-acquisition}
+\subsection{Acquisition}\label{sec:A3-E-acquisition}
 
 %The Acquisition phase has the following purposes: 1) to enable the efficient (Req. \textbf{R1.2}) and automated (Req. \textbf{R3.2}) download and installation of service artifacts; and 2) to enable clients to identify, among the known domains, those compatible with their requirements (Req. \textbf{R2.1}).
 
-From the domain's perspective, the acquisition phase models the dynamic and automated acquisition of the microservice artifacts needed during the allocation phase. 
+The \textit{Acquisition} models the automated acquisition of continuum microservice artifacts and the confirmation of the domain's capability in providing that microservice.
+
+%From the domain's perspective, the acquisition phase models the dynamic and automated acquisition of the microservice artifacts needed during the allocation phase. 
 %In particular, artifacts refer to: (i) the function(s) composing the service (e.g., a Java compiled class); (ii) static data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries).
 %upon identification of requirements from a given application. 
-The ultimate goal of this phase is to mitigate the use of domain resources before the microservice is actually needed, while also facilitating IT operations (Ops) for developers and administrators. At its begging, a domain has already \textit{identified} the microservice required by the client, which in turn is \textit{aware} of that domain's existence.
+The ultimate goal of Acquisition is to mitigate the use of domain resources before the microservice is actually needed, while also facilitating IT operations (Ops) for developers and administrators. 
 
-Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of microservices can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current FaaS platforms only support uploading (pushing) functions through public interfaces. Following the A3-E approach, the acquisition of functions would be managed by a process within the domain, therefore allowing microservices to be downloaded (e.g., pulled from a repository) and installed on demand. Note that mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
+During Acquisition, the domain manager deals with the following event:
+
+\begin{itemize}
+	
+	\item \textbf{Service identified:} indicates that a new microservice has been identified. The manager must react with the acquisition of microservice artifacts following the positive verification of its compatibility with the microservice requirements.
+	 
+\end{itemize}
+
+In turn, the mobile middleware must handle the following event:
+
+\begin{itemize}
+	
+	\item \textbf{Service identified:} indicates that a new microservice has been identified. The manager must react with the acquisition of microservice artifacts following the positive verification of its compatibility with the microservice requirements.
+	
+\end{itemize}
+
+%At its beginning, a domain has already \textit{identified} the microservice required by the client, which in turn is \textit{aware} of that domain's existence.
+
+Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of microservices can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current FaaS platforms only support uploading (pushing) functions through public interfaces. 
+
+The acquisition of functions would be managed by a process within the domain, therefore allowing microservices to be downloaded (e.g., pulled from a repository) and installed on demand. Note that mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
-In this phase, the DSM receives a set of application requirements from the client's CSM, namely the list of microservices and the URL of their repositories. The desired microservice artifacts are then downloaded and installed, at which point the DSM informs the client whether the microservices can be considered ``acquired'' or not. 
+In this phase, the domain manager receives a set of application requirements from the client's CSM, namely the list of microservices and the URL of their repositories. The desired microservice artifacts are then downloaded and installed, at which point the DSM informs the client whether the microservices can be considered ``acquired'' or not. 
 Throughout the microservices' life-cycles, the DSM periodically checks for new versions of acquired services and updates them accordingly. 
 %As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
 %In case the service has already been acquired or as the acquisition finishes, clients should add that domain to their list of available domains. 
-From the client's perspective, the acquisition phase models the simple addition of a domain to a list of known and available domains. This is done once the domain has proven that it can actually provide the requested microservice. 
+
+
+From the client's perspective, the Acquisition corresponds to the addition of a domain to a list of capable domains. This is done once the domain has proven that it can actually provide the requested microservice. 
 
 
  %follow the identification of the domain's capability in providing the requested service. This phase is realized by the CSM with the following sub-process: the CSM should expect a confirmation from the DSM regarding its compliance in providing the service required by the application. Once confirmed, the CSM adds that domain to a list of available domains used by the client-side allocation phase. 
