@@ -157,22 +157,6 @@ The \textit{Acquisition} models the automated acquisition of continuum microserv
 %upon identification of requirements from a given application. 
 The ultimate goal of Acquisition is to mitigate the use of domain resources before the microservice is actually needed, while also facilitating IT operations (Ops) for developers and administrators. 
 
-During Acquisition, the domain manager deals with the following event:
-
-\begin{itemize}
-	
-	\item \textbf{Service identified:} indicates that a new microservice has been identified. The manager must react with the acquisition of microservice artifacts following the positive verification of its compatibility with the microservice requirements.
-	 
-\end{itemize}
-
-In turn, the mobile middleware must handle the following event:
-
-\begin{itemize}
-	
-	\item \textbf{Service identified:} indicates that a new microservice has been identified. The manager must react with the acquisition of microservice artifacts following the positive verification of its compatibility with the microservice requirements.
-	
-\end{itemize}
-
 %At its beginning, a domain has already \textit{identified} the microservice required by the client, which in turn is \textit{aware} of that domain's existence.
 
 Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of microservices can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current FaaS platforms only support uploading (pushing) functions through public interfaces. 
@@ -186,8 +170,24 @@ Throughout the microservices' life-cycles, the DSM periodically checks for new v
 %As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
 %In case the service has already been acquired or as the acquisition finishes, clients should add that domain to their list of available domains. 
 
-
 From the client's perspective, the Acquisition corresponds to the addition of a domain to a list of capable domains. This is done once the domain has proven that it can actually provide the requested microservice. 
+
+During Acquisition, the domain manager deals with the following event:
+
+\begin{itemize}
+	
+	\item \textbf{Service identified:} indicates that a new microservice has been identified. The event contains the microservice ID  the repository address. The manager must react with the acquisition of microservice artifacts following the positive verification of its compatibility with the microservice requirements.
+	
+\end{itemize}
+
+In turn, the mobile middleware must handle the following event:
+
+\begin{itemize}
+	
+	\item \textbf{Domain discovered:} indicates a potential domain for a microservice has been found. The middleware must proceed with the identification of the microservice.
+	
+	
+\end{itemize}
 
 
  %follow the identification of the domain's capability in providing the requested service. This phase is realized by the CSM with the following sub-process: the CSM should expect a confirmation from the DSM regarding its compliance in providing the service required by the application. Once confirmed, the CSM adds that domain to a list of available domains used by the client-side allocation phase. 
@@ -201,7 +201,7 @@ From the client's perspective, the Acquisition corresponds to the addition of a 
 %otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\Delta_A$, become ready for allocation. 
 
 
-\subsection{Awareness Phase}\label{sec:A3-E-awareness}
+\subsection{Awareness}\label{sec:A3-E-awareness}
 
 %Why do we need awareness?
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate microservices upon detection of the first requests.  
