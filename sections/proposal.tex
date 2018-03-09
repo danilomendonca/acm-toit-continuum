@@ -128,7 +128,7 @@ During Allocation, the domain manager deals with the following event:
 
 \begin{itemize}
 	
-\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed.
+\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The manager reacts by including the $\mu$-service in its allocation control loop.
 
 \end{itemize}
 
@@ -136,7 +136,7 @@ The mobile middleware, in turn, deals with the following event:
 
 \begin{itemize}
 	
-	\item \textbf{Domain confirmed:} indicates the compatibility of a domain in providing a given $\mu$-service. The middleware must react by considering this domain in the domain selection control loop.
+	\item \textbf{Domain confirmed:} indicates the compatibility of a domain in providing a given $\mu$-service. The middleware must react by including this domain in the client's selection control loop.
 	
 \end{itemize}
 
@@ -176,16 +176,19 @@ During Acquisition, the domain manager deals with the following event:
 
 \begin{itemize}
 	
-	\item \textbf{Service identified:} indicates that a new $\mu$-service has been identified. The event contains the $\mu$-service ID  the repository address. The manager must react with the acquisition of $\mu$-service artifacts following the positive verification of its compatibility with the $\mu$-service requirements.
+	\item \textbf{Service identified:} indicates that a new $\mu$-service has been identified. The event contains the $\mu$-service \textit{ID} and repository. The manager must react with the acquisition of $\mu$-service artifacts following the positive verification of its compatibility with the $\mu$-service requirements.
 	
 \end{itemize}
 
-In turn, the mobile middleware must handle the following event:
+In turn, the mobile middleware must handle the following events:
 
 \begin{itemize}
 	
-	\item \textbf{Domain discovered:} indicates a potential domain for a $\mu$-service has been found. The middleware must proceed with the identification of the $\mu$-service.
+	\item \textbf{Domain found:} indicates a potential domain for a $\mu$-service has been found. The middleware must proceed with the $\mu$-service identification.	
 	
+	\item \textbf{$\mu$-service acquired:} indicates a successful acquisition of a previously identified $\mu$-service. The middleware must react with the triggering of a \textit{domain confirmed} event.
+	
+	\item \textbf{$\mu$-service denied:} indicates the failure in acquiring and/or deploying a $\mu$-service. The middleware must proceed with the blacklisting of that domain. 
 	
 \end{itemize}
 
