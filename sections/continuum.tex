@@ -87,6 +87,11 @@ As state is a fundamental aspect of many applications, we proposed that mobile d
 %TODO: make it more general, as some applications may have local persistence 
 Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a continuum application. The client-side application comprises \texttt{client-side logic}, \textit{local persistence}, and \texttt{user interfaces} components, whereas the cloud infrastructure comprises \texttt{server-side logic} and \texttt{persistence} components. Continuum $\mu$-services are responsible for stateless computation opportunistically deployed to different continuum domains.
 
+\subsection{Life-cycle Management}
+
+The management of continuum services life-cycle is focused on two conflicting aspects: i) the satisfaction of application requirements (e.g., maximum service latency); and ii) the optimization of resources employed by services. %The latter is particularly important for the scalability of edge computing.
+
+TODO: formulate here the problem tackled by A3-E
 
 \subsection{Running Example}
 \label{sub:example}
