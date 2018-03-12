@@ -76,7 +76,7 @@ The proposed model is aligned with the \textit{Function-as-a-Service} (FaaS) exe
 
 In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery. %Accordingly, hereinafter we refer to continuum microservices.
 
-As state is a fundamental aspect of many applications, we proposed that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. Moreover, this decision is aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
+As state is a fundamental aspect of many applications, we propose that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as databases. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. Moreover, this decision is aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
@@ -100,7 +100,16 @@ TODO: formulate here the problem tackled by A3-E
 %We shall now introduce the running example that will be used throughout the rest of the paper. 
 Figure~\ref{fig:continuum-scenario} shows a complete example scenario that starts in a user's office and finishes at her home. It involves different applications that rely on computation executed in the cloud, edge, or in the user's own devices. 
 
-First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). This server is owned by the company, and it is used to extend the computational capabilities of the devices operated by its employees. In our example, the user makes use of an augmented reality (AR) application to craft virtual 3D objects that are added to her desk table. This application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{detect objects} from a set of features. With the offloading of both tasks to the local-edge, the user can avoid recharging her glasses and can improve her productivity. Also, the additional storage on the edge servers allows a larger set of objects to be recognized, thanks to a more completely trained model.
+%First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). 
+%This server is owned by the company, and it is used to extend the computational capabilities of the devices operated by its employees. 
+
+First, let us consider an augmented reality (AR) application employed by our user to craft virtual 3D objects that are added to her \textit{smart glasses}. This application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog. 
+
+Despite the capacity of smart devices (e.g., Glass~\footnote{https://x.company/glass/}) in hosting a plethora of applications, the user may experience functional and non-functional degradation (e.g., reduced object catalog, battery drain, etc). With the offloading of both AR tasks to an edge server, the user can avoid recharging her glasses and can improve her productivity. The additional storage on the edge servers allows a larger set of objects to be recognized, thanks to a more completely trained model.
+
+To support this application, two continuum $\mu$-services are modeled after each task: one relies on a image processing library and a trained model, the other on a feature-based object catalog. Client-side logic is responsible for capturing scenes from the glasses' camera and updating the 3D virtual object state in the rendered scene displayed by the smart glasses.
+
+TODO: describe the challenges in this application scenario (e.g., service life-cycle, client-side selection)
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-Scenario}
@@ -108,15 +117,22 @@ First, let us assume the existence of a local edge server in the user's office (
 	\label{fig:continuum-scenario}
 \end{figure}
 
-After work, the user leaves her offices and enters her autonomous vehicle (AV). During her way home, the vehicle makes use of microservices deployed at edge servers located at cellular base stations (hereafter called \textit{mobile-edge}) to receive low-latency updates about the best plan to reach her destination. This way, within milliseconds the vehicle can be suggested to adjust its routes to avoid heavy traffic. In particular, let's say that a new path consists of residential streets with data services only (without mobile-edge coverage). The AV continues to fetch updates, which are now served by a cloud provider. The additional network latency is partially compensated with the low speed limit of the residential area.
+After work, our user enters her autonomous vehicle (AV). During her way home, the vehicle makes use of services 
+%deployed at mobile-edge servers located at cellular base stations 
+to receive updates about the best plan to reach her destination. Additionally, it must rely on low-latency services to become aware of sudden events like accidents.
+
+To support this application scenario, two continuum $\mu$-services are envisioned: the \textit{route planning}, which relies on a traffic dataset and a routing software and can cope with higher latency, and the \textit{incident notification}, which relies on low-latency communication between vehicles and mobile-edge base stations and among nearby stations.
+
+%within milliseconds the vehicle can become aware of to adjust its routes to avoid heavy traffic. In particular, let's say that a new path consists of residential streets with data services only (without mobile-edge coverage). The AV continues to fetch updates, which are now served by a cloud provider. The additional network latency is partially compensated with the low speed limit of the residential area.
+
+
 
 During our user's journey home, her AV passes by a touristic region. The mobile-edge stations covering this area feature services to be consumed by an AR application for tourists. These services share computational resources with those serving autonomous vehicles passing by the touristic area, as well as any other services provided by the aforementioned mobile-edge stations.
 
 Finally, at home the user can start using her domestic local-edge server. She finds out about a new Mobile Game (MG) application. Upon installation, the local-edge server becomes aware of a new continuum-compliant application and, while the app continues to run locally on her device, it proceeds to setup the services needed to allow the application to offload some of the computation. Once the setup is complete, the application autonomously starts using the edge services with the purpose of preserving the device's resources. Not only does the game's performance improve, battery consumption is also reduced.  
 
+%The mobile game application, in turn, consists of client-side logic and user interfaces (e.g., controllers and views of an MVC model~\footnote{Model-View-Controller}). The continuum provides the logic for processing and updating the game state, which must be passed as a parameter to a microservice in the continuum, in conjunction with game events (e.g., user inputs). Finally, cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
+
+%TODO remove after per application discussion
 This scenario exploits different parts of the continuum. Traditional cloud resources are employed as a reliable alternative to edge-based computation. Similarly, local services are employed as alternatives to edge services until they have been acquired and made available by a local-edge server. Whilst the transition between mobile-edge and cloud is transparent, the use of local-edge services involves mutual client-server awareness.
 
-%TODO Merge below
-%Considering our running example, the office AR application consists of a client-side logic responsible for capturing scenes from the glasses' camera and microservices in the continuum that extract features from objects in the scene (e.g., the user's desk, hands, crafting tools) based on an image processing library and a neural network trained model. Client-side logic is then responsible for updating the 3D virtual object state and rendering it into the scene displayed by the glasses.
-
-%The mobile game application, in turn, consists of client-side logic and user interfaces (e.g., controllers and views of an MVC model~\footnote{Model-View-Controller}). The continuum provides the logic for processing and updating the game state, which must be passed as a parameter to a microservice in the continuum, in conjunction with game events (e.g., user inputs). Finally, cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
