@@ -109,11 +109,11 @@ During Allocation, the domain manager exploits a self-management control loop~\c
 While in cloud domains scalability is virtually unlimited, in finely distributed edge domains scalability needs to be prioritized to favor applications with more demanding requirements. For instance, edge providers could support two types of SLAs: one for critical applications requiring high availability, and another for non-critical applications that may cope with lower degrees of availability.  
 
 %The first type could be achieved with the pre-allocation of resources to these services, whilst the latter could rely on the opportunistic allocation of services upon demand and availability of resources. 
-In the scenario introduced in Section~\ref{sec:continuum}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for turists~\cite{GarrigaMendonca2017}. In this case the edge $\mu$-services might become unavailable to the AR applications, for example during rush hour. In that case the AR and other low-priority applications would have to rely on $\mu$-services being run in the mobile domain, or in a cloud domain.
+In the scenario introduced in Section~\ref{sec:continuum}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for tourists~\cite{GarrigaMendonca2017}. In this case the edge $\mu$-services might become unavailable to the AR applications, for example during rush hour. In that case the AR and other low-priority applications would have to rely on $\mu$-services being run in the mobile domain, or in a cloud domain.
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
 
-A self-management control loop (see Fig.~\ref{fig:domain-selection-loop}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. In each instance of its control loop, the client-sidemiddleware (CSM) checks the QoS levels of a specific $\mu$-service from the available domains. It then analyses and decides for the best alternative satisfying the application requirements.
+A self-management control loop (see Fig.~\ref{fig:domain-selection-loop}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. In each instance of its control loop, the client-side middleware (CSM) checks the QoS levels of a specific $\mu$-service from the available domains. It then analyses and decides for the best alternative satisfying the application requirements.
 
 %, i.e., it models the computation placement along the client's perception of the continuum. 
 %This decision should consider a list of available domains providing services requested by the client application with accompanying QoS attributes. Accordingly, whereas the domains should take care of intra-domain allocation through service placement, the clients are responsible for the inter-domain allocation through service selection.
@@ -122,9 +122,9 @@ A self-management control loop (see Fig.~\ref{fig:domain-selection-loop}) is als
 
 %This sub-process is the main client-side activity required for the realization of the continuum, as it allows clients to seamlessly alternate among different continuum domains according to the context. 
 
-If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choose between their local mobile domain and the cloud domain. If the application's requirements favor low-battery consumption, the cloud domain will be chosen for allocation. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grow, a multi-objective optimization algorithm may be employed to decide among alternative domains.
+If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choose between their local mobile domain and the cloud domain. If the application's requirements favor low-battery consumption, the cloud domain will be chosen for allocation. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grows, a multi-objective optimization algorithm may be employed to decide among alternative domains.
 
-During Allocation, the domain manager deals with the following event:
+During Allocation, the domain manager deals with the following events:
 
 \begin{itemize}
 	
