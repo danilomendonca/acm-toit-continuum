@@ -117,22 +117,32 @@ TODO: describe the challenges in this application scenario (e.g., service life-c
 	\label{fig:continuum-scenario}
 \end{figure}
 
-After work, our user enters her autonomous vehicle (AV). During her way home, the vehicle makes use of services 
+After work, our user enters her autonomous vehicle (AV). During her way home, the vehicle makes use of a route planning service
 %deployed at mobile-edge servers located at cellular base stations 
-to receive updates about the best plan to reach her destination. Additionally, it must rely on low-latency services to become aware of sudden events like accidents.
+to receive updates about the best plan to reach her destination. Additionally, it relies on low-latency services to become aware of sudden events like accidents.
 
-To support this application scenario, two continuum $\mu$-services are envisioned: the \textit{route planning}, which relies on a traffic dataset and a routing software and can cope with higher latency, and the \textit{incident notification}, which relies on low-latency communication between vehicles and mobile-edge base stations and among nearby stations.
+To support the AV, two continuum $\mu$-services are envisioned: the \textit{route planning}, which relies on a traffic dataset and a routing software and can cope with higher latency, and the \textit{incident notification}, which relies on low-latency communication between vehicles and mobile-edge base stations.
+
+TODO: the incident notification is not consistent with our service model; either remove the AV example or find a different kind of low-latency service (e.g., augmented reality of what is seen from inside the car?)
 
 %within milliseconds the vehicle can become aware of to adjust its routes to avoid heavy traffic. In particular, let's say that a new path consists of residential streets with data services only (without mobile-edge coverage). The AV continues to fetch updates, which are now served by a cloud provider. The additional network latency is partially compensated with the low speed limit of the residential area.
 
+During our user's journey home, her AV passes by a touristic region. The mobile-edge domains covering this area provides continuum $\mu$-services to be consumed by an AR application for tourists. These services share computational resources with those of AVs passing by the touristic area, as well as any other continuum $\mu$-services that happens to be provided by the same mobile-edge domains.
+
+TODO: describe the challenges in this application scenario (e.g., service life-cycle, client-side selection)
+
+Finally at home, our user 
+%can start using her domestic local-edge. She 
+makes use a new Mobile Game (MG) application. The MG consists of client-side logic and user interfaces (e.g., controllers and views of an MVC model~\footnote{Model-View-Controller}). The continuum provides the $\mu$-services for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). Conventional cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
+
+This scenario exploits different parts of the continuum. A domestic local-edge domain must identify, fetch, and deploy the corresponding $\mu$-services. TODO...
+
+Traditional cloud resources are employed as a reliable alternative to edge-based computation. Similarly, local services are employed as alternatives to edge services until they have been acquired and made available by a local-edge server. Whilst the transition between mobile-edge and cloud is transparent, the use of local-edge services involves mutual client-server awareness.
 
 
-During our user's journey home, her AV passes by a touristic region. The mobile-edge stations covering this area feature services to be consumed by an AR application for tourists. These services share computational resources with those serving autonomous vehicles passing by the touristic area, as well as any other services provided by the aforementioned mobile-edge stations.
+%TODO [Danilo] better in proposal
+%Upon installation, the local-edge server becomes aware of a new continuum-compliant application and, while the app continues to run locally on her device, it proceeds to setup the services needed to allow the application to offload some of the computation. Once the setup is complete, the application autonomously starts using the edge services with the purpose of preserving the device's resources. Not only does the game's performance improve, battery consumption is also reduced.  
 
-Finally, at home the user can start using her domestic local-edge server. She finds out about a new Mobile Game (MG) application. Upon installation, the local-edge server becomes aware of a new continuum-compliant application and, while the app continues to run locally on her device, it proceeds to setup the services needed to allow the application to offload some of the computation. Once the setup is complete, the application autonomously starts using the edge services with the purpose of preserving the device's resources. Not only does the game's performance improve, battery consumption is also reduced.  
 
-%The mobile game application, in turn, consists of client-side logic and user interfaces (e.g., controllers and views of an MVC model~\footnote{Model-View-Controller}). The continuum provides the logic for processing and updating the game state, which must be passed as a parameter to a microservice in the continuum, in conjunction with game events (e.g., user inputs). Finally, cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
 
-%TODO remove after per application discussion
-This scenario exploits different parts of the continuum. Traditional cloud resources are employed as a reliable alternative to edge-based computation. Similarly, local services are employed as alternatives to edge services until they have been acquired and made available by a local-edge server. Whilst the transition between mobile-edge and cloud is transparent, the use of local-edge services involves mutual client-server awareness.
 
