@@ -4,20 +4,21 @@
 
 To address the management of continuum services life-cycle, we propose A3-E, a model supporting the self-management of continuum $\mu$-service life-cycles. A3-E inherits its name from its four main activities -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. 
 
-A3-E targets the efficient and scalable placement of $\mu$-services along the continuum. For this, clients and providers take part in the automated and dynamic decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in different contexts.
+A3-E targets the efficient and scalable placement of $\mu$-services along the continuum. For this, clients and providers take part in the \textit{automated} and \textit{dynamic} decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in the provisioning of each $\mu$-services required by continuum applications.
 
-Each phase in A3-E addresses specific concerns in the interaction between client applications and service providers. As an outcome, an instance of the service required by the client shall be available at the selected domain and ready for been engaged by requests.
+%As an outcome of the first three activities, an instance of the service(s) required by the continuum application shall be ready for been engaged.
 
-A3-E activities are illustrated in Fig.~\ref{fig:A3-E-process}. Each activity is further refined by specific activities carried out by the \textit{domain manager} and by the \textit{mobile middleware}. Activities from both sides are not bound in time, but interact through system events. To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which activities are employed. 
+A3-E activities are illustrated in Fig.~\ref{fig:A3-E-process}. Each main activity 
+is further refined by specific activities carried out by a \textit{domain manager} and by a \textit{mobile middleware}. These activities addresses different concerns in the interaction between client applications and service providers. Activities from both sides are not bound in time, but interact through signals (dashed arrows in Fig.~\ref{fig:A3-E-process}) and events (solid arrows in Fig.~\ref{fig:A3-E-process}). To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which activities are employed and how.
 
 %For each phase, the main activities of a \textit{domain} and a \textit{client} are depicted along with their mutual relative state at the moment the phase starts: for a domain, a service state ranges from \textit{Free} to \textit{Allocated}, whilst a domain state ranges from \textit{Away} to \textit{Selected} for a client. 
 %More precisely, Fig.~\ref{fig:A3-E-process} refers to the activities and states (in parenthesis) of a single client-domain interaction.
 
-Next, we describe each main activity in A3-E, starting from the most general one, i.e., the one that applies to all types of client-domain interaction, and moving towards the more specific ones.
+Next, we detail each main activity in A3-E, starting from the most general one, i.e., the one that applies to all types of client-domain interaction, and moving towards the more specific ones.
 
 \begin{figure}[tbp]
 	\includegraphics[width=1\textwidth]{figs/A3-E-process}
-	\caption{A3-E overview. Each main activity is refined by specific Domain Manager and Mobile Middleware activities. Events triggered and handled by each activity are respectively depicted by leaving and arriving arrows.}
+	\caption{A3-E overview. Each main activity is refined by specific Domain Manager and Mobile Middleware activities. Signals (dashed) and events (solid) triggered and handled by each activity are respectively depicted by leaving and arriving arrows.}
 	\label{fig:A3-E-process}
 \end{figure}
 
