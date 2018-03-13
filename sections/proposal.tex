@@ -4,7 +4,7 @@
 
 To address the management of continuum services life-cycle, we propose A3-E, a model supporting the self-management of continuum $\mu$-service life-cycles. A3-E inherits its name from its four main activities -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. 
 
-A3-E targets the efficient and scalable placement of $\mu$-services along the continuum. For this, clients and providers take part in the \textit{automated} and \textit{dynamic} decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in the provisioning of each $\mu$-services required by continuum applications.
+A3-E targets the efficient and scalable placement of $\mu$-services along the continuum. For this, clients and distinct providers (domains) take part in the \textit{automated}, \textit{decentralized}, and \textit{dynamic} decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in the provisioning of each $\mu$-services required by continuum applications.
 
 %As an outcome of the first three activities, an instance of the service(s) required by the continuum application shall be ready for been engaged.
 
@@ -32,7 +32,7 @@ A3-E's \textit{Engagement} models the actual provisioning of a continuum $\mu$-s
 %: at the beginning of this phase, the continuum $\mu$-service has been \textit{allocated} by a domain, which in turn has been previously \textit{selected} by the client. 
 Throughout this activity and as long as the client-domain relation persists, the client is able to engage with that domain by means of invocations to the provided $\mu$-service. 
 
-Remote domains (i.e., cloud and edge) are engaged using a distributed protocol (e.g., through HTTP requests or WebSockets). To enforce a common interface between the client middleware and heterogeneous domains, the mobile domain should also expose its functionality as local services decoupled from the client application.
+Remote domains (i.e., cloud and edge) are engaged through distributed protocols (e.g., through HTTP requests or WebSockets). To enforce a common interface between the client middleware and heterogeneous domains, the mobile domain should also expose its functionality as local services decoupled from the client application.
 
 During Engagement, the domain manager deals with the following events:
 
@@ -42,22 +42,23 @@ During Engagement, the domain manager deals with the following events:
 		
 	\item \textbf{$\mu$-service allocated:} indicates the availability of a given $\mu$-service. The manager must react by resuming the processing of pending and subsequent requests.
 	
-	\item \textbf{Request arrived} indicates respectively the arrival of a request for a specific $\mu$-service. The manger must handle the event by allocating the request to a service instance. %TODO [Danilo] is it?
+	\item \textbf{Request arrived:} indicates the arrival of a request for a specific $\mu$-service. The manger must handle the event with the allocation of the request to an service instance. %TODO [Danilo] Sounds like load balancing; is it so?
 
 \end{itemize}
 
 In turn, the mobile middleware deals with the following events:
 
 \begin{itemize}
-	\item \textbf{C-Request arrived:} indicates the client application has sent a new request to the continuum. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the $\mu$-service from the currently selected domain.
 	
-	\item \textbf{Response arrived:} indicates the arrival of a response from a domain for an invoked service. The middleware must handle it by triggering a \textit{C-Request served}.
+	\item \textbf{C-Request arrived:} indicates the client application has sent a new request to the continuum. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the corresponding $\mu$-service from the currently selected domain.
+	
+	\item \textbf{Response arrived:} indicates the arrival of a response from a domain for an invoked service. The middleware must handle it with the triggering of a \textit{C-Request served} event to be handled by the client application.
 	
 	%\item \textbf{C-Request served:} indicates a given C-request has been processed. It contains the original $\mu$-service reference along with any return value(s). The client application is responsible for handling the event.
 	
 	\item \textbf{Domain absent:} indicates no domain is currently available for that specific service. The middleware must react by queuing subsequent C-requests and, in case of latency violation, triggering a \textit{C-request failed} event.
 	
-	\item \textbf{Domain selected:} indicates a domain has been found for a specific $\mu$-service. The middleware must handle it by resuming the forwarding of any queued and subsequent C-requests.
+	\item \textbf{Domain selected:} indicates a domain is have been selected for a specific $\mu$-service. The middleware must handle it by resuming the forward of any queued and subsequent C-requests.
 	
 \end{itemize}
 
@@ -86,33 +87,59 @@ In turn, the mobile middleware deals with the following events:
 	\centering
 	\captionsetup[subfigure]{width=0.4\textwidth}	
 	\null\hfill
-	\subfloat[$\mu$-services allocation control loop; domains must monitor the QoS of deployed $\mu$-services and adapt its allocation scheme to prevent SLA violations.\label{fig:service-allocation-loop}]{ \includegraphics[width=0.4\textwidth]{figs/service-allocation-loop}}
+	\subfloat[Domain $\mu$-services allocation control loop; domains must monitor the QoS of deployed $\mu$-services and adapt its allocation scheme to prevent SLA violations.\label{fig:service-allocation-loop}]{ \includegraphics[width=0.4\textwidth]{figs/service-allocation-loop}}
 	\captionsetup[subfigure]{width=0.4\textwidth}	
 	\hfill
-	\subfloat[Domain selection control loop; clients monitor $\mu$-services from available domains and select the one that best satisfies its requirements.\label{fig:domain-selection-loop}] {\includegraphics[width=0.4\textwidth]{figs/domain-selection-loop}}
+	\subfloat[Per $\mu$-service domain selection control loop; clients monitor $\mu$-services from available domains and select the one that best satisfies its requirements.\label{fig:domain-selection-loop}] {\includegraphics[width=0.4\textwidth]{figs/domain-selection-loop}}
 	\hfill\null
 	\caption{Self-management loops for domain-side $\mu$-services allocation and client-side domain selection}\label{fig:allocation-loops}
 \end{figure}
 
-The \textit{Allocation} models the placement of functions and dependencies on the domain's resources, i.e., on its pool of servers, virtual machines, and containers. It also captures the client-side selection of the provider domain for each $\mu$-service employed by the application.
+%TODO we may change placement for allocation to avoid confusion with the placement among different edge servers (e.g., in the context NFV)
+The \textit{Allocation} models the placement of functions and dependencies on the cloud and edge domain's resources, i.e., on its pool of servers, virtual machines, and containers. It also captures the client-side selection of the provider domain for each $\mu$-service employed by the application.
 
 %From the domain's perspective, the allocation phase models the placement of $\mu$-services on the domain's resources, i.e., on its pool of servers, virtual machines, and containers. At the beginning of this phase, $\mu$-service artifacts have been \textit{acquired} by the domain, and the client has been \textit{notified} of this.
 
-The scope of the domain-side allocation is limited by the domain's boundaries. For example, cloud domains allocate functions to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more servers covering an office (local-edge) or a 5G base station area (mobile-edge).
+\subsubsection*{Domain-side Allocation}
+
+The scope of the domain-side allocation is limited by the domain's boundaries. For example, cloud domains allocate functions to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more servers covering a building or an office (local-edge) or a 5G base station area (mobile-edge).
+
+During Allocation, the domain manager deals with the following events:
+
+\begin{itemize}
+	
+	\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The manager reacts by including the $\mu$-service in its allocation control loop.
+	
+	\item \textbf{New client:} indicates the arrival of a new client of a given $\mu$-service. The self-management control loop must take into account in the decision of allocating service instances.
+	
+\end{itemize}
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
 
-During Allocation, the domain manager exploits a self-management control loop~\cite{kephart2003vision} (see Figure~\ref{fig:service-allocation-loop}) in which the $\mu$-services are instantiated according to: (i) a monitored QoS (e.g., the latency with each domain), (ii) a Service-Level Agreement (SLA), and (iii) the availability of the computational resources. 
+To realize this activity, the domain manager exploits a self-management control loop~\cite{kephart2003vision} (see Figure~\ref{fig:service-allocation-loop}) in which the $\mu$-services are instantiated according to: (i) a monitored QoS (e.g., the latency with each domain), (ii) a Service-Level Agreement (SLA), and (iii) the availability of the computational resources. 
 %Once , the DSM informs the client whether the $\mu$-services can be considered ``acquired'' or not.
 %For instance, in a centralized implementation, the DSM orchestrates the placement of functions to containers distributed along multiple servers.
 
 
+%TODO the SLA part is too vague, we must be more assertive regarding priority
 While in cloud domains scalability is virtually unlimited, in finely distributed edge domains scalability needs to be prioritized to favor applications with more demanding requirements. For instance, edge providers could support two types of SLAs: one for critical applications requiring high availability, and another for non-critical applications that may cope with lower degrees of availability.  
 
 %The first type could be achieved with the pre-allocation of resources to these services, whilst the latter could rely on the opportunistic allocation of services upon demand and availability of resources. 
 In the scenario introduced in Section~\ref{sec:continuum}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for tourists~\cite{GarrigaMendonca2017}. In this case the edge $\mu$-services might become unavailable to the AR applications, for example during rush hour. In that case the AR and other low-priority applications would have to rely on $\mu$-services being run in the mobile domain, or in a cloud domain.
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
+
+\subsubsection*{Client-side Allocation}
+
+Given the state of different domains perceived by a client, the mobile middleware must decide which domain is responsible for each $\mu$-service consumed by the application. Throughout this activity, the mobile middleware deals with the following events:
+
+\begin{itemize}
+	
+	\item \textbf{Domain confirmed:} indicates the compatibility of a domain in providing a given $\mu$-service. The middleware must react by including this domain in the client's selection control loop.	
+	
+	\item \textbf{Domain lost:} indicates a domain can no longer provide a given $\mu$-service. The middleware must react by removing this domain from the client's selection control loop.
+	
+\end{itemize}
 
 A self-management control loop (see Fig.~\ref{fig:domain-selection-loop}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. In each instance of its control loop, the client-side middleware (CSM) checks the QoS levels of a specific $\mu$-service from the available domains. It then analyses and decides for the best alternative satisfying the application requirements.
 
@@ -125,25 +152,6 @@ A self-management control loop (see Fig.~\ref{fig:domain-selection-loop}) is als
 
 If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choose between their local mobile domain and the cloud domain. If the application's requirements favor low-battery consumption, the cloud domain will be chosen for allocation. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grows, a multi-objective optimization algorithm may be employed to decide among alternative domains.
 
-During Allocation, the domain manager deals with the following events:
-
-\begin{itemize}
-	
-\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The manager reacts by including the $\mu$-service in its allocation control loop.
-
-\item \textbf{New client:} indicates the arrival of a new client of a given $\mu$-service. The self-management control loop must take into account in the decision of allocating service instances.
-
-\end{itemize}
-
-The mobile middleware, in turn, deals with the following events:
-
-\begin{itemize}
-	
-	\item \textbf{Domain confirmed:} indicates the compatibility of a domain in providing a given $\mu$-service. The middleware must react by including this domain in the client's selection control loop.	
-	
-	\item \textbf{Domain lost:} indicates a domain can no longer provide a given $\mu$-service. The middleware must react by removing this domain from the client's selection control loop.
-	
-\end{itemize}
 
 %, upon unavailability of edge domains providing services with low latency, the AR application previously introduced would have to choose among mobile or cloud domain. If the application requirements prioritizes low battery consumption (e.g., because battery level is low), it should opt for the cloud domain. Otherwise, if low latency is the priority requirement, it should opt for the cloud domain. 
 
