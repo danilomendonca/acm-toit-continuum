@@ -40,11 +40,12 @@
 
 The continuum is composed of computational resources from cloud, edge, and mobile computing devices. 
 
-Cloud datacenters count with virtually unlimited computational resources needed to cope with the aggregated demand from a wide coverage area. Edge nodes~\footnote{We adopt the more common \textit{node} terminology in detriment of edge datacenters to empathize the fine grained nature of edge computing.}, in contrast, are limited in computational resources, but cover a much narrower area with lower aggregated demand. 
+Cloud datacenters count with virtually unlimited computational resources needed to cope with the aggregated demand from a wide coverage area. Edge servers, in contrast, are limited in computational resources, but cover a much narrower area with lower aggregated demand. 
 
-Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter.
+Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. 
 
-The continuum model distinguishes mobile-edge from local-edge after the networking technology used: mobile-edge (also known as Multi-access Edge Computing or MEC~\cite{}) integrates with cellular network infrastructure, whereas local-edge integrates with local area network infrastructure. Later on, this heterogeneity is addressed with variations of the proposed service life-cycle management.
+%The continuum model distinguishes 
+Mobile-edge and local-edge are distinguished after the networking technology used: mobile-edge (also known as Multi-Access Edge Computing or MEC~\cite{ahmed2016isco}) integrates with cellular network infrastructure, whereas local-edge integrates with local area network infrastructure. %Later on, this heterogeneity is addressed with variations of the proposed service life-cycle management.
 
 Mobile devices play two roles: they are clients of continuum services; and they are potential providers. The motivation for the inclusion of mobile devices own resources in the model is threefold: i) the substantial increase in computational capacity of modern devices; ii) the compatibility of these devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); and iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. 
 
@@ -64,42 +65,51 @@ Figure X illustrates a topology composed of cloud, mobile-edge, local-edge, and 
 
 We propose an application model in which stateless components and immutable data composing \textit{continuum services} are dynamically placed to mobile, edge, and cloud,
 whilst 
-stateful components are deployed to cloud datacenters or the client device itself after application specific design decisions.
+stateful components are deployed to cloud datacenters or the client device itself based on design-time decision.
 
 Continuum services consist of a set of artifacts that fulfill a given functionality. In particular, these artifacts can refer to: (i) stateless function(s) (e.g., a Java compiled class); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries).
 
-A priori, continuum services are portable, unless they require capabilities that can not be met by specific domains. Like cloud and edge domains, mobile domains also expose functionality by means of a well-known interface --- for the sake of simplicity, the service abstraction is employed with all domains.
+A priori, continuum services are portable, unless they require capabilities that can not be met by specific domains. Like cloud and edge domains, mobile domains also expose functionality by means of a well-known interface --- for the sake of consistency, the service abstraction is employed with all domains.
 
-The proposed model enforces consistency and allows multiple service instances to coexist along the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
+The proposed service model enforces consistency and allows multiple service instances to coexist along the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
 
-The continuum model is aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
+The adopted model is also aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
 
-In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery. %Accordingly, hereinafter we refer to continuum microservices.
+In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}~\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery. %Accordingly, hereinafter we refer to continuum microservices.
 
-As state is a fundamental aspect of many applications, we propose that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as persistence. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. This decision is also aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
+As state is a fundamental aspect of many applications, we propose that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as persistence. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. %This decision is also aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-arch}
-	\caption{The high level architecture of a mobile application exploiting both the computing continuum -- by means of microservices ($\mu$S) provided by mobile, edge, and cloud domains -- and conventional mobile/cloud computing -- by means of local computation and cloud services (CS).}
+	\caption{The high level architecture of a mobile application exploiting both the computing continuum -- by means of $\mu$-services ($\mu$S) provided by mobile, edge, and cloud domains -- and conventional mobile/cloud computing -- by means of local computation and cloud services (CS).}
 	\label{fig:Continuum-arch}
 \end{figure}
 
 %TODO: make it more general, as some applications may have local persistence 
-Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a continuum application. The client-side application comprises \texttt{client-side logic}, \textit{local persistence}, and \texttt{user interfaces} components, whereas the cloud infrastructure comprises \texttt{server-side logic} and \texttt{persistence} components. Continuum $\mu$-services are responsible for stateless computation opportunistically deployed to different continuum domains.
+Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a continuum application. The client-side application comprises \texttt{client-side logic}, \textit{local persistence}, and \texttt{user interface} components, whereas the cloud infrastructure comprises \texttt{server-side logic} and \texttt{persistence} components. Continuum $\mu$-services are responsible for stateless computation opportunistically deployed to different continuum domains.
 
 \subsection{Life-cycle Management}
 
 The management of continuum services life-cycle is focused on two conflicting aspects: i) the satisfaction of application requirements (e.g., maximum service latency, battery consumption, availability, etc); and ii) the optimization of resources employed by services. 
 
-From the continuum provider's perspective, an optimal allocation of resources corresponds to the minimum number of $\mu$-service instances that must be allocated by each of its domains to cope with the service-level agreement (SLA) of each provided service (e.g., maximum service latency). 
+From the providers' perspective, an optimal allocation of its domain resources corresponds to the minimum number of continuum $\mu$-service instances that must be allocated by each of its domains to cope with the service-level agreement (SLA) of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
 
-TODO: formalize it here
+For instance, let's consider the set of $\mu$-services $s_i \in S$, with $1 \le i \le m$ and $m = |S|$. Also, each instance $f_{ij} \in F_i$ from $s_i$ is bound to a single core container with fixed memory and storage. Considering that CPU is a scarcer resource, we may assume, without loss of generality, that the number of instances per domain is limited by the amount of CPU cores available ($|C|$) in its pool of resources, i.e., that $\sum_{1}^{j} |F_i| \le |C|$.
+
+Now let's consider that each provided $\mu$-service $s_i \in S$ is bound to a SLA specifying the maximum service delay $\Delta_i$ and the maximum number of instances $N_i$, so that $\forall F_i, |F_i| \le N_i$. %, and a relative priority $p_i$. 
+Given the current demand and delay (respectively $u_i$ and $d_i$) associated to each service $s_i \in S$, the aim of the \textit{domain manager} is to assure that $\forall s_i \in S, d_i \le \Delta_i$.
+
+
+
+%Furthermore, as the demand for different services is expected to change over time, unless $\forall S_i \in S, U_i = U_i$, idle resources may be employed to reduce $\delta_i$ according to $P_i$.
 
 From the client's viewpoint, an optimal provider selection corresponds to the one that, given a set of requirements, satisfies the multi-objective optimization.
 
+For instance, if we consider service latency and cost as our requirements...
+
 TODO: formalize it here
 
-The life-cycle management is therefore dual: it comprises the provider-side allocation of service instances at each domain; and it also encompasses the client-side decision of which domain must be selected for each continuum $\mu$-service.
+%The life-cycle management is therefore dual: it comprises the provider-side allocation of service instances at each domain; and it also encompasses the client-side decision of which domain must be selected for each continuum $\mu$-service.
 
 \subsection{Running Example}
 \label{sub:example}
