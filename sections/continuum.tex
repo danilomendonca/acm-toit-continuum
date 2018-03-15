@@ -92,20 +92,18 @@ Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a conti
 
 The management of continuum services life-cycle is focused on two conflicting aspects: i) the satisfaction of application requirements (e.g., maximum service latency, battery consumption, availability, etc); and ii) the optimization of resources employed by services. 
 
-From the providers' perspective, an optimal allocation of its domain resources corresponds to the minimum number of continuum $\mu$-service instances that must be allocated by each of its domains to cope with the service-level agreement (SLA) of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
+From the providers' perspective, an optimal allocation of its domain resources corresponds to the minimum number of continuum $\mu$-service instances that must be allocated by each of its domains to cope with the Service-Level Agreement (SLA) of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
 
-For instance, let's consider the set of $\mu$-services $s_i \in S$, with $1 \le i \le m$ and $m = |S|$. Also, each instance $f_{ij} \in F_i$ from $s_i$ is bound to a single core container with fixed memory and storage. Considering that CPU is a scarcer resource, we may assume, without loss of generality, that the number of instances per domain is limited by the amount of CPU cores available ($|C|$) in its pool of resources, i.e., that $\sum_{1}^{j} |F_i| \le |C|$.
+For instance, let's consider the set of $\mu$-services $s_i \in S$, with $1 \le i \le m$ and $m = |S|$. Each $s_i \in S$ has a corresponding set of instances $f_{ij} \in F_i$, with $0 \le j \le k_i$ and $k_i = |F_i|$. Now let's consider that each provided $\mu$-service $s_i \in S$ is bound to a SLA specifying the maximum service delay $\Delta_i$ and the maximum number of instances $K_{imax}$, so that $\forall F_i, k_i \le K_{imax}$. %, and a relative priority $p_i$. 
+Given the current demand and delay (respectively $u_i$ and $d_i$) associated to each service $s_i \in S$, the aim of the \textit{domain manager} is to assure that $\forall s_i \in S, d_i \le \Delta_i$. 
 
-Now let's consider that each provided $\mu$-service $s_i \in S$ is bound to a SLA specifying the maximum service delay $\Delta_i$ and the maximum number of instances $N_i$, so that $\forall F_i, |F_i| \le N_i$. %, and a relative priority $p_i$. 
-Given the current demand and delay (respectively $u_i$ and $d_i$) associated to each service $s_i \in S$, the aim of the \textit{domain manager} is to assure that $\forall s_i \in S, d_i \le \Delta_i$.
-
-
+%Also, each instance $f_{ij} \in F_i$ is bound to a single core container with fixed memory and storage. Considering that CPU is a scarcer resource, we may assume, without loss of generality, that the number of $\mu$-instances per domain is limited by the amount of CPU cores available ($|C|$) in its pool of resources, i.e., that $\sum_{i=1}^{m} k_i \le |C|$.
 
 %Furthermore, as the demand for different services is expected to change over time, unless $\forall S_i \in S, U_i = U_i$, idle resources may be employed to reduce $\delta_i$ according to $P_i$.
 
-From the client's viewpoint, an optimal provider selection corresponds to the one that, given a set of requirements, satisfies the multi-objective optimization.
+From the client's viewpoint, an optimal provider selection corresponds to the one that, given a set of requirements and the perceived QoS of different services, satisfies the multi-criteria decision of which provider to be employed. Moreover, since continuum $\mu$-services are modular and independent, this decision regards each $\mu$-service consumed by the application.
 
-For instance, if we consider service latency and cost as our requirements...
+%For instance, let's consider service latency and cost as our requirements. From the client viewpoint, latency can be refined into network and service latency. The first component can be more easily monitored through well-known protocols, while the second may require 
 
 TODO: formalize it here
 
