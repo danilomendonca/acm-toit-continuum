@@ -7,11 +7,22 @@ The first notion of a computing continuum was based on cloudlets (trusted, resou
 
 From a theoretical point of view, the work in~\cite{sarkar2015assessment} compared the performance of the continuum (bridged by means of fog computing) and cloud computing in the context of IoT, showing that the continuum outperforms cloud computing as the fraction of applications demanding low-latency response increases. However, in scenarios where many applications do not have real-time response requirements, the continuum is observed to be an overhead compared to cloud-only execution.
 
-Recently, several works have tackled the problem of placing application components and computation offloading among computational entities from cloud and edge computing. Due to its combinatorial nature, this placement problem is NP-Hard. Each application components may be placed on different entities, but the model does not cope with distributed instances of the same component. 
+A number of works have tackled the problem of placing among the set of computational entities from cloud and edge computing. Some~\cite{Tarneberg2017} focus on the placement of single component applications, whereas others~\cite{Wang:2017} consider multi-components. In comparison, our model allows multiple instances of $\mu$-services to be spread across the continuum and we focus on the opportunistic allocation of instances within disjoint provider \textit{domains}. Nonetheless, the coordination among nearby edge domains may further increase scalability of the edge layer and is considered for future work.
 
-In this category, Want et al.~\cite{} proposed an online placement approximation of multi-component applications as a graph placement problem. The proposal considers computational resources of physical nodes and the capacity of network links. 
+More closely related to our service model, Jia et al.~\cite{Jia:2017} tackled the offloading of  virtualized network functions (NVF) to distributed cloudlets. Whilst this proposal focuses on NFV placement among cloudlets from a provider viewpoint, our model deals with the dynamic selection of mobile, edge, and cloud providers as perceived by the client. Once more, provider-side placement within the edge layer (e.g., cloudlets) is considered as future work. 
 
-In contrast, the continuum model enables $\mu$-service instances to co-exist across the continuum and verses about the opportunistic allocation of instances within a domain boundary. 
+%TODO Xu et al. 2017
+
+%In this category, Want et al.~\cite{Wang:2017} proposed an online placement approximation of multi-component applications as a graph placement problem. The proposal considers computational resources of physical nodes and the capacity of network links. Each application components may be placed on different entities, but instances of the same component are collocated.  Also, it focuses on the opportunistic allocation of instances within a domain boundary. Inter-domain placement could
+
+
+
+%The paradigm of virtual function virtualization 
+
+
+
+
+
 
 More recently, iFogSim~\cite{GuptaIfogSim17} was proposed as a toolkit for modeling and simulating resource management techniques in the continuum. It allows one to simulate the placement of different modules of real-time applications to edge devices and then measure latency, network congestion, energy consumption, and cost. Similarly, EdgeCloudSim~\cite{SonmezEgdeCloudSim17} simulates multi-tier scenarios where multiple edge servers are running in coordination with upper layer cloud solutions, also featuring a device mobility model and a load generator. Both simulation platforms extend the well-known cloud simulator framework CloudSim~\cite{calheiros2011cloudsim}. We opted for deploying real edge domains rather than simulating them, although simulation of mobile-edge scenarios is considered as a future work.
 
