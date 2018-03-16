@@ -92,7 +92,7 @@ Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a conti
 
 The management of continuum services life-cycle is focused on two conflicting aspects: i) the satisfaction of application requirements (e.g., maximum service latency, battery consumption, availability, etc); and ii) the optimization of resources employed by services. 
 
-From the providers' perspective, an optimal allocation of its domain resources corresponds to the minimum number of continuum $\mu$-service instances that must be allocated by each of its domains to cope with the service-level agreement (SLA) of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
+From the providers' perspective, an optimal allocation of its domain resources corresponds to the minimum number of continuum $\mu$-service instances that must be allocated by each of its domains to cope with the SLA of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
 
 For instance, let's consider the set of $\mu$-services $s_i \in S$, with $1 \le i \le m$ and $m = |S|$. Also, each instance $f_{ij} \in F_i$ from $s_i$ is bound to a single core container with fixed memory and storage. Considering that CPU is a scarcer resource, we may assume, without loss of generality, that the number of instances per domain is limited by the amount of CPU cores available ($|C|$) in its pool of resources, i.e., that $\sum_{1}^{j} |F_i| \le |C|$.
 
@@ -116,18 +116,18 @@ TODO: formalize it here
 
 %Throughout this section an example scenario (Fig.~\ref{fig:continuum-scenario}) is used to illustrate the use of A3-E model and the cloud-edge-mobile continuum with different applications employed by a person with visual impairment.
 %We shall now introduce the running example that will be used throughout the rest of the paper. 
-Figure~\ref{fig:continuum-scenario} shows a complete example scenario that starts in a user's office and finishes at her home. It involves different applications that rely on computation executed in the cloud, edge, or in the user's own devices. 
+Figure~\ref{fig:continuum-scenario} shows a complete example scenario that starts in a user's office and finishes at her home. It involves different applications that rely on computation executed in the cloud, edge, or in the user's own devices.
 
 %First, let us assume the existence of a local edge server in the user's office (hereafter called \textit{local-edge}). 
 %This server is owned by the company, and it is used to extend the computational capabilities of the devices operated by its employees. 
 
-First, let us consider an augmented reality (AR) application employed by our user to craft virtual 3D objects that are added to her \textit{smart glasses}. This application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog. 
-
-Despite the capacity of smart devices (e.g., Glass~\footnote{https://x.company/glass/}) in hosting a plethora of applications, the user may experience functional and non-functional degradation (e.g., reduced object catalog, battery drain, etc). With the offloading of both AR tasks to an edge server, the user can avoid recharging her glasses and can improve her productivity. The additional storage on the edge servers allows a larger set of objects to be recognized, thanks to a more completely trained model.
+First, let us consider an Augmented Reality (AR) application employed by our user to craft virtual 3D objects that are added to her \textit{smart glasses} as part of her work. This application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog.
 
 To support this application, two continuum $\mu$-services are modeled after each task: one relies on a image processing library and a trained model, the other on a feature-based object catalog. Client-side logic is responsible for capturing scenes from the glasses' camera and updating the 3D virtual object state in the rendered scene displayed by the smart glasses.
 
-TODO: describe the challenges in this application scenario (e.g., service life-cycle, client-side selection)
+Despite the capacity of existing smart devices (e.g., Glass~\footnote{https://x.company/glass/}) in hosting a plethora of applications, the user may experience functional and non-functional degradation (e.g., reduced object catalog, battery drain, etc). With the offloading of the aforementioned tasks to a server, the user can avoid recharging her glasses and improve productivity. 
+
+The additional storage on the local-edge servers in her office allows a larger set of objects to be recognized, thanks to a more completely trained model. In contrast, the network latency to cloud servers may be prohibitive for this real-time application. The decision of which continuum provider to employ must be informed by the application requirements and the Quality-of-Service (QoS) of each alternative. 
 
 \begin{figure}[tbp]
 	\includegraphics[width=0.9\textwidth]{figs/Continuum-Scenario}
@@ -139,21 +139,22 @@ After work, our user enters her autonomous vehicle (AV). During her way home, th
 %deployed at mobile-edge servers located at cellular base stations 
 to receive updates about the best plan to reach her destination. Additionally, it relies on low-latency services to become aware of sudden events like accidents.
 
-To support the AV, two continuum $\mu$-services are envisioned: the \textit{route planning}, which relies on a traffic dataset and a routing software and can cope with higher latency, and the \textit{incident notification}, which relies on low-latency communication between vehicles and mobile-edge base stations.
+To support the AV, two continuum $\mu$-services are envisioned: the \textit{route planning}, which relies on a traffic dataset and a routing software and can cope with higher latency, and the \textit{incident notification}, which relies on low-latency communication between vehicles and mobile-edge base stations to forward incident events received by that base-station.
 
-TODO: the incident notification is not consistent with our service model; either remove the AV example or find a different kind of low-latency service (e.g., augmented reality of what is seen from inside the car?)
+%TODO: the incident notification is not consistent with our service model; either remove the AV example or find a different kind of low-latency service (e.g., augmented reality of what is seen from inside the car?)
+%[Danilo] What about web sockets? Or push-notification? 
 
 %within milliseconds the vehicle can become aware of to adjust its routes to avoid heavy traffic. In particular, let's say that a new path consists of residential streets with data services only (without mobile-edge coverage). The AV continues to fetch updates, which are now served by a cloud provider. The additional network latency is partially compensated with the low speed limit of the residential area.
 
-During our user's journey home, her AV passes by a touristic region. The mobile-edge domains covering this area provides continuum $\mu$-services to be consumed by an AR application for tourists. These services share computational resources with those of AVs passing by the touristic area, as well as any other continuum $\mu$-services that happens to be provided by the same mobile-edge domains.
+During our user's journey home, her AV passes by a touristic region. The mobile-edge domains covering this area provides continuum $\mu$-services to be consumed by an AR application for tourists. These services share computational resources with those of AVs passing by the same area, as well as any other continuum $\mu$-services that happens to be provided by those mobile-edge domains.
 
-TODO: describe the challenges in this application scenario (e.g., service life-cycle, client-side selection)
+Due to resource limitation, each mobile-edge domain must employ mechanisms to efficiently manage its resources and assure that competing $mu$-services are best provided according to their Service Level Agreement (SLA). In our example, the AV's \textit{incident notification} $\mu$-services is likely to enjoy a higher priority regarding the AR's $\mu$-services due to the criticality of the former.
 
 Finally at home, our user 
 %can start using her domestic local-edge. She 
-makes use a new Mobile Game (MG) application. The MG consists of client-side logic and user interfaces (e.g., controllers and views of an MVC model~\footnote{Model-View-Controller}). The continuum provides the $\mu$-services for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). Conventional cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
+makes use a new Mobile Game (MG) application. The MG consists of client-side logic and user interfaces (e.g., controllers and views of an MVC model~\footnote{Model-View-Controller}). The continuum provides the $\mu$-services for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). To avoid disruptions in the game experience caused by delay, our user possesses a domestic local-edge consisting of a gateway with computational capabilities. Conventional cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores). 
 
-This scenario exploits different parts of the continuum. A domestic local-edge domain must identify, fetch, and deploy the corresponding $\mu$-services. Meanwhile and to assure a high availability, the mobile domain remains responsible for the provisioning of these $\mu$-services. Finally, cloud domains complement the possible alternatives for hosting the $\mu$-services and mitigating battery drain, but network latency must be taken into account.
+This latter scenario exploits different parts of the continuum. A domestic local-edge domain must identify, fetch, and deploy the corresponding $\mu$-services. Meanwhile and to assure a high availability, the mobile domain remains responsible for the provisioning of these $\mu$-services. Finally, cloud domains complement the possible alternatives for hosting the $\mu$-services and mitigating battery drain, but network latency must be taken into account.
 
 %Traditional cloud resources are employed as a reliable alternative to edge-based computation. Similarly, local services are employed as alternatives to edge services until they have been acquired and made available by a local-edge server. Whilst the transition between mobile-edge and cloud is transparent, the use of local-edge services involves mutual client-server awareness.
 
