@@ -2,9 +2,10 @@
 
 %First and foremost, A3-E's main objective is to enable the efficient and scalable placement of $\mu$-services along the continuum. In A3-E, clients and providers autonomously interact and decide for the placement of services according to the context. Moreover,  
 
-To address the management of continuum services life-cycle, we propose A3-E, a model supporting the self-management of continuum $\mu$-service life-cycles. A3-E inherits its name from its four main activities -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. 
+To address the realization of the compute continuum, we propose A3-E
+, a model supporting the self-management of continuum $\mu$-service life-cycle. A3-E inherits its name from its four main activities -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. 
 
-A3-E targets the efficient and scalable placement of $\mu$-services along the continuum. For this, clients and distinct providers (domains) take part in the \textit{automated}, \textit{decentralized}, and \textit{dynamic} decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in the provisioning of each $\mu$-services required by continuum applications.
+A3-E targets the efficient and scalable placement of $\mu$-services along the continuum. For this, clients and distinct providers (domains) take part in the \textit{automated} and \textit{decentralized} runtime decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in the provisioning of each $\mu$-services required by continuum applications.
 
 %As an outcome of the first three activities, an instance of the service(s) required by the continuum application shall be ready for been engaged.
 
@@ -42,9 +43,13 @@ During Engagement, the domain manager deals with the following events:
 		
 	\item \textbf{$\mu$-service allocated:} indicates the availability of a given $\mu$-service. The manager must react by resuming the processing of pending and subsequent requests.
 	
+<<<<<<< HEAD
 	\item \textbf{Request arrived:} indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the allocation of the request to an service instance. 
 	%TODO [Danilo] Sounds like load balancing; is it so?
 	%TODO: [Gio]  shouldn't it be "Service requested"?
+=======
+	\item \textbf{Request arrived:} indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the allocation of the request to a service instance according to a load balancing mechanism.
+>>>>>>> bf89c17bf9f5ed337a0381f9022806d5de47ecdb
 
 \end{itemize}
 
