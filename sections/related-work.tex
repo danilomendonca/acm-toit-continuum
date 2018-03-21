@@ -9,20 +9,22 @@ From a theoretical point of view, the work in~\cite{sarkar2015assessment} compar
 
 A number of works have tackled the problem of placing among the set of computational entities from cloud and edge computing. Some~\cite{Tarneberg2017} focus on the placement of single component applications, whereas others~\cite{Wang:2017} consider multi-components. In comparison, our model allows multiple instances of $\mu$-services to be spread across the continuum and we focus on the opportunistic allocation of instances within disjoint provider \textit{domains}. Nonetheless, the coordination among nearby edge domains may further increase scalability of the edge layer and is considered for future work.
 
-More closely related to our service model, Jia et al.~\cite{Jia:2017} tackled the offloading of  virtualized network functions (NVF) to distributed cloudlets. Whilst this proposal focuses on NFV placement among cloudlets from a provider viewpoint, our model deals with the dynamic selection of mobile, edge, and cloud providers as perceived by the client. Once more, provider-side placement within the edge layer (e.g., cloudlets) is considered as future work. 
+%TODO [Danilo] general placement is mentioned in the previous paragraph; consider adding it back if we have space left
+%In a similar direction, authors in~\cite{Tarneberg2017} propose an algorithm for application placement and resource management across an heterogeneous topology comprised of cloud and edge computing. 
+%%This approach stresses the challenges for such an heterogeneous topology as meeting all client applications’ SLAs, minimizing infrastructure-wide operational expenditure and load balance of resources and mitigate resource usage skewness. 
+%The algorithm solves a multi-optimization problem considering application
+%execution cost and the overload penalty on each node in terms of latency, as well as edge resources in the system. The objective function is constructed from the infrastructure provider's viewpoint (i.e., Telecom operators), whose objective is to minimize the overall running cost~\cite{weber2017facilitating}. We also envision a heterogeneous continuum, though we consider autonomous and independent \textit{domains} that cannot communicate and coordinate for resource allocation. The proposed placement algorithm complements A3-E, as it could be employed by providers of multiple domains to optimize their costs (e.g., by restricting the availability of resources at different mobile-edge domains in certain conditions). In turn, A3-E tackles the adaptation to the conditions imposed by providers (e.g., with the deallocation of low-priority microservices from these domains and the consequent client-side selection of alternative domains).
+
+More closely related to our service model, Jia et al.~\cite{Jia:2017} tackled the offloading of  virtualized network functions (NVF) to distributed cloudlets. Whilst this proposal focuses on NFV placement among cloudlets from a provider viewpoint, our model deals with the dynamic allocation of $\mu$-services on a single domain's pool of resources, as well as the runtime selection of mobile, edge, and cloud domains as perceived by the client. %Once more, provider-side placement within the edge layer (e.g., cloudlets) is considered as future work. 
+
+The Enorm framework~\cite{wang2017enorm} for edge node resource management exhibits similarities with our model. In their proposal, cloud managers are responsible for the allocation of server-side application partitions on edge nodes with the aim of reducing service latency and the volume of data sent to the cloud. Server allocation follows a handshake between cloud and edge managers. If successful, servers are deployed and clients are binded to specific edge node ports following a network-level reconfiguration. In contrast, in A3-E $\mu$-services are dynamically deployed after a direct handshake between clients and autonomous domains, including those of mobile, edge and cloud providers; and clients decide on the best domain given their requirements and perceived QoS. Like in Enorm, our model takes into account both priority and latency throughout Allocation. Nonetheless, in A3-E requests from different clients are not pre-allocated to specific instances, but handled by a load balancer. Also, A3-E's resource management is based on aggregated metrics such as the average response time and follows a control theoretical model able to deal with a high workload churn and a large number of concurrent requests. 
+
+% [Danilo] from Enorm; commented-out in favor of a more comparative discussion
+%This server communicates with potential edge nodes requesting computing services and deploys partitioned servers on the edge node. The latter maintain local data, relevant to the users on their coverage area. The global view is maintained on the cloud and updated periodically by edge nodes. When edge nodes cannot provide computing services nor improve the QoS of the application, users connect to the cloud application server as in a typical cloud scenario. The allocation follows a hierarchical approach, with a centralized control starting from the cloud and spreading to the edge nodes. In turn, A3-E offers a decentralized approach in which autonomous clients and domains are able to coordinate the placement of computation along the continuum. 
 
 %TODO Xu et al. 2017
 
 %In this category, Want et al.~\cite{Wang:2017} proposed an online placement approximation of multi-component applications as a graph placement problem. The proposal considers computational resources of physical nodes and the capacity of network links. Each application components may be placed on different entities, but instances of the same component are collocated.  Also, it focuses on the opportunistic allocation of instances within a domain boundary. Inter-domain placement could
-
-
-
-%The paradigm of virtual function virtualization 
-
-
-
-
-
 
 More recently, iFogSim~\cite{GuptaIfogSim17} was proposed as a toolkit for modeling and simulating resource management techniques in the continuum. It allows one to simulate the placement of different modules of real-time applications to edge devices and then measure latency, network congestion, energy consumption, and cost. Similarly, EdgeCloudSim~\cite{SonmezEgdeCloudSim17} simulates multi-tier scenarios where multiple edge servers are running in coordination with upper layer cloud solutions, also featuring a device mobility model and a load generator. Both simulation platforms extend the well-known cloud simulator framework CloudSim~\cite{calheiros2011cloudsim}. We opted for deploying real edge domains rather than simulating them, although simulation of mobile-edge scenarios is considered as a future work.
 
@@ -32,21 +34,18 @@ the underlying runtime mechanisms. However, the concrete mechanisms for orchestr
 %This approach enables combining the benefits of the edge (lower response time and heterogeneous data management) with the computational and storage capabilities of the cloud. The proposed serverless data analytics paradigm is particularly suitable for managing different granularities of data analytics approaches bottom-up. This means that the edge focuses on local views (for example, per edge gateway), while the cloud supports global views, that is, combining and analyzing data from different edge devices, regions, or even domains. Data analytics can be performed on edge nodes, cloud nodes, or both, and delivered from any of the nodes directly to the application, based on the desired view. Moreover, the top-down control process allows decoupling of application requirements (the what) from concrete realization of those requirements (the how). This allows developers to simply define the analytics function behavior and data-processing business logic and application goals  instead of dealing with the complexity of different management, orchestration, and optimization processes.
 
 %Computation offloading to the edge
-
-The work in~\cite{Satria2017mec} proposes concrete mechanisms for computation offloading among nodes located at neighbor base stations. This work provides a reactive domain-side allocation scheme targeting fault-tolerance in which mobile-edge domains are modeled as the set of servers comprised in neighbor base stations. Differently from our model, this work considers mobile devices as means for relaying data from disconnected base stations. In A3-E, the disconnected computational resources are considered as different domains. However, a client-side selection is responsible for reallocating domains based on their availability and provided QoS. 
+% [Danilo] Out of space, not our main focus
+%The work in~\cite{Satria2017mec} proposes concrete mechanisms for computation offloading among nodes located at neighbor base stations. This work provides a reactive domain-side allocation scheme targeting fault-tolerance in which mobile-edge domains are modeled as the set of servers comprised in neighbor base stations. Differently from our model, this work considers mobile devices as means for relaying data from disconnected base stations. In A3-E, the disconnected computational resources are considered as different domains. However, a client-side selection is responsible for reallocating domains based on their availability and provided QoS. 
 
 %either directly or using nearby devices as relay nodes, as a solution for overloaded edge nodes. The former is where a node offloads its work to available neighbors within transfer range, while the latter is where no neighbor nodes within transfer range are available, and uses devices as ad-hoc relay nodes in order to bridge two edge servers. In contrast, our approach mitigates the overload in the edge by first, a serverless architecture that provides an effective and efficient usage of available resources, and second by sensing the QoS in the client-side middleware to decide whether to offload the computation to the edge/cloud. Certainly, the scalability of our proposed architecture could be extended by means of a neighbor offloading strategy as proposed in~\cite{Satria2017mec}.
 
 %In a similar direction, T\"arneberg et al.~\cite{Tarneberg2017} proposed a model that bridges mobile edge computing and the distributed cloud paradigm, as well as an algorithm to solve the resource management challenges that emerge from this integration. I or by an integration of MEC and cloud resources as proposed in ~\cite{Tarneberg2017}.
 
-In a similar direction, authors in~\cite{Tarneberg2017} propose an algorithm for application placement and resource management across an heterogeneous topology comprised of cloud and edge computing. 
-%This approach stresses the challenges for such an heterogeneous topology as meeting all client applications’ SLAs, minimizing infrastructure-wide operational expenditure and load balance of resources and mitigate resource usage skewness. 
-The algorithm solves a multi-optimization problem considering application
-execution cost and the overload penalty on each node in terms of latency, as well as edge resources in the system. The objective function is constructed from the infrastructure provider's viewpoint (i.e., Telecom operators), whose objective is to minimize the overall running cost~\cite{weber2017facilitating}. We also envision a heterogeneous continuum, though we consider autonomous and independent \textit{domains} that cannot communicate and coordinate for resource allocation. The proposed placement algorithm complements A3-E, as it could be employed by providers of multiple domains to optimize their costs (e.g., by restricting the availability of resources at different mobile-edge domains in certain conditions). In turn, A3-E tackles the adaptation to the conditions imposed by providers (e.g., with the deallocation of low-priority microservices from these domains and the consequent client-side selection of alternative domains).
+
 
 %be seen as a first step to decide whether to use proactive or reactive allocation for each domain and application. From then on, the availability also depends on what is perceived by the clients, thus the placement is coordinated through the middleware. 
 
-The Enorm framework~\cite{wang2017enorm} for edge node resource management enables the use of the cloud in conjunction with edge by deploying a cloud server manager on each application server. This server communicates with potential edge nodes requesting computing services and deploys partitioned servers on the edge node.The latter maintain local data, relevant to the users on their coverage area. The global view is maintained on the cloud and updated periodically by edge nodes. When edge nodes cannot provide computing services nor improve the QoS of the application, users connect to the cloud application server as in a typical cloud scenario. The allocation follows a hierarchical approach, with a centralized control starting from the cloud and spreading to the edge nodes. In turn, A3-E offers a decentralized approach in which autonomous clients and domains are able to coordinate the placement of computation along the continuum. 
+
 
 %, without depending necessarily on the cloud to decide the offloading. %Although the data management aspect on Enorm can complement our approach, it does not consider 
 %and can be complementary to our work by addressing data locality and replication problems at architectural level sinc
@@ -54,12 +53,20 @@ The Enorm framework~\cite{wang2017enorm} for edge node resource management enabl
 %\textcolor{blue}{[Gupta IfogSim]}
 
 
-In industry the first real-world prototype of the mobile edge~\cite{beck2014mobile} (by Nokia Siemens and Intel~\cite{NokiaMEC13}) features base stations equipped with commodity hardware, and application deployment is based on virtualization and containerization technologies~\cite{ismail2015icos}. Applications running on the mobile edge are expected to be event-driven, which complements the A3-E model that currently relies on request/response RESTful calls. However, this approach does not take into account the inherent resource limitations of edge computing, tackled by A3-E by adhering to the FaaS execution model.
-%This industry prototype suggests that end users
-%benefit mostly from reduced communication delay, benefiting computation intensive applications by means of offloading (as shown throughout this paper). Meanwhile, Telecom providers benefit from bandwidth consumption reduction and better scalability, while application providers profit with respect to faster
-%services.
+% [Danilo] commented-out due to lack of space; consider adding it back if there's space left
+%In industry the first real-world prototype of the mobile edge~\cite{beck2014mobile} (by Nokia Siemens and Intel~\cite{NokiaMEC13}) features base stations equipped with commodity hardware, and application deployment is based on virtualization and containerization technologies~\cite{ismail2015icos}. Applications running on the mobile edge are expected to be event-driven, which complements the A3-E model that currently relies on request/response RESTful calls. However, this approach does not take into account the inherent resource limitations of edge computing, tackled by A3-E by adhering to the FaaS execution model.
+%%This industry prototype suggests that end users
+%%benefit mostly from reduced communication delay, benefiting computation intensive applications by means of offloading (as shown throughout this paper). Meanwhile, Telecom providers benefit from bandwidth consumption reduction and better scalability, while application providers profit with respect to faster
+%%services.
 
-Finally, Lambda@Edge\footnote{http://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html} is a new functionality of AWS that allows one to explicitly deploy lambda functions to certain (coarse-grained) edge locations. The applicability of Lambda@Edge is still limited to a few scenarios and tied to CloudFront (the AWS content delivery network) events. The functionality that can be deployed is also limited, allowing only to analyze and modify HTTP headers generated by those events (e.g., to perform redirection and forwarding of requests). Thus, Lambda@Edge is still unsuitable for general purpose applications as those tackled by A3-E. 
+% [Danilo] commented-out due to lack of space; consider adding it back if there's space left
+%Finally, Lambda@Edge\footnote{http://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html} is a new functionality of AWS that allows one to explicitly deploy lambda functions to certain (coarse-grained) edge locations. The applicability of Lambda@Edge is still limited to a few scenarios and tied to CloudFront (the AWS content delivery network) events. The functionality that can be deployed is also limited, allowing only to analyze and modify HTTP headers generated by those events (e.g., to perform redirection and forwarding of requests). Thus, Lambda@Edge is still unsuitable for general purpose applications as those tackled by A3-E. 
+
+
+
+
+
+% OLD related works, commented-out in the original submission
 
 %In turn, A3-E deals with heterogeneous and general purpose applications and is not tied to any particular source of events.
 %, that is, when a user request to see a given content, when the request is forwarded to the cloud (because such content was not available at the edge location), and vice versa for the response.
@@ -69,10 +76,6 @@ Finally, Lambda@Edge\footnote{http://docs.aws.amazon.com/lambda/latest/dg/lambda
 %
 
 %according to their CloudFront content delivery service, which consists of approximately 90 edge nodes worldwide. However,  In contrast, we consider the continuum to be fine-grained, with nearby domains distributed one every $km^2$ or less. Furthermore, the upcoming  small 5G cells and microcells~\cite{beck2014mobile} allow us to think of one local-edge domain per block, or even per building in certain vital places, such as government buildings or transport stations.
-
-
-
-
 
 
 

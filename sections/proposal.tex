@@ -41,11 +41,9 @@ During Engagement, the domain manager deals with the following events:
 	
 	\item \textbf{$\mu$-service deallocated:} indicates the unavailability of a given $\mu$-service. The manager must react by queuing subsequent requests for that service.
 		
-	\item \textbf{$\mu$-service allocated:} indicates the availability of a given $\mu$-service. The manager must react by resuming the processing of pending and subsequent requests.
-	
+	\item \textbf{$\mu$-service allocated:} indicates the availability of a given $\mu$-service. The manager must react by resuming the processing of pending and subsequent requests.	
 
-	\item \textbf{Request arrived:} indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the allocation of the request to a service instance according to a load balancing mechanism.
-	%TODO: [Gio]  shouldn't it be "Service requested"?
+	\item \textbf{Service requested:} indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the allocation of the request to a service instance according to a load balancing mechanism.
 \end{itemize}
 
 In turn, the mobile middleware deals with the following events:
@@ -54,7 +52,7 @@ In turn, the mobile middleware deals with the following events:
 	
 	\item \textbf{C-Request arrived:} indicates the client application has sent a new request to the continuum. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the corresponding $\mu$-service from the currently selected domain.
 	
-	\item \textbf{Response arrived:} indicates the arrival of a response from a domain for an invoked service. The middleware must handle it with the triggering of a \textit{C-Request served} event to be handled by the client application.
+	\item \textbf{Response served:} indicates the arrival of a response from a domain for an invoked service. The middleware must handle it with the triggering of a \textit{C-Request served} event to be handled by the client application.
 	
 	%\item \textbf{C-Request served:} indicates a given C-request has been processed. It contains the original $\mu$-service reference along with any return value(s). The client application is responsible for handling the event.
 	
