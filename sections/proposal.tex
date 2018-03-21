@@ -99,23 +99,23 @@ In turn, the mobile middleware deals with the following events:
 
 
 %TODO we may change placement for allocation to avoid confusion with the placement among different edge servers (e.g., in the context NFV)
-The \textit{Allocation} models the placement of functions and dependencies on the cloud and edge domain's resources, i.e., on its pool of servers, virtual machines, and containers. It also captures the client-side selection of the provider domain for each $\mu$-service employed by the application.
+The \textit{Allocation} models the deployment of continuum $\mu$-services on a pool of resources from cloud and edge providers. It also captures the client-side selection of the provider for each continuum $\mu$-service employed by the application.
 
 %From the domain's perspective, the allocation phase models the placement of $\mu$-services on the domain's resources, i.e., on its pool of servers, virtual machines, and containers. At the beginning of this phase, $\mu$-service artifacts have been \textit{acquired} by the domain, and the client has been \textit{notified} of this.
 
 \subsubsection*{Domain-side Allocation}
 
-The scope of the domain-side allocation is limited by the domain's boundaries. For example, cloud domains allocate functions to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more servers covering a building or an office (local-edge) or a 5G base station area (mobile-edge).
+The scope of the domain-side allocation is limited by the domain's boundaries. For example, cloud domains allocate $mu$-services to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more servers covering a an office or a building (local-edge) or a 5G base station area (mobile-edge).
 
-During Allocation, the domain manager deals with the following events:
+To realize this activity, the domain manager exploits a self-management loop~\cite{kephart2003vision} to guarantee a specified QoS by dynamically allocating resources (i.e., containers) to continuum $\mu$-services. Throughout Allocation, the domain manager deals with the following events:
 
 \begin{itemize}
 	
-	\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The manager reacts by including the $\mu$-service in its allocation control loop.
+	\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The manager reacts by including this $\mu$-service in its self-management loop.
 	
-	\item \textbf{New client:} indicates the arrival of a new client of a given $\mu$-service. The self-management control loop must take into account in the decision of allocating service instances.
+	%\item \textbf{New client:} indicates the arrival of a new client of a given $\mu$-service. 
 	
-	\item \textbf{Service-requested}: as defined in Section~\ref{sec:A3-E-engagement}. 
+	\item \textbf{Service-requested}: as defined in Section~\ref{sec:A3-E-engagement}. The manager takes this event into account as part of its self-management loop.
 	
 \end{itemize}
 
@@ -125,10 +125,18 @@ During Allocation, the domain manager deals with the following events:
 	\label{fig:A3Edomain-manager}
 \end{figure}
 
-To realize this activity, the domain manager exploits a self-management control loop~\cite{kephart2003vision} to guarantee a specified QoS by dynamically allocate resources (i.e., containers) to each $\mu$-service.
-To cope with the low-latency nature of continuum applications and their highly-varying workload of incoming requests  (e.g., from users that quickly enter and leave a particular edge area) we i) consider the \textit{response time} as the reference metric of QoS and ii) propose a fast and highly scalable materialization of the self-management loop based on control theory.  In literature one can find many approaches of dynamic resource allocation based on heuristics~\cite{dustdar0}, artificial intelligence~\cite{ia1} and queue theory~\cite{queue1}. Nevertheless, we chose to use an extremely lightweight control theoretical technique to fully exploit the container technology~\cite{Quatrocchi2016discrete}: compared to virtual machines containers can be booted in few seconds, therefore we used controllers that are able to change the resource allocation with a very fast period (i.e., in the order of few seconds).
+To cope with the low-latency requirement of continuum applications and a highly dynamic workload  (e.g., from users that quickly enter and leave a particular edge area) we 
+%TODO move to the problem formulation i) consider the \textit{response time} as the reference metric of QoS and ii) 
+propose a fast and scalable materialization of the self-management loop based on control theory.  In literature one can find many approaches of dynamic resource allocation based on heuristics~\cite{dustdar0}, artificial intelligence~\cite{ia1} and queue theory~\cite{queue1}. Nevertheless, we adopted an extremely lightweight control theoretical technique to fully exploit the container technology~\cite{Quatrocchi2016discrete}: compared to virtual machines containers can be booted in few seconds, therefore we used controllers that are able to change the resource allocation with a very fast period (i.e., in the order of few seconds).
 
-Figure~\ref{fig:A3Edomain-manager} shows an high-level view of our control system. The system to be controlled, or the \textit{plant} in control-theoretical terms, is the provider's resource pool composed by a cluster of (virtual) machines. Various instances  of containers are deployed in those machines and they execute $\mu$-services. Each service can be replicated on different machines, enabling horizontal scalability. The plant is subject to different signals that could be measurable (input variables) or unknown (disturbances). Considering a discrete time, for each $\mu$-services we define $\lambda(k)$ as the function of the measured arrival rate of requests at each control time $k$; while $\bar{\lambda}(k)$ is the vector that contains all these values. At time $k$ each $\mu$-services is executed in a $c(k)$ number of containers or replicas and $\bar{c}(k)$ is the corresponding vector of all the allocations. The number of resource allocated to a container (e.g., CPU and memory) is considered fixed and equal for all the $\mu$-services, coherently to the architecture of serverless frameworks such as OpenWhisk~\cite{OpenWhisk}. The disturbances are defined as $\bar{d}$ and cannot be directly controlled and measured by definition.  Finally the output variable of the system $\bar{\tau}$ is the vector of response times produced by each $\mu$-service, while we define the desired response times or control set-point as $\bar{\tau}^\circ$. $\bar{\tau}^\circ$ corresponds to the QoS that the service provider wants to guarantee. In our current setup the function $\bar{\tau}^\circ(k)$ does not vary over time that means that we want to provide a constant quality of service (i.e., a constant response time) for each  $\mu$-service. Of course, these values should be set below the thresholds defined in the SLA (i.e., ${\tau}^\circ(k)_i <  \Delta_i, \forall i, x$ with $ 1 \le i \le m \wedge x \ge 0$). Moreover, since response time cannot be measured instantaneously but by aggregating the execution times of different requests over a predefined time window, many aggregation functions could be used without any change to the system model and controller. For example in our current setup we are using the 99th percentile function. 
+Figure~\ref{fig:A3Edomain-manager} depicts an overview of the control system, which is responsible for the deployment of containers to the cluster of (virtual) machines composing a domain's pool of resources (or the \textit{plant} in control-theoretical terms). Each container provides the runtime environment required for the execution of a given continuum $\mu$-service; and multiple instances of $\mu$-services may coexist in one or more machines (horizontal scalability).
+
+%The system 
+%to be controlled, or the \textit{plant} in control-theoretical terms, is the provider's resource %pool composed by a cluster of (virtual) machines. 
+
+%Containers are deployed in those machines and they execute $\mu$-services. Each service can be replicated on different machines, enabling horizontal scalability. 
+
+The plant is subject to different signals that could be measurable (input variables) or unknown (disturbances). Considering a discrete time, for each $\mu$-services we define $\lambda(k)$ as the function of the measured arrival rate of requests at each control time $k$; while $\bar{\lambda}(k)$ is the vector that contains all these values. At time $k$ each $\mu$-services is executed in a $c(k)$ number of containers or replicas and $\bar{c}(k)$ is the corresponding vector of all the allocations. The number of resource allocated to a container (e.g., CPU and memory) is considered fixed and equal for all the $\mu$-services, coherently to the architecture of serverless frameworks such as OpenWhisk~\cite{OpenWhisk}. The disturbances are defined as $\bar{d}$ and cannot be directly controlled and measured by definition.  Finally the output variable of the system $\bar{\tau}$ is the vector of response times produced by each $\mu$-service, while we define the desired response times or control set-point as $\bar{\tau}^\circ$. $\bar{\tau}^\circ$ corresponds to the QoS that the service provider wants to guarantee. In our current setup the function $\bar{\tau}^\circ(k)$ does not vary over time that means that we want to provide a constant quality of service (i.e., a constant response time) for each  $\mu$-service. Of course, these values should be set below the thresholds defined in the SLA (i.e., ${\tau}^\circ(k)_i <  \Delta_i, \forall i, x$ with $ 1 \le i \le m \wedge x \ge 0$). Moreover, since response time cannot be measured instantaneously but by aggregating the execution times of different requests over a predefined time window, many aggregation functions could be used without any change to the system model and controller. For example in our current setup we are using the 99th percentile function. 
 
  We dedicate one controller per $\mu$-service with the goal to compute the next container allocation in order to obtain:
 
@@ -141,30 +149,24 @@ or more realistically, considering all the services:
 \end{equation}
 
 To do that the controllers must model the system with enough details to govern the dynamics of the plant. In control theory this is done by defining a characteristic function. We assume that this function does not need to be linear but regular enough be linearizable in the domain space of interest. Moreover, we consider this function to be dependent on the ratio of the number of allocated containers $c$ and the request rate $\lambda$.  This function, $f$ to give it a name, is intuitively monotonically decreasing towards a possible lower horizontal asymptote, as it can be assumed that once the parallelism degree of a $\mu$-service is fulfilled by the available containers, adding new ones causes no further decrease in the response time. More specifically, we found a practically acceptable function to be
-
 \begin{equation}
 f \left( \frac{c(k)}{\lambda(k)}\right)  = \widetilde{u}(k) = c_1+\frac{c_2}{1+c_3\frac{c(k)}{\lambda(k)}}
 \label{eqn:CsysModel-f}
 \end{equation}
 \noindent where parameters $c_1$, $c_2$, and $c_3$ were obtained through profiling of each $\mu$-service. Thus we obtain the following dynamic system:
-
-
 \begin{equation}
 \tau(k)  = p \tau(k-1) + (1-p)\widetilde{u}(k-1)
 \label{eqn:CsysModel-s}
 \end{equation}
-
 where $p \in [0,1)$ is the single pole of the system estimated with step response analysis. As control techniques we rely on PI controllers because they are able to effectively control systems dominated by a first order dynamic ~\cite{aastrom1995pid} (i.e., representable with first order differential equations) such as the studied ones. PI controllers compute the next state of a plant by using two contributions: one that is proportional and another that is integral to the error $e$. Algorithmically: 
-
 \begin{align*}
 e   &:= \tau_r^{\circ}-\tau_r;\\
 x_R &:= x_{R_p}+(1-p)*e_p;\\
 c   &:= \lambda*f_{inv}((\alpha-1)/(p-1)*(x_R+e));\\
 c   &:= max(min(Kmax,c), Kmin);\\
 x_{R_p} &:= (p-1)/(\alpha-1)*f(c/\lambda)-e;\\
-e_p  &:= e;\\
+e_p  &:= e;
 \end{align*}
-
 where the ``$p$'' subscript denotes ``previous'' values, i.e., those corresponding to the previous step, while ``$f$'' and ``$f_{inv}$'' correspond to the characteristic function and its inverse, respectively, while $\alpha \in [0,1)$ is the single pole of the controller (the higher the value the faster will be the error convergence to $0$). The algorithm is run by each controller at each control step independently (i.e. without synchronization) to compute the next container allocation for the corresponding $\mu$-service. $\hat{c}$ is the vector containing the allocations of all the services. $\hat{c}$ is not immediately actuated (through the container manager of choice such as Docker Swarm~\cite{Swarm} or Kubernetes~\cite{Kubernetes}) since the sum of the allocations could be greater than the entire capacity of the resource pool. In fact $\hat{c}$  is passed to another control component called  \textit{ContentionManager}. The  output of ContentionManager is a vector $\bar{c}$, the actual container allocations of $\mu$-services, defined as 
 \begin{equation}
 		\bar{c}(k) =
