@@ -96,11 +96,7 @@ In turn, the mobile middleware deals with the following events:
 %	\hfill\null
 %	\caption{Self-management loops for domain-side $\mu$-services allocation and client-side domain selection}\label{fig:allocation-loops}
 %\end{figure}
-\begin{figure}[tbp]
-	\includegraphics[width=0.7\textwidth]{figs/domain-manager-allocation}
-	\caption{Dynamic resource allocation based on control-theory.}
-	\label{fig:A3Edomain-manager}
-\end{figure}
+
 
 %TODO we may change placement for allocation to avoid confusion with the placement among different edge servers (e.g., in the context NFV)
 The \textit{Allocation} models the placement of functions and dependencies on the cloud and edge domain's resources, i.e., on its pool of servers, virtual machines, and containers. It also captures the client-side selection of the provider domain for each $\mu$-service employed by the application.
@@ -122,6 +118,12 @@ During Allocation, the domain manager deals with the following events:
 	\item \textbf{Service-requested}: as defined in Section~\ref{sec:A3-E-engagement}. 
 	
 \end{itemize}
+
+\begin{figure}[tbp]
+	\includegraphics[width=0.7\textwidth]{figs/domain-manager-allocation}
+	\caption{Control loop implementing the self-management of a domain's resources}
+	\label{fig:A3Edomain-manager}
+\end{figure}
 
 To realize this activity, the domain manager exploits a self-management control loop~\cite{kephart2003vision} to guarantee a specified QoS by dynamically allocate resources (i.e., containers) to each $\mu$-service.
 To cope with the low-latency nature of continuum applications and their highly-varying workload of incoming requests  (e.g., from users that quickly enter and leave a particular edge area) we i) consider the \textit{response time} as the reference metric of QoS and ii) propose a fast and highly scalable materialization of the self-management loop based on control theory.  In literature one can find many approaches of dynamic resource allocation based on heuristics~\cite{dustdar0}, artificial intelligence~\cite{ia1} and queue theory~\cite{queue1}. Nevertheless, we chose to use an extremely lightweight control theoretical technique to fully exploit the container technology~\cite{Quatrocchi2016discrete}: compared to virtual machines containers can be booted in few seconds, therefore we used controllers that are able to change the resource allocation with a very fast period (i.e., in the order of few seconds).
