@@ -94,12 +94,14 @@ Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a conti
 
 \subsection{Life-cycle Management}
 
-The management of continuum services life-cycle is focused on two conflicting aspects: i) the satisfaction of application requirements (e.g., maximum service latency, battery consumption, availability, etc); and ii) the optimization of resources employed by services. 
+The management of continuum services life-cycle is focused on two conflicting aspects: i) the satisfaction of application requirements (e.g., maximum service latency, battery consumption, availability, etc); and ii) the optimization of resources employed by service providers. 
 
 From the providers' perspective, an optimal allocation of its domain resources corresponds to the minimum number of continuum $\mu$-service instances that must be allocated by each of its domains to cope with the SLA of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
 
-To better express this problem, let's consider the set of $\mu$-services $s_i \in S$, with $1 \le i \le m$ and $m = |S|$. Each $s_i \in S$ has a corresponding set of instances $f_{ij} \in F_i$, with $0 \le j \le k_i$ and $k_i = |F_i|$. Now let's consider that each provided $\mu$-service $s_i \in S$ is bound to a SLA specifying the maximum service delay $\Delta_i$ and the maximum/minimum number of instances $Kmax_{i}/Kmin_{i}$, so that $\forall F_i, Kmin{i} \le k_i \le Kmax_{i}$. %, and a relative priority $p_i$. 
-Given the current demand and delay (respectively $u_i$ and $\delta_i$) associated to each service $s_i \in S$, the aim of the \textit{domain manager} is to assure that $\forall s_i \in S, \delta_i \le \Delta_i$. 
+To better express this problem, let's consider the set of $\mu$-services $s_i \in S$, with $1 \le i \le m$ and $m = |S|$. Each $s_i \in S$ has a corresponding set of instances $f_{ij} \in F_i$, with $0 \le j \le k_i$ and $k_i = |F_i|$. Each instance $f_{ij} \in F_i$ is bound to a container. The resources allocated to eacg container (e.g., CPU and memory) is considered fixed and equal for all the $\mu$-services, coherently to the architecture of FaaS frameworks such as OpenWhisk~\cite{OpenWhisk}. 
+
+Now let's consider that each provided $\mu$-service $s_i \in S$ is bound to a SLA specifying the maximum service delay $\Delta_i$ and the maximum/minimum number of instances $Kmax_{i}/Kmin_{i}$, so that $\forall F_i, Kmin{i} \le k_i \le Kmax_{i}$. %, and a relative priority $p_i$. 
+Given the current demand and delay (respectively $u_i$ and $\delta_i$) associated to each service $s_i \in S$, the aim of a \textit{domain manager} is to assure that $\forall s_i \in S, \delta_i \le \Delta_i$. 
 
 %Also, each instance $f_{ij} \in F_i$ is bound to a single core container with fixed memory and storage. Considering that CPU is a scarcer resource, we may assume, without loss of generality, that the number of $\mu$-instances per domain is limited by the amount of CPU cores available ($|C|$) in its pool of resources, i.e., that $\sum_{i=1}^{m} k_i \le |C|$.
 
@@ -154,7 +156,7 @@ To support the AV, two continuum $\mu$-services are envisioned: the \textit{rout
 
 During our user's journey home, her AV passes by a touristic region. The mobile-edge domains covering this area provides continuum $\mu$-services to be consumed by an AR application for tourists. These services share computational resources with those of AVs passing by the same area, as well as any other continuum $\mu$-services that happens to be provided by those mobile-edge domains.
 
-Due to resource limitation, each mobile-edge domain must employ mechanisms to efficiently manage its resources and assure that competing $mu$-services are best provided according to their Service Level Agreement (SLA). In our example, the AV's \textit{incident notification} $\mu$-services is likely to enjoy a higher priority regarding the AR's $\mu$-services due to the criticality of the former.
+Due to resource limitation, each mobile-edge domain must employ mechanisms to efficiently manage its resources and assure that competing $\mu$-services are best provided according to their Service Level Agreement (SLA). In our example, the AV's \textit{incident notification} $\mu$-services is likely to enjoy a higher priority regarding the AR's $\mu$-services due to the criticality of the former.
 
 Finally at home, our user 
 %can start using her domestic local-edge. She 
