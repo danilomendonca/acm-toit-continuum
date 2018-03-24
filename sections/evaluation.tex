@@ -13,7 +13,7 @@ We deployed four domains that materialize the computing continuum --- as shown i
 \begin{table}[htb]
 	\caption{Domains Setup in the Continuum for the Experimental Evaluation}
 	\label{tab:domain-exp-config}
-	\small
+	\footnotesize
 	\begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}>{\raggedright}p{1.7cm}>{\raggedright}p{6cm}>{\raggedright}p{5cm}}
 		\toprule 
 		Domain & Machine Resources & Execution Environment\tabularnewline
@@ -89,8 +89,7 @@ This experiment excluded the mobile domain and focused on the remote ones, i.e.,
  
 Finally, we compared our edge deployment (local-edge-2) against a state of the art tool for edge resource management: the Enorm framework~\cite{wang2017enorm}, whose details are discussed in Section~\ref{sec:related}. Enorm features a similar configuration for the edge node, with constrained resources. Figure~\ref{fig:a3e-enorm-latency} shows the latency reduction when using an edge alternative instead of a cloud one. Note that as the applications used to test each approach are different, results are shown as a percentage regarding the cloud alternative. A3-E performs better for up to 32 simultaneous requests (from 35\% to 55\% latency reduction), whilst both approaches tend to perform worst than the cloud solution with heavier workloads (from 64 simultaneous requests on).  
 
-\begin{figure}
-	
+\begin{figure}	
 	\centering
 	\includegraphics[width=.9\textwidth]{figs/a3e-enorm-latency}
 	\vspace{-.3cm}
@@ -140,13 +139,11 @@ The experiment consisted in cascading $2000$ sequential requests for feature ext
 
 \begin{figure}[htb]
 	\centering
-		\captionsetup[subfigure]{width=0.45\textwidth}	
-	\subfloat[Total execution time (seconds)\label{fig:total-exec-a3e}] {\includegraphics[width=0.45\textwidth]{figs/total-exec-time-A3E}}	\captionsetup[subfigure]{width=0.45\textwidth}
-	\subfloat[Battery consumption (\%)\label{fig:battery-a3e}] {\includegraphics[width=0.45\textwidth]{figs/battery-consumption-A3E}}
-	
-	\centering
-	
-	\captionsetup[subfigure]{width=0.45\textwidth}	\subfloat[Execution time per call (ms)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.45\textwidth]{figs/time-per-call-A3E}}
+	\captionsetup[subfigure]{width=0.3\textwidth}	
+	\subfloat[Total execution time (seconds)\label{fig:total-exec-a3e}] {\includegraphics[width=0.3\textwidth]{figs/total-exec-time-A3E}}	\captionsetup[subfigure]{width=0.3\textwidth}
+	\subfloat[Battery consumption (\%)\label{fig:battery-a3e}] {\includegraphics[width=0.3\textwidth]{figs/battery-consumption-A3E}}
+	\captionsetup[subfigure]{width=0.3\textwidth}	
+	\subfloat[Execution time per call (ms)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.3\textwidth]{figs/time-per-call-A3E}}
 	%\captionsetup[subfigure]{width=0.45\textwidth}
 	%\subfloat[Number of Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.45\textwidth]{figs/calls-per-domain-A3E}}	
 	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
@@ -189,14 +186,13 @@ Figure~\ref{fig:calls-per-domain-a3e} shows the distribution of calls per domain
  
 \begin{figure}[htb]
 \centering
-	\captionsetup[subfigure]{width=0.45\textwidth}
+	\captionsetup[subfigure]{width=0.3\textwidth}
 	\subfloat[Average availability (\%)\label{fig:availability-all-domains}] 
-	{\includegraphics[width=0.45\textwidth]{figs/availability-all-domains}}
-	\captionsetup[subfigure]{width=0.45\textwidth}
-	\subfloat[Number of requests served\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.45\textwidth]{figs/calls-per-domain-A3E-optimal}}
-	
-	\subfloat[Total Execution Time\label{fig:total-exec-time-optimal}] {\includegraphics[width=0.45\textwidth]{figs/total-exec-time-optimal}}
-
+	{\includegraphics[width=0.3\textwidth]{figs/availability-all-domains}}
+	\captionsetup[subfigure]{width=0.3\textwidth}
+	\subfloat[Number of requests served\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.3\textwidth]{figs/calls-per-domain-A3E-optimal}}
+	\captionsetup[subfigure]{width=0.3\textwidth}
+	\subfloat[Total Execution Time\label{fig:total-exec-time-optimal}] {\includegraphics[width=0.3\textwidth]{figs/total-exec-time-optimal}}
 	
 	\caption{All-domains scenario results} \label{fig:all-domains}
 \end{figure}

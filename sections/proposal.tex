@@ -168,16 +168,11 @@ Throughout Allocation, the mobile middleware deals with the following events:
 
 The \textit{Acquisition} models the automated download and installation of continuum $\mu$-service artifacts and the confirmation of the domain's capability in providing that $\mu$-service.
 
-%From the domain's perspective, the acquisition phase models the dynamic and automated acquisition of the $\mu$-service artifacts needed during the allocation phase. 
-%In particular, artifacts refer to: (i) the function(s) composing the service (e.g., a Java compiled class); (ii) static data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries).
-%upon identification of requirements from a given application. 
 The ultimate goal of Acquisition is to mitigate the use of domain resources before the $\mu$-service is actually needed, while also facilitating IT operations (Ops) for developers and administrators. 
-
-%At its beginning, a domain has already \textit{identified} the $\mu$-service required by the client, which in turn is \textit{aware} of that domain's existence.
 
 Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of $\mu$-services can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current FaaS platforms only support uploading (pushing) functions through public interfaces. 
 
-The acquisition of functions would be managed by a process within the domain, therefore allowing $\mu$-services to be downloaded (e.g., pulled from a repository) and installed on demand. Note that mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
+The acquisition of functions is managed by a process within the domain, therefore allowing $\mu$-services to be downloaded (e.g., pulled from a repository) and installed on demand. Note that mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
@@ -197,8 +192,7 @@ Throughout Acquisition, the domain manager handles the following event:
 %As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
 %In case the service has already been acquired or as the acquisition finishes, clients should add that domain to their list of available domains. 
 
-From the client's perspective, the Acquisition corresponds to the addition of a domain to a list of capable domains. %This is done once the domain has proven that it can actually provide the requested $\mu$-service. 
-During this activity, the mobile middleware deals with the following events:
+From the client's perspective, the Acquisition corresponds to the confirmation of a domain's capability in providing $\mu$-services required by the application. During this activity, the mobile middleware deals with the following events:
 
 \begin{itemize}
 	
