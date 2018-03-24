@@ -47,6 +47,7 @@ During Engagement, the domain manager deals with the following events:
 
 In turn, the mobile middleware deals with the following events:
 
+
 \begin{itemize}
 	
 	\item \textbf{C-Request arrived:} indicates the client application has sent a new request to the continuum. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the corresponding $\mu$-service from the currently selected domain.
@@ -108,7 +109,7 @@ To realize this activity, the domain manager exploits a self-management loop~\ci
 	
 	\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop.
 	
-	%\item \textbf{New client:} indicates the arrival of a new client of a given $\mu$-service. 
+	\item \textbf{Client arrived:} indicates the arrival of a client from a given $\mu$-service. TODO
 	
 	\item \textbf{$\mu$-service requested}: as defined in Section~\ref{sec:A3-E-engagement}. The domain manager must take this event into account as part of its self-management loop.
 	
@@ -184,7 +185,10 @@ Throughout Acquisition, the domain manager handles the following event:
 
 \begin{itemize}
 	
-	\item \textbf{$\mu$-service identified:} indicates the request for deployment of a new $\mu$-service. The manager must proceed with the verification of requirements and the triggering of a \textit{service acquired} (or \textit{denied}) event according to its capability in providing that $\mu$-service.
+	\item \textbf{$\mu$-service identified:} indicates the request for deployment of a new $\mu$-service. The manager must proceed with the download and installation of the $\mu$-service, followed by the triggering of a \textit{service acquired} (or \textit{denied}) signal/event according to the activity outcome.
+	%its capability in providing that $\mu$-service.
+	
+	%\item \textbf{Client arrived:} triggered when a new client entered the domain's coverage area. The manager must react with 
 	
 \end{itemize}
 
@@ -198,11 +202,11 @@ During this activity, the mobile middleware deals with the following events:
 
 \begin{itemize}
 	
-	\item \textbf{Domain found:} indicates a potential domain for a $\mu$-service has been found. The middleware must proceed with the $\mu$-service identification.	
+	\item \textbf{Domain found:} indicates a potential domain for a $\mu$-service has been found. The middleware must proceed with the \textit{$\mu$-service identification} signal (if the domain is new) followed by the triggering of a \textit{domain confirmed} event.	
 	
-	\item \textbf{Domain acquired:} indicates a successful acquisition of a previously identified $\mu$-service. The middleware must react with the triggering of a \textit{domain confirmed} event.
+	\item \textbf{$\mu$-service acquired:} indicates a successful acquisition of a previously identified $\mu$-service. The middleware must react with the triggering of a \textit{domain confirmed} event.
 	
-	\item \textbf{Domain denied:} indicates the failure in acquiring and/or deploying a $\mu$-service. The middleware must proceed with the blacklisting of that domain. 
+	\item \textbf{$\mu$-service denied:} indicates the failure in acquiring and/or deploying a $\mu$-service. The middleware must proceed with the blacklisting of that domain. 
 	
 \end{itemize}
 
@@ -233,11 +237,17 @@ Throughout Acquisition, the domain manager handles the following event:
 
 \begin{itemize}
 	
-	\item \textbf{$\mu$-service identified:} indicates the request for deployment of a new $\mu$-service. The manager must proceed with the verification of requirements and the triggering of a \textit{service acquired} (or \textit{denied}) event according to its capability in providing that $\mu$-service.
+	\item \textbf{Client identified:} triggered when a new client enters the domain's coverage area. The manager must react with the triggering of a \textit{client arrived} event for each $\mu$-service related to this client.
 	
 \end{itemize}
 
-TODO: add client-side awareness 
+The mobile middleware, in turn, realizes Awareness with the discovery of cloud and edge domains. In particular, throughout Awareness the middleware handles the following event:
+
+\begin{itemize}
+	
+	\item \textbf{Domain identified:} triggered when a domain is found. The middleware must react with the triggering of a \textit{domain found} event.
+	
+\end{itemize}
 
 %It copes with the need for efficiency and scalability of finely distributed edge domains by allowing acquisition and/or allocation of services to happen just in time, i.e., just before the client application needs them.
 %and enables not only functions to be allocated, but also acquired in an opportunistic fashion.
