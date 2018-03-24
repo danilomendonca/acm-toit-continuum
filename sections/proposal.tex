@@ -10,8 +10,7 @@ A3-E targets the efficient and scalable placement of $\mu$-services along the co
 %As an outcome of the first three activities, an instance of the service(s) required by the continuum application shall be ready for been engaged.
 
 A3-E activities are illustrated in Fig.~\ref{fig:A3-E-process}. Each main activity 
-is further refined by specific activities carried out by a \textit{domain manager} and by a \textit{mobile middleware}. These activities addresses different concerns in the interaction between client applications and service providers. Activities from both sides are not bound in time, but interact through signals (dashed arrows in Fig.~\ref{fig:A3-E-process}) and events (solid arrows in Fig.~\ref{fig:A3-E-process}). To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which activities are employed and how.
-
+is further refined by specific activities carried out by a \textit{domain manager} and by a \textit{mobile middleware}. These activities addresses different concerns in the interaction between client applications and service providers. Activities from both sides coordinate through signals (dashed arrows) and events (solid arrows). To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which activities are employed and how.
 %For each phase, the main activities of a \textit{domain} and a \textit{client} are depicted along with their mutual relative state at the moment the phase starts: for a domain, a service state ranges from \textit{Free} to \textit{Allocated}, whilst a domain state ranges from \textit{Away} to \textit{Selected} for a client. 
 %More precisely, Fig.~\ref{fig:A3-E-process} refers to the activities and states (in parenthesis) of a single client-domain interaction.
 
@@ -58,7 +57,7 @@ In turn, the mobile middleware deals with the following events:
 	
 	\item \textbf{Domain absent:} indicates no domain is currently available for that specific service. The middleware must react by queuing subsequent C-requests and, in case of latency violation, triggering a \textit{C-request failed} event.
 	
-	\item \textbf{Domain selected:} indicates a domain have been selected for a specific $\mu$-service. The middleware must handle it by resuming the forward of any queued and subsequent C-requests.
+	\item \textbf{Domain changed:} indicates a domain have been selected for a specific $\mu$-service. The middleware must handle it by resuming the forward of any queued and subsequent C-requests.
 	
 \end{itemize}
 
@@ -103,7 +102,7 @@ The \textit{Allocation} models the deployment of continuum $\mu$-services on a p
 
 The scope of the provider-side allocation is limited by its domain boundaries. For example, cloud domains allocate $\mu$-services to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more (virtual) machines covering a an office or a building (local-edge) or a 5G base station area (mobile-edge).
 
-To realize this activity, the domain manager exploits a self-management loop~\cite{kephart2003vision} (see Sec.~\ref{sec:cs_allocation}) to guarantee a specified QoS by dynamically allocating resources (i.e., containers) to continuum $\mu$-services. Throughout Allocation, the domain manager deals with the following events:
+To realize this activity, the domain manager exploits a self-management loop~\cite{kephart2003vision} (see Sec.~\ref{sec:ps_allocation}) to guarantee a specified QoS by dynamically allocating resources (i.e., containers) to continuum $\mu$-services. Throughout Allocation, the domain manager deals with the following events:
 
 \begin{itemize}
 	
@@ -131,17 +130,20 @@ To realize this activity, the domain manager exploits a self-management loop~\ci
 
 %The specific algorithms for the placement of services among the domain's resources that should be employed at the analysis phase are out of the scope of this paper. Nonetheless, recent works~\cite{} have addressed this challenge in the context of a continuum formed by edge and cloud datacenters. 
 
-Given the state of different domains perceived by a client, the mobile middleware must decide which domain is responsible for each $\mu$-service consumed by the application. Throughout this activity, the mobile middleware deals with the following events:
+%Given the state of different domains perceived by a client, the mobile middleware must decide which domain is responsible for each $\mu$-service consumed by the application. 
+
+A self-management loop (see Sec.~\ref{sec:cs_allocation}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu-service$ consumed by the client application, the middleware checks the corresponding QoS levels from the list of capable domains. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
+Throughout Allocation, the mobile middleware deals with the following events:
 
 \begin{itemize}
 	
-	\item \textbf{Domain acquired:} indicates the compatibility of a domain in providing a given $\mu$-service. The middleware must react by including this domain in its self-management loop.	
+	\item \textbf{Domain acquired:} indicates the agreement of a domain in providing a given $\mu$-service. The mobile middleware must react by including this domain in its self-management loop.	
 	
-	\item \textbf{Domain lost:} indicates a domain can no longer provide a given $\mu$-service. The middleware must react by removing this domain from its self-management loop.
+	\item \textbf{Domain lost:} indicates a domain can no longer provide a given $\mu$-service. The mobile middleware must react by removing this domain from its self-management loop.
 	
 \end{itemize}
 
-A self-management loop (see Sec.~\ref{sec:cs_allocation}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu-service$, the middleware checks the corresponding QoS levels from the list of capable domains. A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
+
 
 %, i.e., it models the computation placement along the client's perception of the continuum. 
 %This decision should consider a list of available domains providing services requested by the client application with accompanying QoS attributes. Accordingly, whereas the domains should take care of intra-domain allocation through service placement, the clients are responsible for the inter-domain allocation through service selection.
@@ -150,7 +152,8 @@ A self-management loop (see Sec.~\ref{sec:cs_allocation}) is also exploited by t
 
 %This sub-process is the main client-side activity required for the realization of the continuum, as it allows clients to seamlessly alternate among different continuum domains according to the context. 
 
-If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choose between their local mobile domain and the cloud domain. If the application's requirements favor low-battery consumption, the cloud domain will be chosen for allocation. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grows, a multi-objective optimization algorithm may be employed to decide among alternative domains.
+%TODO [Danilo] check the consistency of the usage of the running example in this Section
+%If we go back to our running example, in the absence of appropriate edge domains, the low-priority AR applications would need to choose between their local mobile domain and the cloud domain. If the application's requirements favor low-battery consumption, the cloud domain will be chosen for allocation. Otherwise, if low latency is the most important QoS metric, the local mobile domain will be chosen. As the number of requirements grows, a multi-objective optimization algorithm may be employed to decide among alternative domains.
 
 
 %, upon unavailability of edge domains providing services with low latency, the AR application previously introduced would have to choose among mobile or cloud domain. If the application requirements prioritizes low battery consumption (e.g., because battery level is low), it should opt for the cloud domain. Otherwise, if low latency is the priority requirement, it should opt for the cloud domain. 
@@ -162,7 +165,7 @@ If we go back to our running example, in the absence of appropriate edge domains
 
 \subsection{Acquisition}\label{sec:A3-E-acquisition}
 
-The \textit{Acquisition} models the automated acquisition of continuum $\mu$-service artifacts and the confirmation of the domain's capability in providing that $\mu$-service.
+The \textit{Acquisition} models the automated download and installation of continuum $\mu$-service artifacts and the confirmation of the domain's capability in providing that $\mu$-service.
 
 %From the domain's perspective, the acquisition phase models the dynamic and automated acquisition of the $\mu$-service artifacts needed during the allocation phase. 
 %In particular, artifacts refer to: (i) the function(s) composing the service (e.g., a Java compiled class); (ii) static data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries).
@@ -181,9 +184,7 @@ Throughout Acquisition, the domain manager handles the following event:
 
 \begin{itemize}
 	
-	\item \textbf{$\mu$-service identified:} TODO	
-	
-	\item \textbf{New client:} TODO
+	\item \textbf{$\mu$-service identified:} indicates the request for deployment of a new $\mu$-service. The manager must proceed with the verification of requirements and the triggering of a \textit{service acquired} (or \textit{denied}) event according to its capability in providing that $\mu$-service.
 	
 \end{itemize}
 
@@ -192,9 +193,8 @@ Throughout Acquisition, the domain manager handles the following event:
 %As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
 %In case the service has already been acquired or as the acquisition finishes, clients should add that domain to their list of available domains. 
 
-From the client's perspective, the Acquisition corresponds to the addition of a domain to a list of capable domains. This is done once the domain has proven that it can actually provide the requested $\mu$-service. 
-
-In turn, the mobile middleware deals with the following events:
+From the client's perspective, the Acquisition corresponds to the addition of a domain to a list of capable domains. %This is done once the domain has proven that it can actually provide the requested $\mu$-service. 
+During this activity, the mobile middleware deals with the following events:
 
 \begin{itemize}
 	
@@ -224,18 +224,32 @@ In turn, the mobile middleware deals with the following events:
 %CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate $\mu$-services upon detection of the first requests.  
 %A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers; a given domain may count on network components to traffic route to its servers instead of negociating directly with clients aware of its existance; nonetheless, the lack of awareness limits the acquisition and deployment of services to reactive, as the domain would only identify a given service upon the first request has been made. Without awareness, clients would not be able to choose from alternative domains. 
 
-From the domain's side, the awareness phase models how to discover new client applications in its network coverage. Its main purpose is to enable domains to pro-actively initialize the acquisition and allocation phases, based on the physical awareness of devices in the area. Cloud-based FaaS platforms like AWS Lambda adopt a cold start policy in which functions are allocated after their first call following a period of idleness. Taking advantage of the edge's locality, the proposed awareness has two benefits: (i) it alleviates the cold start by pro-actively allocating functions just before they are needed; and (ii) it enables $\mu$-service acquisition to be opportunistic.
+From the provider's viewpoint, the awareness phase models the discovery of continuum applications in one of its domain's coverage area, indicating the imminent need for the corresponding $\mu$-services.
+
+%Its main purpose is to enable domains to pro-actively initialize the Acquisition and Allocation activities, based on the awareness of devices in a domain's coverage area. 
+Cloud-based FaaS platforms like AWS Lambda~\footnote{} adopt a cold start policy in which functions are allocated after their first call following a period of idleness. Taking advantage of the client awareness, the proposed mechanism has two benefits: (i) it alleviates the cold start by pro-actively allocating $\mu$-services just before they are needed; and (ii) it enables $\mu$-service Acquisition to be opportunistic.
+
+Throughout Acquisition, the domain manager handles the following event:
+
+\begin{itemize}
+	
+	\item \textbf{$\mu$-service identified:} indicates the request for deployment of a new $\mu$-service. The manager must proceed with the verification of requirements and the triggering of a \textit{service acquired} (or \textit{denied}) event according to its capability in providing that $\mu$-service.
+	
+\end{itemize}
+
+TODO: add client-side awareness 
 
 %It copes with the need for efficiency and scalability of finely distributed edge domains by allowing acquisition and/or allocation of services to happen just in time, i.e., just before the client application needs them.
 %and enables not only functions to be allocated, but also acquired in an opportunistic fashion.
 %The benefit lies in the anticipation of (opportunistic) services setup with respect to the arrival of the first service request, i.e., in the mitigation of service setup delay (also known as cold start). Since cloud domains cover a large area, the later do not employ the awareness phase. Needless to say, mobile domains do not require awareness for sharing the same platform with client applications.
 
-The DSM achieves this by broadcasting its existence and by waiting for clients to pass along their requirements. In our running example this occurs when the user's domestic local-edge server becomes aware of the new mobile game that the user had just installed. 
-%nd the discovery of client applications along with their requirements (i.e., services). The later are passed to the following phase of acquisition.
-%then receive all client application requirements (i.e., services) as soon as the client's mobile device enters the domain's coverage area, and then pro-actively starting acquisition and allocation. 
-%For example, in the real-time translation application previously introduced, the service setup delay was mitigated by having the acquisition of the data and codebase composing the service to start as soon as the user entered the edge domain's coverage area.
-%For example, the setup of services required by the mobile multiplayer game application by the user's local-edge server follows the awareness of a new application.
-From the client's perspective, the awareness phase models the discovery of domains, and corresponding $\mu$-services, whose network addresses are not previously known. In particular, it tackles edge domains that are integrated with the local network infrastructures of buildings and public spaces. This modality contrasts with cloud which are accessed through DNS and traffic managers. Needless to say, the awareness phase is not considered by mobile domains. The CSM intercepts the provider's broadcast messages, and reacts by sending back its application requirements. This process should happen once, and in a timely fashion, upon connection to new networks to mitigate battery consumption. As an example, the local-edge server in our user's home is discovered when her mobile device connects to her domestic Wi-Fi network. 
+%TODO [Danilo] Commented-out in favor of a more abstract description in terms of events, as broadcasting is something local-edge specific
+%The DSM achieves this by broadcasting its existence and by waiting for clients to pass along their requirements. In our running example this occurs when the user's domestic local-edge server becomes aware of the new mobile game that the user had just installed. 
+%%nd the discovery of client applications along with their requirements (i.e., services). The later are passed to the following phase of acquisition.
+%%then receive all client application requirements (i.e., services) as soon as the client's mobile device enters the domain's coverage area, and then pro-actively starting acquisition and allocation. 
+%%For example, in the real-time translation application previously introduced, the service setup delay was mitigated by having the acquisition of the data and codebase composing the service to start as soon as the user entered the edge domain's coverage area.
+%%For example, the setup of services required by the mobile multiplayer game application by the user's local-edge server follows the awareness of a new application.
+%From the client's perspective, the awareness phase models the discovery of domains, and corresponding $\mu$-services, whose network addresses are not previously known. In particular, it tackles edge domains that are integrated with the local network infrastructures of buildings and public spaces. This modality contrasts with cloud which are accessed through DNS and traffic managers. Needless to say, the awareness phase is not considered by mobile domains. The CSM intercepts the provider's broadcast messages, and reacts by sending back its application requirements. This process should happen once, and in a timely fashion, upon connection to new networks to mitigate battery consumption. As an example, the local-edge server in our user's home is discovered when her mobile device connects to her domestic Wi-Fi network. 
 
 
 %Once the domain is ready, this domain becomes an alternative for the provisioning of services required by the many applications (e.g., the mobile multiplayer game) hosted by the user's smartphone, tablet, and/or other of his IoT gadgets. 
@@ -266,7 +280,7 @@ From the client's perspective, the awareness phase models the discovery of domai
 
 To demonstrate the feasibility of A3-E in managing the life-cycle of continuum applications, we describe the implementation of our model. Due to its complexness, we focus on the implementation of the self-management loops from both provider and client viewpoints.
 
-\subsection{Control Theory-based $\mu$-Services Allocation}~\label{sec:cs_allocation}
+\subsection{Control Theory-based $\mu$-Services Allocation}~\label{sec:ps_allocation}
 
 To cope with the low-latency requirement of continuum applications and a highly dynamic workload  (e.g., from users that quickly enter and leave a particular edge area) we 
 %TODO move to the problem formulation i) consider the \textit{response time} as the reference metric of QoS and ii) 
