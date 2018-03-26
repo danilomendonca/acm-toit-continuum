@@ -208,29 +208,33 @@ In the context of \texttt{all-domains} scenario, this reflects the underlying ra
 %\paragraph{Threats to validity}
 
 \subsection{Opportunistic Acquisition and Allocation}
-%TODO
-TODO
+
 Finally, the last experiment evaluates the overhead introduced by the acquisition and allocation phases of A3-E. Given that such phases make sense only in the context of edge domains (as discussed in Section~\ref{sec:A3-E}), this experiment targeted \textit{local-edge-2} as domain. 
 
-We assume an opportunistic policy, in which no edge resources are pre-allocated beforehand, i.e., a complete  cold start situation (Section~\ref{sec:A3-E-awareness}. In this context, the steps for the experiment are the following:
-- Receive a client's request targeting a new function.
-- Download the function code from a public repository.
-- Build the function against the particular architecture of the edge node
-- Install and provide an endpoint for the function 
-- Execute the function and return the result to the client.
+We adopted an opportunistic policy in which no edge resources are pre-allocated beforehand, i.e., a complete cold-start situation (Section~\ref{sec:A3-E-awareness}. In this context, the experiment consisted of the following steps\footnote{Source code for the experiment available at: https://github.com/deib-polimi/A3-E-DSM-local-edge}:
+- Receive a client's request targeting a new $\mu$-service.
+- Fetch and download the software assets from a repository.
+- Build the $\mu$-service against the specific architecture of the edge node (if needed).
+- Install the corresponding functions in the FaaS platform and provide an endpoint for them. 
+- Execute the requested function and return the result to the client.
 
- We assume that during awareness phase, the client informs the server about its required $\mu$-services and where to fetch their respective assets (which is delayed until after the first function call due to the opportunistic policy). Notice that we measure only the domain-side times: since the client request is received until the result is delivered -- perceived latency was already evaluated in the previous experiments.
+The sample $\mu$-service was that of Image Recognition. For the experiment, we assume that during awareness phase, the client have informed the server regarding the repository to fetch the required assets (~30 Mb including the $mu$-service and dependencies), activity that is delayed until after the first function call due to the opportunistic policy. Also, note that the experiment measures only domain-side times: from the moment when the server receives a request until it delivers the result (perceived latency was already evaluated in the previous experiments). After each function execution, we uninstalled and deleted all the assets related to the $mu$-service, so the subsequent calls also behave as cold starts.
+
+We executed the experiment multiple times with different levels of utilization of the edge node: low (~10\% server load and low network traffic equivalent to 8 clients), medium (~55\% server load and 16 clients) and high (~85\% server load and 32 clients). Again, we were able to compare A3-E against the Enorm framework, given that acquisition and awareness phases (A3-E) are analogous to provisioning phase (Enorm), which consists of deploying an application asset from the cloud to an edge node container. 
+
+\begin{figure}	
+	\centering
+	\includegraphics[width=.9\textwidth]{figs/a3e-enorm-deployment}
+	\vspace{-.3cm}
+	\caption{Overhead for A3E (Acquisition and Allocation phases) and Enorm when provisioning new functionality to an edge node.}
+	\label{fig:exp-a3e-enorm-deployment}
+\end{figure}
 
 
+Figure~\ref{fig:exp-a3e-enorm-deployment} shows the result for the acquisition and awareness experiment. The average time between reception of client request and delivery of the answer was 12.5 and 44 seconds for A3-E and Enorm respectively, without considerable variations regarding the current load of the edge node. Such a reduction of provisioning overhead (up to 70\% less) is one of the main advantages of adopting a FaaS model for the continuum. The underlying FaaS platform (OpenWhisk in this experiment) reduces the burden of downloading and installing new functionality, since functions can be created and deleted in a fraction of the time needed to do so with whole containers (as in Enorm and most state-of-the-art solutions). 
 
+%built it in the edge server, and installation of a functionwe used the Image Recognition function from the Augmented Reality application 
 
-built it in the edge server, and installation of a function
-we used the Image Recognition function from the Augmented Reality application 
-
-
-The \textit{Acquisition} models the automated download and installation of continuum $\mu$-service artifacts and the confirmation of the domain's capability in providing that $\mu$-service.
-
-The \textit{Allocation} models the deployment of continuum $\mu$-services on a pool of resources from cloud and edge providers (assuming $\mu$-services from mobile domains are pre-allocated). It also captures the client-side selection of providers for each of the $\mu$-service employed by the application.
 
 
 
