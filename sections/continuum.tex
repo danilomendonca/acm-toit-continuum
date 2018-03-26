@@ -44,7 +44,7 @@
 %
 %Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. 
 
-In our formulation, edge nodes are distinguished after the networking technology used: mobile-edge (also known as Multi-Access Edge Computing or MEC~\cite{ahmed2016isco}) integrates with cellular network infrastructure (e.g., 5G base station), whereas local-edge integrates with local area network infrastructure (e.g., a wireless access point). Also, we assume that cloud and edge providers may be different and that communication among heterogeneous edge nodes may not be feasible..% and unable to coordinate the allocation of resources.
+In our formulation of the continuum, edge nodes are distinguished after the networking technology they use: \textit{mobile-edge} (also known as Multi-Access Edge Computing or MEC~\cite{ahmed2016isco}) integrates with cellular network infrastructure (e.g., 5G base station), whereas \textit{local-edge} integrates with local area network infrastructure (e.g., a wireless access point). Also, we assume that cloud and edge providers may be different from each other, and that communication among heterogeneous edge nodes may not be feasible.% and unable to coordinate the allocation of resources.
 
 
 
@@ -52,7 +52,8 @@ In our formulation, edge nodes are distinguished after the networking technology
 
 Mobile devices play two roles: they are clients of continuum services; and they are potential providers. The motivation for the inclusion of mobile devices own resources in the model is threefold: i) the substantial increase in computational capacity of modern devices; ii) the compatibility of these devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); and iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. 
 
-Figure X illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile \textit{domains}. 
+%TODO fix Figure X
+Figure X~\ref{fig:topology} illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile \textit{domains}. 
 %Throughout this paper, we refer to \textit{cloud}, \textit{edge}, and \textit{mobile} \textit{domains}. 
 A domain yields a common abstraction for the heterogeneous computational resources (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructure resources composing the continuum. 
 
@@ -75,9 +76,9 @@ A domain yields a common abstraction for the heterogeneous computational resourc
 	\label{fig:Continuum-arch}
 \end{figure}
 
-We propose an application model in which stateless components and immutable data composing \textit{continuum services} are dynamically placed to mobile, edge, and cloud,
+On top of the physical model, we propose an application model in which stateless components and immutable data composing \textit{continuum services} are dynamically placed to mobile, edge, and cloud,
 whilst 
-stateful components are deployed to cloud datacenters or the client device itself based on design-time decision.
+stateful components are deployed to cloud datacenters or the client device itself based on design-time decisions.
 
 Continuum services consist of a set of artifacts that fulfill a given functionality. In particular, these artifacts can refer to: (i) stateless function(s) (e.g., a Java compiled class); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries).
 
@@ -85,14 +86,15 @@ A priori, continuum services are portable, unless they require capabilities that
 
 The proposed service model enforces consistency and allows multiple service instances to coexist along the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
 
-The adopted model is also aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
+The adopted model is also aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In FaaS, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery. %Accordingly, hereinafter we refer to continuum microservices.
 
-In the FaaS model functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}~\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery. %Accordingly, hereinafter we refer to continuum microservices.
+Note that in the Network Function Virtualization (NFV) field, several frameworks have been proposed to cope with the fluctuating demand of network infrastructure, e.g., ETSI MANO (Management and Network Orchestration) Cite ETSI White Paper] or Cloudify [CITE Cloudify White Paper]. These orchestration frameworks can provide an abstraction layer over the mobile edge infrastructure, making the shift among different parts of the continuum completely transparent for the applications. However, as a key difference with our approach, we focus on the opportunistic placement of Application Level Functions, particularly by following the FaaS application model; rather than Virtual Network Functions (as specified in MANO and Cloudify) which we consider as part of the underlying infrastructure, in charge of telecom providers.
+
 
 As state is a fundamental aspect of many applications, we propose that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as persistence. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. %This decision is also aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
 
 %TODO: make it more general, as some applications may have local persistence 
-Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a continuum application. The client-side application comprises \texttt{client-side logic}, \textit{local persistence}, and \texttt{user interface} components, whereas the cloud infrastructure comprises \texttt{server-side logic} and \texttt{persistence} components. Continuum $\mu$-services are responsible for stateless computation opportunistically deployed to different continuum domains.
+Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a continuum application. The client-side application comprises \texttt{client-side logic}, \textit{local persistence}, and \texttt{user interface} components, whereas the cloud infrastructure comprises \texttt{server-side logic} and \texttt{persistence} components. Continuum $\mu$-services are responsible for stateless computation opportunistically deployed to different domains.
 
 \subsection{Running Example}
 \label{sub:example}
