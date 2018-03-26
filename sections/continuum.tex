@@ -112,17 +112,17 @@ explore the points of interest (POI) in the touristic areas from the city she is
 %craft virtual 3D objects that are added to her \textit{smart glasses} as part of her work. 
 This application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog.
 
-Two continuum $\mu$-services are modeled after each task: one relies on a image processing library and a trained model, the other on a feature-based object catalog. Client-side logic is responsible for capturing scenes from the glasses' camera and updating the 3D virtual object state in the scene rendered by the smart glasses.
+Two continuum $\mu$-services are modeled after each task: one relies on a image processing library and a trained model, the other on a feature-based object catalog. Client-side logic is responsible for capturing scenes from the glasses' camera and updating the 3D virtual object in the scene rendered by the smart glasses.
 
 Despite the capacity of existing smart devices (e.g., Glass~\footnote{https://x.company/glass/}) in hosting a plethora of applications, the user may experience functional and non-functional degradation (e.g., reduced object catalog, battery drain, etc). With the offloading of the aforementioned tasks to a server, the user can enjoy an improved Quality-of-Experience with the AR application.
 
 %avoid recharging her glasses and improve productivity. 
 
-Supporting this real-time application, mobile-edge servers were deployed to the cellular base stations covering the touristic areas. The additional storage on these servers allows a larger set of objects to be recognized, thanks to a more completely trained model. 
+Supporting this real-time application, mobile-edge servers were deployed to the cellular base stations covering touristic areas. The additional storage on these servers allows a larger set of objects to be recognized, thanks to a more completely trained model. Variations in the workload are handled with fast instantiation of $\mu$-services, which must consider other applications relying on the same servers.
 
 %In contrast, the network latency to cloud servers may be prohibitive for this real-time application. The decision of which continuum provider to employ must be informed by the application requirements and the Quality-of-Service (QoS) of each alternative. 
 
-After work, our user calls for an autonomous vehicle (AV). During the way to the hostel, our user starts editing the pictures taken during her expedition. To reduce processing time and mitigate consumption, the AV features a local-edge server that provides a catalog of $\mu$-services for image processing. Meanwhile, the vehicle makes use of a \textit{route planning} $\mu$-service
+After work, our user calls for an autonomous vehicle (AV). During the way to the hostel, our user starts editing the pictures taken during her tour. To reduce processing time and mitigate consumption, the AV features a local-edge server that provides a catalog of $\mu$-services for image processing. Meanwhile, the vehicle makes use of a \textit{route planning} $\mu$-service
 %deployed at mobile-edge servers located at cellular base stations 
 to receive updates about the best plan to reach our user's destination. Since latency is not a main requirement, the latter is served by a cloud provider whenever the AV's local-edge server is unavailable. 
 
@@ -144,7 +144,7 @@ Finally at her hotel room, our user
 decides to enjoy a Mobile Game (MG) application. The MG consists of client-side logic and user interfaces (e.g., controllers and views of an MVC~\footnote{Model-View-Controller architectural pattern}). In particular, the game model features complex calculations that pose a burden to her mobile device's CPU. 
 %The application consists of for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). 
 
-Supporting guest devices, the hotel rooms are equipped a local-edge server. The latter identifies the MG application and, upon download and installation, starts providing the $\mu$-services for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). Last but not least, conventional cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores).
+Supporting guest applications, the hotel rooms are equipped with a local-edge server. The latter identifies the MG application and, upon download and installation, starts providing the $\mu$-services for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). Last but not least, conventional cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores).  
 
 %This latter scenario exploits different parts of the continuum. A domestic local-edge domain must identify, fetch, and deploy the corresponding $\mu$-services. Meanwhile and to assure a high availability, the mobile domain remains responsible for the provisioning of these $\mu$-services. Finally, cloud domains complement the possible alternatives for hosting the $\mu$-services and mitigating battery drain, but network latency must be taken into account.
 
