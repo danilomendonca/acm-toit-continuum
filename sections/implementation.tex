@@ -6,32 +6,6 @@
 
 To demonstrate the feasibility of A3-E in managing the life-cycle of continuum applications, we describe the implementation of A3-E. Due to its complexness, we focus on the implementation of the self-management loop for handling Allocation from both provider and client viewpoints. 
 
-\subsection{Formulation}
-
-The management of continuum services life-cycle is focused on two conflicting aspects: i) the satisfaction of application requirements (e.g., maximum service latency, battery consumption, availability, etc); and ii) the optimization of resources employed by service providers. 
-
-From the providers' perspective, an optimal allocation of its domain resources corresponds to the minimum number of continuum $\mu$-service instances that must be allocated by each of its domains to cope with the SLA of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
-
-To better express this problem, let's consider the set of $\mu$-services $s_i \in S$, with $1 \le i \le m$ and $m = |S|$. Each $s_i \in S$ has a corresponding set of instances $f_{ij} \in F_i$, with $0 \le j \le k_i$ and $k_i = |F_i|$. Each instance $f_{ij} \in F_i$ is bound to a container. The resources allocated to eacg container (e.g., CPU and memory) is considered fixed and equal for all the $\mu$-services, coherently to the architecture of FaaS frameworks such as OpenWhisk~\cite{OpenWhisk}. 
-
-Now let's consider that each provided $\mu$-service $s_i \in S$ is bound to a SLA specifying the maximum service delay $\Delta_i$ and the maximum/minimum number of instances $Kmax_{i}/Kmin_{i}$, so that $\forall F_i, Kmin{i} \le k_i \le Kmax_{i}$. %, and a relative priority $p_i$. 
-Given the current demand and delay (respectively $u_i$ and $\delta_i$) associated to each service $s_i \in S$, the aim of a \textit{domain manager} is to assure that $\forall s_i \in S, \delta_i \le \Delta_i$. 
-
-%Also, each instance $f_{ij} \in F_i$ is bound to a single core container with fixed memory and storage. Considering that CPU is a scarcer resource, we may assume, without loss of generality, that the number of $\mu$-instances per domain is limited by the amount of CPU cores available ($|C|$) in its pool of resources, i.e., that $\sum_{i=1}^{m} k_i \le |C|$.
-
-%Furthermore, as the demand for different services is expected to change over time, unless $\forall S_i \in S, U_i = U_i$, idle resources may be employed to reduce $\delta_i$ according to $P_i$.
-
-From the client's viewpoint, an optimal provider selection corresponds to the one that, given a set of requirements and the perceived QoS of different services, satisfies the multi-criteria decision of which provider to be employed. Moreover, since continuum $\mu$-services are modular and independently deployed, it consists of individual decisions regards each $\mu$-service consumed by the application.
-
-To better express the client-side selection, let's extend the previous formulation by considering a set of provider domains $p_d \in D$, with $1 \le d \le |D|$. Each domain $p_d \in D$ provides a set of $\mu$-services $s_{d,i} \in S_d$. A continuum application $CA_x$ relies on the set of $\mu$-services $s_o \in S_x$, with $1 \le o \le |S_x|$, so that $\forall s_o \in S_x,\ \exists\ s_{d,i} \in \bigcup_{d=1}^{|D|} S_d \vee s_i = s_o$. Also, let's consider that each $s_o \in S_x$ is bound to a set of required QoS attributes $qa_u \in QoS_o$, with $1 \le u \le |QoS_o|$ and that each $qa_u \in QoS_o$ is represented by a tuple $(value_u, weigth_u)$ respectively defining the required attribute value and weight. For each $qa_u \in QoS_o$, a corresponding $actual_{d,o,u}$ defines the perceived value for that QoS attribute. It follows that, for each $\mu$-service $s_o \in S_x$ of application $CA_x$, the aim of the \textit{mobile middleware} is to select the domain $d_p \in D$ 
-%best satisfying the set of attributes in $QoS_o$, i.e., 
-that maximizes the domain utility function $U(d) = \sum_{u=1}^{|QoS_o|} weigth_u * actual_{d,o,u}$.
-
-%service latency and cost as our requirements. From the client viewpoint, latency can be refined into network and service latency, with cloud providers exhibiting highest network latency and lowest service latency due to more powerful computational power; edge providers exhibiting low network latency and higher service latency; and finally the local mobile environment exhibiting zero network latency and the highest service latency due to more limited computational power. Service cost, in turn, is lower in the cloud than in the edge and null in the mobile environment. Given the relative importance of each attribute, the aim of the provider selection is to 
-
-
-%The life-cycle management is therefore dual: it comprises the provider-side allocation of service instances at each domain; and it also encompasses the client-side decision of which domain must be selected for each continuum $\mu$-service.
-
 \subsection{Control Theory-based $\mu$-Services Allocation}~\label{sec:ps_allocation}
 
 To cope with the low-latency requirement of continuum applications and a highly dynamic workload  (e.g., from users that quickly enter and leave a particular edge area) we 
