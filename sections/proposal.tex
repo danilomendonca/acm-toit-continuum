@@ -227,22 +227,6 @@ From the provider's viewpoint, the awareness phase models the discovery of conti
 %Its main purpose is to enable domains to pro-actively initialize the Acquisition and Allocation activities, based on the awareness of devices in a domain's coverage area. 
 Cloud-based FaaS platforms like AWS Lambda~\footnote{https://docs.aws.amazon.com/lambda/latest/dg/running-lambda-code.html} adopt a cold start policy in which functions are allocated after their first call following a period of idleness. Taking advantage of the client awareness, the proposed mechanism has two benefits: (i) it alleviates the cold start by pro-actively allocating $\mu$-services just before they are needed; and (ii) it enables $\mu$-service Acquisition to be opportunistic.
 
-Throughout Acquisition, the domain manager handles the following event:
-
-\begin{itemize}
-	
-	\item \textbf{Client identified:} triggered when a new client enters the domain's coverage area. The manager must react with the triggering of a \textit{client arrived} event for each $\mu$-service related to this client.
-	
-\end{itemize}
-
-The mobile middleware, in turn, realizes Awareness with the discovery of cloud and edge domains. In particular, throughout Awareness the middleware handles the following event:
-
-\begin{itemize}
-	
-	\item \textbf{Domain identified:} triggered when a domain is found. The middleware must react with the triggering of a \textit{domain found} event.
-	
-\end{itemize}
-
 %It copes with the need for efficiency and scalability of finely distributed edge domains by allowing acquisition and/or allocation of services to happen just in time, i.e., just before the client application needs them.
 %and enables not only functions to be allocated, but also acquired in an opportunistic fashion.
 %The benefit lies in the anticipation of (opportunistic) services setup with respect to the arrival of the first service request, i.e., in the mitigation of service setup delay (also known as cold start). Since cloud domains cover a large area, the later do not employ the awareness phase. Needless to say, mobile domains do not require awareness for sharing the same platform with client applications.
