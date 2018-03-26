@@ -44,7 +44,7 @@
 %
 %Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. 
 
-In our formulation of the continuum, edge nodes are distinguished after the networking technology they use: \textit{mobile-edge} (also known as Multi-Access Edge Computing or MEC~\cite{ahmed2016isco}) integrates with cellular network infrastructure (e.g., 5G base station), whereas \textit{local-edge} integrates with local area network infrastructure (e.g., a wireless access point). Also, we assume that cloud and edge providers may be different from each other, and that communication among heterogeneous edge nodes may not be feasible.% and unable to coordinate the allocation of resources.
+In our formulation, edge nodes are distinguished after the networking technology they use: \textit{mobile-edge} (also known as Multi-Access Edge Computing or MEC~\cite{ahmed2016isco}) integrates with cellular network infrastructure (e.g., 5G base station), whereas \textit{local-edge} integrates with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from each other, and that communication among heterogeneous edge nodes may not be feasible.% and unable to coordinate the allocation of resources.
 
 
 
@@ -55,7 +55,7 @@ Mobile devices play two roles: they are clients of continuum services; and they 
 %TODO fix Figure X
 Figure X~\ref{fig:topology} illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile \textit{domains}. 
 %Throughout this paper, we refer to \textit{cloud}, \textit{edge}, and \textit{mobile} \textit{domains}. 
-A domain yields a common abstraction for the heterogeneous computational resources (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructure resources composing the continuum. 
+A domain yields a common abstraction for the heterogeneous computational resources (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures composing the continuum. 
 
 
 
@@ -86,15 +86,49 @@ A priori, continuum services are portable, unless they require capabilities that
 
 The proposed service model enforces consistency and allows multiple service instances to coexist along the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
 
-The adopted model is also aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. In FaaS, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery. %Accordingly, hereinafter we refer to continuum microservices.
+The adopted model is also aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
+
+%TODO [Danilo] given our space limitations, let's wait for further adjustments (other contents to be removed) before adding this paragraph
+%In FaaS, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery.
 
 Note that in the Network Function Virtualization (NFV) field, several frameworks have been proposed to cope with the fluctuating demand of network infrastructure, e.g., ETSI MANO (Management and Network Orchestration) Cite ETSI White Paper] or Cloudify [CITE Cloudify White Paper]. These orchestration frameworks can provide an abstraction layer over the mobile edge infrastructure, making the shift among different parts of the continuum completely transparent for the applications. However, as a key difference with our approach, we focus on the opportunistic placement of Application Level Functions, particularly by following the FaaS application model; rather than Virtual Network Functions (as specified in MANO and Cloudify) which we consider as part of the underlying infrastructure, in charge of telecom providers.
 
 
 As state is a fundamental aspect of many applications, we propose that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as persistence. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. %This decision is also aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
 
-%TODO: make it more general, as some applications may have local persistence 
+%TODO: make it more general, as some applications may have local persistence and u-services may also deal with business logic
 Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a continuum application. The client-side application comprises \texttt{client-side logic}, \textit{local persistence}, and \texttt{user interface} components, whereas the cloud infrastructure comprises \texttt{server-side logic} and \texttt{persistence} components. Continuum $\mu$-services are responsible for stateless computation opportunistically deployed to different domains.
+
+\subsection{Life-cycle Management}
+
+The management of continuum services life-cycle is focused on two conflicting aspects: i) the satisfaction of application requirements (e.g., maximum service latency, battery consumption, availability, etc); and ii) the optimization of resources employed by service providers. 
+
+From the providers' perspective, an optimal allocation of its domain resources corresponds to the minimum number of $\mu$-service instances that must be allocated by each of its domains to cope with the SLA of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
+
+To better express this problem, let's consider the set of $\mu$-services $S = \{s_j \mid j = 0,1,...,J\}$.
+%In turn, $F_i = \{f_{i,j}\}_j$ defines the set of instances of $s_i$, with $0 \le j \le n_i$.
+%Instances for each $\mu$-service are defined by the set $F_i = \{f_{i,j}\}_j$, with $0 \le j \le n_i$.
+Each $s_j \in S$ has a corresponding set of instances $F_j = \{f_{j,i} \mid i = 0,1,...,I_j\}$, where each instance is bound to a container. The resources allocated to each container (e.g., CPU and memory) are considered fixed and equal for all $\mu$-services, coherently to the architecture of FaaS frameworks such as OpenWhisk~\cite{OpenWhisk}. 
+
+Now let's consider that each provided $\mu$-service $s_i \in S$ is bound to an SLA specifying its maximum service delay $\Delta_j$ and the maximum/minimum number of instances $Imin_{j}/Imax_{j}$, so that $\forall f_{j,i} \in F_j, Imin_{j} \le I_j \le Imax_{j}$. %, and a relative priority $p_i$. 
+Given the fluctuations in the workload and the perceived delay $\delta_j$ of each service $s_j \in S$, the aim of a \textit{domain manager} is to assure that $\forall s_j \in S, \delta_j \le \Delta_j$. 
+
+%Also, each instance $f_{ij} \in F_i$ is bound to a single core container with fixed memory and storage. Considering that CPU is a scarcer resource, we may assume, without loss of generality, that the number of $\mu$-instances per domain is limited by the amount of CPU cores available ($|C|$) in its pool of resources, i.e., that $\sum_{i=1}^{m} k_i \le |C|$.
+
+%Furthermore, as the demand for different services is expected to change over time, unless $\forall S_i \in S, U_i = U_i$, idle resources may be employed to reduce $\delta_i$ according to $P_i$.
+
+From the client's viewpoint, an optimal provider selection is the one that, given a set of requirements and the perceived QoS of different services, satisfies the multi-criteria decision of which provider to be employed. Moreover, since continuum $\mu$-services are modular and independently deployed, it consists of individual decisions regarding each $\mu$-service consumed by the application.
+
+To better express the client-side selection, let's extend the previous formulation by considering a set of independent provider domains $D = \{d_p \mid p = 1,2,...,P\}$. Each domain $d_p \in D$ provides a set of $\mu$-services $S_{p} = \{s_{p,i} \mid i =  0, 1, ..., I_p\}$. In turn, a continuum application $CA_x$ relies on the set of $\mu$-services $S_x = \{s_a \mid a = 1,2,...,A\}$, so that $\forall s_a \in S_x$, there is at least one provider domain offering that $\mu$-service, that is, $\forall s_a \in S_x, \exists\ s_{p,i} \in \bigcup_{p=1}^{|P|} S_d \wedge s_{p,i} = s_a$. 
+
+Now let's consider that each $s_a \in S_x$ is bound to a set of required QoS attributes $QoS_a = \{qa_u \mid u = 0, 1, ..., U\}$ and that each $qa_u \in QoS_a$ is represented by a tuple $(value_u, weigth_u)$ respectively defining the required attribute value and weight. In turn, for each $qa_u \in QoS_a$, a $actual_{d,a,u}$ defines the value for that QoS attribute as perceived by the client. It follows that, for each $\mu$-service $s_a \in S_x$ of application $CA_x$, the aim of the \textit{mobile middleware} is to select the domain $d_p \in D$ 
+%best satisfying the set of attributes in $QoS_o$, i.e., 
+that maximizes the domain utility function $U(d) = \sum_{u=1}^{|QoS_o|} weigth_u * actual_{d,a,u}$, provided that $\forall qa_u \in QoS_o, actual_{d,a,u} \vdash value_u$.
+
+%service latency and cost as our requirements. From the client viewpoint, latency can be refined into network and service latency, with cloud providers exhibiting highest network latency and lowest service latency due to more powerful computational power; edge providers exhibiting low network latency and higher service latency; and finally the local mobile environment exhibiting zero network latency and the highest service latency due to more limited computational power. Service cost, in turn, is lower in the cloud than in the edge and null in the mobile environment. Given the relative importance of each attribute, the aim of the provider selection is to 
+
+
+%The life-cycle management is therefore dual: it comprises the provider-side allocation of service instances at each domain; and it also encompasses the client-side decision of which domain must be selected for each continuum $\mu$-service.
 
 \subsection{Running Example}
 \label{sub:example}
@@ -112,19 +146,19 @@ Figure~\ref{fig:continuum-scenario} shows a complete example scenario involving 
 First, let us consider an Augmented Reality (AR)~\cite{GarrigaMendonca2017} application employed by our user to 
 explore the points of interest (POI) in the touristic areas from the city she is currently visiting.
 %craft virtual 3D objects that are added to her \textit{smart glasses} as part of her work. 
-This application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog.
+This realtime application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog.
 
-Two continuum $\mu$-services are modeled after each task: one relies on a image processing library and a trained model, the other on a feature-based object catalog. Client-side logic is responsible for capturing scenes from the glasses' camera and updating the 3D virtual object state in the scene rendered by the smart glasses.
+Two continuum $\mu$-services are modeled after each task: one relies on a image processing library and a trained model, the other on a feature-based object catalog. Client-side logic is responsible for capturing scenes from the glasses' camera and updating the 3D virtual object in the scene rendered by the smart glasses.
 
 Despite the capacity of existing smart devices (e.g., Glass~\footnote{https://x.company/glass/}) in hosting a plethora of applications, the user may experience functional and non-functional degradation (e.g., reduced object catalog, battery drain, etc). With the offloading of the aforementioned tasks to a server, the user can enjoy an improved Quality-of-Experience with the AR application.
 
 %avoid recharging her glasses and improve productivity. 
 
-Supporting this real-time application, mobile-edge servers were deployed to the cellular base stations covering the touristic areas. The additional storage on these servers allows a larger set of objects to be recognized, thanks to a more completely trained model. 
+Supporting this latency-sensitive application, mobile-edge servers were deployed to the cellular base stations covering touristic areas. The additional storage on these servers allows a larger set of objects to be recognized, thanks to a more completely trained model. Variations in the workload are handled with fast instantiation of $\mu$-services, which must consider other applications relying on the same servers.
 
 %In contrast, the network latency to cloud servers may be prohibitive for this real-time application. The decision of which continuum provider to employ must be informed by the application requirements and the Quality-of-Service (QoS) of each alternative. 
 
-After work, our user calls for an autonomous vehicle (AV). During the way to the hostel, our user starts editing the pictures taken during her expedition. To reduce processing time and mitigate consumption, the AV features a local-edge server that provides a catalog of $\mu$-services for image processing. Meanwhile, the vehicle makes use of a \textit{route planning} $\mu$-service
+After work, our user calls for an autonomous vehicle (AV). During the way to the hostel, our user starts editing the pictures taken during her tour. To reduce processing time and mitigate consumption, the AV features a local-edge server that provides a catalog of $\mu$-services for image processing. Meanwhile, the vehicle makes use of a \textit{route planning} $\mu$-service
 %deployed at mobile-edge servers located at cellular base stations 
 to receive updates about the best plan to reach our user's destination. Since latency is not a main requirement, the latter is served by a cloud provider whenever the AV's local-edge server is unavailable. 
 
@@ -146,7 +180,7 @@ Finally at her hotel room, our user
 decides to enjoy a Mobile Game (MG) application. The MG consists of client-side logic and user interfaces (e.g., controllers and views of an MVC~\footnote{Model-View-Controller architectural pattern}). In particular, the game model features complex calculations that pose a burden to her mobile device's CPU. 
 %The application consists of for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). 
 
-Supporting guest devices, the hotel rooms are equipped a local-edge server. The latter identifies the MG application and, upon download and installation, starts providing the $\mu$-services for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). Last but not least, conventional cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores).
+Supporting guest applications, the hotel rooms are equipped with a local-edge server. The latter identifies the MG application and, upon download and installation, starts providing the $\mu$-services for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). Last but not least, conventional cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores).  
 
 %This latter scenario exploits different parts of the continuum. A domestic local-edge domain must identify, fetch, and deploy the corresponding $\mu$-services. Meanwhile and to assure a high availability, the mobile domain remains responsible for the provisioning of these $\mu$-services. Finally, cloud domains complement the possible alternatives for hosting the $\mu$-services and mitigating battery drain, but network latency must be taken into account.
 
