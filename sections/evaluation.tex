@@ -1,7 +1,7 @@
 \section{Experimental Evaluation}\label{sec:evaluation}
 
 We performed different experiments, using four domains that materialize the continuum. The first experiment \emph{studies how latency changes and how the remote domains scale with a varying workload}. In this case the mobile domain is obviously omitted. The second one \emph{evaluates the domains from the perspective of the client}, both in terms of latency and battery consumption. The third one \emph{evaluates the A3-E approach with domains that change their availability} according to a probabilistic model.
-Finally, the last one \emph{evaluates the overhead introduced by the acquisition and awareness phases of A3-E}.
+Finally, the last one \emph{evaluates the overhead introduced by the acquisition and allocation phases of A3-E}.
 %Our goal was to demonstrate that the A3-E model is successful in selecting domains at run time and in improving the overall application availability. 
 
 \subsection{Domains Setup}
@@ -165,9 +165,9 @@ Battery consumption was substantially lower when offloading computation, rather 
 \subsection{Dynamic Domain Selection in the Continuum}
 \label{sub:domain-selection}
 
-Finally, we evaluated the capability of the A3-E prototype to select the best domain given low latency and high computational power requirements. In this experiment we used all three domains together to form the continuum, and probabilistically simulated their availabilities. 
+We evaluated the capability of the A3-E prototype to select the best domain given low latency and high computational power requirements. In this experiment we used all three domains together to form the continuum, and probabilistically simulated their availabilities. 
 
-A3-E was configured to ping for domain availability, as well as perceived QoS, every two seconds ($u = 2$). We consider that the cloud domain could be unavailable mainly due to absence of mobile network's coverage, since downtimes of cloud services are minimal~\cite{garcia2017bandwidth}. To simulate this, the average network unavailability was set to once every $15$ minutes. Then, the average time for it to become available again was $2$ minutes, which gives us a probability \textit{connectionAvailable} $=15/(15+2)=0.88$.
+The mobile middleware of A3-E was configured to ping for domain availability, as well as perceived QoS, every two seconds ($u = 2$). We consider that the cloud domain could be unavailable mainly due to absence of mobile network's coverage, since downtimes of cloud services are minimal~\cite{garcia2017bandwidth}. To simulate this, the average network unavailability was set to once every $15$ minutes. Then, the average time for it to become available again was $2$ minutes, which gives us a probability \textit{connectionAvailable} $=15/(15+2)=0.88$.
 
 %\footnote{https://math.stackexchange.com/questions/165993/average-number-of-times-it-takes-for-something-to-happen-given-a-chance}
 
@@ -207,9 +207,33 @@ In the context of \texttt{all-domains} scenario, this reflects the underlying ra
 
 %\paragraph{Threats to validity}
 
-\subsection{Opportunistic Acquisition and Allocation in the Continuum}
+\subsection{Opportunistic Acquisition and Allocation}
 %TODO
 TODO
+Finally, the last experiment evaluates the overhead introduced by the acquisition and allocation phases of A3-E. Given that such phases make sense only in the context of edge domains (as discussed in Section~\ref{sec:A3-E}), this experiment targeted \textit{local-edge-2} as domain. 
+
+We assume an opportunistic policy, in which no edge resources are pre-allocated beforehand, i.e., a complete  cold start situation (Section~\ref{sec:A3-E-awareness}. In this context, the steps for the experiment are the following:
+- Receive a client's request targeting a new function.
+- Download the function code from a public repository.
+- Build the function against the particular architecture of the edge node
+- Install and provide an endpoint for the function 
+- Execute the function and return the result to the client.
+
+ We assume that during awareness phase, the client informs the server about its required $\mu$-services and where to fetch their respective assets (which is delayed until after the first function call due to the opportunistic policy). Notice that we measure only the domain-side times: since the client request is received until the result is delivered -- perceived latency was already evaluated in the previous experiments.
+
+
+
+
+built it in the edge server, and installation of a function
+we used the Image Recognition function from the Augmented Reality application 
+
+
+The \textit{Acquisition} models the automated download and installation of continuum $\mu$-service artifacts and the confirmation of the domain's capability in providing that $\mu$-service.
+
+The \textit{Allocation} models the deployment of continuum $\mu$-services on a pool of resources from cloud and edge providers (assuming $\mu$-services from mobile domains are pre-allocated). It also captures the client-side selection of providers for each of the $\mu$-service employed by the application.
+
+
+
 
 In terms of threats to validity is it worth mentioning that the experiments only targeted one client application (image recognition) and, in the case of experiments in Section~\ref{sub:exp-a3e-continuum} and~\ref{sub:domain-selection}, only one client device. Further tests are needed, considering multiple clients using several applications with different requirements (in addition to latency and computational power) and their corresponding functions deployed along the continuum. Additionally, it is currently not possible to test with real mobile-edge domains, i.e., to provide computational capabilities on base stations. This could be approximated either by simulation or by deploying edge domains following current specifications of \textit{mobile edge computing} in terms of computational power and latency to better capture the heterogeneity of the continuum. Nonetheless, the fact that specifications and technologies are still under development limits the accuracy in which mobile-edge domains can be evaluated.  %Finally, even though the all-domains scenario provided insights regarding availability and consistency, experiments focusing particularly on consistency, correctness and reliability of the model are outside the scope of the paper and thus left as future work.
 
