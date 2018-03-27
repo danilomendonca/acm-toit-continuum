@@ -44,13 +44,13 @@
 %
 %Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. 
 
-In our formulation, edge nodes are distinguished after the networking technology they use: \textit{mobile-edge} (also known as Multi-Access Edge Computing or MEC~\cite{ahmed2016isco}) integrates with cellular network infrastructure (e.g., 5G base station), whereas \textit{local-edge} integrates with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from each other, and that communication among heterogeneous edge nodes may not be feasible.% and unable to coordinate the allocation of resources.
+In our formulation, edge nodes are distinguished after the networking technology they use: \textit{mobile-edge} (also known as Multi-Access Edge Computing or MEC~\cite{ahmed2016isco}) integrates with cellular network infrastructure (e.g., a 5G base station), whereas \textit{local-edge} integrates with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from each other, and that communication among heterogeneous edge nodes may not be feasible.% and unable to coordinate the allocation of resources.
 
 
 
 %Later on, this heterogeneity is addressed with variations of the proposed service life-cycle management.
 
-Mobile devices play two roles: they are clients of continuum services; and they are potential providers. The motivation for the inclusion of mobile devices own resources in the model is threefold: i) the substantial increase in computational capacity of modern devices; ii) the compatibility of these devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); and iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. 
+Mobile devices play two roles, namely clients and potential providers of continuum services. The motivation for including mobile devices' own resources in the model is threefold: (i) the substantial increase in computational capacity of modern devices; (ii) the compatibility of these devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); and (iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. 
 
 %TODO fix Figure X
 Figure X~\ref{fig:topology} illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile \textit{domains}. 
@@ -86,12 +86,13 @@ A priori, continuum services are portable, unless they require capabilities that
 
 The proposed service model enforces consistency and allows multiple service instances to coexist along the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
 
-The adopted model is also aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
+The services also align with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
 
 %TODO [Danilo] given our space limitations, let's wait for further adjustments (other contents to be removed) before adding this paragraph
 %In FaaS, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery.
 
-Note that in the Network Function Virtualization (NFV) field, several frameworks have been proposed to cope with the fluctuating demand of network infrastructure, e.g., ETSI MANO (Management and Network Orchestration) Cite ETSI White Paper] or Cloudify [CITE Cloudify White Paper]. These orchestration frameworks can provide an abstraction layer over the mobile edge infrastructure, making the shift among different parts of the continuum completely transparent for the applications. However, as a key difference with our approach, we focus on the opportunistic placement of Application Level Functions, particularly by following the FaaS application model; rather than Virtual Network Functions (as specified in MANO and Cloudify) which we consider as part of the underlying infrastructure, in charge of telecom providers.
+%TODO [Martin] this paragraph may not seem crucial but it is important to cope with REVIEWER 1 comments.
+Note that in the Network Function Virtualization (NFV) field, several frameworks have been proposed to cope with the fluctuating demand of network infrastructure~\cite{etsimano17,cloudify14}. These orchestration frameworks can provide an abstraction layer over the mobile edge infrastructure, making the shift among different parts of the continuum completely transparent for the applications. However, we focus on the opportunistic placement of Application Level Functions (following the FaaS model) rather than Virtual Network Functions (VNF). We consider NFV/VNF a part of the underlying infrastructure, in charge of telecom providers.
 
 
 As state is a fundamental aspect of many applications, we propose that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as persistence. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. %This decision is also aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
@@ -161,7 +162,7 @@ Supporting this latency-sensitive application, mobile-edge servers were deployed
 
 %In contrast, the network latency to cloud servers may be prohibitive for this real-time application. The decision of which continuum provider to employ must be informed by the application requirements and the Quality-of-Service (QoS) of each alternative. 
 
-After work, our user calls for an autonomous vehicle (AV). During the way to the hostel, our user starts editing the pictures taken during her tour. To reduce processing time and mitigate consumption, the AV features a local-edge server that provides a catalog of $\mu$-services for image processing. Meanwhile, the vehicle makes use of a \textit{route planning} $\mu$-service
+After the tour, our user calls for an autonomous vehicle (AV) to return to her hotel. During the way, she starts editing the pictures taken during the tour. To reduce processing time and mitigate consumption, the AV features a local-edge server that provides a catalog of $\mu$-services for image processing. Meanwhile, the vehicle makes use of a \textit{route planning} $\mu$-service
 %deployed at mobile-edge servers located at cellular base stations 
 to receive updates about the best plan to reach our user's destination. Since latency is not a main requirement, the latter is served by a cloud provider whenever the AV's local-edge server is unavailable. 
 
@@ -180,10 +181,10 @@ to receive updates about the best plan to reach our user's destination. Since la
 
 Finally at her hotel room, our user 
 %can start using her domestic local-edge. She 
-decides to enjoy a Mobile Game (MG) application. The MG consists of client-side logic and user interfaces (e.g., controllers and views of an MVC~\footnote{Model-View-Controller architectural pattern}). In particular, the game model features complex calculations that pose a burden to her mobile device's CPU. 
+decides to enjoy a Mobile Game (MG) application. The MG consists of client-side logic and user interfaces (e.g., controllers and views of an MVC\footnote{Model-View-Controller architectural pattern}). In particular, the game model features complex calculations that pose a burden to her mobile device's CPU. 
 %The application consists of for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). 
 
-Supporting guest applications, the hotel rooms are equipped with a local-edge server. The latter identifies the MG application and, upon download and installation, starts providing the $\mu$-services for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). Last but not least, conventional cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores).  
+Supporting guest applications, the hotel is equipped with a local-edge server. The latter identifies the MG application and, upon download and installation, starts providing the $\mu$-services for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). Last but not least, conventional cloud services provide stateful server-side logic (e.g. authentication, business logic) and persistence (e.g., player scores).  
 
 %This latter scenario exploits different parts of the continuum. A domestic local-edge domain must identify, fetch, and deploy the corresponding $\mu$-services. Meanwhile and to assure a high availability, the mobile domain remains responsible for the provisioning of these $\mu$-services. Finally, cloud domains complement the possible alternatives for hosting the $\mu$-services and mitigating battery drain, but network latency must be taken into account.
 
