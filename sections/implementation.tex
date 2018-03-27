@@ -79,6 +79,7 @@ e_p  &:= e;
 where the ``$p$'' subscript denotes ``previous'' values, i.e., those corresponding to the previous step, while ``$f$'' and ``$f_{inv}$'' correspond to the characteristic function and its inverse, respectively, while $\alpha \in [0,1)$ is the single pole of the controller (the higher the value the faster will be the error convergence to $0$). 
 
 The algorithm is run by each controller at each control step independently (i.e. without synchronization) to compute the next container allocation for the corresponding $\mu$-service. $\hat{c}$ is the vector containing the allocations of all the services. $\hat{c}$ is not immediately actuated (through the container manager of choice such as Docker Swarm~\cite{Swarm} or Kubernetes~\cite{Kubernetes}) since the sum of the allocations could be greater than the entire capacity of the resource pool. In fact $\hat{c}$  is passed to another control component called  \textit{ContentionManager}. The  output of ContentionManager is a vector $\bar{c}$, the actual container allocations of $\mu$-services, defined as 
+{\scriptsize
 \begin{equation}
 \bar{c}(k) =
 \begin{cases}
@@ -87,49 +88,47 @@ scaleDown(\hat{c}(k)),              & \text{otherwise}
 \end{cases}
 \label{eqn:CsysModel-SS}
 \end{equation} 
+}%
 where function $scaleDown$ scales down the allocations to be equal to the maximum capacity according to a priority policy. 
 
 As an example, in the scenario introduced in Section~\ref{sub:example}, critical applications should have a higher priority with respect to applications such as the AR for tourists~\cite{GarrigaMendonca2017}. In case of contention, edge-based $\mu$-services might become unavailable (or available with an higher response time) to the AR applications. In that case the AR and other low-priority applications could have to rely on $\mu$-services from their mobile domain or a cloud provider domain. Finally \textit{ContentionManager} updates the state of each controller (variable $x_{R_p}$) to reflect the actual allocation.
 
 \subsection{Multi-Attribute Domain Selection}~\label{sec:cs_allocation}
 
-%As described in Section~\ref{sec:proposal}, the CSM component interacts with DSM from different domains that could be either discoverable using a DNS-like mechanism or advertisement. 
-
-The main goal of the client-side middleware\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-CSM}} is to allow client applications to invoke continuum $\mu$-services without knowing where they will actually be executed within the computing continuum.
-%: locally on the mobile domain, in a local-edge server, in a mobile-edge server, or in the cloud. 
-Its \textit{domain selection} algorithm consists of a multi-attribute function that takes into account the measured QoS and the requirements. %The provided implementation targets Android-based devices. However, it does not use Android-specific technology and can therefore be generalized to other mobile platforms. 
-
-The provided implementation consists of components responsible for Awareness, the Acquisition, and finally the set of  components responsible for Allocation, during which domain selection occurs (see Sec.~\ref{sec:A3-E-allocation}). The latter implement a self-managing loop that: (i) monitors $\mu$-services provided by different domains in terms of QoS metrics; (ii) analyzes the best alternative satisfying requirements of the client application; and (iii) updates the domain selection for a given $\mu$-service. 
+The domain selection consists of a self-managing loop that: (i) monitors $\mu$-services provided by different domains in terms of QoS metrics; (ii) analyzes the best alternative satisfying requirements of the client application; and (iii) updates the domain selection for a given $\mu$-service. In specific, the analysis consists of a multi-attribute rating that takes into account the measured QoS attributes and application requirements.
 
 In addition to A3-E's \textit{Location requirements}, the prototype considered two types of \textit{QoS requirements}:
 
+{\small
 \begin{enumerate}
 	
-	%	\item \textit{Location Requirement}s constrain where the microservice can be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL\_EDGE}, \textit{MOBILE\_EDGE}, or \textit{CLOUD} or a combination of the above; 
+	%	\item \textit{Location Requirement}s constrain where the $\mu$-service can be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL\_EDGE}, \textit{MOBILE\_EDGE}, or \textit{CLOUD} or a combination of the above; 
 	
 	\item a \textit{Latency Requirement} constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY\_LOW}; and 
 	
 	\item a \textit{Computational Requirement} defines how relevant it is for a $\mu$-servi to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY\_ FAST}. 
 \end{enumerate}
+}%
 
-The latter is defined as a fixed score ranging from $1$ to $5$\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. By default, the local domain has a score of $1$, the edge domains have a score of $4$, while the cloud domains have a score of $5$. Note that since the cloud provides the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. More sophisticated approaches with dynamic scores taking into account the saturation of the domain or the device's battery level (in the case of a mobile domain) are considered as future work.
+The latter is defined as a fixed score ranging from $1$ to $5$\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. By default, the mobile domain has a score of $1$, edge domains have a score of $4$, while cloud domains have a score of $5$. As cloud provides the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. 
 
+%with dynamic scores taking into account the saturation of the domain or the device's battery level (in the case of a mobile domain).
+{\scriptsize
 \begin{algorithm}[thb]
 	\caption{A3E Selection Algorithm}
 	\label{alg:selection}
-	\begin{algorithmic}[1]
-		
-		\Function{selectDomain}{A3EService $microservice$, A3EDomain[] $identifiedDomains$}
+	\begin{algorithmic}[1]		
+		\Function{selectDomain}{A3EService service, A3EDomain[] $identifiedDomains$}
 		\State$scoreRange \gets 5$
 		\State $maxLatency \gets \Call{computeMaximumLatency}{identifiedDomains}$
 		\State $maxCpuPower \gets \Call{computeMaximumComputationalPower}{identifiedDomains}$
-		\State $latencyWeight \gets microservice.getLatencyRequirement()$ 
-		\State $cpuPowerWeight \gets microservice.getComputationalPowerRequirement()$ 
+		\State $latencyWeight \gets service.getLatencyRequirement()$ 
+		\State $cpuPowerWeight \gets service.getComputationalPowerRequirement()$ 
 		\State $maxScore \gets 0$
 		\State $selectedDomain \gets null$
 		\ForAll{$domain \in identifiedDomains$ } 
 		\State $latency \gets domain.getLatency()$ 
-		\State $cpuPower \gets microservice.getComputationalPower()$ 
+		\State $cpuPower \gets service.getComputationalPower()$ 
 		\State $latencyScore \gets latencyWeight*((scoreRange-1)*(1 - latency/maxLatency)+1)$ 
 		\State $cpuPowerScore \gets cpuPowerWeight*(scoreRange*(cpuPower/maxCpuPower))$
 		\State $score \gets (latencyScore + cpuPowerScore) / (latencyWeight + cpuPowerWeight)$
@@ -142,20 +141,24 @@ The latter is defined as a fixed score ranging from $1$ to $5$\footnote{Labeling
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
-
+}%
 %TODO [Danilo] improve this paragraph
-Algorithm~\ref{alg:selection} describes the procedure employed in the microservice selection. The algorithm computes a score ranging from $0$ to $5$ (line $2$). First, it retrieves the maximum computational power and network latency from available domains (line $3$ and $4$). Then, it retrieves the weights assigned to each QoS metric (lines $5$ and $6$). These weights correspond to the values associated to the \textit{LatencyRequirement} and \textit{ComputationalRequirement} of the microservice. The \textit{ANY} value corresponds to a weight of $0$, a latency requirement of \textit{LOW} and a computational power requirement of \textit{FAST} correspond to a weight equal to $1$, while a latency requirement of \textit{VERY\_LOW} and a computational power requirement of \textit{VERY\_FAST} correspond to a weight equal to $2$. 
+Algorithm~\ref{alg:selection} describes the procedure employed in the $\mu$-service selection. The algorithm computes a score ranging from $0$ to $5$ (line $2$). First, it retrieves the maximum computational power and network latency from available domains (line $3$ and $4$). Then, it retrieves the weights assigned to each QoS metric (lines $5$ and $6$). These weights correspond to the values associated to the \textit{LatencyRequirement} and \textit{ComputationalRequirement} of the $\mu$-service. The \textit{ANY} value corresponds to a weight of $0$, a latency requirement of \textit{LOW} and a computational power requirement of \textit{FAST} correspond to a weight equal to $1$, while a latency requirement of \textit{VERY\_LOW} and a computational power requirement of \textit{VERY\_FAST} correspond to a weight equal to $2$. 
 
-For each domain, the algorithm computes the overall score (line $9$ to $14$). The latency score is computed by normalizing the value retrieved at line $10$ with the maximum latency previously computed. The normalized value ranges from $0$ to $1$, the higher this value is the higher the latency. Since a higher score should mean lower latencies, the algorithm computes the complement of this value and adds $1$ to avoid scores equal to $0$. The latency score is computed to be between $1$ and $5$, and multiplied by the microservice's latency weight (line $12$). The computational power score is computed by normalizing the domain computational power retrieved at line $11$ with the maximum value across the identified domains. Again, the score for this metric is computed to be between $1$ to $5$ and multiplied by its weight (line $13$). Finally, the overall score is the weighted average between the scores obtained by the domains for the two QoS metrics.
+For each domain, the algorithm computes the overall score (line $9$ to $14$). The latency score is computed by normalizing the value retrieved at line $10$ with the maximum latency previously computed. The normalized value ranges from $0$ to $1$, the higher this value is the higher the latency. Since a higher score should mean lower latencies, the algorithm computes the complement of this value and adds $1$ to avoid scores equal to $0$. The latency score is computed to be between $1$ and $5$, and multiplied by the $\mu$-service's latency weight (line $12$). The computational power score is computed by normalizing the domain computational power retrieved at line $11$ with the maximum value across the identified domains. Again, the score for this metric is computed to be between $1$ to $5$ and multiplied by its weight (line $13$). Finally, the overall score is the weighted average between the scores obtained by the domains for the two QoS metrics.
 
 %Two considerations must be added for this algorithm. First, 
-Algorithm~\ref{alg:selection} is an instantiation of the SMART decision process~\cite{Olson1996}, in which multiple competing QoS attributes are taken into account using the following formula:
+Algorithm~\ref{alg:selection} is an instantiation of the SMART~\cite{Olson1996}, in which multiple competing QoS attributes are taken into account using the following formula:
 
+{\small
 \begin{equation}
-Smart(c) = \frac{\sum_{i=1}^{n} QoSAtrribute_i(c)*weight_i}{\sum_{i=1}^{n}weight_i} \label{eq:smart}
+Smart(p) = \frac{\sum_{u=1}^{U} actual_{u}(p)*weight_u}{\sum_{u=1}^{U}weight_u} \label{eq:smart}
 \end{equation}
+}%
 
 \noindent
-where $c$ is a domain, the QoS attributes values are network latency and the computational processing time (thus $n$ is $2$), and their weights are represented by the aforementioned latency and computation requirements. Note that, when available, \textit{edge domains have the highest chances of being selected}, since they usually combine a low network latency and a medium-to-high computational power. Finally, each microservice is mapped to the domain that best satisfies its requirements.
+where $p$ is a domain, the considered QoS attributes are network latency and the computational processing time (thus $U = 2$), and their weights are represented by the aforementioned latency and computation requirements. Note that, when available, edge domains have the highest chances of being selected, since they usually combine a low network latency and a medium-to-high computational power. 
 
-%Last but not least, during the \textit{Engagement} phase the CSM handles C-requests triggered by the client application for a specific microservice in the continuum and invokes the domain previously selected. Domains are bound to an invocation resolver: edge and cloud domains resolvers fire an HTTP request, while the resolver bound to a mobile domain will broadcast an Android event containing the request along with a callback. In particular, this broadcast is handled by the mobile domain manager.
+%Accordingly, each $\mu$-service is mapped to the domain that best satisfies its requirements.
+
+%Last but not least, during the \textit{Engagement} phase the CSM handles C-requests triggered by the client application for a specific $\mu$-service in the continuum and invokes the domain previously selected. Domains are bound to an invocation resolver: edge and cloud domains resolvers fire an HTTP request, while the resolver bound to a mobile domain will broadcast an Android event containing the request along with a callback. In particular, this broadcast is handled by the mobile domain manager.

@@ -36,6 +36,7 @@ Remote domains (i.e., cloud and edge) are engaged through distributed protocols 
 
 During Engagement, the domain manager deals with the following events:
 
+{\small
 \begin{itemize}
 	
 	\item \textbf{$\mu$-service deallocated:} indicates the unavailability of a given $\mu$-service. The manager must react by queuing subsequent requests for that service.
@@ -44,10 +45,11 @@ During Engagement, the domain manager deals with the following events:
 
 	\item \textbf{$\mu$-service requested:} indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the allocation of the request to a service instance after a \textit{load balancing} strategy.
 \end{itemize}
+}%
 
 In turn, the mobile middleware deals with the following events:
 
-
+{\small
 \begin{itemize}
 	
 	\item \textbf{C-Request arrived:} indicates the client application has sent a new request to the continuum. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the corresponding $\mu$-service from the currently selected domain.
@@ -61,6 +63,7 @@ In turn, the mobile middleware deals with the following events:
 	\item \textbf{Domain changed:} indicates a domain have been selected for a specific $\mu$-service. The middleware must handle it by resuming the forward of any queued and subsequent C-requests.
 	
 \end{itemize}
+}%
 
 %TODO [Danilo] requirements must be passed by the application before, otherwise the domain selection would need to happen after the request has been fired
 %It also contains continuum requirements that must be taken into account by the middleware in the decision of which 
@@ -105,6 +108,7 @@ The scope of the provider-side allocation is limited by its domain boundaries. F
 
 To realize this activity, the domain manager exploits a self-management loop~\cite{kephart2003vision} (see Sec.~\ref{sec:ps_allocation}) to guarantee a specified QoS by dynamically allocating resources (i.e., containers) to continuum $\mu$-services. Throughout Allocation, the domain manager deals with the following events:
 
+{\small
 \begin{itemize}
 	
 	\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop handling Allocation.
@@ -114,6 +118,7 @@ To realize this activity, the domain manager exploits a self-management loop~\ci
 	\item \textbf{$\mu$-service requested}: as defined in Section~\ref{sec:A3-E-engagement}. The domain manager must take this event into account by the self-management loop handling Allocation.
 	
 \end{itemize}
+}%
 
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
@@ -136,6 +141,7 @@ To realize this activity, the domain manager exploits a self-management loop~\ci
 A self-management loop (see Sec.~\ref{sec:cs_allocation}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu-service$ consumed by the client application, the middleware checks the corresponding QoS levels from the list of capable domains. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
 Throughout Allocation, the mobile middleware handles the following events:
 
+{\small
 \begin{itemize}
 	
 	\item \textbf{Domain acquired:} indicates the agreement of a domain in providing a given $\mu$-service. The mobile middleware must react by including this domain in its self-management loop.	
@@ -143,6 +149,7 @@ Throughout Allocation, the mobile middleware handles the following events:
 	\item \textbf{Domain lost:} indicates a domain can no longer provide a given $\mu$-service. The mobile middleware must react by removing this domain from its self-management loop.
 	
 \end{itemize}
+}%
 
 
 
@@ -178,6 +185,7 @@ The acquisition of functions is managed by the domain manager, therefore allowin
 
 Throughout Acquisition, the domain manager handles the following event:
 
+{\small
 \begin{itemize}
 	
 	\item \textbf{$\mu$-service identified:} indicates the request for deployment of a new $\mu$-service. The manager must proceed with the download and installation of the $\mu$-service, followed by the triggering of a \textit{service acquired} (or \textit{denied}) signal/event according to the activity outcome.
@@ -186,6 +194,7 @@ Throughout Acquisition, the domain manager handles the following event:
 	%\item \textbf{Client arrived:} triggered when a new client entered the domain's coverage area. The manager must react with 
 	
 \end{itemize}
+}%
 
 %In this phase, the domain manager receives a set of application requirements from the client's CSM, namely the list of $\mu$-services and the URL of their repositories. The desired $\mu$-service artifacts are then downloaded and installed, at which point the DSM informs the client whether the $\mu$-services can be considered ``acquired'' or not. 
 %Throughout the $\mu$-services' life-cycles, the DSM periodically checks for new versions of acquired services and updates them accordingly. 
@@ -194,6 +203,7 @@ Throughout Acquisition, the domain manager handles the following event:
 
 From the client's perspective, the Acquisition corresponds to the confirmation of a domain's capability in providing $\mu$-services required by the application. During this activity, the mobile middleware deals with the following events:
 
+{\small
 \begin{itemize}
 	
 	\item \textbf{Domain found:} indicates a potential domain for a $\mu$-service has been found. The middleware must proceed with the \textit{$\mu$-service identification} signal (if the domain is new) followed by the triggering of a \textit{domain confirmed} event.	
@@ -203,6 +213,7 @@ From the client's perspective, the Acquisition corresponds to the confirmation o
 	\item \textbf{$\mu$-service denied:} indicates the failure in acquiring and/or deploying a $\mu$-service. The middleware must proceed with the blacklisting of that domain. 
 	
 \end{itemize}
+}%
 
 
  %follow the identification of the domain's capability in providing the requested service. This phase is realized by the CSM with the following sub-process: the CSM should expect a confirmation from the DSM regarding its compliance in providing the service required by the application. Once confirmed, the CSM adds that domain to a list of available domains used by the client-side allocation phase. 
@@ -231,22 +242,26 @@ Taking advantage of mutual client-provider awareness, the proposed mechanism has
 
 Throughout Awareness, the domain manager handles the following event:
 
+{\small
 \begin{itemize}
 	
 	\item \textbf{Client identified:} triggered when a new client enters the domain's coverage area. The manager must react with the triggering of a \textit{client arrived} and \textit{$\mu$-service} identified events for each $\mu$-service required by the client.
 	
 \end{itemize}
+}%
 
 From the client's perspective, Awareness corresponds to the discovery of edge domains (\textit{domain identified} signal) in the device's network (e.g., through UDP broadcasting within a local area network, or through specific protocols from cellular networks tailored for handshake in MEC~\cite{SPECS}). 
 %The mobile middleware, in turn, realizes Awareness with the discovery of cloud and edge domains. In particular, 
 
 During Awareness, the mobile middleware handles the following event:
 
+{\small
 \begin{itemize}
 	
 	\item \textbf{Domain identified:} triggered when a domain is found. The middleware must react with the triggering of a \textit{domain found} event and a \textit{client identification} signal to the domain manager.
 	
 \end{itemize}
+}%
 
 %It copes with the need for efficiency and scalability of finely distributed edge domains by allowing acquisition and/or allocation of services to happen just in time, i.e., just before the client application needs them.
 %and enables not only functions to be allocated, but also acquired in an opportunistic fashion.
