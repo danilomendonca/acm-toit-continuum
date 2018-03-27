@@ -91,9 +91,6 @@ The services also align with the \textit{Function-as-a-Service} (FaaS) execution
 %TODO [Danilo] given our space limitations, let's wait for further adjustments (other contents to be removed) before adding this paragraph
 %In FaaS, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery.
 
-%TODO [Martin] this paragraph may not seem crucial but it is important to cope with REVIEWER 1 comments.
-Note that in the Network Function Virtualization (NFV) field, several frameworks have been proposed to cope with the fluctuating demand of network infrastructure~\cite{etsimano17,cloudify14}. These orchestration frameworks can provide an abstraction layer over the mobile edge infrastructure, making the shift among different parts of the continuum completely transparent for the applications. However, we focus on the opportunistic placement of Application Level Functions (following the FaaS model) rather than Virtual Network Functions (VNF). We consider NFV/VNF a part of the underlying infrastructure, in charge of telecom providers.
-
 
 As state is a fundamental aspect of many applications, we propose that mobile devices and, for most cases, cloud datacenters should remain responsible for stateful components such as persistence. This choice prevents the consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes. %This decision is also aligned with the limitations in computational resources of edge nodes. %Indeed, the deployment of components like databases to the edge would be unrealistic for large scale applications.
 
@@ -124,9 +121,9 @@ From the client's viewpoint, an optimal provider selection is the one that, give
 
 To better express the client-side selection, let's extend the previous formulation by considering a set of independent provider domains $D = \{d_p \mid p = 1,2,...,P\}$. Each domain $d_p \in D$ provides a set of $\mu$-services $S_{p} = \{s_{p,i} \mid i =  0, 1, ..., I_p\}$. In turn, a continuum application $CA_x$ relies on the set of $\mu$-services $S_x = \{s_a \mid a = 1,2,...,A\}$, so that $\forall s_a \in S_x$, there is at least one provider domain offering that $\mu$-service, that is, $\forall s_a \in S_x, \exists\ s_{p,i} \in \bigcup_{p=1}^{|P|} S_d \wedge s_{p,i} = s_a$. 
 
-Now let's consider that each $s_a \in S_x$ is bound to a set of required QoS attributes $QoS_a = \{qa_u \mid u = 0, 1, ..., U\}$ and that each $qa_u \in QoS_a$ is represented by a tuple $(value_u, weigth_u)$ respectively defining the required attribute value and weight. In turn, for each $qa_u \in QoS_a$, a $actual_{d,a,u}$ defines the value for that QoS attribute as perceived by the client. It follows that, for each $\mu$-service $s_a \in S_x$ of application $CA_x$, the aim of the \textit{mobile middleware} is to select the domain $d_p \in D$ 
+Now let's consider that each $s_a \in S_x$ is bound to a set of required QoS attributes $QoS_a = \{qa_u \mid u = 0, 1, ..., U\}$ and that each $qa_u \in QoS_a$ is represented by a tuple $(value_u, weigth_u)$ respectively defining the required attribute value and weight. For each $qa_u \in QoS_a$, $actual_{p,a,u}$ defines the value for that QoS attribute as perceived by the client. It follows that, for each $s_a \in S_x$ from application $CA_x$, the aim of the \textit{mobile middleware} is to select the domain $d_p \in D$ 
 %best satisfying the set of attributes in $QoS_o$, i.e., 
-that maximizes the domain utility function $U(d) = \sum_{u=1}^{|QoS_o|} weigth_u * actual_{d,a,u}$, provided that $\forall qa_u \in QoS_o, actual_{d,a,u} \vdash value_u$.
+that maximizes the utility function $U(p) = \sum_{u=1}^{U} weigth_u * actual_{p,a,u}$, provided that $\forall qa_u \in QoS_a, actual_{p,a,u} \vdash value_u$.
 
 %service latency and cost as our requirements. From the client viewpoint, latency can be refined into network and service latency, with cloud providers exhibiting highest network latency and lowest service latency due to more powerful computational power; edge providers exhibiting low network latency and higher service latency; and finally the local mobile environment exhibiting zero network latency and the highest service latency due to more limited computational power. Service cost, in turn, is lower in the cloud than in the edge and null in the mobile environment. Given the relative importance of each attribute, the aim of the provider selection is to 
 
@@ -136,15 +133,16 @@ that maximizes the domain utility function $U(d) = \sum_{u=1}^{|QoS_o|} weigth_u
 \subsection{Running Example}
 \label{sub:example}
 
-\begin{figure}[tbp]
-	\includegraphics[width=0.8\textwidth]{figs/Continuum-Scenario}
-	\caption{Heterogeneous applications such as Augmented Reality (AR), Autonomous Vehicles (AV) and Mobile Games (MG) interact with services deployed along the computing continuum (cloud, mobile-edge, local-edge, and mobile)}
-	\label{fig:continuum-scenario}
-\end{figure}
+%TODO ciao figura
+%\begin{figure}[tbp]
+%	\includegraphics[width=0.8\textwidth]{figs/Continuum-Scenario}
+%	\caption{Heterogeneous applications such as Augmented Reality (AR), Autonomous Vehicles (AV) and Mobile Games (MG) interact with services deployed along the computing continuum (cloud, mobile-edge, local-edge, and mobile)}
+%	\label{fig:continuum-scenario}
+%\end{figure}
 
-%TODO: [Danilo] to reduce the RE size, the example will start with our user at some touristic region where she makes use of an AR application. Our user then uses an AV cab to drive our user to her Hotel, where she will enjoy a multi-player game to be supported by the hotel's edge server
+%Figure~\ref{fig:continuum-scenario} shows a complete example scenario involving different applications that rely on computation executed in the cloud, edge, or in the user's own devices.
 
-Figure~\ref{fig:continuum-scenario} shows a complete example scenario involving different applications that rely on computation executed in the cloud, edge, or in the user's own devices.
+We illustrate the continuum with an example scenario involving different applications that rely on computation executed in the cloud, edge, or in the user's own device.
 
 First, let us consider an Augmented Reality (AR)~\cite{GarrigaMendonca2017} application employed by our user to 
 explore the points of interest (POI) in the touristic areas from the city she is currently visiting.
