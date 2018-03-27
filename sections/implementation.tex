@@ -6,7 +6,7 @@
 
 To demonstrate the feasibility of A3-E in managing the life-cycle of continuum applications, we describe the implementation of A3-E. Due to its complexness, we focus on the implementation of the self-management loop for handling Allocation from both provider and client viewpoints. 
 
-\subsection{Control Theory-based $\mu$-Services Allocation}~\label{sec:ps_allocation}
+\subsection{Control Theory-based $\mu$-Service Allocation}~\label{sec:ps_allocation}
 
 To cope with the low-latency requirement of continuum applications and a highly dynamic workload  (e.g., from users that quickly enter and leave a particular edge area) we 
 %TODO move to the problem formulation i) consider the \textit{response time} as the reference metric of QoS and ii) 
@@ -25,41 +25,60 @@ Figure~\ref{fig:A3Edomain-manager} depicts an overview of the control system, wh
 
 %Containers are deployed in those machines and they execute $\mu$-services. Each service can be replicated on different machines, enabling horizontal scalability. 
 
-The control plant is subject to different signals that could be measurable (input variables) or unknown (disturbances). Considering a discrete time, for each $\mu$-services $s_i \in S$ we define $\lambda_i(t)$ as the function of the measured arrival rate of requests at each control time $t$.
-; while $\bar{\lambda}(t)$ is the corresponding vector for all $s_i \in S$. 
-%TODO c(t) is the same as f_{i,j}(t) and \bar{c}(t) is the same as  F_{i}. 
-At time $t$ each $\mu$-service $s_i \in S$ is executed in a $c_i(t)$ number of allocated containers, while $\bar{c}(t)$ is the corresponding vector for all $s_i \in S$. The disturbances are defined as $\bar{d}$ and cannot be directly controlled and measured by definition. Finally, $\bar{\tau}$ is the system output and corresponds to the vector of response times of each $\mu$-service; while $\bar{\tau}^\circ$ corresponds to the vector of desired response times or control set-point (according to the SLA of each $\mu$-service). 
+The control plant is subject to different signals that could be measurable (input variables) or unknown (disturbances). Considering a discrete time, for each $\mu$-services $s_j \in S$ we define $\lambda_j(k)$ as the function of the measured arrival rate of requests at each control time $t$.
+; while $\bar{\lambda}(k)$ is the corresponding vector for all $s_i \in S$. 
+%TODO c(k) is the same as f_{i,j}(k) and \bar{c}(k) is the same as  F_{i}. 
+At time $t$ each $\mu$-service $s_j \in S$ is executed in a $c_j(k)$ number of allocated containers.%, while $\bar{c}(k)$ is the corresponding vector for all $s_i \in S$. 
+The disturbances are defined as $\bar{d}$ and cannot be directly controlled and measured by definition. Finally, $\bar{\tau}$ is the system output and corresponds to the vector of response times of each $\mu$-service; while $\bar{\tau}^\circ$ corresponds to the vector of desired response times or control set-point (according to the SLA of each $\mu$-service). 
 
-In our current setup the function $\bar{\tau}^\circ(k)$ does not vary over time, meaning a constant QoS for each  $\mu$-service. Of course, these values should be set below the thresholds defined in the SLA (i.e., ${\tau}^\circ_i(t) < \Delta_i, \forall i, x$ with $ 1 \le i \le m \wedge x \ge 0$). Moreover, since response time cannot be measured instantaneously but by aggregating the execution times of different requests over a predefined time window, many aggregation functions could be used without any change to the system model and controller. For example in our current setup we are using the $99th$ percentile function. 
+In our current setup the function $\bar{\tau}^\circ(k)$ does not vary over time, meaning a constant QoS for each  $\mu$-service. Of course, these values should be set below the thresholds defined in the SLA (i.e., $\forall\ k \in \mathbb{N} \wedge  s_j \in S, {\tau}^\circ_j(k) \le \Delta_j$). Moreover, since response time cannot be measured instantaneously but by aggregating the execution times of different requests over a predefined time window, many aggregation functions could be used without any change to the system model and controller. For example in our current setup we are using the $99th$ percentile function. 
 
 We dedicate one controller per $\mu$-service with the goal to compute the next container allocation in order to obtain:
+{\scriptsize
 \begin{equation}
-\tau(k)^\circ - \tau(k) = e(k) = 0\quad \forall{k} \ge 0
+\tau_j(k)^\circ - \tau_j(k) = e_j(k) = 0\quad \forall{k} \ge 0
 \end{equation}
+}%
 or more realistically, considering all the services:
+{\scriptsize
 \begin{equation}
-\bar{e}(k) \simeq 0 \quad \forall{k} \ge 0
+\bar{e}_j(k) \simeq 0 \quad \forall{k} \ge 0
 \end{equation}
-To do that the controllers must model the system with enough details to govern the dynamics of the plant. In control theory this is done by defining a characteristic function. We assume that this function does not need to be linear but regular enough be linearizable in the domain space of interest. Moreover, we consider this function to be dependent on the ratio of the number of allocated containers $c$ and the request rate $\lambda$.  This function, $f$ to give it a name, is intuitively monotonically decreasing towards a possible lower horizontal asymptote, as it can be assumed that once the parallelism degree of a $\mu$-service is fulfilled by the available containers, adding new ones causes no further decrease in the response time. More specifically, we found a practically acceptable function to be
+}%
+To do that the controllers must model the system 
+%with enough details to govern the dynamics of the plant. In control theory this is done 
+by defining a characteristic function. We assume that this function does not need to be linear but regular enough to be linearizable in the domain space of interest. Moreover, we consider this function to be dependent on the ratio of the number of allocated containers $c$ and the request rate $\lambda$. This function, $f$ to give it a name, is intuitively monotonically decreasing towards a possible lower horizontal asymptote, as it can be assumed that once the parallelism degree of a $\mu$-service is fulfilled by the available containers, adding new ones causes no further decrease in the response time. More specifically, we found a practically acceptable function to be
+{\scriptsize
 \begin{equation}
-f \left( \frac{c(k)}{\lambda(k)}\right)  = \widetilde{u}(k) = c_1+\frac{c_2}{1+c_3\frac{c(k)}{\lambda(k)}}
+f_j \left( \frac{c_j(k)}{\lambda_j(k)}\right)  = \widetilde{u}_j(k) = c_1+\frac{c_2}{1+c_3\frac{c_j(k)}{\lambda_j(k)}}
 \label{eqn:CsysModel-f}
 \end{equation}
+}%
 \noindent where parameters $c_1$, $c_2$, and $c_3$ were obtained through profiling of each $\mu$-service. Thus we obtain the following dynamic system:
+{\scriptsize
 \begin{equation}
-\tau(k)  = p \tau(k-1) + (1-p)\widetilde{u}(k-1)
+\tau_j(k)  = p_j \tau_j(k-1) + (1-p_j)\widetilde{u}_j(k-1)
 \label{eqn:CsysModel-s}
 \end{equation}
-where $p \in [0,1)$ is the single pole of the system estimated with step response analysis. As control techniques we rely on PI controllers because they are able to effectively control systems dominated by a first order dynamic ~\cite{aastrom1995pid} (i.e., representable with first order differential equations) such as the studied ones. PI controllers compute the next state of a plant by using two contributions: one that is proportional and another that is integral to the error $e$. Algorithmically: 
+}%
+where $p \in [0,1)$ is the single pole of the system estimated with step response analysis. As control techniques we rely on PI controllers because they are able to effectively control systems dominated by a first order dynamic ~\cite{aastrom1995pid} (i.e., representable with first order differential equations) such as the studied ones. PI controllers compute the next state of a plant by using two contributions: one that is proportional and another that is integral to the error $e$. Algorithmically, $\forall\ k \in \mathbb{N} \wedge  s_j \in S$: 
+{\scriptsize
 \begin{align*}
+\begin{split}
 e   &:= \tau_r^{\circ}-\tau_r;\\
 x_R &:= x_{R_p}+(1-p)*e_p;\\
-c   &:= \lambda*f_{inv}((\alpha-1)/(p-1)*(x_R+e));\\
+c   &:= \lambda*f_{inv}((\alpha-1)/(p-1)*(x_R+e));
+\end{split}
+\begin{split}
 c   &:= max(min(Kmax,c), Kmin);\\
 x_{R_p} &:= (p-1)/(\alpha-1)*f(c/\lambda)-e;\\
 e_p  &:= e;
+\end{split}
 \end{align*}
-where the ``$p$'' subscript denotes ``previous'' values, i.e., those corresponding to the previous step, while ``$f$'' and ``$f_{inv}$'' correspond to the characteristic function and its inverse, respectively, while $\alpha \in [0,1)$ is the single pole of the controller (the higher the value the faster will be the error convergence to $0$). The algorithm is run by each controller at each control step independently (i.e. without synchronization) to compute the next container allocation for the corresponding $\mu$-service. $\hat{c}$ is the vector containing the allocations of all the services. $\hat{c}$ is not immediately actuated (through the container manager of choice such as Docker Swarm~\cite{Swarm} or Kubernetes~\cite{Kubernetes}) since the sum of the allocations could be greater than the entire capacity of the resource pool. In fact $\hat{c}$  is passed to another control component called  \textit{ContentionManager}. The  output of ContentionManager is a vector $\bar{c}$, the actual container allocations of $\mu$-services, defined as 
+}%
+where the ``$p$'' subscript denotes ``previous'' values, i.e., those corresponding to the previous step, while ``$f$'' and ``$f_{inv}$'' correspond to the characteristic function and its inverse, respectively, while $\alpha \in [0,1)$ is the single pole of the controller (the higher the value the faster will be the error convergence to $0$). 
+
+The algorithm is run by each controller at each control step independently (i.e. without synchronization) to compute the next container allocation for the corresponding $\mu$-service. $\hat{c}$ is the vector containing the allocations of all the services. $\hat{c}$ is not immediately actuated (through the container manager of choice such as Docker Swarm~\cite{Swarm} or Kubernetes~\cite{Kubernetes}) since the sum of the allocations could be greater than the entire capacity of the resource pool. In fact $\hat{c}$  is passed to another control component called  \textit{ContentionManager}. The  output of ContentionManager is a vector $\bar{c}$, the actual container allocations of $\mu$-services, defined as 
 \begin{equation}
 \bar{c}(k) =
 \begin{cases}
@@ -69,7 +88,8 @@ scaleDown(\hat{c}(k)),              & \text{otherwise}
 \label{eqn:CsysModel-SS}
 \end{equation} 
 where function $scaleDown$ scales down the allocations to be equal to the maximum capacity according to a priority policy. 
-For example in the scenario introduced in Section~\ref{sub:example}, the AV application should have a higher priority with respect to non-critical applications such as AR applications for tourists~\cite{GarrigaMendonca2017}. In case of contention the edge $\mu$-services might become unavailable (or available with an higher response time) to the AR applications, for example during rush hour. In that case the AR and other low-priority applications could have to rely on $\mu$-services being run in the mobile domain, or in a cloud domain. Finally \textit{ContentionManager} updates the state of each controller (variable $x_{R_p}$) to reflect the actual allocation.
+
+As an example, in the scenario introduced in Section~\ref{sub:example}, critical applications should have a higher priority with respect to applications such as the AR for tourists~\cite{GarrigaMendonca2017}. In case of contention, edge-based $\mu$-services might become unavailable (or available with an higher response time) to the AR applications. In that case the AR and other low-priority applications could have to rely on $\mu$-services from their mobile domain or a cloud provider domain. Finally \textit{ContentionManager} updates the state of each controller (variable $x_{R_p}$) to reflect the actual allocation.
 
 \subsection{Multi-Attribute Domain Selection}~\label{sec:cs_allocation}
 
