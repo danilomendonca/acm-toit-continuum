@@ -17,7 +17,6 @@ In comparison with these works, our formulation allows multiple instances of (st
 
 From a different perspective, several works~\cite{ZhaoZGZN15, Liu:2016, OrsiniBL16, Xu:2018} have focused on the decision of whether to offload computation form/to mobile, edge, and cloud. 
 %Our model relies on a different abstraction --- namely, $\mu$-services. 
-
 In this category, Orsini et al.~\cite{OrsiniBL16} proposed CloudAware, a comprehensive context-aware mobile middleware that handles offloading to edge and cloud. Similarly to A3-3, clients decide on which alternative best suites its requirements, including performing computation locally. CloudAware deals with stateful components, which renders the offloading decision --- controlled by the client --- more critical. Instead, in A3-E the mobile middleware influences --- not dictates --- the opportunistic allocation of stateless and lightweight $\mu$-services by edge and cloud providers.
 
 %Zhao et al~\cite{ZhaoZGZN15} proposed a cooperative scheduling in which offloading requests are modeled as a queue system. Each local cloud (edge node) decides whether to compute or forward the request to the cloud after a first come first served policy. Similarly, A3-E also makes use of policies to solve contention among $\mu$-services, whose requests are also served based on their arrival order and priority. In contrast, A3-E emphasizes the autonomy of edge and cloud domains and leaves with the client the ultimate decision of where computation is performed. 
