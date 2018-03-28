@@ -44,19 +44,19 @@
 %
 %Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. 
 
-In our formulation, edge nodes are distinguished after the networking technology they use: \textit{mobile-edge} (also known as Multi-Access Edge Computing or MEC~\cite{ahmed2016isco}) integrates with cellular network infrastructure (e.g., a 5G base station), whereas \textit{local-edge} integrates with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from each other, and that communication among heterogeneous edge nodes may not be feasible.% and unable to coordinate the allocation of resources.
+%TODO [Martin] I've slightly changed this and next paragraph to be compliant with the ETSI standard
+In our formulation, edge nodes are distinguished after the networking technology they use: \textit{mobile edge} hosts (in the context of Multi-Access Edge Computing or MEC~\cite{etsimec16,ahmed2016isco}) integrate with cellular network infrastructure (e.g., a 5G base station), whereas \textit{local edge} ones integrate with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from each other, and that communication among heterogeneous (mobile) edge systems~\cite{etsimec16} may not be feasible.% and unable to coordinate the allocation of resources.
 
 
 
 %Later on, this heterogeneity is addressed with variations of the proposed service life-cycle management.
 
-Mobile devices play two roles, namely clients and potential providers of continuum services. The motivation for including mobile devices' own resources in the model is threefold: (i) the substantial increase in computational capacity of modern devices; (ii) the compatibility of these devices to host the execution of continuum functions (see Section~\ref{sec:application_model}); and (iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. 
+Mobile devices (i.e., User Equipment~\cite{etsimec16}) play two roles, namely clients and potential providers of continuum services. The motivation for including mobile devices' own virtualized resources in the model is threefold: (i) the substantial increase in computational capacity of modern devices; (ii) the compatibility of these devices to transparently execute services (see Section~\ref{sec:application_model}); and (iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. 
 
 %TODO fix Figure X
 Figure X~\ref{fig:topology} illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile \textit{domains}. 
 %Throughout this paper, we refer to \textit{cloud}, \textit{edge}, and \textit{mobile} \textit{domains}. 
-A domain yields a common abstraction for the heterogeneous computational resources (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures composing the continuum. 
-
+A domain yields a common  abstraction (typically through virtualization) for the heterogeneous compute, storage and network resources (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) composing the continuum\footnote{The definition for \textit{domain} extends the one provided by ETSI for a \textit{mobile edge host}~\cite{etsimec16} to the continuum.}. 
 
 
 %constituents of the continuum. Indeed, it hides the fact that they make use of heterogeneous \textit{computational resources} (e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc.) and networking infrastructures (e.g., access points, radio access networks, etc.). 
@@ -84,9 +84,9 @@ Continuum services consist of a set of artifacts that fulfill a given functional
 
 A priori, continuum services are portable, unless they require capabilities that can not be met by specific domains. Like cloud and edge domains, mobile domains also expose functionality by means of a well-known interface --- for the sake of consistency, the service abstraction is employed within all domains.
 
-The proposed service model enforces consistency and allows multiple service instances to coexist along the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
+The proposed service model enforces consistency and allows multiple service instances to coexist along the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients. 
 
-The services also align with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
+The services also align with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. This requires to support FaaS not only at cloud level, but also to bring it to (mobile) edge platforms~\cite{etsimec16}. Note that our approach targets application-level functions, whereas Virtualized Network Functions (VNFs~\cite{etsimec16}) are considered as a part of the underlying infrastructure.
 
 %TODO [Danilo] given our space limitations, let's wait for further adjustments (other contents to be removed) before adding this paragraph
 %In FaaS, functions are ephemeral (they may even last for only one invocation), stateless, and scaled as needed~\cite{Roberts:2016}. Moreover, services implemented after the FaaS model are \textit{microservices}\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery.
@@ -99,9 +99,9 @@ Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a conti
 
 \subsection{Life-cycle Management}
 
-The management of continuum services life-cycle is focused on two conflicting aspects: i) the satisfaction of application requirements (e.g., maximum service latency, battery consumption, availability, etc); and ii) the optimization of resources employed by service providers. 
+The management of continuum services life-cycle is focused on two conflicting aspects: i) satisfy application rules and requirements (e.g., maximum service latency, battery consumption, availability~\cite{etsimec16}); and ii) optimize resources employed by service providers. 
 
-From the providers' perspective, an optimal allocation of its domain resources corresponds to the minimum number of $\mu$-service instances that must be allocated by each of its domains to cope with the SLA of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
+From the providers' perspective, an optimal allocation of its domain (virtualized) resources corresponds to the minimum number of $\mu$-service instances that must be allocated by each of its domains to cope with the SLA of each provided service.% (e.g., maximum service latency, simultaneous request threshold, etc). 
 
 To better express this problem, let's consider the set of $\mu$-services $S = \{s_j \mid j = 0,1,...,J\}$.
 %In turn, $F_i = \{f_{i,j}\}_j$ defines the set of instances of $s_i$, with $0 \le j \le n_i$.
