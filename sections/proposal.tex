@@ -228,39 +228,44 @@ From the client's perspective, the Acquisition corresponds to the confirmation o
 
 \subsection{Awareness}\label{sec:A3-E-awareness}
 
-%Why do we need awareness?
-%CA: awareness is not needed because the edge domain should always be coupled to the network infrastructure; network components shoudl aways route traffic to existing edge servers; additionally, the edge domain should be able to acquire and allocate $\mu$-services upon detection of the first requests.  
-%A: A3-E model is agnostic w.r.t. the use of network technologies to route traffic to the edge servers; a given domain may count on network components to traffic route to its servers instead of negociating directly with clients aware of its existance; nonetheless, the lack of awareness limits the acquisition and deployment of services to reactive, as the domain would only identify a given service upon the first request has been made. Without awareness, clients would not be able to choose from alternative domains. 
-
-From the provider's viewpoint, the awareness phase models the discovery of continuum applications in one of its domain's coverage area, indicating the imminent need for the corresponding $\mu$-services.
+From the provider's viewpoint, the awareness phase models the discovery of continuum applications in one of its domains' coverage area, indicating the imminent need for the corresponding $\mu$-services. 
 
 %Its main purpose is to enable domains to pro-actively initialize the Acquisition and Allocation activities, based on the awareness of devices in a domain's coverage area. 
-Cloud-based FaaS platforms like AWS Lambda~\footnote{https://docs.aws.amazon.com/lambda/latest/dg/running-lambda-code.html} adopt a cold start policy in which functions are allocated after their first call following a period of idleness. This latency, however, may be disruptive for some applications.
 
-Taking advantage of mutual client-provider awareness, the proposed mechanism has two benefits: (i) it alleviates the cold start by pro-actively allocating $\mu$-services just before they are needed; and (ii) it enables $\mu$-service Acquisition to be opportunistic (i.e., on demand) by triggering download and installation as soon as the client of a new application enters the domain's coverage area.
+%TODO this is a central problem tackled by A3-E and belongs to intro or wherever we discuss the problem
+FaaS platforms like AWS Lambda~\cite{AWSLambda}
+%~\footnote{https://docs.aws.amazon.com/lambda/latest/dg/running-lambda-code.html}
+and OpenWhisk~\cite{OpenWhisk} adopt a cold start policy in which functions are allocated after their first call following a period of idleness. This latency, however, may be disruptive for some applications.
 
-Throughout Awareness, the domain manager handles the following event:
+Taking advantage of mutual client-provider awareness, the proposed mechanism has two benefits: (i) it alleviates the cold start by pro-actively allocating $\mu$-services just before they are needed; and (ii) it enables $\mu$-service Acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of $\mu$-services as soon as the client of a new application enters the domain's area. 
 
-{\small
-\begin{itemize}
-	
-	\item \textbf{Client identified:} triggered when a new client enters the domain's coverage area. The manager must react with the triggering of a \textit{client arrived} and \textit{$\mu$-service} identified events for each $\mu$-service required by the client.
-	
-\end{itemize}
-}%
+%Throughout Awareness, the domain manager handles the following event:
 
-From the client's perspective, Awareness corresponds to the discovery of edge domains (\textit{domain identified} signal) in the device's network (e.g., through UDP broadcasting within a local area network, or through specific protocols from cellular networks tailored for handshake in MEC~\cite{SPECS}). 
+%{\small
+%\begin{itemize}
+%	
+%	\item \textbf{Client identified:} triggered when a new client enters the domain's coverage area. The manager must react with the triggering of a \textit{client arrived} and \textit{$\mu$-service identified} events for each $\mu$-service required by the client.
+%	
+%\end{itemize}
+%}%
+
+Since cloud domains are known beforehand, they may be set-up statically. Conversely, to realize Awareness edge domains must advertise their existence (\textit{domain identification} signal) using discovery protocols compatible with its network infrastructure: for instance, through broadcasting in local-edge and through control channels in mobile-edge~\cite{ETSI:MEC:ARCHITECTURE}. 
+Upon a \textit{client identified} event, the domain manager must trigger both \textit{client arrived} and \textit{$\mu$-service identified} events for each required $\mu$-service.
+
+From the client's perspective, Awareness corresponds to the discovery of domains followed by a \textit{client identification} signal. To realize it, cloud domains can rely on special purpose HTTP endpoints for handshaking, whereas local-edge and mobile-edge domains can respectively rely on local area and radio access network protocols.
+ 
 %The mobile middleware, in turn, realizes Awareness with the discovery of cloud and edge domains. In particular, 
+%During Awareness, the mobile middleware handles the following event:
+%
+%{\small
+%\begin{itemize}
+%	
+%	\item \textbf{Domain identified:} triggered when a domain is found. The middleware must react with the triggering of a \textit{domain found} event and a \textit{client identification} signal to the domain manager.
+%	
+%\end{itemize}
+%}%
 
-During Awareness, the mobile middleware handles the following event:
-
-{\small
-\begin{itemize}
-	
-	\item \textbf{Domain identified:} triggered when a domain is found. The middleware must react with the triggering of a \textit{domain found} event and a \textit{client identification} signal to the domain manager.
-	
-\end{itemize}
-}%
+%To implement Awareness, 
 
 %It copes with the need for efficiency and scalability of finely distributed edge domains by allowing acquisition and/or allocation of services to happen just in time, i.e., just before the client application needs them.
 %and enables not only functions to be allocated, but also acquired in an opportunistic fashion.
