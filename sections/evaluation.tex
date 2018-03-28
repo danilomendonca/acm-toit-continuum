@@ -1,14 +1,32 @@
+% A3-E ideal evaluation
+% Awareness: 
+% Acquisition: 
+% Allocation: 
+% Execution: 
+
 \section{Experimental Evaluation}\label{sec:evaluation}
 
-We performed different experiments, using four domains that materialize the continuum. The first experiment \emph{studies how latency changes and how the remote domains scale with a varying workload}. In this case the mobile domain is obviously omitted. The second one \emph{evaluates the domains from a client's perspective}, both in terms of latency and battery consumption. The third one \emph{evaluates the A3-E approach with domains that change their availability} according to a probabilistic model.
-Finally, the last one \emph{evaluates the overhead introduced by the acquisition and allocation phases of A3-E}. When possible, we compared A3-E against a state-of-the-art tool for edge resource management.
+We performed different experiments using four domains that materialize the continuum. The first experiment evaluates $\mu$-service latency against different workloads. The first experiment \emph{studies how latency changes and how the remote domains scale with a varying workload}. In this case the mobile domain is obviously omitted. The second one \emph{evaluates the domains from a client's perspective}, both in terms of latency and battery consumption. The third one \emph{evaluates the A3-E approach with domains that change their availability} according to a probabilistic model. Finally, the last one \emph{evaluates the overhead introduced by the acquisition and allocation phases of A3-E}. When possible, we compared A3-E against a state-of-the-art tool for edge resource management.
 %Our goal was to demonstrate that the A3-E model is successful in selecting domains at run time and in improving the overall application availability. 
 
-\subsection{Domains Setup}
+\subsection{Experiments Setup}
 
 %\subsubsection{Domains}
 
-We deployed four domains that materialize the computing continuum --- as shown in Table~\ref{tab:domain-exp-config}. The sample application is an Image Recognition one, in which users can capture an image and invoke microservices\footnote{Microservice implementation available in \url{https://github.com/deib-polimi/A3-E-image-recognition}} in the continuum to perform \textit{feature extraction} and \textit{object detection} in the image. For the mobile domain we used a smartphone in which we deployed the A3-E middleware and the functions needed. For our two local-edge domains we adopted the Apache OpenWhisk serverless platform, as the state-of-the-art open-source solution. Both edge domains were in the same LAN as the origin of the requests (i.e., the client applications/devices). This was done to emulate a few-hops scenario in which devices are directly connected to their nearest edge domains. \texttt{Local-edge-1} allows us to represent a situation in which latency is close to zero, but the computational resources are highly constrained, as scaling-up is not possible due to the inherent physical restrictions of the underlying infrastructure. \texttt{Local-edge-2} has more computational resources and yet low latency can be achieved due to physical proximity.
+As shown in Table~\ref{tab:domain-exp-config}, our model was evaluated with four types of domains: mobile, local-edge, and cloud. 
+
+The mobile domain was deployed to an Android smartphone hosting the A3-E middleware~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-DSM-mobile}} and a client application. More precisely, the latter emulates Augment Reality by invoking
+%is an Image Recognition one, in which users can capture an image and invoke 
+$\mu$-services~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-image-recognition}} in the continuum responsible for \textit{feature extraction} and \textit{object detection}. 
+
+A domain manager prototype~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-DSM-local-edge}} was deployed on two local-edge domains. For handling Allocation and Execution, we adopted Apache OpenWhisk, a state-of-the-art open-source FaaS platform. Throughout experiments, edge domains shared a LAN with the origin of requests (i.e., the client applications/devices).
+%TODO [Danilo] this is by definition and couldn't be otherwise
+%This was done to emulate a few-hops scenario in which devices are directly connected to their nearest edge domains. 
+\texttt{Local-edge-1} represented a situation in which latency is close to zero, but the computational resources are more constrained and scaling-up is not possible due to the inherent physical restrictions of the underlying infrastructure (e.g., a lightweight server covering an office); in turn, \texttt{Local-edge-2} has more computational resources and yet low latency can be achieved due to physical proximity (e.g., a robust edge server covering a building floor).
+
+Representing cloud domains, we used AWS Lambda~\cite{AWSLambda}, the most mature FaaS solution on the market. To be consistent with our formulation of the compute continuum, functions and associated dependencies (storage, feature extraction and matching) were hosted within the same AWS region. 
+
+Finally, we also deployed the functionality onto a traditional setup using cloud's IaaS. The main goal of this setup was not to compare traditional cloud services against a FaaS solution, but to demonstrate that the proposed continuum could outperform the cloud under the tested circumstances and requirements.
 
 \begin{table}[htb]
 	\caption{Domains Setup in the Continuum for the Experimental Evaluation}
@@ -36,11 +54,6 @@ We deployed four domains that materialize the computing continuum --- as shown i
 
 
 
-The Cloud-FaaS domain for this experiment used AWS Lambda, as the most mature serverless solution on the market. The functions and associated dependencies (storage, feature extraction and matching) were hosted within the same AWS region to guarantee a certain degree of data locality. Finally, we also deployed the functionality onto a traditional cloud domain, i.e., using cloud IaaS. 
-
-The main goal of this setup was not to compare traditional cloud services against a serverless solution, but to demonstrate that the proposed continuum could outperform the cloud under the tested circumstances and requirements.
-
-
 \subsection{Domain Latency and Scalability} 
 
 
@@ -51,7 +64,7 @@ The main goal of this setup was not to compare traditional cloud services agains
 %	\label{fig:exp-setup1}
 %\end{figure}
 
-The first experiment assesses how the latency changes and the domains scale with a varying workload, providing a baseline to compare different domains. We simulated an increasing number of clients, each one making $100$ requests (feature extraction and matching from a sample image) at a rate of two per second. This setup was achieved taking into account the default maximum for concurrent executions in AWS Lambda\footnote{\url{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html}} and Openwhisk\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}}, as well as the limited resources of the edge domains. 
+The first experiment assessed how the latency changes and the domains scale with a varying workload, providing a baseline to compare different domains. We simulated an increasing number of clients, each one making $100$ requests for the AR $\mu$-service at a rate of two per second. This setup was achieved taking into account the default maximum for concurrent executions in AWS Lambda~\footnote{\url{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html}} and Openwhisk~\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}}, as well as the limited resources of the edge domains. 
 
 This experiment excluded the mobile domain and focused on the remote ones, i.e., edge and cloud. Capturing and uploading an image was emulated using Postman\footnote{\url{https://www.getpostman.com/}}, an open source application designed to perform load testing over the functional behavior of Web APIs. The payload for this experiment was a sample image of approximately 65 KB, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. The actual execution time of the Image Recognition function was profiled for each domain and then kept constant for the experiment, while latency results are averaged through $5$ executions.
 
@@ -66,7 +79,7 @@ This experiment excluded the mobile domain and focused on the remote ones, i.e.,
 
 %\subsubsection{Baseline Latency}
 
- Figure~\ref{fig:latency-domains} shows the average latency for each scale-up step. Note that the computation time (light gray) is different from the overhead (dark gray). The latter includes network communication (routing and forwarding) and queuing time (when no resources are available to process the request immediately). 
+Figure~\ref{fig:latency-domains} shows the average latency for each scale-up step. Note that the computation time (light gray) is different from the overhead (dark gray). The latter includes network communication (routing and forwarding) and queuing time (when no resources are available to process the request immediately). 
 
 \begin{figure}
 	
@@ -204,7 +217,7 @@ The \texttt{all-domains} scenario reflects the underlying rationale of the compu
 
 Finally, the last experiment evaluates the overhead introduced by the acquisition and allocation phases of A3-E. Given that such phases make sense only in the context of edge domains (as discussed in Section~\ref{sec:A3-E}), this experiment targeted \textit{local-edge-2} as domain. 
 
-We adopted an opportunistic policy in which no edge resources are pre-allocated beforehand, i.e., a complete cold-start situation (see Section~\ref{sec:A3-E-awareness}. In this context, the experiment consisted of the following steps\footnote{Source code for the experiment available at: https://github.com/deib-polimi/A3-E-DSM-local-edge}:
+We adopted an opportunistic policy in which no edge resources are pre-allocated beforehand, i.e., a complete cold-start situation (see Section~\ref{sec:A3-E-awareness}. In this context, the experiment consisted of the following steps:
 (1) Receive a client's request targeting a new $\mu$-service, (2) fetch and download the software assets from a repository, (3) build the $\mu$-service against the specific architecture of the edge node (if needed), (4) install the corresponding functions in the FaaS platform and provide an endpoint for them, and finally (5) execute the requested function and return the result to the client.
 
 The sample $\mu$-service was that of Image Recognition. We assume that during awareness phase, the client has informed the server regarding the repositories to fetch the required assets (~30 Mb including the $mu$-service and dependencies), activity that is delayed until after the first function call due to the opportunistic policy. Also, note that the experiment measures only domain-side times, as client-side perceived latency was already evaluated in the previous experiments. After each function execution, we uninstalled and deleted all the assets related to the $mu$-service, so the subsequent calls also behave as cold starts.
