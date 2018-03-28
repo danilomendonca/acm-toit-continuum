@@ -176,10 +176,10 @@ The \textit{Allocation} models the deployment of continuum $\mu$-services on a p
 
 The scope of the provider-side allocation is limited by its domain boundaries. For example, cloud domains allocate $\mu$-services to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more (virtual) machines covering a an office or a building (local-edge) or a 5G base station area (mobile-edge). %In this paper, we do not consider inter-domain cooperation (e.g., placement among different domains).
 
-To realize this activity, exploits a self-management loop~\cite{kephart2003vision} (see Sec.~\ref{sec:ps_allocation}) in which the domain manager allocates resources (i.e., containers) to guarantee that latency and availability of each provided $\mu$-service cope with its SLA. Throughout Allocation, the domain manager deals with the following events:
-
+Existing FaaS platforms handle Allocation with on demand instantiation of containers, which may be kept \textit{warm} before been deallocated after a period of idleness~\cite{AWSLambda, OpenWhisk}. This mechanism can be generalized as a self-management loop~\cite{kephart2003vision} in which the domain manager allocates $\mu$-service instances to guarantee that latency and availability of each provided $\mu$-service cope with its SLA. 
+Throughout this activity, the domain manager deals with the following events:
 {\small
-	\begin{itemize}
+	\begin{itemize}[noitemsep,topsep=4pt]
 		
 		\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop handling Allocation.
 		
@@ -189,8 +189,6 @@ To realize this activity, exploits a self-management loop~\cite{kephart2003visio
 		
 	\end{itemize}
 }%
-
-
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
 
 %To realize this activity, the domain manager exploits a self-management control loop~\cite{kephart2003vision} (see Figure~\ref{fig:service-allocation-loop}) in which the $\mu$-services are instantiated according to: (i) a monitored QoS (e.g., the latency with each domain), (ii) a SLA, and (iii) the availability of the computational resources. 
@@ -208,11 +206,11 @@ To realize this activity, exploits a self-management loop~\cite{kephart2003visio
 
 %Given the state of different domains perceived by a client, the mobile middleware must decide which domain is responsible for each $\mu$-service consumed by the application. 
 
-A self-management loop (see Sec.~\ref{sec:cs_allocation}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu$-service consumed by the client application, the middleware checks the corresponding QoS levels from the list of capable domains. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
+A self-management loop is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu$-service consumed by the client application, the middleware checks the corresponding QoS levels from the list of capable domains. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
 Throughout Allocation, the mobile middleware handles the following events:
 
 {\small
-	\begin{itemize}
+	\begin{itemize}[noitemsep,topsep=4pt]
 		
 		\item \textbf{Domain acquired:} indicates the agreement of a domain in providing a given $\mu$-service. The mobile middleware must react by including this domain in its self-management loop.	
 		
@@ -251,7 +249,7 @@ Remote domains (i.e., cloud and edge) are engaged through distributed protocols 
 During Engagement, the domain manager deals with the following events:
 
 {\small
-	\begin{itemize}
+	\begin{itemize}[noitemsep,topsep=4pt]
 		
 		\item \textbf{$\mu$-service deallocated:} indicates the unavailability of a given $\mu$-service. The manager must react by queuing or sending a \textit{request response} signal with error code to subsequent requests.
 		
@@ -264,7 +262,7 @@ During Engagement, the domain manager deals with the following events:
 In turn, the mobile middleware deals with the following events:
 
 {\small
-	\begin{itemize}
+	\begin{itemize}[noitemsep,topsep=4pt]
 		
 		\item \textbf{C-Request arrived:} indicates the client application has sent a new request to a continuum $\mu$-service. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the $\mu$-service from the currently selected domain.
 		
