@@ -76,13 +76,13 @@ A domain yields a common abstraction for the heterogeneous computational resourc
 	\label{fig:Continuum-arch}
 \end{figure}
 
-On top of the physical model, we propose an application model in which stateless components and immutable data composing \textit{continuum services} are dynamically placed to mobile, edge, and cloud,
+On top of the physical model, we propose an \textit{application model} in which stateless components and immutable data composing \textit{continuum services} are dynamically placed to mobile, edge, and cloud,
 whilst 
 stateful components are deployed to cloud datacenters or the client device itself based on design-time decisions.
 
 Continuum services consist of a set of artifacts that fulfill a given functionality. In particular, these artifacts can refer to: (i) stateless function(s) (e.g., a Java compiled class); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries).
 
-A priori, continuum services are portable, unless they require capabilities that can not be met by specific domains. Like cloud and edge domains, mobile domains also expose functionality by means of a well-known interface --- for the sake of consistency, the service abstraction is employed with all domains.
+A priori, continuum services are portable, unless they require capabilities that can not be met by specific domains. Like cloud and edge domains, mobile domains also expose functionality by means of a well-known interface --- for the sake of consistency, the service abstraction is employed within all domains.
 
 The proposed service model enforces consistency and allows multiple service instances to coexist along the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with the mobility of clients.
 
