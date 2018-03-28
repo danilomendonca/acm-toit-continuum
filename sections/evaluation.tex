@@ -19,7 +19,7 @@ The mobile domain was deployed to an Android smartphone hosting the A3-E middlew
 %is an Image Recognition one, in which users can capture an image and invoke 
 $\mu$-services~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-image-recognition}} in the continuum responsible for \textit{feature extraction} and \textit{object detection}. 
 
-A domain manager prototype was deployed on two local-edge domains. For handling Allocation and Execution, we adopted Apache OpenWhisk, a state-of-the-art open-source FaaS platform. Throughout experiments, edge domains shared a LAN with the origin of requests (i.e., the client applications/devices).
+A domain manager prototype~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-DSM-local-edge}} was deployed on two local-edge domains. For handling Allocation and Execution, we adopted Apache OpenWhisk, a state-of-the-art open-source FaaS platform. Throughout experiments, edge domains shared a LAN with the origin of requests (i.e., the client applications/devices).
 %TODO [Danilo] this is by definition and couldn't be otherwise
 %This was done to emulate a few-hops scenario in which devices are directly connected to their nearest edge domains. 
 \texttt{Local-edge-1} represented a situation in which latency is close to zero, but the computational resources are more constrained and scaling-up is not possible due to the inherent physical restrictions of the underlying infrastructure (e.g., a lightweight server covering an office); in turn, \texttt{Local-edge-2} has more computational resources and yet low latency can be achieved due to physical proximity (e.g., a robust edge server covering a building floor).
@@ -64,7 +64,7 @@ Finally, we also deployed the functionality onto a traditional setup using cloud
 %	\label{fig:exp-setup1}
 %\end{figure}
 
-The first experiment assessed how the latency changes and the domains scale with a varying workload, providing a baseline to compare different domains. We simulated an increasing number of clients, each one making $100$ requests for the AR $\mu$-service at a rate of two per second. This setup was achieved taking into account the default maximum for concurrent executions in AWS Lambda\footnote{\url{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html}} and Openwhisk\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}}, as well as the limited resources of the edge domains. 
+The first experiment assessed how the latency changes and the domains scale with a varying workload, providing a baseline to compare different domains. We simulated an increasing number of clients, each one making $100$ requests for the AR $\mu$-service at a rate of two per second. This setup was achieved taking into account the default maximum for concurrent executions in AWS Lambda~\footnote{\url{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html}} and Openwhisk~\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}}, as well as the limited resources of the edge domains. 
 
 This experiment excluded the mobile domain and focused on the remote ones, i.e., edge and cloud. Capturing and uploading an image was emulated using Postman\footnote{\url{https://www.getpostman.com/}}, an open source application designed to perform load testing over the functional behavior of Web APIs. The payload for this experiment was a sample image of approximately 65 KB, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. The actual execution time of the Image Recognition function was profiled for each domain and then kept constant for the experiment, while latency results are averaged through $5$ executions.
 
@@ -84,7 +84,7 @@ Figure~\ref{fig:latency-domains} shows the average latency for each scale-up ste
 \begin{figure}
 	
 	\centering
-	\includegraphics[width=.95\textwidth]{figs/latency-domain-new}
+	\includegraphics[width=.9\textwidth]{figs/latency-domain-new}
 	\scriptsize{(*)max-concurrent-executions = 64}
 	\vspace{-.3cm}
 	\caption{Latency and scalability for each domain and different number of clients.}
@@ -217,7 +217,7 @@ The \texttt{all-domains} scenario reflects the underlying rationale of the compu
 
 Finally, the last experiment evaluates the overhead introduced by the acquisition and allocation phases of A3-E. Given that such phases make sense only in the context of edge domains (as discussed in Section~\ref{sec:A3-E}), this experiment targeted \textit{local-edge-2} as domain. 
 
-We adopted an opportunistic policy in which no edge resources are pre-allocated beforehand, i.e., a complete cold-start situation (see Section~\ref{sec:A3-E-awareness}. In this context, the experiment consisted of the following steps\footnote{Source code for the experiment available at: https://github.com/deib-polimi/A3-E-DSM-local-edge}:
+We adopted an opportunistic policy in which no edge resources are pre-allocated beforehand, i.e., a complete cold-start situation (see Section~\ref{sec:A3-E-awareness}. In this context, the experiment consisted of the following steps:
 (1) Receive a client's request targeting a new $\mu$-service, (2) fetch and download the software assets from a repository, (3) build the $\mu$-service against the specific architecture of the edge node (if needed), (4) install the corresponding functions in the FaaS platform and provide an endpoint for them, and finally (5) execute the requested function and return the result to the client.
 
 The sample $\mu$-service was that of Image Recognition. We assume that during awareness phase, the client has informed the server regarding the repositories to fetch the required assets (~30 Mb including the $mu$-service and dependencies), activity that is delayed until after the first function call due to the opportunistic policy. Also, note that the experiment measures only domain-side times, as client-side perceived latency was already evaluated in the previous experiments. After each function execution, we uninstalled and deleted all the assets related to the $mu$-service, so the subsequent calls also behave as cold starts.
