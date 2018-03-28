@@ -1,5 +1,12 @@
 \section{A3-E}\label{sec:A3-E}
 
+\begin{figure}[tbp]
+	\includegraphics[width=1\textwidth]{figs/A3-E-process}
+	\caption{A3-E overview. Activities carried out by a \textit{domain manager} and a \textit{mobile middleware} are coordinated through signals (dashed arrows) and events (solid arrows).}
+	\label{fig:A3-E-process}
+\end{figure}
+
+
 %First and foremost, A3-E's main objective is to enable the efficient and scalable placement of $\mu$-services along the continuum. In A3-E, clients and providers autonomously interact and decide for the placement of services according to the context. Moreover,  
 
 To realize the compute continuum, we propose A3-E
@@ -9,17 +16,14 @@ To realize the compute continuum, we propose A3-E
 
 A3-E targets the efficient and scalable placement of $\mu$-services along the continuum. For this, clients and distinct providers (domains) take part in the \textit{automated} and \textit{decentralized} runtime decision of which continuum resources --- among those of mobile, edge, and cloud --- should be employed in the provisioning of each $\mu$-services required by continuum applications.
 
-Figure~\ref{fig:A3-E-process} illustrates each activity in A3-E. The latter are refined by specific activities carried out by a \textit{domain manager} and by a \textit{mobile middleware}. These activities addresses different concerns in the interaction between client applications and service providers. Activities from both sides are coordinated through signals and events. To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which activities are employed and how.
+Figure~\ref{fig:A3-E-process} illustrates each activity in A3-E. The latter are refined by specific activities carried out by a \textit{domain manager} and by a \textit{mobile middleware}. These activities addresses different concerns in the interaction between client applications and service providers. 
+%Activities from both sides are coordinated through signals and events. 
+To address the intrinsic heterogeneity of the continuum, A3-E is flexible with respect to which activities are employed and how.
 %For each phase, the main activities of a \textit{domain} and a \textit{client} are depicted along with their mutual relative state at the moment the phase starts: for a domain, a service state ranges from \textit{Free} to \textit{Allocated}, whilst a domain state ranges from \textit{Away} to \textit{Selected} for a client. 
 %More precisely, Fig.~\ref{fig:A3-E-process} refers to the activities and states (in parenthesis) of a single client-domain interaction.
 
 %Next, we detail each main activity in A3-E, starting from the most general one, i.e., the one that applies to all types of client-domain interaction, and moving towards the more specific ones.
 
-\begin{figure}[tbp]
-	\includegraphics[width=1\textwidth]{figs/A3-E-process}
-	\caption{A3-E overview. Each main activity is refined by specific Domain Manager and Mobile Middleware activities. Signals (dashed) and events (solid) triggered and handled by each activity are respectively depicted by leaving and arriving arrows.}
-	\label{fig:A3-E-process}
-\end{figure}
 
 %\subsection{A3-E Process: Phases}\label{sec:A3-E-process}
 
@@ -166,8 +170,7 @@ From the client's perspective, the Acquisition corresponds to the confirmation o
 %\end{figure}
 
 
-%TODO we may change placement for allocation to avoid confusion with the placement among different edge servers (e.g., in the context NFV)
-The \textit{Allocation} models the deployment of continuum $\mu$-services on a pool of resources from cloud and edge providers (assuming $\mu$-services from mobile domains are pre-allocated). It also captures the client-side selection of providers for each of the $\mu$-service employed by the application.
+The \textit{Allocation} models the deployment of continuum $\mu$-services on a pool of resources from cloud and edge providers ($\mu$-services from mobile domains are pre-allocated). It also captures the client-side selection of providers for each of the $\mu$-service employed by the application.
 
 %From the domain's perspective, the allocation phase models the placement of $\mu$-services on the domain's resources, i.e., on its pool of servers, virtual machines, and containers. At the beginning of this phase, $\mu$-service artifacts have been \textit{acquired} by the domain, and the client has been \textit{notified} of this.
 
