@@ -176,16 +176,16 @@ The \textit{Allocation} models the deployment of continuum $\mu$-services on a p
 
 The scope of the provider-side allocation is limited by its domain boundaries. For example, cloud domains allocate $\mu$-services to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more (virtual) machines covering a an office or a building (local-edge) or a 5G base station area (mobile-edge). %In this paper, we do not consider inter-domain cooperation (e.g., placement among different domains).
 
-To realize this activity, the domain manager exploits a self-management loop~\cite{kephart2003vision} (see Sec.~\ref{sec:ps_allocation}) to guarantee a specified QoS by dynamically allocating resources (i.e., containers) to continuum $\mu$-services. Throughout Allocation, the domain manager deals with the following events:
+To realize this activity, exploits a self-management loop~\cite{kephart2003vision} (see Sec.~\ref{sec:ps_allocation}) in which the domain manager allocates resources (i.e., containers) to guarantee that latency and availability of each provided $\mu$-service cope with its SLA. Throughout Allocation, the domain manager deals with the following events:
 
 {\small
 	\begin{itemize}
 		
 		\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop handling Allocation.
 		
-		\item \textbf{Client arrived:} indicates the arrival of a client from a given $\mu$-service. It should be taken into account by the self-management loop handling Allocation.
+		\item \textbf{Client arrived:} indicates the arrival of a client from a given $\mu$-service. To mitigate cold start, the manager should anticipate allocation upon availability of resources.
 		
-		\item \textbf{$\mu$-service requested}: as defined in Section~\ref{sec:A3-E-engagement}. The domain manager must take this event into account by the self-management loop handling Allocation.
+		\item \textbf{$\mu$-service requested}: as defined in Section~\ref{sec:A3-E-engagement}. It should be taken into account by by the self-management loop handling Allocation with the increase of arrival rate ($\lambda_j$).
 		
 	\end{itemize}
 }%
@@ -208,7 +208,7 @@ To realize this activity, the domain manager exploits a self-management loop~\ci
 
 %Given the state of different domains perceived by a client, the mobile middleware must decide which domain is responsible for each $\mu$-service consumed by the application. 
 
-A self-management loop (see Sec.~\ref{sec:cs_allocation}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu-service$ consumed by the client application, the middleware checks the corresponding QoS levels from the list of capable domains. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
+A self-management loop (see Sec.~\ref{sec:cs_allocation}) is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu$-service consumed by the client application, the middleware checks the corresponding QoS levels from the list of capable domains. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
 Throughout Allocation, the mobile middleware handles the following events:
 
 {\small
@@ -253,11 +253,11 @@ During Engagement, the domain manager deals with the following events:
 {\small
 	\begin{itemize}
 		
-		\item \textbf{$\mu$-service deallocated:} indicates the unavailability of a given $\mu$-service. The manager must react by queuing subsequent requests for that service.
+		\item \textbf{$\mu$-service deallocated:} indicates the unavailability of a given $\mu$-service. The manager must react by queuing or sending a \textit{request response} signal with error code to subsequent requests.
 		
-		\item \textbf{$\mu$-service allocated:} indicates the availability of a given $\mu$-service. The manager must react by resuming the processing of pending and subsequent requests.	
+		\item \textbf{$\mu$-service allocated:} indicates the availability of a given $\mu$-service. The manager must react by resuming the processing of queued and subsequent requests.	
 		
-		\item \textbf{$\mu$-service requested:} indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the allocation of the request to a service instance after a \textit{load balancing} strategy.
+		\item \textbf{$\mu$-service requested:} indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the placement of the request to a service instance after a \textit{load balancing} strategy.
 	\end{itemize}
 }%
 
@@ -266,15 +266,15 @@ In turn, the mobile middleware deals with the following events:
 {\small
 	\begin{itemize}
 		
-		\item \textbf{C-Request arrived:} indicates the client application has sent a new request to the continuum. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the corresponding $\mu$-service from the currently selected domain.
+		\item \textbf{C-Request arrived:} indicates the client application has sent a new request to a continuum $\mu$-service. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the $\mu$-service from the currently selected domain.
 		
-		\item \textbf{Response served:} indicates the arrival of a response from a domain for an invoked service. The middleware must handle it with the triggering of a \textit{C-Request served} event to be handled by the client application.
+		\item \textbf{Request served:} indicates the arrival of a response from a domain for an invoked service. The middleware must handle it with the triggering of a \textit{C-Request served} event to be handled by the client application.
 		
-		%\item \textbf{C-Request served:} indicates a given C-request has been processed. It contains the original $\mu$-service reference along with any return value(s). The client application is responsible for handling the event.
+		%\item \textbf{C-Request served:} indicates a given C-request has been processed. It contains the original $\mu$-service reference along with any return value(s). The client application is responsible for handling the event.	
 		
-		\item \textbf{Domain absent:} indicates no domain is currently available for that specific service. The middleware must react by queuing subsequent C-requests and, in case of latency violation, triggering a \textit{C-request failed} event.
+		\item \textbf{Domain changed:} indicates a domain have been selected for a specific $\mu$-service. The middleware must handle it by resuming the invocation of any queued and subsequent C-requests to that domain.
 		
-		\item \textbf{Domain changed:} indicates a domain have been selected for a specific $\mu$-service. The middleware must handle it by resuming the forward of any queued and subsequent C-requests.
+		\item \textbf{Domain absent:} indicates no domain is available for that specific $\mu$-service. The middleware must react by queuing subsequent C-requests and, in case of latency violation, firing a \textit{C-request failed} event.
 		
 	\end{itemize}
 }%

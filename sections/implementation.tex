@@ -64,16 +64,16 @@ f_j \left( \frac{c_j(k)}{\lambda_j(k)}\right)  = \widetilde{u}_j(k) = c_1+\frac{
 where $p \in [0,1)$ is the single pole of the system estimated with step response analysis. As control techniques we rely on PI controllers because they are able to effectively control systems dominated by a first order dynamic ~\cite{aastrom1995pid} (i.e., representable with first order differential equations) such as the studied ones. PI controllers compute the next state of a plant by using two contributions: one that is proportional and another that is integral to the error $e$. Algorithmically, $\forall\ k \in \mathbb{N} \wedge  s_j \in S$: 
 {\scriptsize
 \begin{align*}
-\begin{split}
+%\begin{split}
 e   &:= \tau_r^{\circ}-\tau_r;\\
 x_R &:= x_{R_p}+(1-p)*e_p;\\
-c   &:= \lambda*f_{inv}((\alpha-1)/(p-1)*(x_R+e));
-\end{split}
-\begin{split}
+c   &:= \lambda*f_{inv}((\alpha-1)/(p-1)*(x_R+e));\\
+%\end{split}
+%\begin{split}
 c   &:= max(min(Kmax,c), Kmin);\\
 x_{R_p} &:= (p-1)/(\alpha-1)*f(c/\lambda)-e;\\
 e_p  &:= e;
-\end{split}
+%\end{split}
 \end{align*}
 }%
 where the ``$p$'' subscript denotes ``previous'' values, i.e., those corresponding to the previous step, while ``$f$'' and ``$f_{inv}$'' correspond to the characteristic function and its inverse, respectively, while $\alpha \in [0,1)$ is the single pole of the controller (the higher the value the faster will be the error convergence to $0$). 
@@ -113,8 +113,9 @@ In addition to A3-E's \textit{Location requirements}, the prototype considered t
 The latter is defined as a fixed score ranging from $1$ to $5$\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. By default, the mobile domain has a score of $1$, edge domains have a score of $4$, while cloud domains have a score of $5$. As cloud provides the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. 
 
 %with dynamic scores taking into account the saturation of the domain or the device's battery level (in the case of a mobile domain).
+\setlength{\textfloatsep}{5pt}% Remove \textfloatsep
 {\scriptsize
-\begin{algorithm}[thb]
+\begin{algorithm}[h]
 	\caption{A3E Selection Algorithm}
 	\label{alg:selection}
 	\begin{algorithmic}[1]		
@@ -142,6 +143,7 @@ The latter is defined as a fixed score ranging from $1$ to $5$\footnote{Labeling
 	\end{algorithmic}
 \end{algorithm}
 }%
+
 %TODO [Danilo] improve this paragraph
 Algorithm~\ref{alg:selection} describes the procedure employed in the $\mu$-service selection. The algorithm computes a score ranging from $0$ to $5$ (line $2$). First, it retrieves the maximum computational power and network latency from available domains (line $3$ and $4$). Then, it retrieves the weights assigned to each QoS metric (lines $5$ and $6$). These weights correspond to the values associated to the \textit{LatencyRequirement} and \textit{ComputationalRequirement} of the $\mu$-service. The \textit{ANY} value corresponds to a weight of $0$, a latency requirement of \textit{LOW} and a computational power requirement of \textit{FAST} correspond to a weight equal to $1$, while a latency requirement of \textit{VERY\_LOW} and a computational power requirement of \textit{VERY\_FAST} correspond to a weight equal to $2$. 
 
@@ -149,7 +151,6 @@ For each domain, the algorithm computes the overall score (line $9$ to $14$). Th
 
 %Two considerations must be added for this algorithm. First, 
 Algorithm~\ref{alg:selection} is an instantiation of the SMART~\cite{Olson1996}, in which multiple competing QoS attributes are taken into account using the following formula:
-
 {\small
 \begin{equation}
 Smart(p) = \frac{\sum_{u=1}^{U} actual_{u}(p)*weight_u}{\sum_{u=1}^{U}weight_u} \label{eq:smart}
