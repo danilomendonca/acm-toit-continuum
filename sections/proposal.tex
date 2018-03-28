@@ -172,47 +172,50 @@ Throughout Allocation, the mobile middleware handles the following events:
 
 \subsection{Acquisition}\label{sec:A3-E-acquisition}
 
-The \textit{Acquisition} models the automated download and installation of continuum $\mu$-service artifacts and the confirmation of the domain's capability in providing that $\mu$-service.
+The \textit{Acquisition} models the automated download and installation of continuum $\mu$-service artifacts and the confirmation of the domain's capability in providing that $\mu$-service. Its ultimate goal is to mitigate the use of domain resources before the $\mu$-service is actually needed, while also facilitating IT operations (Ops) for developers and administrators. 
 
-The ultimate goal of Acquisition is to mitigate the use of domain resources before the $\mu$-service is actually needed, while also facilitating IT operations (Ops) for developers and administrators. 
+Ops mitigation is particularly important in (finely distributed) edge domains, since the manual administration of a large number of $\mu$-services can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current FaaS platforms only support uploading (pushing) functions through public interfaces. 
 
-Ops mitigation is particularly important in finely distributed edge domains, since the manual administration of a large number of $\mu$-services can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current FaaS platforms only support uploading (pushing) functions through public interfaces. 
-
-The acquisition of functions is managed by the domain manager, therefore allowing $\mu$-services to be downloaded (e.g., pulled from a repository) and installed on demand. Note that mobile domains are exempt of performing the allocation phase as local service artifacts are assumed to be downloaded and installed along with the client application.
+Acquisition is autonomously managed, therefore allows $\mu$-services to be downloaded 
+%(e.g., pulled from a repository) 
+and installed on demand. To achieve it, a domain manager must fetch the corresponding assets (e.g., compiled classes and other files) from a repository upon the arrival of a \textit{$\mu$-service identified} event. Note that mobile domains are exempt of performing the allocation phase as local $mu$-services are assumed to be downloaded and installed along with the client application.
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
-Throughout Acquisition, the domain manager handles the following event:
-
-{\small
-\begin{itemize}
-	
-	\item \textbf{$\mu$-service identified:} indicates the request for deployment of a new $\mu$-service. The manager must proceed with the download and installation of the $\mu$-service, followed by the triggering of a \textit{service acquired} (or \textit{denied}) signal/event according to the activity outcome.
-	%its capability in providing that $\mu$-service.
-	
-	%\item \textbf{Client arrived:} triggered when a new client entered the domain's coverage area. The manager must react with 
-	
-\end{itemize}
-}%
+%Throughout Acquisition, the domain manager handles the following event:
+%
+%{\small
+%\begin{itemize}
+%	
+%	\item \textbf{$\mu$-service identified:} indicates the request for deployment of a new $\mu$-service. The manager must proceed with the download and installation of the $\mu$-service, followed by the triggering of a \textit{service acquired} (or \textit{denied}) signal/event according to the activity outcome.
+%	%its capability in providing that $\mu$-service.
+%	
+%	%\item \textbf{Client arrived:} triggered when a new client entered the domain's coverage area. The manager must react with 
+%	
+%\end{itemize}
+%}%
 
 %In this phase, the domain manager receives a set of application requirements from the client's CSM, namely the list of $\mu$-services and the URL of their repositories. The desired $\mu$-service artifacts are then downloaded and installed, at which point the DSM informs the client whether the $\mu$-services can be considered ``acquired'' or not. 
 %Throughout the $\mu$-services' life-cycles, the DSM periodically checks for new versions of acquired services and updates them accordingly. 
 %As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
 %In case the service has already been acquired or as the acquisition finishes, clients should add that domain to their list of available domains. 
 
-From the client's perspective, the Acquisition corresponds to the confirmation of a domain's capability in providing $\mu$-services required by the application. During this activity, the mobile middleware deals with the following events:
+From the client's perspective, the Acquisition corresponds to the confirmation of a domain's capability in providing $\mu$-services required by the application. To implement it, the mobile middleware waits for a \textit{domain found} before listening for a \textit{$\mu$-service acquired/denied} signal. If not denied, the middleware must proceed by firing a \textit{domain confirmed} event.
 
-{\small
-\begin{itemize}
-	
-	\item \textbf{Domain found:} indicates a potential domain for a $\mu$-service has been found. The middleware must proceed with the \textit{$\mu$-service identification} signal (if the domain is new) followed by the triggering of a \textit{domain confirmed} event.	
-	
-	\item \textbf{$\mu$-service acquired:} indicates a successful acquisition of a previously identified $\mu$-service. The middleware must react with the triggering of a \textit{domain confirmed} event.
-	
-	\item \textbf{$\mu$-service denied:} indicates the failure in acquiring and/or deploying a $\mu$-service. The middleware must proceed with the blacklisting of that domain. 
-	
-\end{itemize}
-}%
+%
+%During this activity, the mobile middleware deals with the following events:
+%
+%{\small
+%\begin{itemize}
+%	
+%	\item \textbf{Domain found:} indicates a potential domain for a $\mu$-service has been found. The middleware must proceed with the \textit{$\mu$-service identification} signal (if the domain is new) followed by the triggering of a \textit{domain confirmed} event.	
+%	
+%	\item \textbf{$\mu$-service acquired:} indicates a successful acquisition of a previously identified $\mu$-service. The middleware must react with the triggering of a \textit{domain confirmed} event.
+%	
+%	\item \textbf{$\mu$-service denied:} indicates the failure in acquiring and/or deploying a $\mu$-service. The middleware must proceed with the blacklisting of that domain. 
+%	
+%\end{itemize}
+%}%
 
 
  %follow the identification of the domain's capability in providing the requested service. This phase is realized by the CSM with the following sub-process: the CSM should expect a confirmation from the DSM regarding its compliance in providing the service required by the application. Once confirmed, the CSM adds that domain to a list of available domains used by the client-side allocation phase. 
