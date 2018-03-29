@@ -198,7 +198,7 @@ In order to set an \emph{optimal} baseline for this experiment, we calculated th
 
 Fig.~\ref{fig:all-domains} shows detailed results for the \texttt{all-domains} scenario w.r.t. availability and consistency. The experiment shown (see Fig.~\ref{fig:availability-all-domains}) an average of $93\%$ perceived availability without considering the \texttt{mobile} domain ($5\%$ and $35\%$ improvement regarding cloud and edge respectively), and $100\%$ availability when considering also the \texttt{mobile} domain (which is always available). 
 
-Fig.~\ref{fig:calls-per-domain-a3e} shows the distribution of calls per domain in the continuum: $63$\% by \texttt{Local-edge}, followed by \texttt{Cloud-FaaS} ($30$\%) and \texttt{mobile} ($7$\%) -- with an optimal of $66$, $22$ and $12$\% respectively. In terms of consistency, given that all requests were served, on average $70\%$ of the requests perceived low latency, whilst the $30\%$ that relied on the cloud perceived a degradation in the QoS but still were processed successfully. Finally, Fig.~\ref{fig:total-exec-time-optimal} shows an increase of $33$\% in the total execution time using A3-E w.r.t. the optimal, where the former includes the overhead of domain selection and switching.
+Fig.~\ref{fig:calls-per-domain-a3e} shows the distribution of calls per domain in the continuum: $63\%$ by \texttt{Local-edge}, followed by \texttt{Cloud-FaaS} ($30\%$) and \texttt{mobile} ($7\%$) -- with an optimal of $66$, $22$ and $12\%$ respectively. In terms of consistency, given that all requests were served, on average $70\%$ of the requests perceived low latency, whilst the $30\%$ that relied on the cloud perceived a degradation in QoS but still were processed successfully. Finally, Fig.~\ref{fig:total-exec-time-optimal} shows an increase of $33\%$ in the total execution time using A3-E w.r.t. the optimal, where the former includes the overhead of domain selection and switching.
  
 \begin{figure}[htb]
 \centering
@@ -214,7 +214,10 @@ Fig.~\ref{fig:calls-per-domain-a3e} shows the distribution of calls per domain i
 \end{figure}
 
 Conclusively, the experiment shown that A3-E is capable of performing domain selection and computation distribution at runtime. A3-E also improved availability up to 100\% during the experiment, given that the mobile domain is always available, but selected to serve only 7\% of the requests.
-The \texttt{all-domains} scenario reflects the underlying rationale of the computation continuum: exploit the edge domains as much as possible (by giving them high scores in Formula~\ref{eq:smart}), leading to better balance among computation time, latency and resource consumption. Switch to the cloud, or to the local device, only when necessary. Note that computation in the mobile device was configured with the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tuned by adjusting application requirements and domain parameters discussed in Section~\ref{sec:implementation}.
+The \texttt{all-domains} scenario reflects the underlying rationale of the computation continuum: exploit the edge domains as much as possible (by giving them high scores in Formula~\ref{eq:smart}), leading to better balance among computation time, latency and resource consumption. 
+%[Danilo] is the sentence below meanigful?
+%Switch to the cloud, or to the local device, only when necessary. 
+Note that computation in the mobile device was configured with the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tuned by adjusting application requirements and domain parameters as discussed in Section~\ref{sec:implementation}.
 
 %that allows to cope with unavailability and fluctuations in QoS 
 

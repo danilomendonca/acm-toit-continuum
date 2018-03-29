@@ -4,13 +4,13 @@
 
 %As previously stated, in this paper we also present working prototypes of domain-side and client-side middlewares. In particular, the former consist of a mobile domain and a local-edge domain, while the latter consists of a Android mobile client device. 
 
-To demonstrate the feasibility of A3-E in managing the life-cycle of continuum applications, we describe the implementation of A3-E. Due to its complexness, we focus on the implementation of the self-management loop for handling Allocation from both provider and client viewpoints. 
+To demonstrate the feasibility of our model
+in managing the life-cycle of continuum applications
+, we describe an implementation of A3-3. Due to its complexness, in this section we focus on the self-management loop handling Allocation from both provider and client viewpoints. %Nonetheless, a complete prototype was used for the evaluation in Sec.~\ref{sec:evaluation}.
 
 \subsection{Control Theory-based $\mu$-Service Allocation}~\label{sec:ps_allocation}
 
-To cope with the low-latency requirement of continuum applications and a highly dynamic workload  (e.g., from users that quickly enter and leave a particular edge area) we 
-%TODO move to the problem formulation i) consider the \textit{response time} as the reference metric of QoS and ii) 
-propose a fast and scalable materialization of the provider-side self-management loop based on control theory. In literature one can find many approaches of dynamic resource allocation based on heuristics~\cite{dustdar0}, artificial intelligence~\cite{ia1} and queue theory~\cite{queue1}. Nevertheless, we adopted an extremely lightweight control theoretical technique to fully exploit the container technology~\cite{Quatrocchi2016discrete}: compared to virtual machines containers can be booted in few seconds, therefore we used controllers that are able to change the resource allocation with a very fast period (i.e., in the order of few seconds).
+To cope with the low-latency requirement of continuum applications and a highly dynamic workload  (e.g., from users that quickly enter and leave a particular edge area) we propose a fast and scalable materialization of the provider-side self-management loop based on control theory. In literature one can find many approaches of dynamic resource allocation based on heuristics~\cite{dustdar0}, artificial intelligence~\cite{ia1} and queue theory~\cite{queue1}. Nevertheless, we adopted an extremely lightweight control theoretical technique to fully exploit the container technology~\cite{Quatrocchi2016discrete}: compared to virtual machines containers can be booted in few seconds, therefore we used controllers that are able to change the resource allocation with a very fast period (i.e., in the order of few seconds).
 
 Figure~\ref{fig:A3Edomain-manager} depicts an overview of the control system, which is responsible for the deployment of containers to the cluster of (virtual) machines composing a domain's pool of resources (or the \textit{plant} in control-theoretical terms). Each container provides the runtime environment required for the execution of a given continuum $\mu$-service; and multiple instances of $\mu$-services may coexist in one or more machines (horizontal scalability).
 
