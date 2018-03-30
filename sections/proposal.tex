@@ -57,7 +57,7 @@ Taking advantage of mutual client-provider awareness, the proposed mechanism has
 Since cloud domains are known beforehand, they may be set-up statically. Conversely, to realize Awareness edge domains must advertise their existence (\textit{domain identification} signal) using discovery protocols compatible with its network infrastructure: for instance, through broadcasting in local-edge and through control channels in mobile-edge~\cite{ETSI:MEC:ARCHITECTURE}. 
 Upon a \textit{client identified} event, the domain manager must trigger both \textit{client arrived} and \textit{$\mu$-service identified} events for each required $\mu$-service.
 
-From the client's perspective, Awareness corresponds to the discovery of domains followed by a \textit{client identification} signal. To realize it, cloud domains can rely on special purpose HTTP endpoints for handshaking, whereas local-edge and mobile-edge domains can respectively rely on local area and radio access network protocols.
+From the client's perspective, Awareness corresponds to the discovery of domains followed by a \textit{client identification} signal. More precisely, a \textit{client identification} must contain the $\mu$-service identification (e.g., the action-name in AWS Lambda~\cite{AWSLambda}) along with the repository from where it can be fetched during A3-E's Acquisition. To realize it, the mobile middleware can rely on special purpose HTTP endpoints from cloud domains, whereas local-edge and mobile-edge domains can respectively rely on local area and radio access network protocols.
 
 %The mobile middleware, in turn, realizes Awareness with the discovery of cloud and edge domains. In particular, 
 %During Awareness, the mobile middleware handles the following event:
@@ -257,36 +257,45 @@ Throughout this activity and as long as the client-domain relation persists, the
 
 Remote domains (i.e., cloud and edge) are engaged through distributed protocols (e.g., HTTP requests or WebSockets). To enforce a common interface between the mobile middleware and heterogeneous domains, the mobile domain should also expose its functionality as local services decoupled from the client application.
 
-During Engagement, the domain manager deals with the following events:
+During Engagement, a \textit{$\mu$-service deallocated} indicates the unavailability of a given $\mu$-service. The manager must react by queuing or sending a \textit{request response} signal with error code to subsequent requests. Conversely, a \textit{$\mu$-service allocated} indicates the availability of a given $\mu$-service. The manager must react by resuming the processing of queued and subsequent requests. Finally, the manager must handle a \textit{$\mu$-service requested} with the placement of the request to a service instance after a \textit{load balancing} strategy.
 
-{\small
-	\begin{itemize}[noitemsep,topsep=4pt]
-		
-		\item \textbf{$\mu$-service deallocated:} indicates the unavailability of a given $\mu$-service. The manager must react by queuing or sending a \textit{request response} signal with error code to subsequent requests.
-		
-		\item \textbf{$\mu$-service allocated:} indicates the availability of a given $\mu$-service. The manager must react by resuming the processing of queued and subsequent requests.	
-		
-		\item \textbf{$\mu$-service requested:} indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the placement of the request to a service instance after a \textit{load balancing} strategy.
-	\end{itemize}
-}%
+%indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the placement of the request to a service instance after a \textit{load balancing} strategy.
 
-In turn, the mobile middleware deals with the following events:
+%the domain manager deals with the following events:
+%
+%{\small
+%	\begin{itemize}[noitemsep,topsep=4pt]
+%		
+%		\item \textbf{$\mu$-service deallocated:} indicates the unavailability of a given $\mu$-service. The manager must react by queuing or sending a \textit{request response} signal with error code to subsequent requests.
+%		
+%		\item \textbf{$\mu$-service allocated:} indicates the availability of a given $\mu$-service. The manager must react by resuming the processing of queued and subsequent requests.	
+%		
+%		\item \textbf{$\mu$-service requested:} indicates the arrival of a request for a specific $\mu$-service. The manager must handle the event with the placement of the request to a service instance after a \textit{load balancing} strategy.
+%	\end{itemize}
+%}%
 
-{\small
-	\begin{itemize}[noitemsep,topsep=4pt]
-		
-		\item \textbf{C-Request arrived:} indicates the client application has sent a new request to a continuum $\mu$-service. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the $\mu$-service from the currently selected domain.
-		
-		\item \textbf{Request served:} indicates the arrival of a response from a domain for an invoked service. The middleware must handle it with the triggering of a \textit{C-Request served} event to be handled by the client application.
-		
-		%\item \textbf{C-Request served:} indicates a given C-request has been processed. It contains the original $\mu$-service reference along with any return value(s). The client application is responsible for handling the event.	
-		
-		\item \textbf{Domain changed:} indicates a domain have been selected for a specific $\mu$-service. The middleware must handle it by resuming the invocation of any queued and subsequent C-requests to that domain.
-		
-		\item \textbf{Domain absent:} indicates no domain is available for that specific $\mu$-service. The middleware must react by queuing subsequent C-requests and, in case of latency violation, firing a \textit{C-request failed} event.
-		
-	\end{itemize}
-}%
+From the client's viewpoint, a \textit{C-request arrived} indicates the client application has sent a new request to a continuum $\mu$-service. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the $\mu$-service from the currently selected domain. Upon arrival of a \textit{request served}, the middleware must proceed with the triggering of a \textit{C-Request served} event to be handled by the client application. 
+
+Also during this activity, a \textit{domain absent} event indicates no domain is available for that specific $\mu$-service. The middleware must react by queuing subsequent C-requests and, in case of latency violation, firing a \textit{C-request failed} event. In turn, a \textit{domain changed} event indicates a new domain selection for a specific $\mu$-service. The middleware must handle it by resuming the invocation of any queued and subsequent C-requests to that domain.
+
+%
+%The mobile middleware deals with the following events:
+%
+%{\small
+%	\begin{itemize}[noitemsep,topsep=4pt]
+%		
+%		\item \textbf{C-Request arrived:} indicates the client application has sent a new request to a continuum $\mu$-service. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the $\mu$-service from the currently selected domain.
+%		
+%		\item \textbf{Request served:} indicates the arrival of a response from a domain for an invoked service. The middleware must handle it with the triggering of a \textit{C-Request served} event to be handled by the client application.
+%		
+%		%\item \textbf{C-Request served:} indicates a given C-request has been processed. It contains the original $\mu$-service reference along with any return value(s). The client application is responsible for handling the event.	
+%		
+%		\item \textbf{Domain changed:} indicates a domain have been selected for a specific $\mu$-service. The middleware must handle it by resuming the invocation of any queued and subsequent C-requests to that domain.
+%		
+%		\item \textbf{Domain absent:} indicates no domain is available for that specific $\mu$-service. The middleware must react by queuing subsequent C-requests and, in case of latency violation, firing a \textit{C-request failed} event.
+%		
+%	\end{itemize}
+%}%
 
 %TODO [Danilo] requirements must be passed by the application before, otherwise the domain selection would need to happen after the request has been fired
 %It also contains continuum requirements that must be taken into account by the middleware in the decision of which 
