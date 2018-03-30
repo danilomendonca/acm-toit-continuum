@@ -6,7 +6,7 @@
 
 To demonstrate the feasibility of our model
 in managing the life-cycle of continuum applications
-, we describe an implementation of A3-3. Due to its complexness, in this section we focus on the self-management loop handling Allocation from both provider and client viewpoints. %Nonetheless, a complete prototype was used for the evaluation in Sec.~\ref{sec:evaluation}.
+, we describe an implementation of A3-E. Due to its complexness, in this section we focus on the self-management loops handling Allocation from both provider and client viewpoints. %Nonetheless, a complete prototype was used for the evaluation in Sec.~\ref{sec:evaluation}.
 
 \subsection{Control Theory-based $\mu$-Service Allocation}~\label{sec:ps_allocation}
 
@@ -28,7 +28,7 @@ Figure~\ref{fig:A3Edomain-manager} depicts an overview of the control system, wh
 The control plant is subject to different signals that could be measurable (input variables) or unknown (disturbances). Considering a discrete time, for each $\mu$-services $s_j \in S$ we define $\lambda_j(k)$ as the function of the measured arrival rate of requests at each control time $k$.
 ; while $\bar{\lambda}(k)$ is the corresponding vector for all $s_i \in S$. 
 %TODO c(k) is the same as f_{i,j}(k) and \bar{c}(k) is the same as  F_{i}. 
-At time $k$ each $\mu$-service $s_j \in S$ is executed in a $c_j(k)$ number of allocated containers. %, while $\bar{c}(k)$ is the corresponding vector for all $s_i \in S$. 
+At time $k$, $\mu$-service $s_j \in S$ is executed in a $c_j(k)$ number of allocated containers. %, while $\bar{c}(k)$ is the corresponding vector for all $s_i \in S$. 
 The disturbances are defined as $\bar{d}$ and cannot be directly controlled and measured by definition. Finally, $\bar{\tau}$ is the system output and corresponds to the vector of response times of each $\mu$-service; while $\bar{\tau}^\circ$ corresponds to the vector of desired response times or control set-point (according to the SLA of each $\mu$-service). 
 
 In our current setup the function $\bar{\tau}^\circ(k)$ does not vary over time, meaning a constant QoS for each  $\mu$-service. Of course, these values should be set below the thresholds defined in the SLA (i.e., $\forall\ k \in \mathbb{N} \wedge  s_j \in S, {\tau}^\circ_j(k) \le \Delta_j$). Moreover, since response time cannot be measured instantaneously but by aggregating the execution times of different requests over a predefined time window, many aggregation functions could be used without any change to the system model and controller. For example in our current setup we are using the $99th$ percentile function. 

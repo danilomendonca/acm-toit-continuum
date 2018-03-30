@@ -169,7 +169,7 @@ prob. of edge becoming available: 0.666666%
 	\subfloat[Execution time per call (ms)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.32\textwidth]{figs/time-per-call-A3E}}
 	%\captionsetup[subfigure]{width=0.45\textwidth}
 	%\subfloat[Number of Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.45\textwidth]{figs/calls-per-domain-A3E}}
-	\setlength{\belowcaptionskip}{-10pt}	
+	%\setlength{\belowcaptionskip}{-10pt}	
 	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
 \end{figure}
 
@@ -216,7 +216,7 @@ Fig.~\ref{fig:calls-per-domain-a3e} shows the distribution of calls per domain i
 	\subfloat[Number of requests served\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.32\textwidth]{figs/calls-per-domain-A3E-optimal}}
 	\captionsetup[subfigure]{width=0.32\textwidth}
 	\subfloat[Total Execution Time (sec)\label{fig:total-exec-time-optimal}] {\includegraphics[width=0.32\textwidth]{figs/total-exec-time-optimal}}
-	\setlength{\belowcaptionskip}{-10pt}
+	%\setlength{\belowcaptionskip}{-10pt}
 	\caption{All-domains scenario results} \label{fig:all-domains}
 \end{figure}
 
@@ -241,9 +241,9 @@ The experiment focused on the scenario in which no edge resources are pre-alloca
 % [Danilo] The steps are described in Sec. 3, we can just emphatise the activities (paragraph above)
 %the following steps: (1) Receive a client's request targeting a new $\mu$-service, (2) fetch and download the software assets from a repository, (3) build the $\mu$-service against the specific architecture of the edge node (if needed), (4) install the corresponding functions in the FaaS platform and provide an endpoint for them, and finally (5) execute the requested function and return the result to the client.
 
-The sample $\mu$-service was similar to previous experiments. Comprising the \textit{client identification} signal, the client informs the server regarding the repository to fetch the required assets (~30 Mb including the $mu$-service function and dependencies).
+The sample $\mu$-service was similar to previous experiments. Comprising the \textit{client identification} signal, the client informs the server regarding the repository to fetch the required assets (~30 Mb including the $\mu$-service function and dependencies).
 %, activity that is delayed until after the first function call due to the opportunistic policy. 
-Also, note that the experiment measures only domain-side performance, as latency perceived by clients was evaluated in the previous experiments. After a successful Acquisition and Allocation, we uninstalled and deleted all the $mu$-service assets, so that subsequent iterations also captured a worse case cold-start.
+Also, note that the experiment measures only domain-side performance, as latency perceived by clients was evaluated in the previous experiments. After a successful Acquisition and Allocation, we uninstalled and deleted all the $\mu$-service assets, so that subsequent iterations also captured a worse case cold-start.
 
 The experiment execution consisted of cascading sequential requests for periods of $5$ minutes, with different utilization levels of the edge node: low (~10\% server load and low network traffic equivalent to 8 clients), medium (~55\% server load and 16 clients) and high (~85\% server load and 32 clients). Again, we were able to compare A3-E against the Enorm framework, given that A3-E's Acquisition and Awareness are analogous to the provisioning phase in Enorm, which consists of deploying application server partitions from the cloud to edge node containers. 
 
@@ -254,7 +254,7 @@ The experiment execution consisted of cascading sequential requests for periods 
 	{\includegraphics[width=0.49\textwidth]{figs/a3e-enorm-latency}}
 	\captionsetup[subfigure]{width=0.49\textwidth}
 	\subfloat[Provisioning Overhead (sec)\label{fig:exp-a3e-enorm-deployment}] {\includegraphics[width=0.49\textwidth]{figs/a3e-enorm-deployment}}
-	\setlength{\belowcaptionskip}{-10pt}
+	%\setlength{\belowcaptionskip}{-10pt}
 	\caption{Comparison of A3E and Enorm when using an edge alternative instead of the cloud.} \label{fig:exp-a3e-enorm}
 \end{figure}
 
