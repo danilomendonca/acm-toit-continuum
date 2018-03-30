@@ -33,7 +33,7 @@ To address the intrinsic heterogeneity of the continuum, A3-E is flexible with r
 
 \subsection{Awareness}\label{sec:A3-E-awareness}
 
-From the provider's viewpoint, the awareness phase models the discovery of continuum applications in one of its domains' coverage area, indicating the imminent need for the corresponding $\mu$-services. 
+From the provider's viewpoint, Awareness models the discovery of continuum applications in one of its domains' coverage area, indicating the imminent need for the corresponding $\mu$-services. 
 
 %Its main purpose is to enable domains to pro-actively initialize the Acquisition and Allocation activities, based on the awareness of devices in a domain's coverage area. 
 
@@ -104,7 +104,7 @@ Ops mitigation is particularly important in (finely distributed) edge domains, s
 
 Acquisition is autonomously managed, therefore allows $\mu$-services to be downloaded 
 %(e.g., pulled from a repository) 
-and installed on demand. To achieve it, a domain manager must fetch the corresponding assets (e.g., compiled classes and other files) from a repository upon the arrival of a \textit{$\mu$-service identified} event. Note that mobile domains are exempt of performing the allocation phase as local $mu$-services are assumed to be downloaded and installed along with the client application.
+and installed on demand. To achieve it, a domain manager must fetch the corresponding assets (e.g., compiled classes and other files) from a repository upon the arrival of a \textit{$\mu$-service identified} event. Note that mobile domains are exempt of performing Allocation as local $mu$-services are assumed to be downloaded and installed along with the client application.
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
@@ -174,7 +174,7 @@ The \textit{Allocation} models the deployment of continuum $\mu$-services on a p
 
 %From the domain's perspective, the allocation phase models the placement of $\mu$-services on the domain's resources, i.e., on its pool of servers, virtual machines, and containers. At the beginning of this phase, $\mu$-service artifacts have been \textit{acquired} by the domain, and the client has been \textit{notified} of this.
 
-The scope of the provider-side allocation is limited by its domain boundaries. For example, cloud domains allocate $\mu$-services to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more (virtual) machines covering a an office or a building (local-edge) or a 5G base station area (mobile-edge). %In this paper, we do not consider inter-domain cooperation (e.g., placement among different domains).
+The scope of the provider-side Allocation is limited by its domain boundaries. For example, cloud domains allocate $\mu$-services to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more (virtual) machines covering a an office or a building (local-edge) or a 5G base station area (mobile-edge). %In this paper, we do not consider inter-domain cooperation (e.g., placement among different domains).
 
 Existing FaaS platforms handle Allocation with on demand instantiation of containers, which may be kept \textit{warm} before been deallocated after a period of idleness~\cite{AWSLambda, OpenWhisk}. This mechanism can be generalized as a self-management loop~\cite{kephart2003vision} in which the domain manager allocates $\mu$-service instances to guarantee that latency and availability of each provided $\mu$-service cope with its SLA. 
 Throughout this activity, the domain manager deals with the following events:
@@ -183,7 +183,7 @@ Throughout this activity, the domain manager deals with the following events:
 		
 		\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop handling Allocation.
 		
-		\item \textbf{Client arrived:} indicates the arrival of a client from a given $\mu$-service. To mitigate cold start, the manager should anticipate allocation upon availability of resources.
+		\item \textbf{Client arrived:} indicates the arrival of a client from a given $\mu$-service. To mitigate cold start, the manager should anticipate Allocation upon availability of resources.
 		
 		\item \textbf{$\mu$-service requested}: as defined in Section~\ref{sec:A3-E-engagement}. It should be taken into account by by the self-management loop handling Allocation with the increase of arrival rate ($\lambda_j$).
 		
