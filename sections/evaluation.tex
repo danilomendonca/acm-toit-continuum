@@ -225,16 +225,20 @@ Note that computation in the mobile device was configured with the lowest possib
 
 %\paragraph{Threats to validity}
 
-\subsection{Opportunistic Acquisition and Allocation}
+\subsection{Opportunistic Acquisition and Allocation through Awareness}
 
-Finally, the last experiment evaluates the overhead introduced by the acquisition and allocation phases of A3-E. Given that such phases make sense only in the context of edge domains (as discussed in Section~\ref{sec:A3-E}), this experiment targeted \textit{Local-edge-2} as domain. 
+Finally, the last experiment evaluates the performance of A3's Acquisition and Allocation based on Awareness. Given the resource limitations of edge domains and the potential benefits of exploiting contextual awareness related to edge's locality, we target the evaluation of \textit{Local-edge-2} as a domain. 
 
-We adopted an opportunistic policy in which no edge resources are pre-allocated beforehand, i.e., a complete cold-start situation (see Section~\ref{sec:A3-E-awareness}. In this context, the experiment consisted of the following steps:
-(1) Receive a client's request targeting a new $\mu$-service, (2) fetch and download the software assets from a repository, (3) build the $\mu$-service against the specific architecture of the edge node (if needed), (4) install the corresponding functions in the FaaS platform and provide an endpoint for them, and finally (5) execute the requested function and return the result to the client.
+The experiment focused on the scenario in which no edge resources are pre-allocated beforehand, i.e., a worse case cold-start scenario (see Section~\ref{sec:A3-E-awareness}). In this context, the experiment was carried out with a prototype implementation of a domain manager responsible for the advertisement, identification, acquisition and allocation of a new $\mu$-service by that domain.
 
-The sample $\mu$-service was that of Image Recognition. We assume that during awareness phase, the client has informed the server regarding the repositories to fetch the required assets (~30 Mb including the $mu$-service and dependencies), activity that is delayed until after the first function call due to the opportunistic policy. Also, note that the experiment measures only domain-side times, as client-side perceived latency was already evaluated in the previous experiments. After each function execution, we uninstalled and deleted all the assets related to the $mu$-service, so the subsequent calls also behave as cold starts.
+% [Danilo] The steps are described in Sec. 3, we can just emphatise the activities (paragraph above)
+%the following steps: (1) Receive a client's request targeting a new $\mu$-service, (2) fetch and download the software assets from a repository, (3) build the $\mu$-service against the specific architecture of the edge node (if needed), (4) install the corresponding functions in the FaaS platform and provide an endpoint for them, and finally (5) execute the requested function and return the result to the client.
 
-The experiment execution consisted of cascading sequential requests for periods of $5$ minutes, with different utilization levels of the edge node: low (~10\% server load and low network traffic equivalent to 8 clients), medium (~55\% server load and 16 clients) and high (~85\% server load and 32 clients). Again, we were able to compare A3-E against the Enorm framework, given that acquisition and awareness phases (A3-E) are analogous to provisioning phase (Enorm), which consists of deploying an application asset from the cloud to an edge node container. 
+The sample $\mu$-service was similar to previous experiments. Comprising the \textit{client identification} signal, the client informs the server regarding the repository to fetch the required assets (~30 Mb including the $mu$-service function and dependencies).
+%, activity that is delayed until after the first function call due to the opportunistic policy. 
+Also, note that the experiment measures only domain-side performance, as latency perceived by clients was evaluated in the previous experiments. After a successful Acquisition and Allocation, we uninstalled and deleted all the $mu$-service assets, so that subsequent iterations also captured a worse case cold-start.
+
+The experiment execution consisted of cascading sequential requests for periods of $5$ minutes, with different utilization levels of the edge node: low (~10\% server load and low network traffic equivalent to 8 clients), medium (~55\% server load and 16 clients) and high (~85\% server load and 32 clients). Again, we were able to compare A3-E against the Enorm framework, given that A3-E's Acquisition and Awareness are analogous to the provisioning phase in Enorm, which consists of deploying application server partitions from the cloud to edge node containers. 
 
 \begin{figure}[htb]
 	\centering
