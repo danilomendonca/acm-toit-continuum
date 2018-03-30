@@ -177,18 +177,23 @@ The \textit{Allocation} models the deployment of continuum $\mu$-services on a p
 The scope of the provider-side Allocation is limited by its domain boundaries. For example, cloud domains allocate $\mu$-services to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more (virtual) machines covering a an office or a building (local-edge) or a 5G base station area (mobile-edge). %In this paper, we do not consider inter-domain cooperation (e.g., placement among different domains).
 
 Existing FaaS platforms handle Allocation with on demand instantiation of containers, which may be kept \textit{warm} before been deallocated after a period of idleness~\cite{AWSLambda, OpenWhisk}. This mechanism can be generalized as a self-management loop~\cite{kephart2003vision} in which the domain manager allocates $\mu$-service instances to guarantee that latency and availability of each provided $\mu$-service cope with its SLA. 
-Throughout this activity, the domain manager deals with the following events:
-{\small
-	\begin{itemize}[noitemsep,topsep=4pt]
-		
-		\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop handling Allocation.
-		
-		\item \textbf{Client arrived:} indicates the arrival of a client from a given $\mu$-service. To mitigate cold start, the manager should anticipate Allocation upon availability of resources.
-		
-		\item \textbf{$\mu$-service requested}: as defined in Section~\ref{sec:A3-E-engagement}. It should be taken into account by by the self-management loop handling Allocation with the increase of arrival rate ($\lambda_j$).
-		
-	\end{itemize}
-}%
+
+Throughout this activity, a \textit{$\mu$-service acquired} event indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop. To mitigate cold start, the manager should react to a \textit{client arrived} event with the anticipation of Allocation upon availability of resources. Finally, a \textit{$\mu$-service requested} event related to $s_j$ should be taken into account by by the self-management loop handling Allocation with the increase of the corresponding arrival rate $\lambda_j$.
+
+
+
+%the domain manager deals with the following events:
+%{\small
+%	\begin{itemize}[noitemsep,topsep=4pt]
+%		
+%		\item \textbf{$\mu$-service acquired:} indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop handling Allocation.
+%		
+%		\item \textbf{Client arrived:} indicates the arrival of a client from a given $\mu$-service. To mitigate cold start, the manager should anticipate Allocation upon availability of resources.
+%		
+%		\item \textbf{$\mu$-service requested}: as defined in Section~\ref{sec:A3-E-engagement}. It should be taken into account by by the self-management loop handling Allocation with the increase of arrival rate ($\lambda_j$).
+%		
+%	\end{itemize}
+%}%
 
 
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
