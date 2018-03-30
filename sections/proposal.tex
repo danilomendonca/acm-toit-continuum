@@ -189,6 +189,8 @@ Throughout this activity, the domain manager deals with the following events:
 		
 	\end{itemize}
 }%
+
+
 %Traditionally, cloud domains employ automated scaling mechanisms in which virtual machines and container instances are (de)allocated on demand. More recently, cloud-based FaaS platforms (e.g., Amazon Lambda, Google Cloud Functions) extend these mechanisms to stateless functions. The later represent an extreme type of allocation in which no pre-allocation of resources is needed and functions are executed by a shared runtime platform. 
 
 %To realize this activity, the domain manager exploits a self-management control loop~\cite{kephart2003vision} (see Figure~\ref{fig:service-allocation-loop}) in which the $\mu$-services are instantiated according to: (i) a monitored QoS (e.g., the latency with each domain), (ii) a SLA, and (iii) the availability of the computational resources. 
@@ -206,18 +208,22 @@ Throughout this activity, the domain manager deals with the following events:
 
 %Given the state of different domains perceived by a client, the mobile middleware must decide which domain is responsible for each $\mu$-service consumed by the application. 
 
-A self-management loop is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu$-service consumed by the client application, the middleware checks the corresponding QoS levels from the list of capable domains. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
-Throughout Allocation, the mobile middleware handles the following events:
+A self-management loop is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu$-service consumed by the client application, the middleware checks the corresponding QoS levels from the list of domains currently available. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
 
-{\small
-	\begin{itemize}[noitemsep,topsep=4pt]
-		
-		\item \textbf{Domain acquired:} indicates the agreement of a domain in providing a given $\mu$-service. The mobile middleware must react by including this domain in its self-management loop.	
-		
-		\item \textbf{Domain lost:} indicates a domain can no longer provide a given $\mu$-service. The mobile middleware must react by removing this domain from its self-management loop.
-		
-	\end{itemize}
-}%
+Throughout Allocation, the \textit{domain acquired} event indicates the agreement of a domain in providing a given $\mu$-service. The middleware must react by including this domain in its self-management loop. Conversely, a \textit{domain lost} event indicates a domain can no longer provide a $\mu$-service. The middleware must react by disregarding this domain in its self-management loop.
+
+If we go back to our running example in Section~\ref{sub:example}, critical applications should have a higher priority with respect to others like the AR for tourists~\cite{GarrigaMendonca2017}. In case of contention, edge-based $\mu$-services might become unavailable (or available with an higher response time) to the AR applications. In that case the AR and other low-priority applications could have to rely on $\mu$-services from their own mobile domain or a cloud domain --- to be decided by the client-side Allocation.
+
+%
+%{\small
+%	\begin{itemize}[noitemsep,topsep=4pt]
+%		
+%		\item \textbf{Domain acquired:} indicates the agreement of a domain in providing a given $\mu$-service. The mobile middleware must react by including this domain in its self-management loop.	
+%		
+%		\item \textbf{Domain lost:} indicates a domain can no longer provide a given $\mu$-service. The mobile middleware must react by removing this domain from its self-management loop.
+%		
+%	\end{itemize}
+%}%
 
 
 

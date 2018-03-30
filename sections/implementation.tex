@@ -89,9 +89,10 @@ scaleDown(\hat{c}(k)),              & \text{otherwise}
 \label{eqn:CsysModel-SS}
 \end{equation} 
 }%
-where function $scaleDown$ scales down the allocations to be equal to the maximum capacity according to a priority policy. 
+where function $scaleDown$ scales down the allocations to be equal to the maximum capacity according to a priority-based combined with a first come, first served policy. In case of contention, the \textit{ContentionManager} updates the state of each controller (variable $x_{R_p}$) to reflect the actual allocation.
 
-As an example, in the scenario introduced in Section~\ref{sub:example}, critical applications should have a higher priority with respect to applications such as the AR for tourists~\cite{GarrigaMendonca2017}. In case of contention, edge-based $\mu$-services might become unavailable (or available with an higher response time) to the AR applications. In that case the AR and other low-priority applications could have to rely on $\mu$-services from their mobile domain or a cloud provider domain. Finally \textit{ContentionManager} updates the state of each controller (variable $x_{R_p}$) to reflect the actual allocation.
+% [Danilo] moved to the A3-E section 
+%As an example, in the scenario introduced in Section~\ref{sub:example}, critical applications should have a higher priority with respect to applications such as the AR for tourists~\cite{GarrigaMendonca2017}. In case of contention, edge-based $\mu$-services might become unavailable (or available with an higher response time) to the AR applications. In that case the AR and other low-priority applications could have to rely on $\mu$-services from their mobile domain or a cloud provider domain. 
 
 \subsection{Multi-Attribute Domain Selection}~\label{sec:cs_allocation}
 
