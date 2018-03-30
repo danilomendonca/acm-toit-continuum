@@ -68,7 +68,10 @@ Finally, we also deployed the functionality onto a traditional setup using cloud
 %	\label{fig:exp-setup1}
 %\end{figure}
 
-The first experiment assessed how the latency changes and the domains scale with a varying workload, providing a baseline to compare different domains. We simulated an increasing number of clients, each one making $100$ requests for the AR $\mu$-service at a rate of two per second. This setup was achieved taking into account the default maximum for concurrent executions in AWS Lambda~\footnote{\url{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html}} and Openwhisk~\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}}, as well as the limited resources of edge domains. 
+The first experiment assessed how the latency changes and the domains scale with a varying workload, providing a baseline to compare different domains. We simulated an increasing number of clients, each one making $100$ requests for the AR $\mu$-service at a rate of two per second. This setup was achieved taking into account the default maximum for concurrent executions in AWS Lambda~\cite{AWSLambda}
+%~\footnote{\url{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html}} 
+and Openwhisk~\cite{OpenWhisk}
+%~\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}}, as well as the limited resources of edge domains. 
 
 This experiment excluded the mobile domain and focused on the remote ones, i.e., edge and cloud. Capturing and uploading an image was emulated using Postman\footnote{\url{https://www.getpostman.com/}}, an open source application designed to perform load testing over the functional behavior of Web APIs. The payload for this experiment was a sample image of approximately 65 KB, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. The actual execution time was profiled for each domain and then kept constant for the experiment, while latency results are averaged through $5$ executions.
 
@@ -165,7 +168,8 @@ prob. of edge becoming available: 0.666666%
 	\captionsetup[subfigure]{width=0.32\textwidth}	
 	\subfloat[Execution time per call (ms)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.32\textwidth]{figs/time-per-call-A3E}}
 	%\captionsetup[subfigure]{width=0.45\textwidth}
-	%\subfloat[Number of Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.45\textwidth]{figs/calls-per-domain-A3E}}	
+	%\subfloat[Number of Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.45\textwidth]{figs/calls-per-domain-A3E}}
+	\setlength{\belowcaptionskip}{-10pt}	
 	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
 \end{figure}
 
@@ -212,7 +216,7 @@ Fig.~\ref{fig:calls-per-domain-a3e} shows the distribution of calls per domain i
 	\subfloat[Number of requests served\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.32\textwidth]{figs/calls-per-domain-A3E-optimal}}
 	\captionsetup[subfigure]{width=0.32\textwidth}
 	\subfloat[Total Execution Time (sec)\label{fig:total-exec-time-optimal}] {\includegraphics[width=0.32\textwidth]{figs/total-exec-time-optimal}}
-	
+	\setlength{\belowcaptionskip}{-10pt}
 	\caption{All-domains scenario results} \label{fig:all-domains}
 \end{figure}
 
@@ -250,7 +254,7 @@ The experiment execution consisted of cascading sequential requests for periods 
 	{\includegraphics[width=0.49\textwidth]{figs/a3e-enorm-latency}}
 	\captionsetup[subfigure]{width=0.49\textwidth}
 	\subfloat[Provisioning Overhead (sec)\label{fig:exp-a3e-enorm-deployment}] {\includegraphics[width=0.49\textwidth]{figs/a3e-enorm-deployment}}
-	
+	\setlength{\belowcaptionskip}{-10pt}
 	\caption{Comparison of A3E and Enorm when using an edge alternative instead of the cloud.} \label{fig:exp-a3e-enorm}
 \end{figure}
 
