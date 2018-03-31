@@ -54,7 +54,7 @@ Taking advantage of mutual client-provider awareness, the proposed mechanism has
 %\end{itemize}
 %}%
 
-Since cloud domains are known beforehand, they may be set-up statically. Conversely, to realize Awareness edge domains must advertise their existence (\textit{domain identification} signal) using discovery protocols compatible with its network infrastructure: for instance, through broadcasting in local-edge and control channels in mobile-edge~\cite{ETSI:MEC:ARCHITECTURE}. 
+Since cloud domains are known beforehand, they may be set-up statically. Conversely, to achieve Awareness edge domains must advertise their existence (\textit{domain identification} signal) using discovery protocols compatible with its network infrastructure: for instance, through broadcasting in local-edge and control channels in mobile-edge~\cite{ETSI:MEC:ARCHITECTURE}. 
 Upon a \textit{client identified} event, the domain manager must trigger both \textit{client arrived} and \textit{$\mu$-service identified} events for each required $\mu$-service.
 
 From the client's perspective, Awareness corresponds to the discovery of domains followed by a \textit{client identification} signal. More precisely, a \textit{client identification} must contain the $\mu$-service identification (e.g., the action-name in AWS Lambda~\cite{AWSLambda}) along with the repository from where it can be fetched during A3-E's Acquisition. To realize it, the mobile middleware can rely on special purpose HTTP endpoints from cloud domains, whereas local-edge and mobile-edge domains can rely on protocols from local area and radio access networks.
