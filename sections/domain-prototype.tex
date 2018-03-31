@@ -1,13 +1,29 @@
-\subsection{Domain-side Middleware: Local-Edge Domain}\label{sec:local-edge-domain-DSM}
+\subsection{Domain Manager: Local-Edge}\label{sec:local-edge-domain-DSM}
 
 %\subsubsection{Local-Edge Domains}
 
-The DSM prototype\footnote{Documentation and source code available at \url{https://github.com/deib-polimi/A3-E-DSM-local-edge/}} described herein focuses on a local-edge domain, and includes the Awareness and Acquisition phases of A3-E. Both the Allocation and Engagement phases are delegated to the FaaS platform (OpenWhisk), which is responsible for the placement of functions to its pool of containers and handles client application requests (fired by the CSM) by means of RESTful endpoints mapped to microservice functions.
+The domain manager prototype\footnote{Documentation and source code available at \url{https://github.com/deib-polimi/A3-E-DSM-local-edge/}} described herein focuses on a local-edge domain, and encompasses A3-E's Awareness and Acquisition. Both the Allocation and Engagement activities are delegated to the FaaS platform (OpenWhisk), which allocates $\mu$-services to its pool of containers and handles client application requests (fired by the middleware) by means of RESTful endpoints.
 
-The local-edge prototype implements the Awareness phase by broadcasting UDP advertisements in a constant interval. A CSM entering the network should reply with the identification of microservices its client application requires along with the Git repository from which the corresponding artifacts can be fetched during Acquisition phase. Among the downloaded files, a service descriptor provides instructions regarding the artifacts installation (e.g., compilation of Java classes). The Acquisition phase finishes with the deployment of function(s) to OpenWhisk and the CSM success/failure notification. 
+The local-edge manager prototype implements Awareness by broadcasting \textit{domain identification} UDP signals in a constant interval. A client device entering the network replies --- by means of a UDP unicast --- with the \textit{client identification} signal containing the $\mu$-services its client application requires, along with the respective repository from which $\mu$-service artifacts can be fetched during Acquisition (as described in Sec.~\ref{sec:A3-E-awareness}). 
 
-\subsection{Domain-side Middleware: Mobile Domain}\label{sec:mobile-domain-DSM}
+For each identified $\mu$-service, the manager proceeds with Acquisition. Among the downloaded files, a descriptor provides instructions regarding installation (e.g., compilation of Java classes and required dependencies). 
 
-Herein we describe a mobile domain DSM prototype for the Android platform\footnote{Documentation and source code available at \url{https://github.com/deib-polimi/A3-E-DSM-mobile/}}. As previously explained, mobile domains are exempt of performing all but the engagement phase. The resulting implementation was packaged as a library. The latter should be imported by the Android application willing to register functions to be executed by its mobile domain (see Section~\ref{sec:CSM} for details on the selection of domains).
+The Acquisition finishes with the deployment of $\mu$-service function(s) to OpenWhisk by means of its command line interface and the generation of a \textit{$\mu$-service acquired/denied} signal back to the client (as described in Sec.~\ref{sec:A3-E-acquisition}).
 
-The prototype supports two types of functions: Java functions, which are natively supported, and JavaScript functions, which require a JNI wrapper for their execution by the Android application. Decoupling between the client application and its mobile domain was achieved with the use of Android events triggered by the CSM (see Section~\ref{sec:CSM}) and handled by the DSM. Each request contains the unique name of a microservice. The later is used in the loopup of the corresponding function by a functions registry. Once found, the function is called with the parameters composing the request. Finally, a callback is called with the return of the function.
+\subsection{Domain Manager: Mobile}\label{sec:mobile-domain-DSM}
+
+Herein we describe a domain manager implementation for the Android platform\footnote{Documentation and source code available at \url{https://github.com/deib-polimi/A3-E-DSM-mobile/}}. 
+%As previously explained in Sec.~\ref{sec:A3-E}, mobile domains are exempt of performing Acquisition, thus this section details the implementation of A3-E's Awareness and Engagement. 
+%[Danilo] shall we divise the middleware from the mobile domain or are they packed together?
+The resulting implementation was packaged as a module within the mobile middleware for Android platform (described in Sec.~\ref{sec:mobile_middleware}). 
+
+The mobile domain manager implements Awareness by triggering a system-level \textit{domain identification} signal once it has been loaded by the middleware and by listening to a \textit{client identification} reply signal. In contrast with cloud and edge domains, the \textit{client identification} consists of the qualified name of $\mu$-service function(s) (e.g., the system path of a Java class implementing the static function). The latter is added to a service registry kept by the domain manager.
+
+The prototype supports two types of $\mu$-service functions: Java functions, which are natively supported, and JavaScript functions, which require a JNI wrapper for their execution by the Android application. Notice that current FaaS platforms support a variety of languages and runtimes, including Java and JavaScript functions. Nonetheless, mobile domains can either make use of additional wrappers or rely on a native implementation of $\mu$-service function(s).  
+
+Once a $\mu$-service is successfully registered, the mobile domain finishes Acquisition with a \textit{$\mu$-service acquired} signal. During Engagement and upon selection of this domain by the mobile middleware, \textit{$\mu$-service request} signals are handled with the lookup of the corresponding function. Once found, the function is called with the parameters composing the request. Finally, a \textit{request response} signal is triggered with the execution result.
+
+ %Decoupling between the client application and its mobile domain was achieved with the use of Android events triggered by the CSM (see Section~\ref{sec:CSM}) and handled by the DSM. 
+%Each request contains the unique name of a microservice. 
+
+

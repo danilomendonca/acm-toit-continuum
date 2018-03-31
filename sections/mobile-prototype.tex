@@ -4,6 +4,8 @@
 
 The main goal of the client-side middleware\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-CSM}} is to allow client applications to invoke A3-E microservices without knowing where they will actually be executed within the computing continuum: locally on the mobile domain, in a local-edge server, in a mobile-edge server, or in the cloud. Its selection algorithm is a multi-objective function that takes into account the measured QoS and the requirements. The provided implementation targets Android-based devices. However, it does not use Android-specific technology and can therefore be generalized to other mobile platforms. 
 
+%The latter should be imported by the Android application willing to register $\mu$-services to be executed by its mobile domain.
+
 The provided implementation consists of components responsible for the Awareness phase (i.e., the discovery of domains and identification of requirements), the Acquisition phase (i.e., the update of a list of available domains following the DSM notification), and finally the set of  components responsible for Allocation phase, during which microservices selection occurs. The latter implement a self-managing control loop~\cite{kephart2003vision} which: (i) monitors microservices provided by different domains in terms of QoS metrics; (ii) analyzes the best alternative satisfying requirements of the client application; and (iii) updates the domain selection for a given microservice. In addition to A3-E's \textit{Location requirements}, the prototype considered two types of \textit{QoS requirements}:
 
 \begin{enumerate}

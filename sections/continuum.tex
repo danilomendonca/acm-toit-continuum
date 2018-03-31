@@ -102,7 +102,7 @@ As state is a fundamental aspect of many applications, we propose that mobile de
 %TODO: make it more general, as some applications may have local persistence and u-services may also deal with business logic
 Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a continuum application. The client-side application comprises \texttt{client-side logic}, \textit{local persistence}, and \texttt{user interface} components, whereas the cloud infrastructure comprises \texttt{server-side logic} and \texttt{persistence} components. Continuum $\mu$-services are responsible for stateless computation opportunistically deployed to different domains.
 
-\subsection{Life-cycle Management Problem}
+\subsection{Life-cycle Management}
 
 The management of continuum services life-cycle is focused on two conflicting goals: i) the satisfaction of application requirements (e.g., maximum service latency, battery consumption, availability); and ii) the optimization of resources allocated for the applications. 
 
@@ -124,7 +124,7 @@ Given the fluctuations in the workload and the perceived delay $\tau_j$ of each 
 
 From the client's viewpoint, an optimal provider selection is the one that, given a set of requirements and the perceived QoS of different services, satisfies the multi-criteria decision of which provider to be employed. Moreover, since continuum $\mu$-services are modular and independently deployed, it consists of individual decisions regarding each $\mu$-service consumed by the application.
 
-To better express the client-side selection, let's extend the previous formulation by considering a set of independent provider domains $D = \{d_p \mid p = 1,2,...,P\}$. Each domain $d_p \in D$ provides a set of $\mu$-services $S_{p} = \{s_{p,i} \mid i =  0, 1, ..., I_p\}$. In turn, a continuum application $CA_x$ relies on the set of $\mu$-services $S_x = \{s_a \mid a = 1,2,...,A\}$, so that $\forall s_a \in S_x$, there is at least one provider domain offering that $\mu$-service, that is, $\forall s_a \in S_x, \exists\ s_{p,i} \in \bigcup_{p=1}^{|P|} S_d \wedge s_{p,i} = s_a$. 
+To better express the client-side selection, let's extend the previous formulation by considering a set of independent provider domains $D = \{d_p \mid p = 1,2,...,P\}$. Each domain $d_p \in D$ provides a set of $\mu$-services $S_{p} = \{s_{p,i} \mid i =  0, 1, ..., I_p\}$. In turn, a continuum application $CA_x$ relies on the set of $\mu$-services $S_x = \{s_a \mid a = 1,2,...,A\}$, so that $\forall s_a \in S_x$, there is at least one provider domain offering that $\mu$-service, that is, $\forall s_a \in S_x, \exists\ s_{p,i} \in \bigcup_{p=1}^{|P|} S_p \wedge s_{p,i} = s_a$. 
 
 Now let's consider that each $s_a \in S_x$ is bound to a set of required QoS attributes $QoS_a = \{qa_u \mid u = 0, 1, ..., U\}$ and that each $qa_u \in QoS_a$ is represented by a tuple $(value_u, weigth_u)$ respectively defining the required attribute value and weight. For each $qa_u \in QoS_a$, $actual_{p,a,u}$ defines the value for that QoS attribute as perceived by the client. It follows that, for each $s_a \in S_x$ from application $CA_x$, the aim of the \textit{mobile middleware} is to select the domain $d_p \in D$ 
 %best satisfying the set of attributes in $QoS_o$, i.e., 
