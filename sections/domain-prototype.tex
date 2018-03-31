@@ -8,7 +8,7 @@ The local-edge manager prototype implements Awareness by broadcasting \textit{do
 
 For each identified $\mu$-service, the manager proceeds with Acquisition. Among the downloaded files, a descriptor provides instructions regarding installation (e.g., compilation of Java classes and required dependencies). In particular, the manager prototype relies on Gradle~\footnote{https://gradle.org/}, a state-of-art build tool commonly employed with projects ranging from mobile applications to $\mu$-services.
 
-Once downloaded and built, the edge domain Acquisition finishes with the deployment of $\mu$-service function(s) and dependences to OpenWhisk by means of its command line interface and the generation of a \textit{$\mu$-service acquired} signal back to the client. In case of failure, the mobile middleware is informed with a \textit{$\mu$-service denied} signal.
+Once downloaded and built, the edge domain Acquisition finishes with the deployment of $\mu$-service function(s) and dependences to OpenWhisk by means of its command line interface and the generation of a \textit{$\mu$-service acquired} signal back to the client. In case of failure, the mobile middleware is informed with a \textit{$\mu$-service denied} signal (as described in Sec.~\ref{sec:A3-E-acquisition}).
 
 \subsection{Domain Manager: Mobile}\label{sec:mobile-domain-DSM}
 
