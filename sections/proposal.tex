@@ -178,7 +178,8 @@ The scope of the provider-side Allocation is limited by its domain boundaries. F
 
 Existing FaaS platforms handle Allocation with on demand instantiation of containers, which may be kept \textit{warm} before been deallocated after a period of idleness~\cite{AWSLambda, OpenWhisk}. This mechanism can be generalized as a self-management loop~\cite{kephart2003vision} in which the domain manager allocates $\mu$-service instances to guarantee that latency and availability of each provided $\mu$-service cope with its SLA. 
 
-Throughout Allocation, a \textit{$\mu$-service acquired} event indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop. To mitigate cold start, the manager should react to a \textit{client arrived} event with the anticipation of Allocation upon availability of resources. Finally, a \textit{$\mu$-service requested} event related should be taken into account by by the self-management loop handling Allocation with the increase of the corresponding arrival rate.
+
+Throughout provider-side Allocation, a \textit{$\mu$-service acquired} event indicates that function(s) and dependencies have been fetched and the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop. To mitigate cold start, the manager should react to a \textit{client arrived} event with the anticipation of Allocation upon availability of resources. Finally, a \textit{$\mu$-service requested} event related should be taken into account by by the self-management loop handling Allocation with the increase of the corresponding arrival rate.
 
 
 

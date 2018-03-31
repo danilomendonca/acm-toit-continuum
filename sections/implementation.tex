@@ -2,32 +2,55 @@
 % -*- root: ../main.tex -*-
 \section{Implementation}\label{sec:implementation}
 
-%As previously stated, in this paper we also present working prototypes of domain-side and client-side middlewares. In particular, the former consist of a mobile domain and a local-edge domain, while the latter consists of a Android mobile client device. 
 
 To demonstrate the feasibility of our model
-in managing the life-cycle of continuum applications
-, we describe an implementation of A3-E. Due to its complexness, in this section we focus on the self-management loops handling Allocation from both provider and client viewpoints. %Nonetheless, a complete prototype was used for the evaluation in Sec.~\ref{sec:evaluation}.
+in managing the life-cycle of continuum applications, in this paper we also present working prototypes of for the domain manager and mobile middleware implementing A3-E. In particular, the former consist of a mobile domain and a local-edge domain managers, while the latter consists of a mobile middleware for Android platform devices. Later on, these prototypes are employed in the evaluation of our model.
+
+In this paper we rely on existing FaaS platforms~\cite{AWSLambda, OpenWhisk} for handling the Allocation of $\mu$-services to a pool of dynamically allocated containers. Nonetheless, several approaches in literature tackle the dynamic resource allocation problem based on heuristics~\cite{dustdar0}, artificial intelligence~\cite{ia1} and queue theory~\cite{queue1}. 
+Considering the low-latency requirement of continuum applications and a highly dynamic workload  (e.g., from users that quickly enter and leave a particular edge area), a self-management loop based on control theory (as proposed in~\cite{Quatrocchi2016discrete}) could also handle the allocation of containers employed by continuum $\mu$-service instances. Indeed, compared to virtual machines containers can be booted in few seconds, therefore controllers are able to change the resource allocation with a very fast period (i.e., in the order of few seconds)~\cite{Quatrocchi2016discrete}. The concrete implementation of a control-theory based Allocation is part of our future work. 
+
+%To demonstrate the feasibility of our model
+%in managing the life-cycle of continuum applications
+%, we describe an implementation of A3-E. Due to its complexness, in this section we focus on the self-management loops handling Allocation from both provider and client viewpoints. %Nonetheless, a complete prototype was used for the evaluation in Sec.~\ref{sec:evaluation}.
 
 \input{sections/domain-prototype}
 
 \subsection{Mobile Middleware}~\label{sec:mobile_middleware}
 
-The domain selection consists of a self-managing loop that: (i) monitors $\mu$-services provided by different domains in terms of QoS metrics; (ii) analyzes the best alternative satisfying requirements of the client application; and (iii) updates the domain selection for a given $\mu$-service. In specific, the analysis consists of a multi-attribute rating that takes into account the measured QoS attributes and application requirements.
+%\begin{figure}[tbp]
+%	\includegraphics[width=1\textwidth]{figs/a3e-mobile-prototype}
+%	\caption{Client-side Middleware Architecture}
+%	\label{fig:mobile-prototype}
+%\end{figure}
 
-In addition to A3-E's \textit{Location requirements}, the prototype considered two types of \textit{QoS requirements}:
+%TODO [Danilo] consider moving part of this nice introduction to the formulation (Sec. 2.3)
+The main goal of the client-side middleware~\footnote{Documentation and source code are available at \url{https://github.com/deib-polimi/A3-E-CSM}} is to allow client applications to invoke A3-E microservices without knowing where they will actually be executed within the computing continuum: locally on the mobile domain, in a local-edge server, in a mobile-edge server, or in the cloud. Its selection algorithm is a multi-objective function that takes into account the measured QoS and the requirements. The provided implementation targets Android-based devices. However, it does not use Android-specific technology and can therefore be generalized to other mobile platforms. 
 
-{\small
-\begin{enumerate}
-	
-	%	\item \textit{Location Requirement}s constrain where the $\mu$-service can be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL\_EDGE}, \textit{MOBILE\_EDGE}, or \textit{CLOUD} or a combination of the above; 
-	
-	\item a \textit{Latency Requirement} constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY\_LOW}; and 
-	
-	\item a \textit{Computational Requirement} defines how relevant it is for a $\mu$-servi to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY\_ FAST}. 
-\end{enumerate}
-}%
+To implement Awareness, the middleware listens for \textit{domain identification} signals sent by its mobile domain and broadcasted by edge domains. To avoid battery drain, edge domains discovery happens for a short period after the mobile middleware is first executed or the device's network state changes (e.g., from a local-area Wi-Fi to a cellular network). 
 
-The latter is defined as a fixed score ranging from $1$ to $5$\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. By default, the mobile domain has a score of $1$, edge domains have a score of $4$, while cloud domains have a score of $5$. As cloud provides the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. 
+For every domain found, the middleware proceeds with Acquisition by sending a \textit{client identification} signal containing a Git repository from which $\mu$-service function(s) and dependencies can be downloaded, in case of edge domains; or the qualified name of function(s), in case of the mobile domain. Finally, as in this paper cloud domains have been evaluated with an existing FaaS platform lacking A3-E's Awareness and Acquisition, cloud domains are acquired programmatically.
+
+
+%Further optimization could be achieved by employing state-of-art advertisement and discovery approaches. 
+
+The mobile middleware implements A3-E's Allocation as a self-managing loop that: (i) monitors $\mu$-services provided by different domains in terms of QoS metrics; (ii) analyzes the best alternative satisfying requirements of the client application; and (iii) updates the domain selection for a given $\mu$-service. In specific, the analysis consists of a multi-attribute rating that takes into account the measured QoS attributes and application requirements.
+
+%TODO [Danilo] make sure we introduce requirements before or add the missing bullet below 
+%In addition to A3-E's \textit{Location requirements}, 
+The prototype considered three types of $\mu$-service requirements: a \textit{Location Requirement} constrains where the $\mu$-service can be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL\_EDGE}, \textit{MOBILE\_EDGE}, or \textit{CLOUD} or a combination of the above;  a \textit{Latency Requirement} constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY\_LOW}; and a \textit{Computational Requirement} defines how relevant it is for a $\mu$-servi to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY\_ FAST}. 
+
+%{\small
+%\begin{enumerate}
+%	
+%	\item a \textit{Location Requirement} constrain where the $\mu$-service can be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL\_EDGE}, \textit{MOBILE\_EDGE}, or \textit{CLOUD} or a combination of the above; 
+%	
+%	\item a \textit{Latency Requirement} constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY\_LOW}; and 
+%	
+%	\item a \textit{Computational Requirement} defines how relevant it is for a $\mu$-servi to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY\_ FAST}. 
+%\end{enumerate}
+%}%
+
+Computational requirements defined as a fixed score ranging from $1$ to $5$\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. By default, the mobile domain has a score of $1$, edge domains have a score of $4$, while cloud domains have a score of $5$. As cloud provides the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. 
 
 %with dynamic scores taking into account the saturation of the domain or the device's battery level (in the case of a mobile domain).
 \setlength{\textfloatsep}{5pt}% Remove \textfloatsep
@@ -67,7 +90,7 @@ Algorithm~\ref{alg:selection} describes the procedure employed in the $\mu$-serv
 For each domain, the algorithm computes the overall score (line $9$ to $14$). The latency score is computed by normalizing the value retrieved at line $10$ with the maximum latency previously computed. The normalized value ranges from $0$ to $1$, the higher this value is the higher the latency. Since a higher score should mean lower latencies, the algorithm computes the complement of this value and adds $1$ to avoid scores equal to $0$. The latency score is computed to be between $1$ and $5$, and multiplied by the $\mu$-service's latency weight (line $12$). The computational power score is computed by normalizing the domain computational power retrieved at line $11$ with the maximum value across the identified domains. Again, the score for this metric is computed to be between $1$ to $5$ and multiplied by its weight (line $13$). Finally, the overall score is the weighted average between the scores obtained by the domains for the two QoS metrics.
 
 %Two considerations must be added for this algorithm. First, 
-Algorithm~\ref{alg:selection} is an instantiation of the SMART~\cite{Olson1996}, in which multiple competing QoS attributes are taken into account using the following formula:
+Algorithm~\ref{alg:selection}~\ref{alg:selection} is an instantiation of SMART~\cite{Olson1996}, in which multiple competing QoS attributes are taken into account using the following formula:
 {\small
 \begin{equation}
 Smart(p) = \frac{\sum_{u=1}^{U} actual_{u}(p)*weight_u}{\sum_{u=1}^{U}weight_u} \label{eq:smart}
