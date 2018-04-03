@@ -17,9 +17,7 @@ In this case the mobile domain is obviously omitted. The second one evaluates th
 
 %\subsubsection{Domains}
 
-As shown in Table~\ref{tab:domain-exp-config}, our model was evaluated with four types of domains: mobile, local-edge, and cloud. 
-
-The mobile domain was deployed to an Android smartphone hosting the A3-E middleware
+As shown in Table~\ref{tab:domain-exp-config}, our model was evaluated with four types of domains: mobile, local-edge, and cloud. The mobile domain was deployed to an Android smartphone hosting the A3-E middleware
 %~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-DSM-mobile}}
  and a client application. More precisely, the latter emulates Augment Reality by invoking
 %is an Image Recognition one, in which users can capture an image and invoke 
@@ -173,7 +171,7 @@ prob. of edge becoming available: 0.666666%
 	\subfloat[Execution time per call (ms)\label{fig:time-per-call-a3e}] {\includegraphics[width=0.32\textwidth]{figs/time-per-call-A3E}}
 	%\captionsetup[subfigure]{width=0.45\textwidth}
 	%\subfloat[Number of Calls per domain in all-domains scenario\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.45\textwidth]{figs/calls-per-domain-A3E}}
-	%\setlength{\belowcaptionskip}{-10pt}	
+	\setlength{\belowcaptionskip}{-10pt}	
 	\caption{A3-E experimental evaluation results} \label{fig:exp-a3e}
 \end{figure}
 
@@ -220,7 +218,7 @@ Fig.~\ref{fig:calls-per-domain-a3e} shows the distribution of calls per domain i
 	\subfloat[Number of requests served\label{fig:calls-per-domain-a3e}] {\includegraphics[width=0.32\textwidth]{figs/calls-per-domain-A3E-optimal}}
 	\captionsetup[subfigure]{width=0.32\textwidth}
 	\subfloat[Total Execution Time (sec)\label{fig:total-exec-time-optimal}] {\includegraphics[width=0.32\textwidth]{figs/total-exec-time-optimal}}
-	%\setlength{\belowcaptionskip}{-10pt}
+	\setlength{\belowcaptionskip}{-10pt}
 	\caption{All-domains scenario results} \label{fig:all-domains}
 \end{figure}
 
@@ -258,7 +256,7 @@ The experiment execution consisted of cascading sequential requests for periods 
 	{\includegraphics[width=0.49\textwidth]{figs/a3e-enorm-latency}}
 	\captionsetup[subfigure]{width=0.49\textwidth}
 	\subfloat[Provisioning Overhead (sec)\label{fig:exp-a3e-enorm-deployment}] {\includegraphics[width=0.49\textwidth]{figs/a3e-enorm-deployment}}
-	%\setlength{\belowcaptionskip}{-10pt}
+	\setlength{\belowcaptionskip}{-10pt}
 	\caption{Comparison of A3E and Enorm when using an edge alternative instead of the cloud.} \label{fig:exp-a3e-enorm}
 \end{figure}
 

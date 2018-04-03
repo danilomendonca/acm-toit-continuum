@@ -6,11 +6,11 @@ A3-E has been assessed with experiments that demonstrated its ability to support
 %model and enable a mobile image recognition application that opportunistically exploits the continuum. 
 The experiments also showed a substantial reduction of both latency and battery drain when edge services are used instead of cloud or local ones. 
 
-Ongoing and future work include intra and inter-domain advanced resource management along the continuum. 
-Several approaches in literature tackle the problem of single domain (i.e., a cloud provider) dynamic resource allocation by using heuristics~\cite{dustdar0}, artificial intelligence~\cite{ia1} or queue theory~\cite{queue1}. 
+Ongoing and future work include advanced resource management along the continuum. Several approaches in literature tackle the problem of single domain (i.e., a cloud provider) dynamic resource allocation by using heuristics~\cite{dustdar0}, artificial intelligence~\cite{ia1} or queue theory~\cite{queue1}. 
 Resource provisioning for continuum applications poses new challenges: one has to consider their low-latency nature and their highly dynamic workload (e.g., from users that quickly enter and leave a particular edge area). To tackle this problem we are working on a self-management loop based on lightweight control theoretical algorithms (as proposed in~\cite{Quatrocchi2016discrete})) that could handle the fast allocation of containers employed by continuum $\mu$-service instances. %Indeed, compared to virtual machines containers can be booted in few seconds, therefore controllers are able to change the resource allocation with a very fast period (i.e., in the order of few seconds). 
 
-Inter-domain resource management should consider not only the heterogeneity (by leveraging existing algorithms~\cite{Tarneberg2017}), but also that different domains may be managed by different providers (e.g., local-edge and mobile-edge) and not be able to communicate with one another. We are also working on more robust multi-objective algorithms for the client-side service selection. 
-Last but not least, 
+%Inter-domain resource management should consider not only the heterogeneity (by leveraging existing algorithms~\cite{Tarneberg2017}), but also that different domains may be managed by different providers (e.g., local-edge and mobile-edge) and not be able to communicate with one another. 
+
+To further improve robustness and scalability, we would like to work on a decentralized placement that considers the coordination among surrogate edge and cloud domains from the same provider. In the same direction, we would like to consider mobility in the anticipation of Acquisition and Allocation. Last but not least, 
 %as mobile devices are also domains, 
 we would like to explore scenarios of computation offloading in which devices featuring more computational resources can be seen as mobile domains for constrained devices in case nearby edge domains are not available and the latency to the cloud is prohibitive.

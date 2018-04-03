@@ -36,18 +36,18 @@ From the provider's viewpoint, Awareness models the advertisement of domains and
 
 %Its main purpose is to enable domains to pro-actively initialize the Acquisition and Allocation activities, based on the awareness of devices in a domain's coverage area. 
 
-Cloud domains are not likely to change, 
+Cloud domains are not likely to change
 %known beforehand 
 and may be set-up statically by clients.
 Conversely, to achieve Awareness edge domains must advertise their existence (\textit{domain identification} signal) using discovery protocols compatible with its network infrastructure: for instance, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{ETSI:MEC:ARCHITECTURE,lecompte2012evolved}. 
-Upon a \textit{client identified} event, the domain manager must trigger both \textit{client arrived} and \textit{$\mu$-service identified} events for each required $\mu$-service.
+%Upon a \textit{client identified} event, the domain manager must trigger both \textit{client arrived} and \textit{$\mu$-service identified} events for each required $\mu$-service.
 
 %TODO this is a central problem tackled by A3-E and belongs to intro or wherever we discuss the problem
 FaaS platforms like AWS Lambda~\cite{AWSLambda}
 %~\footnote{https://docs.aws.amazon.com/lambda/latest/dg/running-lambda-code.html}
-and OpenWhisk~\cite{OpenWhisk} adopt a cold start policy in which functions are allocated after their first call following a period of idleness. This latency, however, may be disruptive for some applications. In comparison, the proposed mutual client-provider awareness 
+and OpenWhisk~\cite{OpenWhisk} adopt a \textit{cold start} policy in which functions are allocated after their first call following a period of idleness. This latency, however, may be disruptive for some applications. In comparison, the proposed mutual client-provider awareness 
 %Taking advantage of mutual client-provider awareness, the proposed mechanism 
-has two benefits: (i) it alleviates the cold start by pro-actively allocating $\mu$-services just before they are needed; and (ii) it enables $\mu$-service acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of $\mu$-services as soon as the client of a new application becomes active in that domain (e.g., by entering an edge domain's area).
+has two benefits: (i) it alleviates the cold start by pro-actively allocating $\mu$-services just before they are needed; and (ii) it enables $\mu$-service acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of $\mu$-services as soon as the client of a new application becomes active in that domain (e.g., by starting the application or entering an edge domain's area).
 
 %Throughout Awareness, the domain manager handles the following event:
 
