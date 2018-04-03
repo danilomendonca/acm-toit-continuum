@@ -40,7 +40,7 @@ From the provider's viewpoint, Awareness models the advertisement of domains and
 Cloud domains are not likely to change, 
 %known beforehand 
 and may be set-up statically by clients.
-Conversely, to achieve Awareness edge domains must advertise their existence (\textit{domain identification} signal) using discovery protocols compatible with its network infrastructure: for instance, through broadcasting in local-edge and control channels in mobile-edge~\cite{ETSI:MEC:ARCHITECTURE}. 
+Conversely, to achieve Awareness edge domains must advertise their existence (\textit{domain identification} signal) using discovery protocols compatible with its network infrastructure: for instance, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{ETSI:MEC:ARCHITECTURE,lecompte2012evolved}}. 
 Upon a \textit{client identified} event, the domain manager must trigger both \textit{client arrived} and \textit{$\mu$-service identified} events for each required $\mu$-service.
 
 %TODO this is a central problem tackled by A3-E and belongs to intro or wherever we discuss the problem
@@ -63,7 +63,7 @@ has two benefits: (i) it alleviates the cold start by pro-actively allocating $\
 
 
 
-From the client's perspective, Awareness corresponds to the discovery of domains followed by a \textit{client identification} signal. More precisely, a \textit{client identification} must contain the $\mu$-service identification along with the repository from where it can be fetched during A3-E's Acquisition. To realize it, the mobile middleware can rely on special purpose HTTP endpoints from cloud domains, whereas local-edge and mobile-edge domains can respectively rely on protocols from local area (e.g., UDP) and radio access networks (e.g., control channels). Finally, the middleware can communicate with its mobile domain via system-level signals (e.g., broadcast intents in Android platforms).
+From the client's perspective, Awareness corresponds to the discovery of domains followed by a \textit{client identification} signal. More precisely, a \textit{client identification} must contain the $\mu$-service identification along with the repository from where it can be fetched during A3-E's Acquisition. To realize it, the mobile middleware can rely on special purpose HTTP endpoints from cloud domains. Local-edge domains can rely on protocols from local area networks (e.g., UDP, IP multicast). Meanwhile, mobile-edge domains can rely on eMBMS protocols, such as File Transfer over Unidirectional Transport (FLUTE)~\cite{lecompte2012evolved}, which is carried over traditional UDP and IP multicast toward end-user devices. Finally, the middleware can communicate with its mobile domain via system-level signals (e.g., broadcast intents in Android platforms).
 
 %The mobile middleware, in turn, realizes Awareness with the discovery of cloud and edge domains. In particular, 
 %During Awareness, the mobile middleware handles the following event:
