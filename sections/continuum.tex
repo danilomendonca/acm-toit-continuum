@@ -165,7 +165,7 @@ We illustrate the continuum with an example scenario involving different applica
 First, let us consider an Augmented Reality (AR)~\cite{GarrigaMendonca2017} application employed by our user to 
 explore the points of interest (POI) in the touristic areas from the city she is currently visiting.
 %craft virtual 3D objects that are added to her \textit{smart glasses} as part of her work. 
-This real-time application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog.
+This real-time application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog. Given its requirements for augmentation and computation offloading, this is an application class that can benefit from the adoption of the continuum~\cite{beck2014mobile}.
 
 Two continuum $\mu$-services are modeled after each task: one relies on a image processing library and a trained model, the other on a feature-based object catalog. Client-side logic is responsible for capturing scenes from the glasses' camera and updating the 3D virtual object in the scene rendered by the smart glasses.
 
