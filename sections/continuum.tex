@@ -45,13 +45,15 @@
 %Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. 
 
 %TODO [Martin] I've slightly changed this and next paragraph to be compliant with the ETSI standard
-In our formulation, edge nodes are distinguished after the networking technology they use: \textit{mobile edge} hosts (in the context of Multi-Access Edge Computing or MEC~\cite{etsimec16,ahmed2016isco}) integrate with cellular network infrastructure (e.g., a 5G base station), whereas \textit{local edge} ones integrate with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from each other, and that communication among heterogeneous (mobile) edge systems~\cite{etsimec16} may not be feasible.% and unable to coordinate the allocation of resources.
+In our formulation, edge nodes are distinguished after the networking technology they use: \textit{mobile edge} hosts (in the context of Multi-Access Edge Computing or MEC~\cite{etsimec16,ahmed2016isco}) integrate with cellular network infrastructure (e.g., a 5G base station), whereas \textit{local edge} ones integrate with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different
+% from each other, 
+and that communication among heterogeneous domains may not be feasible.% and unable to coordinate the allocation of resources.
 
 %Later on, this heterogeneity is addressed with variations of the proposed service life-cycle management.
 
-Mobile devices play two roles, namely clients and potential providers of computational resources. The motivation for including mobile devices' own resources in the model is threefold: (i) the substantial increase in computational capacity exhibited by modern devices; (ii) the compatibility of these devices with the computation of continuum microservices (see Section~\ref{sec:application_model}); and (iii) to give mobile applications a zero network latency and highly available alternative to cloud and edge providers. 
+Mobile devices play two roles, namely clients and potential providers of computational resources. The motivation for including mobile devices' own resources in the model is threefold: (i) the substantial increase in computational capacity exhibited by modern devices; (ii) the compatibility of these devices with the computation of continuum microservices (see Section~\ref{sec:application_model}); and (iii) to give mobile applications a zero network latency and highly available alternative.% to cloud and edge providers. 
 
-%TODO fix Figure X
+
 %Figure X~\ref{fig:topology} illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile \textit{domains}. 
 Throughout this paper, we refer to \textit{cloud}, \textit{edge}, and \textit{mobile} \textit{domains}. 
 %Each part of the continuum topology (cloud, mobile-edge, local-edge, and mobile) is composed of domains.
@@ -77,7 +79,8 @@ A domain yields a common  abstraction for the heterogeneous compute, storage and
 	\label{fig:Continuum-arch}
 \end{figure}
 
-On top of the physical model, we propose an \textit{application model} in which stateless components and immutable data composing \textit{continuum services} are dynamically placed to mobile, edge, and cloud,
+%On top of the physical model, 
+We propose an \textit{application model} in which stateless components and immutable data composing \textit{continuum services} are dynamically placed to mobile, edge, and cloud,
 whilst 
 stateful components are deployed to cloud datacenters or the client device itself based on design-time decision.
 
@@ -165,15 +168,15 @@ We illustrate the continuum with an example scenario involving different applica
 First, let us consider an Augmented Reality (AR)~\cite{GarrigaMendonca2017} application employed by our user to 
 explore the points of interest (POI) in the touristic areas from the city she is currently visiting.
 %craft virtual 3D objects that are added to her \textit{smart glasses} as part of her work. 
-This real-time application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog. Given its requirements for augmentation and computation offloading, this is an application class that can benefit from the adoption of the continuum~\cite{beck2014mobile}.
+This real-time application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog. 
+
+For being compute insensitive and latency-sensitive kind of application, the AR can benefit from the adoption of the continuum~\cite{beck2014mobile}. Indeed, despite the capacity of existing mobile devices (e.g., Glass~\footnote{https://x.company/glass/}) in hosting a plethora of applications, the user may experience functional and non-functional degradation (e.g., reduced object catalog, battery drain, etc). With the offloading of the aforementioned tasks to a server, the user can enjoy an improved Quality-of-Experience.
 
 Two continuum $\mu$-services are modeled after each task: one relies on a image processing library and a trained model, the other on a feature-based object catalog. Client-side logic is responsible for capturing scenes from the devices' camera and updating the scene rendered by its display.
 
-Despite the capacity of existing smart devices (e.g., Glass~\footnote{https://x.company/glass/}) in hosting a plethora of applications, the user may experience functional and non-functional degradation (e.g., reduced object catalog, battery drain, etc). With the offloading of the aforementioned tasks to a server, the user can enjoy an improved Quality-of-Experience.
-
 %avoid recharging her glasses and improve productivity. 
 
-To support this and other applications, mobile-edge servers were deployed to the base stations covering touristic areas. Their additional storage allows a larger set of objects to be recognized, thanks to a more completely trained model. Variations in the workload are handled with a fast instantiation of $\mu$-services, which must consider other applications relying on the same servers.
+To support this and other applications, mobile-edge servers were deployed to the base stations covering touristic areas. Their additional storage allows a larger set of objects to be recognized, thanks to a more completely trained model. Variations in the workload are handled with a fast instantiation of AR $\mu$-services, which must consider other applications relying on the same servers.
 
 %In contrast, the network latency to cloud servers may be prohibitive for this real-time application. The decision of which continuum provider to employ must be informed by the application requirements and the Quality-of-Service (QoS) of each alternative. 
 

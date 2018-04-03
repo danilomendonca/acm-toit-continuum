@@ -136,6 +136,9 @@ and installed on demand. To achieve it, a domain manager must fetch the correspo
 
 From the client's perspective, the Acquisition corresponds to the confirmation of a domain's capability in providing the $\mu$-services required by the application. To implement it, the mobile middleware waits for a \textit{domain found} event before listening for a \textit{$\mu$-service acquired/denied} signal. If not denied, the middleware must proceed with the triggering of a \textit{domain confirmed} event.
 
+
+In our running example, the assets composing the $\mu$-services from each application are fetched and installed by edge and cloud domains upon arrival of a new \textit{client identification} signals. Meanwhile it happens, these applications may rely on their own mobile domain or on any other domain on which $\mu$-services have already been acquired and allocated after a previous client-domain interaction.
+
 %
 %During this activity, the mobile middleware deals with the following events:
 %
@@ -161,6 +164,7 @@ From the client's perspective, the Acquisition corresponds to the confirmation o
 %Conversely, the automated and opportunistic acquisition of service assets improves storage efficiency with the cost of a setup time $\Delta_{AQ}$. For instance, domains that become aware of clients' requirements may pro-actively start the acquisition phase and become ready for allocation before the first service request arrives.
 
 %otherwise, domains must rely on the detection of a first service request or some other triggering condition to start the acquisition phase and, after setup time $\Delta_A$, become ready for allocation. 
+
 
 
 \subsection{Allocation}\label{sec:A3-E-allocation}
