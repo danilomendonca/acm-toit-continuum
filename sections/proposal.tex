@@ -30,7 +30,6 @@ To address the intrinsic heterogeneity of the continuum, A3-E is flexible with r
 %Next, the four A3-E phases are further described and mapped to the requirements elicited in  Section~\ref{sec:requirements}. Later on, other possible instances of the A3-E model are correlated with scenarios of the compute continuum.
 
 
-
 \subsection{Awareness}\label{sec:A3-E-awareness}
 
 From the provider's viewpoint, Awareness models the advertisement of domains and the discovery of continuum applications in one of its domains' coverage area, indicating the imminent need for the corresponding $\mu$-services. 
@@ -64,6 +63,9 @@ has two benefits: (i) it alleviates the cold start by pro-actively allocating $\
 
 
 From the client's perspective, Awareness corresponds to the discovery of domains followed by a \textit{client identification} signal. More precisely, a \textit{client identification} must contain the $\mu$-service identification along with the repository from where it can be fetched during A3-E's Acquisition. To realize it, the mobile middleware can rely on special purpose HTTP endpoints from cloud domains, whereas local-edge and mobile-edge domains can respectively rely on protocols from local area (e.g., UDP) and radio access networks (e.g., control channels). Finally, the middleware can communicate with its mobile domain via system-level signals (e.g., broadcast intents in Android platforms).
+
+In our running example, the mobile-edge and local-edge domains must advertise their existence to our user's device, which in turn identifies the AR and Image Editing applications. The same holds for the hotel's local-edge and the MG application. In all cases, cloud and edge domains can employ Awareness to opportunistically fetch, install, and allocate instances of required $\mu$-services.
+
 
 %The mobile middleware, in turn, realizes Awareness with the discovery of cloud and edge domains. In particular, 
 %During Awareness, the mobile middleware handles the following event:
@@ -223,7 +225,9 @@ Throughout provider-side Allocation, a \textit{$\mu$-service acquired} event ind
 A self-management loop is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu$-service consumed by the client application, the middleware checks the corresponding QoS levels from the list of domains currently available. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
 Throughout this activity, the \textit{domain acquired/lost} event indicates the agreement(denial) of a domain in providing a given $\mu$-service. The middleware must react by including(disregarding) this domain in its self-management loop. %Conversely, a \textit{domain lost} event indicates a domain can no longer provide a $\mu$-service. The middleware must react by disregarding this domain in its self-management loop.
 
-Given the resource limitations of edge domains, contention between different $\mu$-services may exist. For instance, if we go back to our running example in Section~\ref{sub:example}, critical applications should have a higher priority with respect to others like the AR for tourists~\cite{GarrigaMendonca2017}. In case of contention, edge-based $\mu$-services might become unavailable (or available with an higher response time) to the AR applications. In that case the AR and other low-priority applications could have to rely on $\mu$-services from their own mobile domain or a cloud domain --- as decided by the client-side self-management loop.
+Given the resource limitations of edge domains, contention between different $\mu$-services may exist. If we go back to our running example,
+% in Section~\ref{sub:example}
+critical applications should have a higher priority with respect to others like the AR for tourists. In such cases, edge-based $\mu$-services might become unavailable (or available with an higher response time) to the AR applications. Accordingly, the AR and other low-priority applications could have to rely on $\mu$-services from their own mobile domain or a cloud domain --- as decided by their self-management loop for domain selection. 
 
 %
 %{\small
