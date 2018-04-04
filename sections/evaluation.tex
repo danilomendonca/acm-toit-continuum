@@ -17,12 +17,12 @@ In this case the mobile domain is obviously omitted. The second one evaluates th
 
 %\subsubsection{Domains}
 
-As shown in Table~\ref{tab:domain-exp-config}, our model was evaluated with four types of domains: mobile, local-edge, and cloud. The mobile domain was deployed to an Android smartphone hosting the A3-E middleware
-%~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-DSM-mobile}}
- and a client application. More precisely, the latter emulates Augment Reality by invoking
+As shown in Table~\ref{tab:domain-exp-config}, our model was evaluated with four types of domains: mobile, local-edge, and cloud. The client application emulates an Augment Reality one by invoking
 %is an Image Recognition one, in which users can capture an image and invoke 
-$\mu$-services~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-image-recognition}} in the continuum responsible for \textit{feature extraction} and \textit{object detection}. 
+$\mu$-services~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-image-recognition}} responsible for \textit{feature extraction} and \textit{object detection}, which are placed along the continuum. AR is a typical use case for the continuum due to the low latency and high computational power requirements~\cite{beck2014mobile}.
 
+The mobile domain was deployed to an Android smartphone hosting the A3-E middleware. 
+%~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-DSM-mobile}}
 A domain manager prototype
 %~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-DSM-Local-edge}} 
 was deployed on two Local-edge domains. For handling Allocation and Execution, we adopted Apache OpenWhisk, a state-of-the-art open-source FaaS platform. Throughout experiments, edge domains shared a LAN with the origin of requests (i.e., the client applications/devices).
