@@ -84,7 +84,7 @@ resources that make up the continuum topology, e.g., server(s), virtual machine(
 
 %On top of the physical model, 
 
-We propose an \textit{application model} in which stateless components and immutable data form \textit{continuum services}, which are dynamically deployed to mobile, edge, and cloud resources; stateful components, which may still be needed in an application, are deployed to cloud data centers or to the client's own device, depending on a design-time decision. This choice prevents consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes.
+We propose an \textit{application model} in which stateless components and immutable data form \textit{continuum services}, which are dynamically deployed to mobile, edge, and cloud resources; stateful components, which may still be needed in an application, are deployed to cloud data centers or to the client's own device, depending on a design-time decision. This choice prevents consistency problems (and the corresponding complexity of potential solutions) that would arise if stateful components such as databases were deployed to finely distributed edge nodes.
 
 Continuum services consist of a set of artifacts that fulfill a given functionality. In particular, these artifacts can refer to: (i) stateless function(s); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries). A priori, continuum services are portable, unless they require capabilities that cannot be met by specific domains. 
 
@@ -104,7 +104,7 @@ Continuum services are implemented using the FaaS model; they are \textit{micros
 %TODO: make it more general, as some applications may have local persistence and u-services may also deal with business logic
 Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a continuum application. The client-side application comprises \texttt{client-side logic}, \textit{local persistence}, and \texttt{user interface} components, whereas the cloud infrastructure comprises \texttt{server-side logic} and \texttt{persistence} components. Continuum $\mu$-services are responsible for stateless computation and are opportunistically deployed to different domains.
 
-\subsection{Life-cycle Management Challenges}
+\subsection{Life-cycle Management Goals and Challenges}\label{sec:challenges}
 
 % [Danilo] It's been really hard to change the formulation without falling in the trap of not been objective. For me, Awareness is mostly about letting domains to know *when* to allocate resources and to let clients to know *which* domains can be chosen. Please let me know if you have insights about it. For sure I agree to make the formal part easier to digest, but it wouldn't change the focus on allocation/placement. 
 

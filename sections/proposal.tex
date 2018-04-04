@@ -184,11 +184,22 @@ In our running example, the assets composing the $\mu$-services from each applic
 
 The scope of the provider-side Allocation is limited by its domain boundaries. For example, cloud domains allocate $\mu$-services to containers in resourceful datacenters covering a large area. On the other hand, edge domains rely on containers from one or more (virtual) machines serving an office or a building (local-edge) or a 5G base station area (mobile-edge). %In this paper, we do not consider inter-domain cooperation (e.g., placement among different domains).
 
-Existing FaaS platforms handle Allocation with on demand instantiation of containers, which may be kept \textit{warm} before being deallocated after a period of idleness~\cite{AWSLambda, OpenWhisk}. This mechanism can be generalized as a self-management loop~\cite{kephart2003vision} in which the domain manager allocates $\mu$-service instances to guarantee that latency and availability of each provided $\mu$-service are in-line with the desired SLA. 
+Existing FaaS platforms handle Allocation with on demand instantiation of containers after a first request, which may be kept \textit{warm} before being deallocated after a period of idleness~\cite{AWSLambda, OpenWhisk}. In A3-E, this mechanism is generalized as a self-management loop~\cite{kephart2003vision} in which the domain manager allocates $\mu$-service instances to guarantee that latency and availability of each provided $\mu$-service are in-line with the desired SLA. 
 
-Throughout provider-side Allocation, a \textit{$\mu$-service acquired} event indicates that the function(s) and dependencies have been fetched, and that the $\mu$-service is ready to be deployed. The domain manager must react by including this $\mu$-service in its self-management loop. \textbf{THIS SELF-MANAGEMENT LOOP IS NOT WELL INTRODUCED. IT KIND OF DROPS OUT OF NOWHERE} To mitigate cold starts, the manager should react to a \textit{client arrived} event by anticipating Allocation, if resources are available. 
+To achieve this goal, the self-management loop must take into account the \textit{arrival rate} and the \textit{number of clients} --- respectively indicated by a \textit{client arrived} and a \textit{$\mu$-service requested} events. Also, to prevent the \textit{cold start}
+of new and deallocated $\mu$-services, 
+the manager must react to a 
+a \textit{$\mu$-service acquired} event 
+%--- indicating that the function(s) and dependencies have been fetched, and that the $\mu$-service is ready to be deployed --- 
+by anticipating Allocation, if resources are available.
 
-Finally, a \textit{$\mu$-service requested} event related should be taken into account by by the self-management loop handling Allocation with the increase of the corresponding arrival rate. \textbf{I DON"T UNDERSTAND WHAT YOU MEAN HERE.}
+%Throughout Allocation, the domain manager reacts to a 
+%a \textit{$\mu$-service acquired} event --- indicating that the function(s) and dependencies have been fetched, and that the $\mu$-service is ready to be deployed ---  
+%%The domain manager must react 
+%by including this $\mu$-service in its self-management loop handling allocation. 
+%%\textbf{THIS SELF-MANAGEMENT LOOP IS NOT WELL INTRODUCED. IT KIND OF DROPS OUT OF NOWHERE} 
+%Also, to mitigate cold starts, the manager should react to a \textit{client arrived} event by anticipating Allocation for each identified $\mu$-service, if resources are available. 
+%Finally, the manager should take into account a \textit{$\mu$-service requested} by updating the corresponding arrival rate metric. \textbf{I DON"T UNDERSTAND WHAT YOU MEAN HERE.}
 
 
 
