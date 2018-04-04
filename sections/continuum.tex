@@ -45,7 +45,7 @@
 %Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. 
 
 %TODO [Martin] I've slightly changed this and next paragraph to be compliant with the ETSI standard
-In our formulation, edge nodes are distinguished by the networking technology they use: \textit{mobile edge} hosts (in the context of Multi-Access Edge Computing or MEC~\cite{etsimec16,ahmed2016isco}) integrate with cellular network infrastructure (e.g., a 5G base station), whereas \textit{local edge} hosts integrate with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from one another (i.e., one does not need to adopt both AWS Lambda and AWS Greengrass) and that communication among heterogeneous hosts may not always be feasible. \textbf{IS THAT WHAT YOU MEANT? LAMBDA AND GREENGRASS? - ADDED AS AN EXAMPLE}
+In our formulation, edge nodes are distinguished by the networking technology they use: \textit{mobile edge} hosts (in the context of Multi-Access Edge Computing or MEC~\cite{etsimec16,ahmed2016isco}) integrate with cellular network infrastructure (e.g., a 5G base station), whereas \textit{local edge} hosts integrate with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from one another (e.g., Amazon AWS and telecom operators providing MEC) and that coordination among hosts (e.g., at different base stations) may not always be feasible.
 
 
 % and unable to coordinate the allocation of resources.
@@ -58,7 +58,9 @@ In the continuum, mobile devices play two roles: they are both clients and provi
 %Figure X~\ref{fig:topology} illustrates a topology composed of cloud, mobile-edge, local-edge, and mobile \textit{domains}. 
 Throughout this paper, we refer to \textit{cloud}, \textit{edge}, and \textit{mobile} \textit{domains}. 
 %Each part of the continuum topology (cloud, mobile-edge, local-edge, and mobile) is composed of domains.
-A domain yields a common  abstraction for the heterogeneous compute, storage and network resources that make up the continuum topology, e.g., server(s), virtual machine(s), container(s), memory, CPU, storage, etc. In the particular case of MEC, the term \textit{domain} extends the one provided by ETSI for a \textit{mobile edge host}~\cite{etsimec16}.
+A domain yields a common  abstraction for the heterogeneous 
+%compute, storage and network 
+resources that make up the continuum topology, e.g., server(s), virtual machine(s), container(s), CPU, memory, storage, and network components. In the particular case of MEC, the term \textit{domain} extends the one provided by ETSI for a \textit{mobile edge host}~\cite{etsimec16}.
 
 
 
@@ -81,6 +83,7 @@ A domain yields a common  abstraction for the heterogeneous compute, storage and
 \end{figure}
 
 %On top of the physical model, 
+
 We propose an \textit{application model} in which stateless components and immutable data form \textit{continuum services}, which are dynamically deployed to mobile, edge, and cloud resources; stateful components, which may still be needed in an application, are deployed to cloud data centers or to the client's own device, depending on a design-time decision. This choice prevents consistency problems (and the corresponding complexity of potential solutions) that would arise if databases were deployed to finely distributed edge nodes.
 
 Continuum services consist of a set of artifacts that fulfill a given functionality. In particular, these artifacts can refer to: (i) stateless function(s); (ii) immutable data (e.g., a trained neural network model); and (iii) other dependencies (e.g., software libraries). A priori, continuum services are portable, unless they require capabilities that cannot be met by specific domains. 
@@ -90,6 +93,7 @@ We propose a common service model that is used regardless of the domain; even mo
 Continuum services are also aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
 
 Continuum services are implemented using the FaaS model; they are \textit{microservices}\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery \footnote{Note that our approach targets application-level functions, whereas Virtualized Network Functions (VNFs~\cite{etsimec16}) are considered as a part of the underlying infrastructure.}.
+
 
 %This requires to support FaaS not only at cloud level, but also to bring it to (mobile) edge platforms~\cite{etsimec16}. 
 
@@ -106,7 +110,7 @@ Figure~\ref{fig:Continuum-arch} illustrates the architecture overview of a conti
 
 When managing the life-cycles of continuum services there are two conflicting goals: i) the satisfaction of application requirements (e.g., low latency, battery consumption, availability); and ii) the optimization of the resources consumed by these applications (e.g., CPU, memory, etc). 
 
-Imagine having a plethora of disjoint domains that can host the execution of $\mu$-services, i.e., they can handle operational aspects such as \textit{downloading and installing} the $\mu$-services. In such a scenario it may be unfeasible to predict the origin and intensity of the demand that the different $\mu$-services might see. Mobile clients will freely enter and exit geographical areas that are covered by distinct domains; and even cloud domains may see considerable and unpredicted variations to their aggregate demand over time. 
+Imagine having a plethora of disjoint cloud and edge domains that can host the execution of $\mu$-services, i.e., they must be able to handle operational aspects such as \textit{downloading and installing} the $\mu$-services. In such a scenario it may be unfeasible to predict the origin and intensity of the demand that the different $\mu$-services might see. Mobile clients will freely enter and exit geographical areas that are covered by distinct domains; and even cloud domains may see considerable and unpredicted variations to their aggregate demand over time. 
 
 From the provider's perspective, an optimal allocation of its (virtualized) resources corresponds to the minimum number of $\mu$-service instances that must be allocated by each of its domains to cope with the SLA of each provided $\mu$-service. To be efficient, the allocation of resources should be able to mimic the corresponding fluctuations of demand, i.e., be highly responsive. Consequently, it is important that the mechanisms governing resource allocation in each domain be \textit{aware} of the actual, and potential, demand for each provided $\mu$-service. 
 
@@ -179,7 +183,7 @@ After her tour, our user calls for an autonomous vehicle (AV) to drive her back 
 To reduce the processing time and avoid battery drain, the AV features a local-edge server that provides a catalog of $\mu$-services for image processing, including those needed by the AR application. The vehicle uses of a \textit{route planning} $\mu$-service
 %deployed at mobile-edge servers located at cellular base stations 
 %to receive updates about 
-to calculate the best plan to reach our user's destination. Since latency is not a main requirement, the latter is served by a cloud provider whenever the AV's local-edge resources are not available. \textbf{WHY SHOULD THEY BE UNAVAILABLE?}
+to calculate the best plan to reach our user's destination. Since latency is not a main requirement, the latter is served by a cloud provider.
 
 %Additionally, it relies on low-latency services to become aware of sudden events like accidents.
 
@@ -198,7 +202,7 @@ Once at her hotel room, our user continues to edit the images and videos that sh
 %The application consists of for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). 
 
 To support guest applications, the hotel provides a local-edge server. The server identifies the image editing application and the MG and, after having dynamically downloaded and installed the necessary software, starts providing the required $\mu$-services. %for processing the game state, which must be passed as a parameter in conjunction with game events (e.g., user inputs). 
-Last but not least, conventional cloud infrastructure provide stateful services (e.g., multimedia storage, game authentication, player scores, etc).% and persistence (e.g., player scores).  
+Last but not least, conventional cloud infrastructure provide stateful services (e.g., multimedia storage, authentication, and persistence).% and persistence (e.g., player scores).  
 
 %This latter scenario exploits different parts of the continuum. A domestic local-edge domain must identify, fetch, and deploy the corresponding $\mu$-services. Meanwhile and to assure a high availability, the mobile domain remains responsible for the provisioning of these $\mu$-services. Finally, cloud domains complement the possible alternatives for hosting the $\mu$-services and mitigating battery drain, but network latency must be taken into account.
 
