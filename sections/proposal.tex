@@ -201,6 +201,19 @@ by anticipating Allocation, if resources are available.
 %Also, to mitigate cold starts, the manager should react to a \textit{client arrived} event by anticipating Allocation for each identified $\mu$-service, if resources are available. 
 %Finally, the manager should take into account a \textit{$\mu$-service requested} by updating the corresponding arrival rate metric. \textbf{I DON"T UNDERSTAND WHAT YOU MEAN HERE.}
 
+Given the resource limitations of edge domains, contention between different $\mu$-services may exist. If we go back to our running example,
+% in Section~\ref{sub:example}
+critical applications should have a higher priority with respect to others, like the AR for tourists. In such cases, edge-based $\mu$-services might become unavailable (or available with an higher response time) with respect to the AR applications. Additionally, mobile network may not always be available, preventing connectivity with edge and cloud domains. Finally, surrogate 
+
+%Accordingly, the AR and other low-priority applications could have to rely on $\mu$-services from their own mobile domain or a cloud domain.
+
+
+From the client's viewpoint, the fluctuations in the availability and service latency must be handled with the dynamic, context-based selection of the domain alternative 
+that best satisfies the client's needs. 
+Analogously to the provider-side Allocation, the mobile middleware realizes this activity by means of a self-management loop~\cite{kephart2003vision}. 
+
+For each $\mu$-service consumed by the client application, the middleware monitors the corresponding QoS levels from the list of capable domains (kept by the client-side Acquisition). Then, given the outcome of a multi-attribute analysis encompassing \textit{service latency} and \textit{battery consumption}, at each loop iteration the middleware decides for keeping the current domain, or triggering a \textit{domain change} event in case a better alternative is found. Throughout Allocation, the middleware handles a \textit{domain acquired(lost)} event --- indicating the agreement(denial) of a domain in providing a given $\mu$-service --- by including(disregarding) this domain in its self-management loop. %Conversely, a \textit{domain lost} event indicates a domain can no longer provide a $\mu$-service. The middleware must react by disregarding this domain in its self-management loop.
+
 
 
 %the domain manager deals with the following events:
@@ -234,12 +247,11 @@ by anticipating Allocation, if resources are available.
 
 %Given the state of different domains perceived by a client, the mobile middleware must decide which domain is responsible for each $\mu$-service consumed by the application. 
 
-A self-management loop is also exploited by the mobile middleware in the selection of the domain alternative that best satisfies the client's needs. For each $\mu$-service consumed by the client application, the middleware checks the corresponding QoS levels from the list of domains currently available. %A multi-attribute analysis then decides for the best alternative satisfying the application requirements.
-Throughout this activity, the \textit{domain acquired/lost} event indicates the agreement(denial) of a domain in providing a given $\mu$-service. The middleware must react by including(disregarding) this domain in its self-management loop. %Conversely, a \textit{domain lost} event indicates a domain can no longer provide a $\mu$-service. The middleware must react by disregarding this domain in its self-management loop.
 
-Given the resource limitations of edge domains, contention between different $\mu$-services may exist. If we go back to our running example,
-% in Section~\ref{sub:example}
-critical applications should have a higher priority with respect to others, like the AR for tourists. In such cases, edge-based $\mu$-services might become unavailable (or available with an higher response time) with respect to the AR applications. Accordingly, the AR and other low-priority applications could have to rely on $\mu$-services from their own mobile domain or a cloud domain --- as decided by their self-management loop for domain selection. 
+
+
+
+
 
 %
 %{\small
