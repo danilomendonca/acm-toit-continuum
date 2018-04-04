@@ -1,18 +1,14 @@
 %not-so-short version
-Technologies such as mobile-, edge-, and cloud-computing have the potential to form a computing continuum for new, disruptive applications. At run time, applications can choose to execute parts of their logic on any of the infrastructures that constitute the continuum, with the goal of minimizing latency and battery consumption and maximizing availability.
+Technologies such as mobile-, edge-, and cloud-computing have the potential to form a computing continuum for new, disruptive applications. At run time, applications can choose to execute parts of their logic on different infrastructures that constitute the continuum, with the goal of minimizing latency and battery consumption and maximizing availability.
 
-In this paper we discuss the challenges of implementing the continuum, and propose A3-E, a unified model that abstracts away its profound heterogeneity. In particular, A3-E exploits the Functions-as-a-Service model to bring computation to the continuum in the form of microservices. Furthermore, A3-E selects where to execute a certain function based on the context and requirements.
+In this paper 
+%we discuss the challenges of implementing the continuum, and 
+we propose A3-E, a unified model 
+%that abstracts away its profound heterogeneity. 
+for managing the life-cycle of continuum applications. In particular, A3-E exploits the 
+Functions-as-a-Service model to bring computation to the continuum in the form of microservices. Furthermore, A3-E selects where to execute a certain function based on the context and requirements.
 
-The contributions of the paper are exemplified by a scenario involving different applications and evaluated with an Augmented Reality application. Our experiments show that A3-E is capable of dynamically routing the application's requests to the continuum, reducing latency up to $90$\% when using edge infrastructures instead of cloud resources, and battery consumption by $74$\% when computation has been offloaded.
+A3-E was evaluated with prototype implementations. Results show that A3-E is capable of dynamically deploying microservices and routing the application's requests, reducing latency up to $90$\% when using edge instead of cloud resources, and battery consumption by $74$\% when computation has been offloaded.
 
 
-%short version
-%Mobile-, edge-, and cloud-computing have the potential to form a computing continuum for disruptive applications. The choice of where in the continuum to execute different functionalities is made at run time, based on context and requirements, with the goal of minimizing latency and battery consumption, and maximizing availability. We propose A3-E, a unified model that exploits the Function-as-a-Service to abstract away the heterogeneity of the continuum. Experiments show that A3-E is capable of dynamically routing the application's requests to the continuum, reducing latency by up to $90$\% when using edge infrastructures, and battery consumption by $74$\% when offloading mobile computation.
-
-
-%long version
-%The advent of technologies such as mobile-, edge-, and cloud-computing have the potential to form a computing continuum for new disruptive applications. An application that exploits the computing continuum can dynamically, and opportunistically, choose to execute parts of its logic in any of the different infrastructures that constitute the continuum. The choice is made at run time, with the goal of minimizing latency and battery consumption, and maximizing availability.
-
-%In this paper we discuss the challenges of implementing the continuum, and propose A3-E, a unified model that abstracts away the profound heterogeneity of the infrastructures that make up the continuum. In particular, A3-E exploits the functions as a service model to deploy stateless computation to the continuum, and then expose it as a microservice. Furthermore, A3-E also provides client applications with the means to dynamically choose where a certain piece of computation should be executed within the continuum, depending on context information.
-
-%The contributions of the paper are exemplified by a scenario involving augmented reality and autonomous vehicles. Our experiments show that A3-E is capable of dynamically managing the application's requests to the continuum, autonomously reducing latency by up to $90$\% when using edge infrastructures instead of cloud resources, and reducing battery consumption by $74$\% when offloading computation from the mobile device to the edge/cloud.
+%The contributions of the paper are exemplified by a scenario involving different applications and evaluated with an Augmented Reality. Our experiments show that A3-E is capable of dynamically routing the application's requests to the continuum, reducing latency up to $90$\% when using edge infrastructures instead of cloud resources, and battery consumption by $74$\% when computation has been offloaded.
