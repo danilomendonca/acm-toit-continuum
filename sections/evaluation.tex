@@ -10,7 +10,7 @@
 We performed different experiments using four domains that materialize the continuum. 
 %The first experiment evaluates $\mu$-service latency against different workloads. 
 The first experiment studies how latency changes and how the remote domains scale with a varying workload. 
-In this case the mobile domain is obviously omitted. The second one evaluates the domains from a client's perspective, both in terms of latency and battery consumption. The third one evaluates the A3-E with domains that change their availability according to a probabilistic distribution. Finally, the last one evaluates the A3-E's Acquisition and Allocation performance. When possible, we compared A3-E against Enorm, a framework for edge resource management.
+In this case the mobile domain is obviously omitted. The second one evaluates the domains from a client's perspective, both in terms of latency and battery consumption. The third one evaluates the A3-E with domains that change their availability according to a probability distribution. Finally, the last one evaluates the A3-E's Acquisition and Allocation performance. When possible, we compared A3-E against Enorm, a framework for edge resource management.
 %Our goal was to demonstrate that the A3-E model is successful in selecting domains at run time and in improving the overall application availability. 
 
 \subsection{Experiments Setup}
@@ -190,7 +190,7 @@ Battery consumption was substantially lower when offloading computation, rather 
 \subsection{Domain Selection and Availability}
 \label{sub:domain-selection}
 
-We evaluated the capability of A3-E to select the best domain given low latency and high computational power requirements. In this experiment, we used all three domains together to form the continuum and simulated their availabilities after a probabilistic distribution. 
+We evaluated the capability of A3-E to select the best domain given low latency and high computational power requirements. In this experiment, we used all three domains together to form the continuum and simulated their availabilities after a probability distribution. 
 
 The mobile middleware was configured to ping for domain availability, as well as perceived QoS, every two seconds ($u = 2$). We consider that the cloud domain could be unavailable mainly due to absence of mobile network coverage, since downtimes of cloud services are minimal~\cite{garcia2017bandwidth}. To simulate this, the average network unavailability was set to once every $15$ minutes. Then, the average time for it to become available was $2$ minutes, which gives us an availability of $88\%$.
 

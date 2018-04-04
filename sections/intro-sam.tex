@@ -1,14 +1,16 @@
 \section{Introduction}
 \label{sec:intro}
 
-Mobile devices, edge-, and cloud-computing have the potential to form a \textit{computing continuum} on which new and disruptive types of applications can be built. This continuum enables the seamless convergence of heterogeneous infrastructure, stretching all the way from cloud resources to mobile devices, including intermediate steps such as ISP gateways, cellular base stations, and private cloud deployments.
+Mobile devices, edge-, and cloud-computing have the potential to form a \textit{computing continuum} on which new and disruptive types of applications can be built. This continuum enables the 
+%seamless [Danilo] saving sapce
+convergence of heterogeneous infrastructure, stretching all the way from cloud
+%resources [Danilo] saving sapce
+to mobile devices, including intermediate steps such as ISP gateways, cellular base stations, and private cloud deployments.
 
 The heterogeneity of the computing continuum is profound and multi-faceted. In the cloud, computing resources are typically provided through virtualization and containerization~\cite{leitner2016patterns, Quatrocchi2016discrete}, and there is an illusion of infinite resource availability thanks to horizontal scaling. In contrast, in edge computing, computational resources are scarce and must be managed very efficiently~\cite{Shi:2016, GarrigaMendonca2017}. This is even truer for mobile devices, as they are strongly constrained by battery and other limitations. 
 
 
 The decision of where in the continuum a specific calculation should be performed must be made opportunistically, and take into account the resources that are actually available to the client in the continuum at that specific moment in time. This will depend on the client's geo-location and connectivity, and may be informed by existing QoS requirements, e.g., maximum acceptable latency. Cloud resources are accessible by clients across countries and continents; conversely, in edge computing, a client can only access resources if they are under the same network coverage, be it cellular (e.g., 5G) or local (e.g., domestic or office). On the other hand, we can consider the computational resources of the client's mobile device to be always accessible, as long as it has battery life. While the cloud can provide vast computing power through elasticity, accessing these resources may involve multiple hops of network communication, leading to prohibitive latency in the processing of client requests. Indeed, one of the main motivations for introducing edge computation is to mitigate the network latency~\cite{Shi:2016}, which is even nullified when execution is performed locally on the client's mobile device.
-
-; the decision logic will need to be shared with the client's device, so that the best alternative can be selected every time.
 
 In this paper, we propose a unified model for the realization of the mobile-edge-cloud continuum. A3-E is a model for the efficient and scalable management of continuum services' life-cycles. A3-E takes its name from its four main activities: \textit{(A)wareness, (A)cquisition, (A)llocation} and \textit{(E)ngagement}. 
 
@@ -18,7 +20,16 @@ A3-E extends the Functions-as-a-Service (FaaS) computing paradigm~\cite{Hendrick
 The feasibility of A3-E has been demonstrated with an implementation of the proposed model. Also, A3-E has been evaluated in the context of an Augmented Reality application. Thanks to A3-E the application was able to autonomously proxy its requests to services that were dynamically deployed to a computing continuum. 
 
 %In our experiments, the continuum was composed of a mobile runtime, two edge servers, and a cloud environment. The experiments 
-The performed experiments show up to a $90$\% latency reduction when edge services are used instead of cloud services, and a $74$\% decrease of battery consumption when computation is offloaded from the mobile device to edge/cloud servers. Moreover, we obtained 93\% availability by dynamically selecting between cloud and edge servers, and 100\% when also considering the mobile device for computation (when remote services are not available). Simultaneously, compared to a cloud-only solution we were able to reduce the overall execution time using the continuum. Finally, A3-E also helped reduce deployment time up to 70\%, compared to a state-of-the-art approach for resource management of edge nodes.
+
+The performed experiments show up to a $90$\% reduction of latency when edge replaced cloud, and a $74$\% decrease of battery consumption when computation is offloaded 
+%from the mobile device 
+to edge/cloud servers. Moreover, by dynamically selecting what constituent to use in the continuum in different contexts, 
+%which includes the mobile device own resources, 
+A3-E was able to prevent service interruptions. Simultaneously, we reduced the overall execution time by using the continuum, compared to using the cloud only. Finally, A3-E reduced deployment time up to 70\%, compared to a similar approach for resource management of edge nodes.
+
+
+%The performed experiments show up to a $90$\% latency reduction when edge services are used instead of cloud services, and a $74$\% decrease of battery consumption when computation is offloaded from the mobile device to edge/cloud servers. Moreover, we obtained 93\% availability by dynamically selecting between cloud and edge servers, and 100\% when also considering the mobile device for computation (when remote services are not available). Simultaneously, we reduced the overall execution time by using the continuum, compared to using the cloud only. Finally, A3-E reduced deployment time up to 70\%, compared to a state-of-the-art approach for resource management of edge nodes.
+
 
 
 
