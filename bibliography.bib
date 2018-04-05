@@ -54,7 +54,7 @@
 	month={First}
 }
 
-%Computation Offloading 
+%Continuum: Computation Offloading 
 
 @inproceedings{OrsiniBL16,
 	author    = {Orsini, G. and
@@ -130,21 +130,6 @@
 	publisher={IEEE}
 }
 
-
-@article{Satria2017mec,
-	title = "Recovery for overloaded mobile edge computing ",
-	journal = "Future Generation Computer Systems ",
-	volume = "70",
-	number = "",
-	pages = "138 - 147",
-	year = "2017",
-	note = "",
-	issn = "0167-739X",
-	doi = "https://doi.org/10.1016/j.future.2016.06.024",
-	url = "http://www.sciencedirect.com/science/article/pii/S0167739X16302096",
-	author = "Dimas Satria and Daihee Park and Minho Jo",
-}
-
 @INPROCEEDINGS{Soyata:2012, 
 	author={T. Soyata and R. Muraleedharan and C. Funai and M. Kwon and W. Heinzelman}, 
 	booktitle={2012 IEEE Symposium on Computers and Communications (ISCC)}, 
@@ -184,7 +169,25 @@
 	month={Oct}
 }
 
-@Inbook{Bonomi2014,
+@inproceedings{Bonomi:2012,
+	author = {Bonomi, Flavio and Milito, Rodolfo and Zhu, Jiang and Addepalli, Sateesh},
+	title = {Fog Computing and Its Role in the Internet of Things},
+	booktitle = {Proc. of the First Edition of the MCC Workshop on Mobile Cloud Computing},
+	series = {MCC '12},
+	year = {2012},
+	isbn = {978-1-4503-1519-7},
+	location = {Helsinki, Finland},
+	pages = {13--16},
+	numpages = {4},
+	url = {http://doi.acm.org/10.1145/2342509.2342513},
+	doi = {10.1145/2342509.2342513},
+	acmid = {2342513},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+	keywords = {analytics, cloud computing, fog computing, iot, real time systems, software defined networks, wsan}
+}
+
+@Inbook{Bonomi:2014,
 	author="Bonomi, Flavio
 	and Milito, Rodolfo
 	and Natarajan, Preethi
@@ -201,8 +204,6 @@
 	doi="10.1007/978-3-319-05029-4_7",
 	url="https://doi.org/10.1007/978-3-319-05029-4_7"
 }
-
-
 
 @ARTICLE{Shi:2016, 
 	author={W. Shi and J. Cao and Q. Zhang and Y. Li and L. Xu}, 
@@ -293,23 +294,53 @@
 	ISSN={2327-4662},
 	month={Dec},}
 
-@inproceedings{Bonomi:2012,
-	author = {Bonomi, Flavio and Milito, Rodolfo and Zhu, Jiang and Addepalli, Sateesh},
-	title = {Fog Computing and Its Role in the Internet of Things},
-	booktitle = {Proc. of the First Edition of the MCC Workshop on Mobile Cloud Computing},
-	series = {MCC '12},
-	year = {2012},
-	isbn = {978-1-4503-1519-7},
-	location = {Helsinki, Finland},
-	pages = {13--16},
-	numpages = {4},
-	url = {http://doi.acm.org/10.1145/2342509.2342513},
-	doi = {10.1145/2342509.2342513},
-	acmid = {2342513},
-	publisher = {ACM},
-	address = {New York, NY, USA},
-	keywords = {analytics, cloud computing, fog computing, iot, real time systems, software defined networks, wsan}
-} 
+%Mobile Edge Computing Literature
+
+@INPROCEEDINGS{ahmed2016isco, 
+	author={A. Ahmed and E. Ahmed}, 
+	booktitle={2016 10th International Conf. on Intelligent Systems and Control (ISCO)}, 
+	title={A survey on mobile edge computing}, 
+	year={2016}, 
+	pages={1-8}, 
+	keywords={cloud computing;mobile computing;radio access networks;IT service;cloud service;collaborative computing;context-aware services;mobile edge computing;mobile subscribers;network latency reduction;packet filtering;packet forwarding;real time radio access network information;telecom network operators;traffic control flow;Collaborative Computing;Computation Offloading;Mobile Edge Computing}, 
+	month={Jan}
+}
+
+@inproceedings{beck2014mobile,
+	title={Mobile edge computing: A taxonomy},
+	author={Beck, Michael Till and Werner, Martin and Feld, Sebastian and Schimper, S},
+	booktitle={Proc. of the Sixth International Conf. on Advances in Future Internet},
+	year={2014},
+	pages={48--54}
+}
+
+@ARTICLE{Mach:2017, 
+	author={P. Mach and Z. Becvar}, 
+	journal={IEEE Communications Surveys Tutorials}, 
+	title={Mobile Edge Computing: A Survey on Architecture and Computation Offloading}, 
+	year={2017}, 
+	volume={19}, 
+	number={3}, 
+	pages={1628-1656}, 
+	keywords={mobile computing;software architecture;MEC;TIE;architecture offloading;battery life-time;computation offloading;delay;energy consumption;limited battery capacity;mobile edge computing;mobile network;mobility management;technological evolution of mobile user equipment;Batteries;Cloud computing;Delays;Edge computing;Mobile communication;Mobile computing;Tutorials;Mobile edge computing;allocation of computing resources;computation offloading;mobile network architecture;mobility management;standardization;use-cases}, 
+	doi={10.1109/COMST.2017.2682318}, 
+	ISSN={}, 
+	month={thirdquarter}
+}
+
+@article{Satria2017mec,
+	title = "Recovery for overloaded mobile edge computing ",
+	journal = "Future Generation Computer Systems ",
+	volume = "70",
+	number = "",
+	pages = "138 - 147",
+	year = "2017",
+	note = "",
+	issn = "0167-739X",
+	doi = "https://doi.org/10.1016/j.future.2016.06.024",
+	url = "http://www.sciencedirect.com/science/article/pii/S0167739X16302096",
+	author = "Dimas Satria and Daihee Park and Minho Jo",
+}
 
 %Cloud Computing Literature
 
@@ -333,9 +364,19 @@
 	url = {https://osm.etsi.org/images/OSM-Whitepaper-TechContent-ReleaseTHREE-FINAL.PDF}
 }
 
-@techreport{ETSI:MEC:ARCHITECTURE,
-	title = { Mobile Edge Computing (MEC);
-	Framework and Reference Architecture -- Technical report},
+@techreport{etsimec16,
+	title = {Mobile Edge Computing (MEC) Terminology},
+	author = {{ETSI Group}},
+	group = {},
+	year = {2016},
+	institution = { European Telecommunications Standards Institute (ETSI)},
+	month = {10},
+	url = {http://www.etsi.org/deliver/etsi_gs/MEC/001_099/001/01.01.01_60/gs_MEC001v010101p.pdf}
+}
+
+@techreport{etsimec16:03,
+	title = {Mobile Edge Computing (MEC);
+	Framework and Reference Architecture},
 	author = {Several authors},
 	group = {},
 	year = {2016},
@@ -639,17 +680,6 @@ month={},}
 
 %Serverless + Edge literature
 
-@techreport{etsimec16,
-	title = {Mobile Edge Computing (MEC) Terminology},
-	author = {{ETSI Group}},
-	group = {},
-	year = {2016},
-	institution = { European Telecommunications Standards Institute (ETSI)},
-	month = {10},
-	url = {http://www.etsi.org/deliver/etsi_gs/MEC/001_099/001/01.01.01_60/gs_MEC001v010101p.pdf}
-}
-
-
 @Inbook{GarrigaMendonca2017,
 	author="Baresi, L.
 	and Mendon{\c{c}}a, D. F.
@@ -761,14 +791,6 @@ month={September}
   month={Aug}
 }
 
-@inproceedings{beck2014mobile,
-  title={Mobile edge computing: A taxonomy},
-  author={Beck, Michael Till and Werner, Martin and Feld, Sebastian and Schimper, S},
-  booktitle={Proc. of the Sixth International Conf. on Advances in Future Internet},
-  year={2014},
-  pages={48--54}
-}
-
 @INPROCEEDINGS{salman2015wf-iot, 
   author={O. Salman and I. Elhajj and A. Kayssi and A. Chehab}, 
   booktitle="IEEE World Forum on Internet of Things (WF-IoT)", 
@@ -777,16 +799,6 @@ month={September}
   pages={603-608}, 
   doi={10.1109/WF-IoT.2015.7389122}, 
   month={Dec}
-}
-
-@INPROCEEDINGS{ahmed2016isco, 
-	author={A. Ahmed and E. Ahmed}, 
-	booktitle={2016 10th International Conf. on Intelligent Systems and Control (ISCO)}, 
-	title={A survey on mobile edge computing}, 
-	year={2016}, 
-	pages={1-8}, 
-	keywords={cloud computing;mobile computing;radio access networks;IT service;cloud service;collaborative computing;context-aware services;mobile edge computing;mobile subscribers;network latency reduction;packet filtering;packet forwarding;real time radio access network information;telecom network operators;traffic control flow;Collaborative Computing;Computation Offloading;Mobile Edge Computing}, 
-	month={Jan}
 }
 
 @article{hu2015mobile,

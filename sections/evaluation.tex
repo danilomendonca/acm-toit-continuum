@@ -30,7 +30,7 @@ was deployed on two Local-edge domains. For handling Allocation and Execution, w
 %This was done to emulate a few-hops scenario in which devices are directly connected to their nearest edge domains. 
 \texttt{Local-edge-1} represented a situation in which latency is close to zero, but the computational resources are more constrained and scaling-up is not possible due to the inherent physical restrictions of the underlying infrastructure (e.g., a lightweight server covering an office); in turn, \texttt{Local-edge-2} has more computational resources and yet low latency can be achieved due to physical proximity (e.g., a robust edge server covering a building floor).
 
-Representing cloud domains, we used AWS Lambda~\cite{AWSLambda}, the most mature FaaS solution on the market. To be consistent with our formulation of the compute continuum, functions and associated dependencies (storage, feature extraction and matching) were hosted within the same AWS region. 
+Representing cloud domains, we used AWS Lambda~\cite{AWSLambda}, the most mature FaaS solution on the market. To be consistent with our formulation of the computing continuum, functions and associated dependencies (storage, feature extraction and matching) were hosted within the same AWS region. 
 
 Finally, we also deployed the functionality onto a traditional setup using cloud's IaaS. The main goal of this setup was not to compare traditional cloud services against a FaaS solution, but to demonstrate that the proposed continuum could outperform the cloud under the tested circumstances and requirements.
 
