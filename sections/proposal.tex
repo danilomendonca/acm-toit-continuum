@@ -1,7 +1,7 @@
 \section{A3-E}\label{sec:A3-E}
 
 \begin{figure}[tbp]
-	\includegraphics[width=1\textwidth]{figs/A3-E-process}
+	\includegraphics[width=0.92\textwidth]{figs/A3-E-process}
 %	\setlength{\belowcaptionskip}{-10pt}
 	\caption{A3-E overview. A3-E's activities are carried out by a \textit{domain manager} and a \textit{mobile middleware}; activities coordinate through ingoing ($\rightarrow$) and outgoing ($\leftarrow$) events.}
 	\label{fig:A3-E-process}
@@ -311,7 +311,7 @@ From the client's viewpoint, a \textit{C-request arrived} indicates the client a
 Also during this activity, a \textit{domain absent} event indicates no domain is available for that specific $\mu$-service. The middleware must react by queuing subsequent C-requests and, in case of a latency violation, by firing a \textit{C-request failed} event. In turn, a \textit{domain changed} event indicates a new domain selection for a specific $\mu$-service. The middleware must handle it by resuming the invocation of any queued and subsequent C-requests to that domain.
 
 \begin{figure}[tbp]
-	\includegraphics[width=0.8\textwidth]{figs/A3-E-instance-events}
+	\includegraphics[width=0.85\textwidth]{figs/A3-E-instance-events}
 %	\setlength{\belowcaptionskip}{-10pt}
 	\caption{A timeline of events from our Running Scenario (Sec.~\ref{sub:example}).}
 	\label{fig:A3-E-instance-events}
