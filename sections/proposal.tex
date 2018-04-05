@@ -57,7 +57,7 @@ has two benefits: (i) it alleviates cold starts by pro-actively allocating $\mu$
 
 
 
-From the client's perspective, Awareness corresponds to discovering domains through a \textit{client identification} signal. More precisely, a \textit{client identification} signal contains an identification of the needed $\mu$-service, along with the repository from which it can be fetched during A3-E's Acquisition. Special purpose HTTP endpoints can be used for cloud domains; protocols from local area networks (e.g., UDP, IP multicast) can be used for local-edge domains; eMBMS protocols, such as File Transfer over Unidirectional Transport (FLUTE)~\cite{lecompte2012evolved}, which is carried over traditional UDP and IP multicast toward end-user devices, can be used for mobile-edge domains; while system-level signals (e.g., broadcast intents in Android platforms) can be used by mobile domains.
+From the client's perspective, Awareness corresponds to discovering domains through a \textit{client identification} signal, which contains metadata (name, repository url) of the needed $\mu$-service. Special purpose HTTP endpoints can be used for cloud domains; protocols from local area networks (e.g., UDP, IP multicast) can be used for local-edge domains; eMBMS protocols (e.g., FLUTE~\cite{lecompte2012evolved}) which are carried over traditional UDP and IP multicast toward end-user devices, can be used for mobile-edge domains; while system-level signals (e.g., broadcast intents in Android platforms) can be used by mobile domains.
 
 In our running example, the mobile-edge and local-edge domains must advertise their existence to our user's device, which in turn identifies the AR and Image Editing applications. The same holds for the hotel's local-edge domain and the MG application. %In all cases, cloud and edge domains can employ Awareness to opportunistically fetch, install, and allocate instances of required $\mu$-services.
 
@@ -201,7 +201,7 @@ by anticipating Allocation, if resources are available.
 
 Given the resource limitations of edge domains, contention between different $\mu$-services may exist. If we go back to our running example,
 % in Section~\ref{sub:example}
-critical applications should have a higher priority with respect to others, like the AR for tourists. In such cases, edge-based $\mu$-services might become unavailable (or available with an higher response time) with respect to the AR applications. Additionally, mobile network may not always be available, preventing connectivity with edge and cloud domains. Finally, surrogate 
+critical applications should have a higher priority with respect to others, like the AR for tourists. In such cases, edge-based $\mu$-services might become unavailable (or available with an higher response time) with respect to the AR applications. Additionally, mobile network may not always be available, preventing connectivity with edge and cloud domains. 
 
 %Accordingly, the AR and other low-priority applications could have to rely on $\mu$-services from their own mobile domain or a cloud domain.
 
@@ -210,7 +210,7 @@ From the client's viewpoint, the fluctuations in the availability and service la
 that best satisfies the client's needs. 
 Analogously to the provider-side Allocation, the mobile middleware realizes this activity by means of a self-management loop~\cite{kephart2003vision}. 
 
-For each $\mu$-service consumed by the client application, the middleware monitors the corresponding QoS levels from the list of capable domains (kept by the client-side Acquisition). Then, given the outcome of a multi-attribute analysis encompassing \textit{service latency} and \textit{battery consumption}, at each loop iteration the middleware decides for keeping the current domain, or triggering a \textit{domain change} event in case a better alternative is found. Throughout Allocation, the middleware handles a \textit{domain acquired(lost)} event --- indicating the agreement(denial) of a domain in providing a given $\mu$-service --- by including(disregarding) this domain in its self-management loop. %Conversely, a \textit{domain lost} event indicates a domain can no longer provide a $\mu$-service. The middleware must react by disregarding this domain in its self-management loop.
+For each $\mu$-service consumed by the client application, the middleware monitors the corresponding QoS levels from the list of capable domains (kept by the client-side Acquisition). Then, given the outcome of a multi-attribute analysis encompassing \textit{service latency} and \textit{battery consumption}, at each loop iteration the middleware decides for keeping the current domain, or triggering a \textit{domain change} event in case a better alternative is found. Throughout Allocation, the middleware handles a \textit{domain acquired (lost)} event --- indicating the agreement (denial) of a domain in providing a given $\mu$-service --- by including (disregarding) such domain in its self-management loop. %Conversely, a \textit{domain lost} event indicates a domain can no longer provide a $\mu$-service. The middleware must react by disregarding this domain in its self-management loop.
 
 
 

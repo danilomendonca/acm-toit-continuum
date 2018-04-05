@@ -45,7 +45,7 @@
 %Cloud datacenters are reachable through multiple hops of network, including the Internet backbone. Edge nodes, in turn, are ideally placed a few hops away from clients to minimize network latency and jitter. 
 
 %TODO [Martin] I've slightly changed this and next paragraph to be compliant with the ETSI standard
-In our formulation, edge nodes are distinguished by the networking technology they use: \textit{mobile edge} hosts (in the context of Multi-Access Edge Computing or MEC~\cite{etsimec16,ahmed2016isco}) integrate with cellular network infrastructure (e.g., a 5G base station), whereas \textit{local edge} hosts integrate with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from one another (e.g., Amazon AWS and telecom operators providing MEC) and that coordination among hosts (e.g., at different base stations) may not always be feasible.
+In our formulation, edge nodes are distinguished by the networking technology they use: \textit{mobile edge} hosts (in the context of Multi-Access Edge Computing or MEC~\cite{etsimec16}) integrate with cellular network infrastructure (e.g., a 5G base station), whereas \textit{local edge} hosts integrate with local area network infrastructure (e.g., an access point). Also, we assume that cloud and edge providers may be different from one another (e.g., Amazon AWS and telecom operators providing MEC) and that coordination among hosts (e.g., at different base stations) may not always be feasible.
 
 
 % and unable to coordinate the allocation of resources.
@@ -90,9 +90,11 @@ Continuum services consist of a set of artifacts that fulfill a given functional
 
 We propose a common service model that is used regardless of the domain; even mobile domains expose functionality by means of a well-known service-based interface. The proposed service model enforces data consistency and allows multiple service instances to coexist along the continuum. Also, service instances may be deployed and undeployed independently without the need for state migration, favoring the seamlessly transition from one service provider to the other. The latter is particularly important to cope with client mobility. 
 
-Continuum services are also aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
+Continuum services are indeed \textit{microservices}\footnote{Hereafter referred as $\mu$-service.}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery.
 
-Continuum services are implemented using the FaaS model; they are \textit{microservices}\footnote{Hereafter referred as $\mu$-service}~\cite{lewis2014microservices}, as they are small, modular, communicate with lightweight mechanisms (often through an HTTP RESTful API) and are independently deployable by fully automated machinery \footnote{Note that our approach targets application-level functions, whereas Virtualized Network Functions (VNFs~\cite{etsimec16}) are considered as a part of the underlying infrastructure.}.
+Besides, continuum services are also aligned with the \textit{Function-as-a-Service} (FaaS) execution model~\cite{MateosFaaster17}. FaaS has been proposed as an alternative cloud paradigm in which business functionality\footnote{Note that our approach targets \textit{application-level functions}, whereas Virtualized Network Functions (VNFs~\cite{etsimec16}) are considered as a part of the underlying infrastructure.} is provided without pre-allocating computational resources. Instead, shared resources (e.g. containers) are used to provision and execute functions on demand, in only a few milliseconds. 
+
+
 
 
 %This requires to support FaaS not only at cloud level, but also to bring it to (mobile) edge platforms~\cite{etsimec16}. 
@@ -168,7 +170,7 @@ We illustrate the continuum with an example scenario that involves multiple appl
 
 First, let us consider an Augmented Reality (AR)~\cite{GarrigaMendonca2017} application, employed by our user to explore the points of interest (POI) in the city she is currently visiting. This real-time application involves heavyweight image processing for the \textit{extraction of features} from the captured scenes, as well as a trained neural network model to \textit{match features} from an extensive object catalog. 
 
-This is a compute intensive and a latency-sensitive kind of application; as such the AR can definitely benefit from adopting the continuum~\cite{beck2014mobile}. Indeed, despite the capacity of existing mobile devices (e.g., Glass~\footnote{https://x.company/glass/}), with these kinds of applications it is common for users to experience functional and non-functional degradation (e.g., reduced object catalog, battery drain, etc). By offloading the extraction and matching tasks to a server, the user can enjoy an improved Quality-of-Experience.
+This is a compute intensive and a latency-sensitive kind of application; as such the AR can definitely benefit from adopting the continuum~\cite{beck2014mobile}. Indeed, despite the capacity of mobile devices, with these kinds of applications it is common for users to experience functional and non-functional degradation (e.g., reduced object catalog, battery drain, etc). By offloading the extraction and matching tasks to a server, the user can enjoy an improved Quality-of-Experience.
 
 Two continuum $\mu$-services are modeled for this application: one relies on an image processing library and a trained model, the other on a feature-based object catalog. Client-side logic is only responsible for capturing scenes from the device's camera and for updating the scene rendered by the display.
 
