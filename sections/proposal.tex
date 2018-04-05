@@ -2,18 +2,10 @@
 
 \begin{figure}[tbp]
 	\includegraphics[width=1\textwidth]{figs/A3-E-process}
+%	\setlength{\belowcaptionskip}{-10pt}
 	\caption{A3-E overview. A3-E's activities are carried out by a \textit{domain manager} and a \textit{mobile middleware}; activities are coordinated through signals (dashed arrows) and events (solid arrows).}
-	\setlength{\belowcaptionskip}{-10pt}
 	\label{fig:A3-E-process}
 \end{figure}
-
-\begin{figure}[tbp]
-	\includegraphics[width=0.8\textwidth]{figs/A3-E-instance-events}
-	\caption{A trace of events from our Running Scenario (Sec.~\ref{sub:example}). Our user enters a touristic area just before starting the AR. The AR registers itself ($RA$) with the mobile middleware (MM), which also receives a \textit{domain identification} ($DI$) from its mobile domain (MD), to be replied with a \textit{client identification} ($CI$). Following the $\mu$-service identification ($\mu I$), the MD triggers a \textit{$\mu$-service allocated} ($\mu A$') once the corresponding functions have been registered. After selecting this domain, the MM triggers a \textit{domain changed} ($DC$), which allows subsequent client requests ($CR$'') to be handled locally. As our user's device enters a base station area (BSA) featuring a mobile-edge domain (MED), the MM receives a \textit{domain identification} ($DI$) and repeats the previous handshake procedure. To prevent battery drain, the MM's self-management loop decides for the MED, triggering a $DC$. After a period of Engagement with the MED, our user enters the AV featuring a local-edge domain (LED) and, upon mutual awareness, switches to that domain ($DC$) as its connection with the previous domain is lost ($DL$). Since it is a first contact with an AR application, the LED performs Acquisition, whose completion is indicated by a \textit{$\mu$-service acquired} ($\mu A$') --- to prevent service interruption, the MM is momentarily selected.}
-	\setlength{\belowcaptionskip}{-10pt}
-	\label{fig:A3-E-instance-events}
-\end{figure}
-
 
 %First and foremost, A3-E's main objective is to enable the efficient and scalable placement of $\mu$-services along the continuum. In A3-E, clients and providers autonomously interact and decide for the placement of services according to the context. Moreover,  
 
@@ -317,6 +309,16 @@ During Engagement, a \textit{$\mu$-service deallocated} event indicates the unav
 From the client's viewpoint, a \textit{C-request arrived} indicates the client application has sent a new request to a continuum $\mu$-service. The event contains the target $\mu$-service reference along with any parameters. The middleware must handle it by invoking the $\mu$-service from the currently selected domain. Upon arrival of a \textit{request served} event, the middleware must proceed with the triggering of a \textit{C-Request served} event to be handled by the client application. 
 
 Also during this activity, a \textit{domain absent} event indicates no domain is available for that specific $\mu$-service. The middleware must react by queuing subsequent C-requests and, in case of a latency violation, by firing a \textit{C-request failed} event. In turn, a \textit{domain changed} event indicates a new domain selection for a specific $\mu$-service. The middleware must handle it by resuming the invocation of any queued and subsequent C-requests to that domain.
+
+\begin{figure}[tbp]
+	\includegraphics[width=0.8\textwidth]{figs/A3-E-instance-events}
+%	\setlength{\belowcaptionskip}{-10pt}
+	\caption{A timeline of events from our Running Scenario (Sec.~\ref{sub:example}).}
+	\label{fig:A3-E-instance-events}
+\end{figure}
+
+Figure~\ref{fig:A3-E-instance-events} depicts a timeline of events from our Running Example scenario. The timeline starts with our user starting the AR after entering the touristic area. The AR registers itself ($RA$) with the mobile middleware (MM), which also receives a \textit{domain identification} ($DI$) from its mobile domain (MD), to be replied with a \textit{client identification} ($CI$). Following the $\mu$-service identification ($\mu I$), the MD triggers a \textit{$\mu$-service allocated} ($\mu A$') once the corresponding functions have been registered. After selecting this domain, the MM triggers a \textit{domain changed} ($DC$), which allows subsequent client requests ($CR$'') to be handled locally. As our user's device enters a base station area (BSA) featuring a mobile-edge domain (MED), the MM receives a \textit{domain identification} ($DI$) and repeats the previous handshake procedure. To prevent battery drain, the MM's self-management loop decides for the MED, triggering a $DC$. After a period of Engagement with the MED, our user enters the AV featuring a local-edge domain (LED) and, upon mutual awareness, switches to that domain ($DC$) as its connection with the previous domain is lost ($DL$). Since it is a first contact with an AR application, the LED performs Acquisition, whose completion is indicated by a \textit{$\mu$-service acquired} ($\mu A$') --- to prevent service interruption, the MM is momentarily selected.
+
 
 %
 %The mobile middleware deals with the following events:
