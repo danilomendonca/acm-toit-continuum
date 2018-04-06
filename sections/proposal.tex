@@ -11,7 +11,7 @@
 
 To realize the mobile-edge-cloud continuum, we propose A3-E, a model supporting the self-management of continuum $\mu$-service life-cycles. A3-E inherits its name from its four main activities -- namely, \textit{(\textbf{A}wareness), (\textbf{A})cquisition, (\textbf{A})llocation, and (\textbf{E})ngagement}. 
 
-A3-E targets the efficient and scalable placement of $\mu$-services along the continuum. For that, clients and heterogeneous \textit{mobile, edge, and cloud} domains take part in the \textit{automated} and \textit{decentralized} decision of which continuum resources should be employed in provisioning each of the $\mu$-services required by continuum applications according to the context of operation.
+A3-E targets the efficient and scalable placement of $\mu$-services along the continuum. For that, clients and heterogeneous \textit{mobile, edge, and cloud} domains take part in the \textit{automated} and \textit{decentralized} decision of which continuum resources should be employed in provisioning each of the $\mu$-services required by continuum applications.% according to the context of operation.
 
 Figure~\ref{fig:A3-E-process} illustrates each activity in A3-E. Each activity is refined by more specific activities that are carried out by a \textit{domain manager} and by a \textit{mobile middleware}. %These activities address different concerns in the interaction between the client application and the continuum domains. 
 %Activities from both sides are coordinated through signals and events. 
@@ -29,20 +29,20 @@ To address the intrinsic heterogeneity of the continuum, A3-E is flexible with r
 
 \subsection{Awareness}\label{sec:A3-E-awareness}
 
-From the provider's viewpoint, Awareness models (i) the advertisement of domains and (ii) the discovery of continuum applications in one of its domains' area of coverage, indicating the imminent need for specific $\mu$-services. 
+%From the provider's viewpoint, the main purpose of Awareness is to enable domains to opportunistically and pro-actively initialize the Acquisition and Allocation activities. %, based on the awareness of devices in a domain's coverage area. 
+%In turn, clients benefit from Awareness with the dynamic discovery and profiling of domains that can provide the $\mu$-services they need.
 
-%Its main purpose is to enable domains to pro-actively initialize the Acquisition and Allocation activities, based on the awareness of devices in a domain's coverage area. 
+%A3-E's Awareness models (i) the discovery of domains and (ii) the discovery of continuum applications in one of its domains' area of coverage, indicating the imminent need for specific $\mu$-services. 
 
-While cloud domains are not likely to change, and may be set-up statically by clients,
-edge domains must advertise their existence (through \textit{domain identification} signals) using discovery protocols that are compatible with its network infrastructure: for instance, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{lecompte2012evolved,etsimec16:03}. 
-%Upon a \textit{client identified} event, the domain manager must trigger both \textit{client arrived} and \textit{$\mu$-service identified} events for each required $\mu$-service.
 
-%TODO this is a central problem tackled by A3-E and belongs to intro or wherever we discuss the problem
 FaaS platforms like AWS Lambda~\cite{AWSLambda}
 %~\footnote{https://docs.aws.amazon.com/lambda/latest/dg/running-lambda-code.html}
-and OpenWhisk~\cite{OpenWhisk} adopt a \textit{cold start} policy in which functions are allocated after their first call following a period of idleness. This latency, however, may be disruptive for some applications. In comparison, the proposed mutual client-provider awareness 
+and OpenWhisk~\cite{OpenWhisk} adopt a \textit{cold start} policy in which $\mu$-services are allocated after their first call following a period of idleness. This latency, however, may be disruptive for some applications. In comparison, the proposed mutual client-provider awareness 
 %Taking advantage of mutual client-provider awareness, the proposed mechanism 
-has two benefits: (i) it alleviates cold starts by pro-actively allocating $\mu$-services just before they are needed; and (ii) it enables $\mu$-service acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of $\mu$-services as soon as the client becomes active in a specific domain (e.g., by starting the application or by entering an edge domain's area).
+has two benefits: (i) it alleviates cold starts by pro-actively allocating $\mu$-services just before they are needed; and (ii) it enables $\mu$-service acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of new $\mu$-services as soon as the client becomes active in a specific domain (e.g., by starting the application or by entering an edge domain's area).
+
+While cloud domains are not likely to change, and may be set-up statically by clients,
+edge domains must advertise their existence (\textit{domain identification}) using discovery protocols that are compatible with its network infrastructure: for instance, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{lecompte2012evolved,etsimec16:03}. Conversely, upon a \textit{client identified} event, the domain manager triggers both \textit{client arrived} and \textit{$\mu$-service identified} events for each required $\mu$-service.
 
 %Throughout Awareness, the domain manager handles the following event:
 
@@ -54,10 +54,7 @@ has two benefits: (i) it alleviates cold starts by pro-actively allocating $\mu$
 %\end{itemize}
 %}%
 
-
-
-
-From the client's perspective, Awareness corresponds to discovering domains through a \textit{client identification} signal, which contains metadata (name, repository url) of the needed $\mu$-service. Special purpose HTTP endpoints can be used for cloud domains; protocols from local area networks (e.g., UDP, IP multicast) can be used for local-edge domains; eMBMS protocols (e.g., FLUTE~\cite{lecompte2012evolved}) which are carried over traditional UDP and IP multicast toward end-user devices, can be used for mobile-edge domains; while system-level signals (e.g., broadcast intents in Android platforms) can be used by mobile domains.
+From the client's perspective, Awareness corresponds to domain discovery and the advertisement of required $\mu$-services through a \textit{client identification} signal containing their metadata (name, repository url). Special purpose HTTP endpoints can be used for cloud domains; protocols from local area networks (e.g., UDP, IP multicast) can be used for local-edge domains; eMBMS protocols (e.g., FLUTE~\cite{lecompte2012evolved}) which are carried over traditional UDP and IP multicast toward end-user devices, can be used for mobile-edge domains; while system-level signals (e.g., broadcast intents in Android platforms) can be used by mobile domains.
 
 In our running example, the mobile-edge and local-edge domains must advertise their existence to our user's device, which in turn identifies the AR and Image Editing applications. The same holds for the hotel's local-edge domain and the MG application. %In all cases, cloud and edge domains can employ Awareness to opportunistically fetch, install, and allocate instances of required $\mu$-services.
 
