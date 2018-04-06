@@ -8,20 +8,25 @@ The local-edge manager prototype implements Awareness by broadcasting \textit{do
 
 For each identified $\mu$-service, the manager proceeds with Acquisition. Among the downloaded files, a descriptor provides instructions regarding installation (e.g., compilation of Java classes and required dependencies). In particular, the manager prototype relies on Gradle\footnote{https://gradle.org/}, a state-of-art build tool commonly employed with projects ranging from mobile applications to $\mu$-services.
 
-Once downloaded and built, the edge domain Acquisition finishes with the deployment of $\mu$-service function(s) and dependences to OpenWhisk by means of its command line interface and the generation of a \textit{$\mu$-service acquired} signal back to the client. In case of failure, the mobile middleware is informed with a \textit{$\mu$-service denied} signal (as described in Sec.~\ref{sec:A3-E-acquisition}).
+Once downloaded and built, the edge domain Acquisition finishes with the deployment of $\mu$-service function(s) and dependences to OpenWhisk by means of its command line interface and the generation of a \textit{$\mu$-service acquired} signal with the same UDP unicast channel. In case of failure, the mobile middleware is informed with a \textit{$\mu$-service denied} signal (as described in Sec.~\ref{sec:A3-E-acquisition}).
 
-\subsection{Domain Manager: Mobile}\label{sec:mobile-domain-DSM}
+\subsection{Domain Manager: Mobile Domain}\label{sec:mobile-domain-DSM}
 
 Herein we describe a domain manager implementation for the Android platform\footnote{Documentation and source code available at \url{https://github.com/deib-polimi/A3-E-DSM-mobile/}}. 
 %As previously explained in Sec.~\ref{sec:A3-E}, mobile domains are exempt of performing Acquisition, thus this section details the implementation of A3-E's Awareness and Engagement. 
 %[Danilo] shall we divise the middleware from the mobile domain or are they packed together?
 The resulting implementation was packaged as a module within the mobile middleware for Android platform (described in Sec.~\ref{sec:mobile_middleware}). 
 
-The mobile domain manager implements Awareness by triggering a system-level \textit{domain identification} signal once it has been loaded by the middleware and by listening to a \textit{client identification} reply signal. In contrast with cloud and edge domains, the \textit{client identification} consists of the qualified name of $\mu$-service function(s) (e.g., the system path of a Java class implementing the static function). The latter is added to a service registry kept by the domain manager.
+The prototype implements Awareness by triggering a system-level \textit{domain identification} signal once it has been loaded by the middleware and by listening to a \textit{client identification} reply signal. 
+In contrast with cloud and edge domains, 
+%Instead of a repository, 
+each \textit{$\mu$-service identified} signal contains the qualified name (e.g., the system path of a Java class implementing the static function), which is added to a \textit{service registry} implementing Acquisition. 
 
-The prototype supports two types of $\mu$-service functions: Java functions, which are natively supported, and JavaScript functions, which require a JNI wrapper for their execution by the Android application. Note that current FaaS platforms support a variety of languages and runtimes, including Java and JavaScript functions. Nonetheless, mobile domains can either make use of additional wrappers or rely on a native implementation of $\mu$-service function(s).  
+The prototype supports two types of $\mu$-service functions: Java functions, which are natively supported, and JavaScript functions, which require a JNI wrapper for their execution by the Android platform. Note that existing FaaS platforms support a variety of other languages and runtimes. More comprehensive implementations of the mobile domain can either make use of additional wrappers; developers may also provide native implementations of $\mu$-service functions for this domain. 
 
-Once a $\mu$-service is successfully registered, the mobile domain finishes Acquisition with a \textit{$\mu$-service acquired} signal. During Engagement and upon selection of this domain by the mobile middleware, \textit{$\mu$-service request} signals are handled with the lookup of the corresponding function. Once found, the function is called with the parameters composing the request. Finally, a \textit{request response} signal is triggered with the execution result.
+%for each $\mu$-service required by the application. 
+
+Once a $\mu$-service function is registered, the mobile domain triggers a \textit{$\mu$-service acquired} event, which enables its selection by the middleware. During Engagement and upon the selection of this domain, \textit{$\mu$-service request} events are handled with the lookup of the corresponding function. Once found, the function is called with the parameters composing the original \textit{C-request}; when finished, a \textit{$\mu$-service response} signal containing the execution result is generated.
 
  %Decoupling between the client application and its mobile domain was achieved with the use of Android events triggered by the CSM (see Section~\ref{sec:CSM}) and handled by the DSM. 
 %Each request contains the unique name of a microservice. 
