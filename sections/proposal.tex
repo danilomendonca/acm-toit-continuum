@@ -226,7 +226,7 @@ critical applications should have a higher priority with respect to others, like
 
 The fluctuations in the availability and service latency are handled by clients with the dynamic selection of the domain alternative that best satisfies the client requirements. Analogously to the provider-side Allocation, the mobile middleware realizes this activity by means of a self-management loop~\cite{kephart2003vision} for each $\mu$-service consumed by the client application.
 
-To better express the client's objective, let's extend the previous formulation by considering a continuum application $C_a$ that relies on the set of $\mu$-services $S_a = \{s_{a,i} \mid i = 1,2,...,I_a\}$, and the set of disjoint continuum domains $D = \{d_p \mid p = 1,2,...,P\}$ perceived by the client.
+To better express the client-side Allocation goal, let's extend the previous formulation by considering a continuum application $C_a$ that relies on the set of $\mu$-services $S_a = \{s_{a,i} \mid i = 1,2,...,I_a\}$, and the set of disjoint continuum domains $D = \{d_p \mid p = 1,2,...,P\}$ perceived by the client.
 %, including the mobile domain. 
 Each domain $d_p \in D$ provides a set of $\mu$-services $S_{p} = \{s_{p,j} \mid j =  1,2,..., J_p\}$. For each $s_{a,i} \in S_a$, there is at least one domain providing that $\mu$-service, that is, $\forall s_{a,i} \in S_a, \exists\ s_{p,j} \in \bigcup_{p=1}^{P} S_p \wedge s_{p,j} = s_{a,i}$. 
 
