@@ -10,7 +10,7 @@
 \begin{figure}[tbp]
 	\includegraphics[width=0.85\textwidth]{figs/A3-E}
 	%	\setlength{\belowcaptionskip}{-10pt}
-	\caption{A3-E overview. A3-E's activities --- (AW)areness, (AQ)uisition, (AL)location, (E)ngagement --- are carried out by a \textit{domain manager} and a \textit{mobile middleware}, and coordinate through asynchronous events depicted by and identified as follows: \textit{domain identification}~(DI), \textit{client identification}~(CI), \textit{client arrived}~(CA),\textit{client left}~(CL),\textit{$\mu$-service identified}~($\mu$I), \textit{$\mu$-service acquired}~($\mu$AQ), \textit{$\mu$-service allocated}~($\mu$AL), \textit{domain found}~(DF), \textit{domain lost}~(DL), \textit{domain ready}~(DR), \textit{domain changed}~(DS), \textit{execution time}~($\Delta$EX), \textit{$\mu$-service request}~($\mu$RQ), \textit{$\mu$-service response}~($\mu$RS), \textit{C-Request}~(C-RQ).}
+	\caption{A3-E overview. A3-E's activities --- (AW)areness, (AQ)uisition, (AL)location, (E)ngagement --- are carried out by a \textit{domain manager} and a \textit{mobile middleware}, and coordinate through asynchronous events depicted by and identified as follows: \textit{domain identification}~(DI), \textit{client identification}~(CI), \textit{client arrived}~(CA),\textit{client left}~(CL),\textit{$\mu$-service identified}~($\mu$I), \textit{$\mu$-service acquired}~($\mu$AQ), \textit{$\mu$-service allocated}~($\mu$AL), \textit{$\mu$-service (deallocated}~($\mu$DA), \textit{domain found}~(DF), \textit{domain lost}~(DL), \textit{domain ready}~(DR), \textit{domain changed}~(DS), \textit{execution time}~($\Delta$EX), \textit{$\mu$-service request}~($\mu$RQ), \textit{$\mu$-service response}~($\mu$RS), \textit{C-Request}~(C-RQ).}
 	\label{fig:A3-E-process}
 \end{figure}
 
@@ -53,14 +53,21 @@ To address the intrinsic heterogeneity of the continuum, A3-E is flexible with r
 %A3-E's Awareness models (i) the discovery of domains and (ii) the discovery of continuum applications in one of its domains' area of coverage, indicating the imminent need for specific $\mu$-services. 
 
 
+
+
+The latency of continuum $\mu$-services can be decomposed into three parts: \textit{acquisition delay} ($\Delta AQ$), \textit{allocation delay} ($\Delta AL$), and \textit{execution delay} ($\Delta E$). 
+
 FaaS platforms like AWS Lambda~\cite{AWSLambda}
 %~\footnote{https://docs.aws.amazon.com/lambda/latest/dg/running-lambda-code.html}
-and OpenWhisk~\cite{OpenWhisk} adopt a \textit{cold start} policy in which $\mu$-services are allocated after their first call following a period of idleness. This latency, however, may be disruptive for some applications. In comparison, the proposed mutual client-provider awareness 
-%Taking advantage of mutual client-provider awareness, the proposed mechanism 
-has two benefits: (i) it alleviates cold starts by pro-actively allocating $\mu$-services just before they are needed; and (ii) it enables $\mu$-service acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of new $\mu$-services as soon as the client becomes active in a specific domain (e.g., by starting the application or by entering an edge domain's area).
+and OpenWhisk~\cite{OpenWhisk} adopt a \textit{cold start} policy in which $\mu$-services are allocated after their first call following a period of idleness. This latency, however, may be disruptive for some applications. 
+%To satisfy the maximum accepted latency of provided $\mu$-services, a \textit{domain manager} mitigates each component as follows: 
+In comparison, %the proposed mutual client-provider awareness 
+A3-E's Awareness has two benefits: (i) it alleviates $\Delta AL$ (cold starts) by pro-actively allocating $\mu$-services just before they are needed; and (ii) it reduces $\Delta AQ$ and enables $\mu$-service acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of new $\mu$-services as soon as the client becomes active in a specific domain (e.g., by starting the application or by entering an edge domain's area).
 
-While cloud domains are not likely to change, and may be set-up statically by clients,
-edge domains must advertise their existence (\textit{domain identification} signal) using protocols that are compatible with its network infrastructure: for instance, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{lecompte2012evolved,etsimec16:03}. Upon a \textit{client identification} signal, the domain manager triggers both \textit{client arrived} and \textit{$\mu$-service identified} events for each required $\mu$-service. In particular, edge domains exploit locality by triggering a \textit{client left} event once mobile devices leave its coverage area, whilst cloud domains rely on adjustable \textit{timeout} for triggering this event.
+%TODO [Danilo] this kind of detail fits better in the implementation, doesn't it?
+While cloud domains are not likely to change, and may be set-up statically by clients,% to realize this activity
+edge domains must advertise their existence (\textit{domain identification}) using protocols that are compatible with its network infrastructure: for instance, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{lecompte2012evolved,etsimec16:03}. 
+In particular, edge domains exploit locality by triggering a \textit{client left} event once mobile devices leave its coverage area, whilst cloud domains rely on adjustable \textit{timeout}.% for triggering this event.
 
 %Throughout Awareness, the domain manager handles the following event:
 
@@ -72,7 +79,7 @@ edge domains must advertise their existence (\textit{domain identification} sign
 %\end{itemize}
 %}%
 
-From the client's perspective, Awareness corresponds to the discovery of domains (source of \textit{domain found} and \textit{domain lost} events) and the advertisement of required $\mu$-services through a \textit{client identification} signal containing their metadata (name, repository url). 
+From the client's perspective, Awareness corresponds to the discovery of domains (source of \textit{domain found} and \textit{domain lost} events) and the advertisement of required $\mu$-services through a \textit{client identification} signal containing their metadata (name, repository url), upon which the domain manager triggers both \textit{client arrived} and \textit{$\mu$-service identified} events.% for each required $\mu$-service. 
 
 To realize this activity, special purpose HTTP endpoints can be used for cloud domains; protocols from local area networks (e.g., UDP, IP multicast) are used for local-edge domains; eMBMS protocols (e.g., FLUTE~\cite{lecompte2012evolved}) which are carried over traditional UDP and IP multicast toward end-user devices, are used for mobile-edge domains; and system-level signals (e.g., broadcast intents in Android platforms) are used by mobile domains.
 
@@ -119,13 +126,13 @@ To realize this activity, special purpose HTTP endpoints can be used for cloud d
 
 \subsection{Acquisition}\label{sec:A3-E-acquisition}
 
-\textit{Acquisition} models the automated download and installation of continuum $\mu$-service artifacts, and the confirmation of the domain's capability in providing that $\mu$-service. Its ultimate goal is to mitigate the use of domain resources before the $\mu$-service is actually needed, while also facilitating IT operations (Ops) for developers and administrators. 
+A3-E's \textit{Acquisition} models the automated download and installation of continuum $\mu$-service artifacts, and the confirmation of the domain's capability in providing that $\mu$-service. Its ultimate goal is to mitigate the use of domain resources before the $\mu$-service is actually needed, while also facilitating IT operations (Ops) for developers and administrators. 
 
 Ops mitigation is particularly important in (finely distributed) edge domains, since the manual administration of a large number of $\mu$-services can prove cumbersome and expensive. Nevertheless, this can also prove useful for cloud domains. Indeed, to the best of our knowledge, current FaaS platforms only support uploading (pushing) functions through public interfaces. 
 
 Acquisition is autonomously managed, therefore it allows $\mu$-services to be downloaded 
 %(e.g., pulled from a repository) 
-and installed on demand. A domain manager fetches the artifacts (e.g., compiled classes and dependencies) from a repository upon the arrival of a \textit{$\mu$-service identified} event. Note that mobile domains are exempt of performing Allocation as local $\mu$-services are assumed to be downloaded and installed along with the client application and the mobile middleware. 
+and installed on demand. A domain manager fetches the artifacts (e.g., compiled classes and dependencies) from a repository upon the arrival of a \textit{$\mu$-service identified} event. Note that mobile domains are exempt of performing Acquisition as local $\mu$-services are assumed to be downloaded and installed along with the client application and the mobile middleware. 
 
 % In addition to function sources, artifacts may comprise data and libraries needed by the service.
 
@@ -147,9 +154,9 @@ and installed on demand. A domain manager fetches the artifacts (e.g., compiled 
 %As an example, the services consumed by both AR applications introduced early can be autonomously acquired on demand by the local-edge servers in the user's office and home, preventing the company and the user to perform such operation. 
 %In case the service has already been acquired or as the acquisition finishes, clients should add that domain to their list of available domains. 
 
-From the client's perspective, Acquisition corresponds to the confirmation (or denial) of a domain's capability in providing the $\mu$-services required by the application. After a \textit{domain found} event, the mobile middleware listens for a \textit{$\mu$-service acquired} signal --- to be handled with the update of a list of capable domains and the subsequent triggering of a \textit{domain confirmed} event.
+From the client's perspective, Acquisition corresponds to the confirmation (or denial) of a domain's capability in providing the $\mu$-services required by the application. After a \textit{domain found} event, the mobile middleware listens for a \textit{$\mu$-service acquired} signal --- to be handled with the update of a list of capable domains and the subsequent triggering of a \textit{domain confirmed} (or \textit{denied}) event.
 
-In our running example, the assets composing the $\mu$-services from the AR, image editing, and MG applications are once fetched and installed by the local edge domains upon arrival of a first \textit{$\mu$-service identified} event. While this is achieved, the applications momentarily continue to rely on their own mobile domain, or on any other domain on which $\mu$-services have already been acquired and allocated due to a previous client-domain interaction (e.g., the mobile-edge domains in our example skip Acquisition of AR artifacts due to previous contact with tourist devices).
+In our running example, the assets composing the $\mu$-services from the AR, Image Editing, and MG applications are once fetched and installed by the two local-edge domains upon arrival of a first \textit{$\mu$-service identified} event. While this is achieved, the applications momentarily continue to rely on their own mobile domain, or on any other domain on which $\mu$-services have already been acquired and allocated due to a previous client-domain interaction (e.g., the mobile-edge domains in our example skip Acquisition of AR artifacts due to previous contact with tourist devices).
 
 %
 %During this activity, the mobile middleware deals with the following events:
