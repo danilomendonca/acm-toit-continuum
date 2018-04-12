@@ -10,7 +10,7 @@
 \begin{figure}[tbp]
 	\includegraphics[width=0.85\textwidth]{figs/A3-E}
 	%	\setlength{\belowcaptionskip}{-10pt}
-	\caption{A3-E overview. A3-E's activities --- (AW), (AQ), (AL), (E) --- are carried out by a \textit{domain manager} and a \textit{mobile middleware}, and coordinate through asynchronous events depicted by and identified as follows: \textit{domain identification}~(DI), \textit{client identification}~(CI), \textit{client arrived}~(CA),\textit{client left}~(CL),\textit{$\mu$-service identified}~($\mu$I), \textit{$\mu$-service acquired}~($\mu$AQ), \textit{$\mu$-service allocated}~($\mu$AL), \textit{$\mu$-service deallocated}~($\mu$DA), \textit{domain found}~(DF), \textit{domain lost}~(DL), \textit{domain ready}~(DR), \textit{domain changed}~(DS), \textit{$\mu$-service request}~($\mu$RQ), \textit{$\mu$-service response}~($\mu$RS), \textit{C-Request}~(C-RQ).}
+	\caption{A3-E overview. A3-E's activities --- (AW), (AQ), (AL), (E) --- are carried out by a \textit{domain manager} and a \textit{mobile middleware}, and coordinate through asynchronous events depicted by and identified as follows: \textit{domain identification}~(DI), \textit{client identification}~(CI), \textit{client arrived}~(CA),\textit{client left}~(CL), \textit{$\mu$-service identified}~($\mu$I), \textit{$\mu$-service acquired}~($\mu$AQ), \textit{$\mu$-service allocated}~($\mu$AL), \textit{$\mu$-service deallocated}~($\mu$DA), \textit{domain found}~(DF), \textit{domain lost}~(DL), \textit{domain confirmed}~(DC), \textit{domain denied}~(DD), \textit{domain selected}~(DS), \textit{$\mu$-service request}~($\mu$RQ), \textit{$\mu$-service response}~($\mu$RS), \textit{C-Request}~(CRQ), and \textit{C-Response}~(CRS).}
 	\label{fig:A3-E-process}
 \end{figure}
 
@@ -61,9 +61,9 @@ and OpenWhisk~\cite{OpenWhisk} adopt a \textit{cold start} policy in which $\mu$
 %To satisfy the maximum accepted latency of provided $\mu$-services, a \textit{domain manager} mitigates each component as follows: 
 
 %In comparison, %the proposed mutual client-provider awareness 
-A3-E's Awareness has two benefits: (i) it alleviates $\Delta AL$ (cold starts) by pro-actively allocating $\mu$-services just before they are needed; and (ii) it reduces $\Delta AQ$ and enables $\mu$-service acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of new $\mu$-services as soon as the client becomes active in a specific domain (e.g., by starting the application or by entering an edge domain's area).
+A3-E's Awareness has two benefits: (i) it alleviates $\Delta AL$ (cold start) by pro-actively allocating $\mu$-services just before they are needed; and (ii) it reduces $\Delta AQ$ and enables $\mu$-service acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of new $\mu$-services as soon as the client becomes active in a specific domain (e.g., by starting the application or by entering an edge domain's area).
 
-%TODO [Danilo] this kind of detail fits better in the implementation, doesn't it?
+
 While cloud domains are not likely to change, and may be set-up statically by clients,% to realize this activity
 edge domains must advertise their existence (\textit{domain identification}) using protocols that are compatible with its network infrastructure: for instance, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{lecompte2012evolved,etsimec16:03}. 
 In particular, edge domains exploit locality by triggering a \textit{client left} event once mobile devices leave its coverage area, whilst cloud domains rely on adjustable \textit{timeout}.% for triggering this event.
@@ -216,17 +216,6 @@ The scope of the provider-side Allocation is limited by its domain boundaries. C
 Existing FaaS platforms handle Allocation with on demand instantiation of containers after a first request, which may be kept \textit{warm} before being deallocated after a period of idleness~\cite{AWSLambda, OpenWhisk}. A3-E generalizes this mechanism as a self-management loop~\cite{kephart2003vision}
 in which $\mu$-service instances are allocated to cloud and edge domain resources to guarantee that service latency and availability of each provided $\mu$-service are in-line with the desired SLA. 
 
-%To better express this problem, let's consider the set of $\mu$-services $S = \{s_j \mid j = 0,1,...,J\}$.
-%%In turn, $F_i = \{f_{i,j}\}_j$ defines the set of instances of $s_i$, with $0 \le j \le n_i$.
-%%Instances for each $\mu$-service are defined by the set $F_i = \{f_{i,j}\}_j$, with $0 \le j \le n_i$.
-%Vector $\bar{c} = (c_1, ..., c_J)$ holds the number of instances for all $\mu$-services. Each instance is bound to a container; resources allocated to each container 
-%%Each $s_j \in S$ has a corresponding set of instances $F_j = \{f_{j,i} \mid i = 0,1,...,I_j\}$, where each instance is bound to a container. 
-%(e.g., CPU and memory) are considered fixed and equal for all $\mu$-services, coherently to the architecture of FaaS frameworks such as OpenWhisk~\cite{OpenWhisk}.
-%
-%Now let's assume that each provided $\mu$-service $s_i \in S$ is bound to an SLA specifying its \textit{maximum accepted service latency} $\Delta_j$ 
-%as well as the minimum/maximum number of service instances $Kmin_{j}/Kmax_{j}$. %, and a relative priority $p_i$. 
-%Given the fluctuations in the workload and the response time $\tau_j$ (comprising both \textit{queue time} and \textit{service time}) of each $\mu$-service $s_j \in S$, the aim of a \textit{domain manager} is to find the minimum $c_j$ for each $\mu$-service so that, $\forall s_j \in S,\ \tau_j \le \Delta_j\ \wedge\ Kmin_j \le c_j \le Kmax_j$. 
-
 To achieve this goal, the self-management \textit{monitor} ($M$ in Fig.~\ref{fig:A3-E-process}) measures the number of $\mu$-service invocations  and their execution times ($QoS$ in Fig.~\ref{fig:A3-E-process}) and it detects \textit{client arrived} and \textit{client left} events from Awareness (respectively $CA$ and $CL$ in Fig.~\ref{fig:A3-E-process}). %Moreover, it monitors CPU and memory utilization from the domain's pool of resources.
 The \textit{analyzer} ($A$ in Fig.~\ref{fig:A3-E-process}) aggregates the monitored data over a predefined time window and it computes the \textit{arrival rate} ($\alpha_j$), the \textit{response time} ($\tau_j$), as well as the \textit{number of clients}. 
 
@@ -254,15 +243,9 @@ By reasoning on this analysis, the \textit{planner} ($P$ in Fig.~\ref{fig:A3-E-p
 
 The fluctuations in the availability and service latency are handled by clients with the dynamic selection of the domain alternative that best satisfies the client requirements. Analogously to the provider-side Allocation, the mobile middleware realizes this activity by means of a self-management loop~\cite{kephart2003vision} for each $\mu$-service consumed by the client application.
 
-To better express the client-side Allocation goal, let's extend the previous formulation by considering a continuum application $C_a$ that relies on the set of $\mu$-services $S_a = \{s_{a,i} \mid i = 1,2,...,I_a\}$, and the set of disjoint continuum domains $D = \{d_p \mid p = 1,2,...,P\}$ perceived by the client.
-%, including the mobile domain. 
-Each domain $d_{p} \in D$ provides a set of $\mu$-services $S_{p} = \{s_{p,j} \mid j =  1,2,..., J_p\}$. For each $s_{a,i} \in S_a$, there is at least one domain providing that $\mu$-service, that is, $\forall s_{a,i} \in S_a, \exists\ s_{p,j} \in \bigcup_{p=1}^{P} S_p \wedge s_{p,j} = s_{a,i}$. 
-
-Now let's consider that each $s_{a,i} \in S_a$ is bound to a set of QoS requirements $QoS_a = \{q_{a,u} \mid u = 0, 1, ..., U_a\}$ and that each $q_{a,u} \in QoS_a$ is represented by a tuple $(ct_{a,u}, w_{a,u})$ respectively defining a \textit{constraint} (e.g. $service\ latency \le 300ms$) and a \textit{weight} for that attribute, with $w_u \in 0 \le w_u \le 1 \wedge w_u \in \mathbb{R}$. For each $q_{a,u} \in QoS_a$, $actual_{p,a,u}$ defines the \textit{value} for that QoS attribute as perceived by the client. It follows that, for each $s_{a,i} \in S_a$, the aim of the \textit{mobile middleware} is to select the domain $d_p \in D$ 
-%best satisfying the set of attributes in $QoS_o$, i.e., 
-that maximizes the utility function $U_a(p) = \sum_{u=1}^{U_a} w_{a,u} * actual_{p,a,u}$, provided that $\forall q_{a,u} \in QoS_a, actual_{p,a,u} \vdash ct_{a,u}$, i.e., that QoS constraints are satisfied.
-
-Throughout the self-management loop for each $s_{a,i} \in S_a$, the middleware handles a \textit{domain acquired (lost)} event --- indicating the agreement (denial) of a domain in providing a given $\mu$-service --- by including (disregarding) such domain. At each loop iteration, the mobile middleware \textit{monitors} and \textit{analyzes} the actual ($actual_{p,a,u}$) service latency from the list of \textit{capable domains} ($D_{j} \subset D$), as well as its own \textit{battery level}. Then, given the outcome of a multi-attribute analysis encompassing \textit{service latency} and \textit{battery consumption}, the middleware decides for either keeping the current domain or triggering a \textit{domain change} event in case a better alternative is found. A detailed implementation of the client-side self-management loop can be found in Sec.~\ref{sec:implementation}.
+Throughout the self-management loop, the middleware handles a \textit{domain acquired (lost)} event 
+%--- indicating the agreement (denial) of a domain in providing a given $\mu$-service --- 
+by including (disregarding) such domain. At each loop iteration, the mobile middleware \textit{monitors} the \textit{network latency} from the list of \textit{capable domains} ($D_{j} \subset D$), as well as its \textit{battery level}. It then \textit{analyzes} the actual service latency by also taking into account the computational power of each domain, as well the \textit{battery consumption}. Then, given the outcome of a multi-attribute rating encompassing \textit{service latency} and \textit{battery consumption}, the middleware decides for either keeping the current domain or triggering a \textit{domain selected} event in case a better alternative is found. A detailed implementation of the client-side self-management loop can be found in Sec.~\ref{sec:implementation}.
 
   %Conversely, a \textit{domain lost} event indicates a domain can no longer provide a $\mu$-service. The middleware must react by disregarding this domain in its self-management loop.
 
@@ -367,9 +350,9 @@ by queuing subsequent requests and, in case of service latency violation, by sen
 
 From the client's viewpoint, a \textit{C-request arrived} indicates the client application has sent a new request to a continuum $\mu$-service. The event contains the target $\mu$-service name along with any parameters for its function; the middleware handles it by invoking (\textit{$\mu$-service request}) the $\mu$-service from the currently selected domain. Upon arrival of a \textit{$\mu$-service response}, the middleware proceeds with the triggering of a \textit{C-request reply} event to be handled by the client application.  
 
-Throughout Engagement, the mobile middleware listens for \textit{domain changed} events indicating which domain to invocate. In the particular case in which no domain is available for that specific $\mu$-service,
+Throughout Engagement, the mobile middleware listens for \textit{domain selected} events indicating which domain to invocate. In the particular case in which no domain is available for that specific $\mu$-service,
 %a \textit{domain absent} event indicates no domain is available for that specific $\mu$-service. 
-the middleware reacts by queuing subsequent C-requests until a new \textit{domain changed} event confirms a new domain or, in case of timeout, by triggering a \textit{C-request reply} with an error. 
+the middleware reacts by queuing subsequent C-requests until a new \textit{domain selected} event confirms a new domain or, in case of timeout, by triggering a \textit{C-request reply} with an error. 
 
 %In turn, a \textit{domain changed} event indicates a new domain selection for a specific $\mu$-service. The middleware must handle it by resuming the invocation of any queued and subsequent C-requests to that domain.
 
@@ -380,7 +363,7 @@ the middleware reacts by queuing subsequent C-requests until a new \textit{domai
 	\label{fig:A3-E-instance-events}
 \end{figure}
 
-Figure~\ref{fig:A3-E-instance-events} depicts a timeline of events from our Running Example scenario. The timeline starts with our user initializing the AR after entering the touristic area. The mobile middleware starts with the application and receives a \textit{domain identification} ($DI$) from its mobile domain, to be replied with a \textit{client identification} ($CI$). Following the $\mu$-service identification ($\mu I$), the middleware triggers a \textit{$\mu$-service allocated} ($\mu AL$) once the corresponding functions have been registered. After selecting this domain, the middleware triggers a \textit{domain changed} ($DC$), which allows subsequent \textit{C-request} ($CR$'') events to be handled locally. As our user's device enters a base station area (BSA) featuring a mobile-edge domain, the middleware receives a \textit{domain identification} ($DI$) and repeats the previous handshake procedure. To prevent battery drain, the self-management loop decides for the mobile-edge, triggering a $DC$ once the $\mu AL$ signal arrives. After a long period of engagement with that domain, our user enters the AV featuring a local-edge domain. As this is a first contact with the AR, this domain goes through Acquisition, whose completion is indicated by a \textit{$\mu$-service acquired} ($\mu AQ$). Due to a change of network, the connection with the mobile-edge is lost ($DL$). Preventing service interruption, the middleware momentarily switches back to its mobile domain until a $\mu AL$ signal arrives from the local-edge. Upon a \textit{domain confirmed} event (omitted), it switches domain ($DC$). 
+Figure~\ref{fig:A3-E-instance-events} depicts a timeline of events from our Running Example scenario. The timeline starts with our user initializing the AR after entering the touristic area. The mobile middleware receives a \textit{domain identification} ($DI$) from its mobile domain, to be replied with a \textit{client identification} ($CI$). Following the $\mu$-service identification ($\mu I$), the middleware triggers a \textit{$\mu$-service allocated} ($\mu AL$) once the corresponding functions have been registered. After selecting this domain, the middleware triggers a \textit{domain selected} ($DS$), which allows subsequent \textit{C-request} ($CRQ$) events to be handled locally. As our user's device enters a base station area (BSA) featuring a mobile-edge domain, the middleware receives a \textit{domain identification} ($DI$) and repeats the previous handshake procedure. To prevent battery drain, the self-management loop decides for the mobile-edge, triggering a $DC$ once the $\mu AQ$ signal arrives. After a long period of engagement with the mobile-edge, our user enters the AV featuring a local-edge domain. Due to a change of network, the connection with the mobile-edge is lost ($DL$). Preventing service interruption, the middleware momentarily switches back to its mobile domain ($DS$). Meanwhile, as this is a first contact with the AR, the edge-domain goes through Acquisition, which takes some time ($\Delta AQ$) to complete ($\mu AQ$). Upon a \textit{domain confirmed} event ($DC$), the local-edge domain is selected ($DS$). 
 
 %
 %The mobile middleware deals with the following events:
