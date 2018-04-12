@@ -8,7 +8,7 @@
 %\end{figure}
 
 \begin{figure}[tbp]
-	\includegraphics[width=0.85\textwidth]{figs/A3-E}
+	\includegraphics[width=0.85\textwidth]{figs/A3-E-process}
 	%	\setlength{\belowcaptionskip}{-10pt}
 	\caption{A3-E overview. A3-E's activities --- (AW)areness, (AQ)uisition, (AL)location, (E)ngagement --- are carried out by a \textit{domain manager} and a \textit{mobile middleware}, and coordinate through asynchronous events depicted by and identified as follows: \textit{domain identification}~(DI), \textit{client identification}~(CI), \textit{client arrived}~(CA),\textit{client left}~(CL),\textit{$\mu$-service identified}~($\mu$I), \textit{$\mu$-service acquired}~($\mu$AQ), \textit{$\mu$-service allocated}~($\mu$AL), \textit{$\mu$-service (deallocated}~($\mu$DA), \textit{domain found}~(DF), \textit{domain lost}~(DL), \textit{domain ready}~(DR), \textit{domain changed}~(DS), \textit{execution time}~($\Delta$EX), \textit{$\mu$-service request}~($\mu$RQ), \textit{$\mu$-service response}~($\mu$RS), \textit{C-Request}~(C-RQ).}
 	\label{fig:A3-E-process}
@@ -55,19 +55,21 @@ To address the intrinsic heterogeneity of the continuum, A3-E is flexible with r
 
 
 
-The latency of continuum $\mu$-services can be decomposed into three parts: \textit{acquisition delay} ($\Delta AQ$), \textit{allocation delay} ($\Delta AL$), and \textit{execution delay} ($\Delta E$). 
-
-FaaS platforms like AWS Lambda~\cite{AWSLambda}
+The latency of continuum $\mu$-services can be decomposed into three parts: \textit{acquisition delay} ($\Delta AQ$), \textit{allocation delay} ($\Delta AL$), and \textit{execution delay} ($\Delta E$). FaaS platforms like AWS Lambda~\cite{AWSLambda}
 %~\footnote{https://docs.aws.amazon.com/lambda/latest/dg/running-lambda-code.html}
 and OpenWhisk~\cite{OpenWhisk} adopt a \textit{cold start} policy in which $\mu$-services are allocated after their first call following a period of idleness. This latency, however, may be disruptive for some applications. 
 %To satisfy the maximum accepted latency of provided $\mu$-services, a \textit{domain manager} mitigates each component as follows: 
-In comparison, %the proposed mutual client-provider awareness 
+
+%In comparison, %the proposed mutual client-provider awareness 
 A3-E's Awareness has two benefits: (i) it alleviates $\Delta AL$ (cold starts) by pro-actively allocating $\mu$-services just before they are needed; and (ii) it reduces $\Delta AQ$ and enables $\mu$-service acquisition to be opportunistic (i.e., on demand) by triggering the download and installation of new $\mu$-services as soon as the client becomes active in a specific domain (e.g., by starting the application or by entering an edge domain's area).
 
 %TODO [Danilo] this kind of detail fits better in the implementation, doesn't it?
 While cloud domains are not likely to change, and may be set-up statically by clients,% to realize this activity
 edge domains must advertise their existence (\textit{domain identification}) using protocols that are compatible with its network infrastructure: for instance, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{lecompte2012evolved,etsimec16:03}. 
 In particular, edge domains exploit locality by triggering a \textit{client left} event once mobile devices leave its coverage area, whilst cloud domains rely on adjustable \textit{timeout}.% for triggering this event.
+
+
+
 
 %Throughout Awareness, the domain manager handles the following event:
 
@@ -214,18 +216,20 @@ The scope of the provider-side Allocation is limited by its domain boundaries. C
 Existing FaaS platforms handle Allocation with on demand instantiation of containers after a first request, which may be kept \textit{warm} before being deallocated after a period of idleness~\cite{AWSLambda, OpenWhisk}. A3-E generalizes this mechanism as a self-management loop~\cite{kephart2003vision}
 in which $\mu$-service instances are allocated to cloud and edge domain resources to guarantee that service latency and availability of each provided $\mu$-service are in-line with the desired SLA. 
 
-To better express this problem, let's consider the set of $\mu$-services $S = \{s_j \mid j = 0,1,...,J\}$.
-%In turn, $F_i = \{f_{i,j}\}_j$ defines the set of instances of $s_i$, with $0 \le j \le n_i$.
-%Instances for each $\mu$-service are defined by the set $F_i = \{f_{i,j}\}_j$, with $0 \le j \le n_i$.
-Vector $\bar{c} = (c_1, ..., c_J)$ holds the number of instances for all $\mu$-services. Each instance is bound to a container; resources allocated to each container 
-%Each $s_j \in S$ has a corresponding set of instances $F_j = \{f_{j,i} \mid i = 0,1,...,I_j\}$, where each instance is bound to a container. 
-(e.g., CPU and memory) are considered fixed and equal for all $\mu$-services, coherently to the architecture of FaaS frameworks such as OpenWhisk~\cite{OpenWhisk}.
+%To better express this problem, let's consider the set of $\mu$-services $S = \{s_j \mid j = 0,1,...,J\}$.
+%%In turn, $F_i = \{f_{i,j}\}_j$ defines the set of instances of $s_i$, with $0 \le j \le n_i$.
+%%Instances for each $\mu$-service are defined by the set $F_i = \{f_{i,j}\}_j$, with $0 \le j \le n_i$.
+%Vector $\bar{c} = (c_1, ..., c_J)$ holds the number of instances for all $\mu$-services. Each instance is bound to a container; resources allocated to each container 
+%%Each $s_j \in S$ has a corresponding set of instances $F_j = \{f_{j,i} \mid i = 0,1,...,I_j\}$, where each instance is bound to a container. 
+%(e.g., CPU and memory) are considered fixed and equal for all $\mu$-services, coherently to the architecture of FaaS frameworks such as OpenWhisk~\cite{OpenWhisk}.
+%
+%Now let's assume that each provided $\mu$-service $s_i \in S$ is bound to an SLA specifying its \textit{maximum accepted service latency} $\Delta_j$ 
+%as well as the minimum/maximum number of service instances $Kmin_{j}/Kmax_{j}$. %, and a relative priority $p_i$. 
+%Given the fluctuations in the workload and the response time $\tau_j$ (comprising both \textit{queue time} and \textit{service time}) of each $\mu$-service $s_j \in S$, the aim of a \textit{domain manager} is to find the minimum $c_j$ for each $\mu$-service so that, $\forall s_j \in S,\ \tau_j \le \Delta_j\ \wedge\ Kmin_j \le c_j \le Kmax_j$. 
 
-Now let's assume that each provided $\mu$-service $s_i \in S$ is bound to an SLA specifying its \textit{maximum accepted service latency} $\Delta_j$ 
-as well as the minimum/maximum number of service instances $Kmin_{j}/Kmax_{j}$. %, and a relative priority $p_i$. 
-Given the fluctuations in the workload and the response time $\tau_j$ (comprising both \textit{queue time} and \textit{service time}) of each $\mu$-service $s_j \in S$, the aim of a \textit{domain manager} is to find the minimum $c_j$ for each $\mu$-service so that, $\forall s_j \in S,\ \tau_j \le \Delta_j\ \wedge\ Kmin_j \le c_j \le Kmax_j$. 
-
-To achieve this goal, the self-management loop takes into account the \textit{arrival rate} and the \textit{number of clients} for each $s_{a,i} \in S_a$. The first parameter is updated by \textit{$\mu$-service requested} events from Engagement, whilst the second depends on \textit{client arrived} and \textit{client left} events from Awareness. Finally, to prevent the \textit{cold start} of new and deallocated $\mu$-services, the manager reacts to a \textit{$\mu$-service acquired} event by anticipating Allocation, if resources are available at that loop iteration. 
+To achieve this goal, the self-management \textit{monitor} ($M$ in Fig.~\ref{fig:A3-E-process}) measures the \textit{arrival rate} ($\alpha_j$) and the \textit{response time} ($\tau_j$); as well as the \textit{number of clients} for each provided $\mu$-service ($s_{j} \in S$). The first two parameters are updated after each $\mu$-service execution ($QoS$ in Fig.~\ref{fig:A3-E-process}), whilst the second depends on \textit{client arrived} and \textit{client left} events from Awareness (respectively $CA$ and $CL$ in Fig.~\ref{fig:A3-E-process}). The \textit{analyzer} ($A$ in Fig.~\ref{fig:A3-E-process}) then outputs the number of instances $c_j$ for each $s_j \in S$ so that $\forall s_j \in S,\ \tau_j \le \Delta_j\ \wedge\ Kmin_j \le c_j \le Kmax_j$. It is up to the \textit{planner} ($P$ in Fig.~\ref{fig:A3-E-process}) to decide if and how to cope with the new allocation scheme based on the domain's resources (memory and CPU) and SLA for each $s_j \in S$.
+%Moreover, the monitoring procedure considers the response time ($\tau_j$) and 
+To mitigate \textit{cold start} ($\Delta 2_j$), the planner reacts to a \textit{client arrived} event by anticipating container allocation if resources are available at that loop iteration.
 
 %Throughout Allocation, the domain manager reacts to a 
 %a \textit{$\mu$-service acquired} event --- indicating that the function(s) and dependencies have been fetched, and that the $\mu$-service is ready to be deployed ---  
