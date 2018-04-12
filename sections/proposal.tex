@@ -8,9 +8,9 @@
 %\end{figure}
 
 \begin{figure}[tbp]
-	\includegraphics[width=0.85\textwidth]{figs/A3-E-process}
+	\includegraphics[width=0.75\textwidth]{figs/A3-E}
 	%	\setlength{\belowcaptionskip}{-10pt}
-	\caption{A3-E overview. A3-E's activities --- (AW)areness, (AQ)uisition, (AL)location, (E)ngagement --- are carried out by a \textit{domain manager} and a \textit{mobile middleware}, and coordinate through asynchronous events depicted by and identified as follows: \textit{domain identification}~(DI), \textit{client identification}~(CI), \textit{client arrived}~(CA),\textit{client left}~(CL),\textit{$\mu$-service identified}~($\mu$I), \textit{$\mu$-service acquired}~($\mu$AQ), \textit{$\mu$-service allocated}~($\mu$AL), \textit{$\mu$-service (deallocated}~($\mu$DA), \textit{domain found}~(DF), \textit{domain lost}~(DL), \textit{domain ready}~(DR), \textit{domain changed}~(DS), \textit{execution time}~($\Delta$EX), \textit{$\mu$-service request}~($\mu$RQ), \textit{$\mu$-service response}~($\mu$RS), \textit{C-Request}~(C-RQ).}
+	\caption{A3-E overview. A3-E's activities --- (AW)areness, (AQ)uisition, (AL)location, (E)ngagement --- are carried out by a \textit{domain manager} and a \textit{mobile middleware}, and coordinate through asynchronous events depicted by and identified as follows: \textit{domain identification}~(DI), \textit{client identification}~(CI), \textit{client arrived}~(CA),\textit{client left}~(CL),\textit{$\mu$-service identified}~($\mu$I), \textit{$\mu$-service acquired}~($\mu$AQ), \textit{$\mu$-service allocated}~($\mu$AL), \textit{$\mu$-service (deallocated}~($\mu$DA), \textit{domain found}~(DF), \textit{domain lost}~(DL), \textit{domain ready}~(DR), \textit{domain changed}~(DS), \textit{$\mu$-service request}~($\mu$RQ), \textit{$\mu$-service response}~($\mu$RS), \textit{C-Request}~(C-RQ).}
 	\label{fig:A3-E-process}
 \end{figure}
 
@@ -374,10 +374,9 @@ the middleware reacts by queuing subsequent C-requests until a new \textit{domai
 %In turn, a \textit{domain changed} event indicates a new domain selection for a specific $\mu$-service. The middleware must handle it by resuming the invocation of any queued and subsequent C-requests to that domain.
 
 \begin{figure}[tbp]
-	\includegraphics[width=0.95\textwidth]{figs/A3-E-instance-events}
+	\includegraphics[width=0.9\textwidth]{figs/A3-E-instance-events}
 %	\setlength{\belowcaptionskip}{-10pt}
-	\caption{A timeline of events from the Running Example scenario (Sec.~\ref{sub:example}). Labels: \textit{domain identification} ($DI$); \textit{$\mu$-service identified} ($\mu I$); \textit{$\mu$-service acquired} ($\mu AQ$); \textit{$\mu$-service allocated} ($\mu AL$); \textit{domain changed} ($DC$); \textit{C-request arrived} ($CR$'); \textit{$\mu$-service request} ($\mu R$'); textit{$\mu$-service identified} ($\mu R$'') \textit{C-request served} ($CR$''); \textit{domain lost} ($DL$).}
-	\label{fig:A3-E-instance-events}
+	\caption{A timeline of events from the Running Example scenario.}
 \end{figure}
 
 Figure~\ref{fig:A3-E-instance-events} depicts a timeline of events from our Running Example scenario. The timeline starts with our user initializing the AR after entering the touristic area. The mobile middleware starts with the application and receives a \textit{domain identification} ($DI$) from its mobile domain, to be replied with a \textit{client identification} ($CI$). Following the $\mu$-service identification ($\mu I$), the middleware triggers a \textit{$\mu$-service allocated} ($\mu AL$) once the corresponding functions have been registered. After selecting this domain, the middleware triggers a \textit{domain changed} ($DC$), which allows subsequent \textit{C-request} ($CR$'') events to be handled locally. As our user's device enters a base station area (BSA) featuring a mobile-edge domain, the middleware receives a \textit{domain identification} ($DI$) and repeats the previous handshake procedure. To prevent battery drain, the self-management loop decides for the mobile-edge, triggering a $DC$ once the $\mu AL$ signal arrives. After a long period of engagement with that domain, our user enters the AV featuring a local-edge domain. As this is a first contact with the AR, this domain goes through Acquisition, whose completion is indicated by a \textit{$\mu$-service acquired} ($\mu AQ$). Due to a change of network, the connection with the mobile-edge is lost ($DL$). Preventing service interruption, the middleware momentarily switches back to its mobile domain until a $\mu AL$ signal arrives from the local-edge. Upon a \textit{domain confirmed} event (omitted), it switches domain ($DC$). 
