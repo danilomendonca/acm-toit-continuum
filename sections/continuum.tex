@@ -120,9 +120,20 @@ When managing the life-cycles of continuum services there are two conflicting go
 
 In the continuum, a plethora of disjoint cloud and edge domains can host the execution of $\mu$-services, i.e., they must be able to handle operational aspects such as \textit{downloading and installing} the $\mu$-services. Also, mobile clients will freely enter and exit geographical areas that are covered by distinct edge domains; even cloud domains may see considerable variations to their aggregate demand over time. In such a scenario it may be unfeasible to predict the origin and intensity of the demand that the different $\mu$-services at each domain might see. 
 
-From the provider's perspective, an efficient and scalable allocation of its (virtualized) resources corresponds to the minimum number of $\mu$-service instances that must be allocated by each of its domains to cope with the maximum accepted latency of each provided $\mu$-service. To be efficient, the allocation of resources should be able to mimic the corresponding fluctuations of demand, i.e., be highly responsive. Consequently, it is important that the mechanisms governing resource allocation in each domain be \textit{aware} of the actual, and potential, demand for each provided $\mu$-service. 
+From the provider's perspective, an efficient and scalable allocation of its (virtualized) resources 
+%corresponds to the minimum number of $\mu$-service instances that 
+must be allocated by each of its domains to cope with the maximum accepted latency of each provided $\mu$-service. To be efficient, the allocation of resources should be able to mimic the corresponding fluctuations of demand, i.e., be highly responsive. Consequently, it is important that the mechanisms governing resource allocation in each domain be \textit{aware} of the actual, and potential, demand for each provided $\mu$-service.
 
+To better express this problem, let's consider the set of $\mu$-services $S = \{s_j \mid j = 0,1,...,J\}$.
+%In turn, $F_i = \{f_{i,j}\}_j$ defines the set of instances of $s_i$, with $0 \le j \le n_i$.
+%Instances for each $\mu$-service are defined by the set $F_i = \{f_{i,j}\}_j$, with $0 \le j \le n_i$.
+Vector $\bar{c} = (c_1, ..., c_J)$ holds the number of instances for all $\mu$-services. Each instance is bound to a container; resources allocated to each container 
+%Each $s_j \in S$ has a corresponding set of instances $F_j = \{f_{j,i} \mid i = 0,1,...,I_j\}$, where each instance is bound to a container. 
+(e.g., CPU and memory) are considered fixed and equal for all $\mu$-services, coherently to the architecture of FaaS frameworks such as OpenWhisk~\cite{OpenWhisk}.
 
+Now let's assume that each provided $\mu$-service $s_i \in S$ is bound to an SLA specifying its \textit{maximum accepted service latency} $\Delta_j$ 
+as well as the minimum/maximum number of service instances $Kmin_{j}/Kmax_{j}$. %, and a relative priority $p_i$. 
+Given the fluctuations in the workload and the response time $\tau_j$ (comprising both \textit{setup time} and \textit{service time}) of each $\mu$-service $s_j \in S$, the aim of a \textit{domain manager} is to find the minimum $c_j$ for each $\mu$-service so that, $\forall s_j \in S,\ \tau_j \le \Delta_j\ \wedge\ Kmin_j \le c_j \le Kmax_j$. 
 
 % (e.g., maximum service latency, simultaneous request threshold, etc). 
 
