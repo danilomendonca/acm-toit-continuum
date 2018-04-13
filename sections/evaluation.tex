@@ -7,32 +7,30 @@
 
 \section{Experimental Evaluation}\label{sec:evaluation}
 
-We performed different experiments using four domains that materialize the continuum. 
+We performed different experiments involving four distinct domains. 
 %The first experiment evaluates $\mu$-service latency against different workloads. 
-The first experiment studies how latency changes and how the remote domains scale with a varying workload. 
-In this case the mobile domain is obviously omitted. The second one evaluates the domains from a client's perspective, both in terms of latency and battery consumption. The third one evaluates the A3-E with domains that change their availability according to a probability distribution. Finally, the last one evaluates the A3-E's Acquisition and Allocation performance. When possible, we compared A3-E against Enorm, a framework for edge resource management.
+The first experiment studies how latency changes and how the remote domains scale with a varying workload. The second one evaluates all domains from a client's perspective, both in terms of battery consumption and execution time. The third one evaluates A3-E's dynamic selection of domains and targets availability. Finally, the last one evaluates A3-E's Acquisition and Allocation performance. When possible, we compared A3-E against Enorm, a framework for edge resource management.
 %Our goal was to demonstrate that the A3-E model is successful in selecting domains at run time and in improving the overall application availability. 
 
 \subsection{Experiments Setup}
 
 %\subsubsection{Domains}
 
-As shown in Table~\ref{tab:domain-exp-config}, our model was evaluated with four types of domains: mobile, local-edge, and cloud. The client application emulates an Augment Reality one by invoking
+Table~\ref{tab:domain-exp-config} summarizes the four domains used in the evaluation. The Mobile domain was deployed to an Android smartphone hosting the A3-E middleware and a continuum application. The latter emulates an Augment Reality one by invoking
 %is an Image Recognition one, in which users can capture an image and invoke 
-$\mu$-services~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-image-recognition}} responsible for \textit{feature extraction} and \textit{object detection}, which are placed along the continuum. AR is a typical use case for the continuum due to the low latency and high computational power requirements~\cite{beck2014mobile}.
-
-The mobile domain was deployed to an Android smartphone hosting the A3-E middleware. 
+$\mu$-services~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-image-recognition}} responsible for \textit{feature extraction} and \textit{object detection}, which are placed along the continuum. AR is a typical use case for the continuum due to the low latency and high computational power requirements~\cite{beck2014mobile,GarrigaMendonca2017}. 
 %~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-DSM-mobile}}
-A domain manager prototype
+
+
+The domain manager prototype (see Sec.~\ref{sec:local-edge-domain-DSM})
 %~\footnote{Implementation available in \url{https://github.com/deib-polimi/A3-E-DSM-Local-edge}} 
-was deployed on two Local-edge domains. For handling Allocation and Execution, we adopted Apache OpenWhisk, a state-of-the-art open-source FaaS platform. Throughout experiments, edge domains shared a LAN with the origin of requests (i.e., the client applications/devices).
-%TODO [Danilo] this is by definition and couldn't be otherwise
+was deployed on two Local-edge domains. 
+%For handling A3-E's Allocation and Execution, the prototype relies on Apache OpenWhisk, a state-of-the-art open-source FaaS platform. Throughout experiments, edge domains shared a LAN with the origin of requests (i.e., the client applications/devices).
+%TODO [Danilo] this is by definition (see Sec. 2.1)
 %This was done to emulate a few-hops scenario in which devices are directly connected to their nearest edge domains. 
-\texttt{Local-edge-1} represented a situation in which latency is close to zero, but the computational resources are more constrained and scaling-up is not possible due to the inherent physical restrictions of the underlying infrastructure (e.g., a lightweight server covering an office); in turn, \texttt{Local-edge-2} has more computational resources and yet low latency can be achieved due to physical proximity (e.g., a robust edge server covering a building floor).
+\texttt{Local-edge-1} represented a situation in which latency is ultra low, but the computational resources are more constrained and scaling-up is not possible due to the inherent physical restrictions of the underlying infrastructure (e.g., a lightweight server covering an office); in turn, \texttt{Local-edge-2} has more computational resources and yet low latency can be achieved due to physical proximity (e.g., a robust edge server covering a building floor).
 
-Representing cloud domains, we used AWS Lambda~\cite{AWSLambda}, the most mature FaaS solution on the market. To be consistent with our formulation of the computing continuum, functions and associated dependencies (storage, feature extraction and matching) were hosted within the same AWS region. 
-
-Finally, we also deployed the functionality onto a traditional setup using cloud's IaaS. The main goal of this setup was not to compare traditional cloud services against a FaaS solution, but to demonstrate that the proposed continuum could outperform the cloud under the tested circumstances and requirements.
+Representing cloud domains, we used AWS Lambda~\cite{AWSLambda}, the most mature FaaS solution on the market. To be consistent with our formulation of the computing continuum, functions and associated dependencies were deployed to the AWS Lambda datacenter in Europe. Additionally, we also deployed the functionality onto a traditional setup using cloud's IaaS. The main goal of this setup was not to compare traditional cloud services against a FaaS solution, but to demonstrate that the proposed continuum could outperform the cloud under the tested circumstances and requirements.
 
 \begin{table}[htb]
 	\caption{Domains Setup in the Continuum for the Experimental Evaluation}
@@ -60,7 +58,7 @@ Finally, we also deployed the functionality onto a traditional setup using cloud
 
 
 
-\subsection{Latency and Scalability} 
+\subsection{Service Latency and Scalability} 
 
 
 %\begin{figure}[htb]
@@ -70,12 +68,17 @@ Finally, we also deployed the functionality onto a traditional setup using cloud
 %	\label{fig:exp-setup1}
 %\end{figure}
 
-The first experiment assessed how the latency changes and the domains scale with a varying workload, providing a baseline to compare different domains. We simulated an increasing number of clients, each one making $100$ requests for the AR $\mu$-service at a rate of two per second. This setup was achieved taking into account the default maximum for concurrent executions in AWS Lambda~\cite{AWSLambda}
+The first experiment assessed different domains in term of service latency and scalability
+when subjected to a varying workload.
+%, providing a baseline to compare different domains. 
+We simulated an increasing number of clients, each one making $100$ requests for the AR $\mu$-service at a rate of two per second. This setup was achieved taking into account the default limit for concurrent executions in AWS Lambda~\cite{AWSLambda}
 %~\footnote{\url{http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html}} 
 and Openwhisk~\cite{OpenWhisk}.
 %~\footnote{\url{https://github.com/apache/incubator-openwhisk/blob/master/docs/reference.md}}, as well as the limited resources of edge domains. 
 
-This experiment excluded the mobile domain and focused on the remote ones, i.e., edge and cloud. Capturing and uploading an image was emulated using Postman\footnote{\url{https://www.getpostman.com/}}, an open source application designed to perform load testing over the functional behavior of Web APIs. The payload for this experiment was a sample image of approximately 65 KB, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. The actual execution time was profiled for each domain and then kept constant for the experiment, while latency results are averaged through $5$ executions.
+This experiment excluded the mobile domain and focused on the remote ones, i.e., edge and cloud. In this experiment, requests were emulated using Postman\footnote{\url{https://www.getpostman.com/}}, an open source application designed to perform load testing. 
+%over the functional behavior of Web APIs. 
+The payload for this experiment was a sample image of approximately $65 KB$, which is a reasonable size for this use case considering the requirements regarding low-latency and computation time~\cite{rodriguez16mobile}. To mitigate cost from cloud-based provider, the execution time was first profiled for each domain, while network latency results were averaged through $5$ executions.
 
 %Once the image was sent through HTTP/POST, the actual execution depended on the domain being used. triggering Openwhisk actions for both edge domains, AWS Lambda functions for Cloud-FaaS domain, and a Nodejs server that calls a Python function for Cloud-IaaS domain.
 
@@ -88,7 +91,7 @@ This experiment excluded the mobile domain and focused on the remote ones, i.e.,
 
 %\subsubsection{Baseline Latency}
 
-Fig.~\ref{fig:latency-domains} shows the average latency for each scale-up step. Note that the computation time (light gray) is different from the overhead (dark gray). The latter includes network communication (routing and forwarding) and queuing time (when no resources are available to process the request immediately). 
+Fig.~\ref{fig:latency-domains} shows the average latency for each scale-up step. Note that the computation time (light gray) is different from the overhead (dark gray). The latter includes network communication (routing and forwarding) and queuing time (when no resources are available to process the request). 
 
 \begin{figure}
 	
@@ -100,19 +103,19 @@ Fig.~\ref{fig:latency-domains} shows the average latency for each scale-up step.
 	\label{fig:latency-domains}
 \end{figure}
 
-Regarding the \textit{Cloud-FaaS} domain, the latency reduction is up to $90$\% for \texttt{Local-edge-1} and up to $82$\% for \texttt{Local-edge-2}. Interestingly, for Cloud-FaaS, latency decreases when the number of simultaneous clients increases.
-This is due to the fact that extra infrastructure is provisioned under-the-hood by AWS Lambda to compensate for initialization overhead of cold requests. Even though future service requests against warm infrastructure do not always reuse extraneous infrastructure created in response to cold initialization stress, higher reuse rates correspond with higher stress levels of requests~\cite{Lloyd18serverless}. For few service invocations, load distribution by AWS is uneven across hosts. This uneven use of infrastructure may lead to early deprecation (incurring in cold starts) if client workloads do not utilize all nodes. 
+In comparison with the \textit{Cloud-FaaS}, latency reduction was up to $90$\% for \texttt{Local-edge-1} and up to $82$\% for \texttt{Local-edge-2}. Interestingly, for Cloud-FaaS, latency decreases when the number of simultaneous clients increases.
+This is due to the extra infrastructure which is provided under-the-hood by AWS Lambda to compensate for initialization overhead of cold requests. Even though future service requests against warm containers do not always reuse extraneous containers created in response to cold initialization stress, higher reuse rates correspond with higher stress levels of requests~\cite{Lloyd18serverless}. For few service invocations, load distribution by AWS is uneven across hosts. This uneven use of infrastructure may lead to early deprecation (incurring in cold starts) if client workloads do not utilize all nodes. 
 Despite its virtually unlimited resources, Cloud-FaaS has tunable limits for maximum concurrent executions (default is 1000), e.g., due to budget constraints~\cite{Villamizar2017lambda}. This is reflected in the substantial increase in latency noticed in the Cloud-FaaS experiment (Fig.~\ref{fig:latency-domains}, Cloud-FaaS, 64 Clients bar), performed with 64 clients and similar concurrent execution limit.
 %We run an additional scenario for Cloud-FaaS to reflect the situation in which such a limit is reached, with 64 clients and 64 maximum concurrent executions. 
 %, perceived latency increases substantially as the requests are throttled by the infrastructure.
 
-Regarding the \textit{Cloud-IaaS} domain, reductions when using \textit{Cloud-FaaS} are up to $77$\% and $58$\%, respectively. Interestingly, \textit{Cloud-IaaS} outperformed  \textit{Cloud-FaaS} ($46$\% less overhead) for light workloads (up to $16$ simultaneous clients). This can be due to the additional steps performed by the API Gateway in order to forward RESTful calls to AWS lambda functions in \textit{Cloud-FaaS}\footnote{http://docs.aws.amazon.com/lambda/latest/dg/with-on-demand-https.html}. Nevertheless, this advantage is mitigated by the fact that \textit{Cloud-FaaS} can better react to workload bursts, thanks to its faster horizontal scaling~\cite{Villamizar2017lambda,Hendrickson:2016}. 
+In comparison with the \textit{Cloud-IaaS} domain, reductions when using \textit{Cloud-FaaS} are up to $77$\% and $58$\%, respectively. Interestingly, \textit{Cloud-IaaS} outperformed  \textit{Cloud-FaaS} ($46$\% less overhead) for light workloads (up to $16$ simultaneous clients). This can be due to the additional steps performed by the API Gateway in order to forward RESTful calls to AWS lambda functions in \textit{Cloud-FaaS}\footnote{http://docs.aws.amazon.com/lambda/latest/dg/with-on-demand-https.html}. Nevertheless, this advantage is mitigated by the fact that \textit{Cloud-FaaS} can better react to workload bursts, thanks to its faster horizontal scaling~\cite{Villamizar2017lambda,Hendrickson:2016}. 
 %[Danilo] the cited works should be enougth for explaining why
 %Since in \textit{Cloud-IaaS} a scaling-up action (that can demand several seconds~\cite{Quatrocchi2016discrete}) triggers when more than one VM instance is needed to handle the workload, requests timeout in the meantime. 
  
-For light to medium workloads (up to $16$ simultaneous clients), the overhead added by the \textit{Local-edge} domains is less than both cloud alternatives. Under heavier workloads (from $32$ simultaneous clients onwards) these domains present restricted availability and degraded performance -- as can be seen for \texttt{Local-edge-1} (the most resource-constrained). One may argue that a \texttt{Local-edge} domain is intended to cope with light workloads -- e.g., a single office or floor in a building. For edge domains that may cope with hundreds of simultaneous clients, e.g., a mobile-edge domain, the compute, storage and memory capabilities are expected to be orders of magnitude higher.
+For light to medium workloads (up to $16$ simultaneous clients), the overhead added by the local-edge domains is less than both cloud alternatives. Under heavier workloads (from $32$ simultaneous clients onwards) these domains present restricted availability and degraded performance -- as can be seen for \texttt{Local-edge-1} (the most resource-constrained). One may argue that a \texttt{Local-edge} domain is intended to cope with light workloads -- e.g., a single office or floor in a building. For edge domains that may cope with hundreds of simultaneous clients, e.g., a mobile-edge domain, the compute, storage and memory capabilities are expected to be orders of magnitude higher.
  
-Finally, we compared our \texttt{Local-edge-2} deployment against Enorm~\cite{wang2017enorm}, a framework for edge resource management that assumes a similar, resource constrained configuration for the edge nodes. %(details are discussed in Section~\ref{sec:related}). 
+Finally, we compared our \texttt{Local-edge-2} deployment against Enorm~\cite{wang2017enorm}, a framework for edge resource management that assumes a similar, resource constrained configuration for the edge nodes. %(details are discussed in Sec.~\ref{sec:related}). 
 Fig.~\ref{fig:a3e-enorm-latency} shows the latency reduction when using an edge alternative instead of a cloud one. A3-E performs better for up to 32 simultaneous requests (from 35\% to 55\% latency reduction w.r.t. the cloud), whilst both approaches tend to perform worst than the cloud solution with heavier workloads (from 64 simultaneous requests on).  
 
 
@@ -123,11 +126,11 @@ Fig.~\ref{fig:a3e-enorm-latency} shows the latency reduction when using an edge 
 \label{sub:exp-a3e-continuum}
 
 The main goal of this experiment was to evaluate the compute continuum 
-from the client's viewpoint in terms of battery consumption and execution time. A mobile device was set up with our implementation of the A3-E middleware, which was in charge of selecting the best domain from Table~\ref{tab:domain-exp-config} for serving the sample application $\mu$-service based on the perceived QoS.
+from the client's viewpoint in terms of battery consumption and execution time. Contrasting with the previous experiment, a mobile device was set up with the mobile middleware implementing A3-E's activities (see Sec.~\ref{sec:mobile_middleware}).%, which was in charge of selecting the best domain from Table~\ref{tab:domain-exp-config} for serving the sample application $\mu$-service based on the perceived QoS.
 %[Danilo] The experiment set-up already defined the application (saving space here)
 %Once again our sample application was the image recognition one with feature extraction and matching provided along three domains in the continuum: \textit{mobile}, \textit{Local-edge} and \textit{Cloud-FaaS} (see Table~\ref{tab:domain-exp-config}). 
 
-This experiment featured four different scenarios: the first three consider one domain each, and the last one (\textit{all-domains}) combines the previous ones to form the continuum\footnote{Details on the availability of each domain in the \textit{all-domains} scenario are discussed in Section~\ref{sub:domain-selection}.}. The experiment consisted in cascading $2000$ sequential requests for \textit{feature extraction} and \textit{matching} of a sample image (with a size of 65 KB). We measured the total execution time, battery consumption in the mobile device, and average time per call. Fig.~\ref{fig:exp-a3e} shows the experimental results, averaged among $5$ executions for each scenario.
+This experiment featured four different scenarios: the first three consider one domain each, and the last one (\textit{all-domains}) combines the previous ones to form the continuum\footnote{Details on the availability of each domain in the \textit{all-domains} scenario are discussed in Sec.~\ref{sub:domain-selection}.}. The experiment consisted in cascading $2000$ sequential requests for \textit{feature extraction} and \textit{matching} of a sample image (with a size of 65 KB). We measured the execution time and battery consumption, and average time per call. Fig.~\ref{fig:exp-a3e} shows the experimental results, averaged among $5$ executions for each scenario.
 
 \begin{comment}
 internetOnToOffProbability = 0.22%
@@ -226,7 +229,7 @@ Conclusively, the experiment shown that A3-E is capable of performing domain sel
 The \texttt{all-domains} scenario reflects the underlying rationale of the computation continuum: exploit the edge domains as much as possible (by giving them high scores in Formula~\ref{eq:smart}), leading to better balance among computation time, latency and resource consumption. 
 %[Danilo] is the sentence below meanigful?
 %Switch to the cloud, or to the local device, only when necessary. 
-Note that computation in the mobile device was configured with the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tuned by adjusting application requirements and domain parameters as discussed in Section~\ref{sec:implementation}.
+Note that computation in the mobile device was configured with the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tuned by adjusting application requirements and domain parameters as discussed in Sec.~\ref{sec:implementation}.
 
 %that allows to cope with unavailability and fluctuations in QoS 
 
@@ -238,7 +241,7 @@ Note that computation in the mobile device was configured with the lowest possib
 
 Finally, the last experiment evaluates the performance of A3's Acquisition and Allocation based on Awareness. Given the resource limitations of edge domains and the potential benefits of exploiting contextual awareness related to edge's locality, we target the evaluation of \textit{Local-edge-2} as a domain. 
 
-The experiment focused on the scenario in which no edge resources are pre-allocated beforehand, i.e., a worse case cold-start scenario (see Section~\ref{sec:A3-E-awareness}). In this context, the experiment was carried out with a prototype implementation of a domain manager responsible for the advertisement, identification, acquisition and allocation of a new $\mu$-service by that domain.
+The experiment focused on the scenario in which no edge resources are pre-allocated beforehand, i.e., a worse case cold-start scenario (see Sec.~\ref{sec:A3-E-awareness}). In this context, the experiment was carried out with a prototype implementation of a domain manager responsible for the advertisement, identification, acquisition and allocation of a new $\mu$-service by that domain.
 
 % [Danilo] The steps are described in Sec. 3, we can just emphatise the activities (paragraph above)
 %the following steps: (1) Receive a client's request targeting a new $\mu$-service, (2) fetch and download the software assets from a repository, (3) build the $\mu$-service against the specific architecture of the edge node (if needed), (4) install the corresponding functions in the FaaS platform and provide an endpoint for them, and finally (5) execute the requested function and return the result to the client.
@@ -285,7 +288,7 @@ Fig.~\ref{fig:exp-a3e-enorm-deployment} shows the experiment results. The averag
 %built it in the edge server, and installation of a functionwe used the Image Recognition function from the Augmented Reality application 
 
 
-Finally, in terms of threats to validity is it worth mentioning that the experiments only targeted one sample application and, in the case of experiments in Section~\ref{sub:exp-a3e-continuum} and~\ref{sub:domain-selection}, only one client device. Further tests are needed, considering multiple clients using several applications composed of $\mu$-services with conflicting requirements, and their corresponding functions deployed along the continuum. Additionally, it is currently not possible to test with real mobile-edge domains, i.e., to provide computational capabilities on base stations. This could be approximated either by simulation or by deploying edge domains following current specifications of \textit{mobile edge computing} in terms of computational power and latency, to better capture the heterogeneity of the continuum. Nonetheless, the fact that specifications and technologies are still under development limits the accuracy in which mobile-edge domains can be evaluated.  %Finally, even though the all-domains scenario provided insights regarding availability and consistency, experiments focusing particularly on consistency, correctness and reliability of the model are outside the scope of the paper and thus left as future work.
+Finally, in terms of threats to validity is it worth mentioning that the experiments only targeted one sample application and, in the case of experiments in Sections~\ref{sub:exp-a3e-continuum} and~\ref{sub:domain-selection}, only one client device. Further tests are needed, considering multiple clients using several applications composed of $\mu$-services with conflicting requirements, and their corresponding functions deployed along the continuum. Additionally, it is currently not possible to test with real mobile-edge domains, i.e., to provide computational capabilities on base stations. This could be approximated either by simulation or by deploying edge domains following current specifications of \textit{mobile edge computing} in terms of computational power and latency, to better capture the heterogeneity of the continuum. Nonetheless, the fact that specifications and technologies are still under development limits the accuracy in which mobile-edge domains can be evaluated.  %Finally, even though the all-domains scenario provided insights regarding availability and consistency, experiments focusing particularly on consistency, correctness and reliability of the model are outside the scope of the paper and thus left as future work.
 
 
 
