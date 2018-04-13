@@ -104,17 +104,17 @@ Since a higher score should mean lower service latency/battery consumption, the 
 %The latency score is computed to be between $1$ and $5$, and multiplied by the $\mu$-service's latency weight (line $12$). The computational power score is computed by normalizing the domain computational power retrieved at line $11$ with the maximum value across the identified domains. Again, the score for this metric is computed to be between $1$ to $5$ and multiplied by its weight (line $13$). 
 The overall score is then calculated as the weighted average between the scores obtained by the domains for the two QoS metrics. The loop concludes (line $15$ to $18$) with the assignment of a that domain in case its overall score is greater than the previous (maximum) one.  
 
-%In particular,
-%%Two considerations must be added for this algorithm. First, 
-%Algorithm~\ref{alg:selection} is an instantiation of SMART~\cite{Olson1996}, in which multiple competing QoS attributes are taken into account using the following formula:
-%{\small
-%\begin{equation}
-%Smart(p) = \frac{\sum_{u=1}^{U} value_{u}(p)*weight_u}{\sum_{u=1}^{U}weight_u} \label{eq:smart}
-%\end{equation}
-%}%
-%
-%\noindent
-%where $p$ is a domain, the considered QoS attributes are service latency and battery consumption (thus $U = 2$), and their weights are represented by the aforementioned latency and computation requirements. %Note that, when available, edge domains have the highest chances of being selected, since they usually combine a low network latency and a medium-to-high computational power. 
+In particular,
+%Two considerations must be added for this algorithm. First, 
+Algorithm~\ref{alg:selection} is an instantiation of SMART~\cite{Olson1996}, in which multiple competing QoS attributes are taken into account using the following formula:
+{\small
+\begin{equation}
+Smart(p) = \frac{\sum_{u=1}^{U} value_{u}(p)*weight_u}{\sum_{u=1}^{U}weight_u} \label{eq:smart}
+\end{equation}
+}%
+
+\noindent
+where $p$ is a domain, the considered QoS attributes are service latency and battery consumption (thus $U = 2$), and their weights are represented by the aforementioned latency and computation requirements. %Note that, when available, edge domains have the highest chances of being selected, since they usually combine a low network latency and a medium-to-high computational power. 
 
 %Accordingly, each $\mu$-service is mapped to the domain that best satisfies its requirements.
 

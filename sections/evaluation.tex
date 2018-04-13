@@ -193,12 +193,16 @@ Battery consumption was substantially lower when offloading computation, rather 
 \subsection{Domain Selection and Availability}
 \label{sub:domain-selection}
 
-We evaluated the capability of A3-E to select the best domain given low latency and high computational power requirements. In this experiment, we used all three domains together to form the continuum and simulated their availabilities after a probability distribution. 
+We evaluated the capability of A3-E to select the best domain given service latency and battery consumption requirements. In this experiment, we used all three domains together to form the continuum and simulated their availabilities after a probability distribution. 
 
-The mobile middleware was configured to ping for domain availability, as well as perceived QoS, every two seconds ($u = 2$). We consider that the cloud domain could be unavailable mainly due to absence of mobile network coverage, since downtimes of cloud services are minimal~\cite{garcia2017bandwidth}. To simulate this, the average network unavailability was set to once every $15$ minutes. Then, the average time for it to become available was $2$ minutes, which gives us an availability of $88\%$.
+The mobile middleware was configured to ping for domain availability and network latency every two seconds. We consider that the cloud domain could be unavailable mainly due to the absence of mobile network coverage, since downtimes of cloud services are minimal~\cite{garcia2017bandwidth}. To simulate this, the average network unavailability was set to once every $15$ minutes, while the average time for it to become available was $2$ minutes, which resulted in an availability of $88\%$.
 
 %\footnote{https://math.stackexchange.com/questions/165993/average-number-of-times-it-takes-for-something-to-happen-given-a-chance}
-The rationale for the edge domain is analogous, yet with a higher probability of being unavailable (e.g., due to the lack of resources or connectivity). In this case, the edge is unavailable once every $10$ minutes, and it would take an average of $5$ minutes for it to become available, which gives a $66\%$ of availability. If we consider that edge nodes are only reachable within network coverage, the resulting availability is calculated by their product, or $0.88*0.66=58\%$. The mobile device is considered as always available, and selected when all other domains were unavailable, or the sensed latencies were too high for the application's QoS requirements. 
+The rationale for the edge domain is analogous, yet with a higher probability of being unavailable (e.g., due to the lack of memory or CPU). In this case, the edge is unavailable once every $10$ minutes, and it would take an average of $5$ minutes for it to become available, resulting in $66\%$ of availability. If we consider that edge nodes are only reachable within network coverage, the resulting availability is calculated by the product, or $0.88*0.66=58\%$. 
+
+Finally, the mobile device is considered as always available, as we aimed to stress the trade-off between battery consumption (when the mobile domain is employed) and latency (when remote domains are employed).
+
+%, and selected when all other domains were unavailable, or the sensed latencies were too high for the application's QoS requirements. 
 
 %To simulate the cases in which the mobile device was momentarily outside of the mobile network's coverage, the average unavailability of the cloud domain~\cite{garcia2017bandwidth} was set to once every $15$ minutes. A3-E was configured to ping for domain availability, as well as perceived QoS, every two seconds ($u = 2$). Using a geometric distribution, the probability of the cloud being unavailable during a ping (\textit{internetOnToOff}) was $0.022$. Every time the cloud was unavailable, the average time for it to become available again was $2$ minutes, i.e., the probability  \textit{internetOffToOn} was $0.166$. Overall, this gives us a probability \textit{internetAvailability} $=15/(15+2)=0.88$.
 
@@ -225,11 +229,11 @@ Fig.~\ref{fig:calls-per-domain-a3e} shows the distribution of calls per domain i
 	\caption{All-domains scenario results} \label{fig:all-domains}
 \end{figure}
 
-Conclusively, the experiment shown that A3-E is capable of performing domain selection and computation distribution at runtime. A3-E also improved availability up to 100\% during the experiment, given that the mobile domain is always available, but selected to serve only 7\% of the requests.
+Conclusively, the experiment shown that A3-E is capable of performing domain selection and computation distribution at runtime. An availability of 100\% was achieved, given that the mobile domain is always available.
 The \texttt{all-domains} scenario reflects the underlying rationale of the computation continuum: exploit the edge domains as much as possible (by giving them high scores in Formula~\ref{eq:smart}), leading to better balance among computation time, latency and resource consumption. 
 %[Danilo] is the sentence below meanigful?
 %Switch to the cloud, or to the local device, only when necessary. 
-Note that computation in the mobile device was configured with the lowest possible score, thus the cloud was selected as the first alternative to edge domains. This behavior can be tuned by adjusting application requirements and domain parameters as discussed in Sec.~\ref{sec:implementation}.
+Note that computational power of the mobile domain has the lowest possible score (see Sec.~\ref{sec:mobile_middleware}), thus the cloud was often selected as the first alternative in case of edge domain unavailability. %This behavior can be tuned by adjusting requirements and scores from different domains as discussed in Sec.~\ref{sec:implementation}.
 
 %that allows to cope with unavailability and fluctuations in QoS 
 
@@ -239,16 +243,16 @@ Note that computation in the mobile device was configured with the lowest possib
 
 \subsection{Opportunistic Acquisition and Allocation}
 
-Finally, the last experiment evaluates the performance of A3's Acquisition and Allocation based on Awareness. Given the resource limitations of edge domains and the potential benefits of exploiting contextual awareness related to edge's locality, we target the evaluation of \textit{Local-edge-2} as a domain. 
+Finally, the last experiment evaluates the performance of A3's Acquisition and Allocation. Given the resource limitations of edge domains and the potential benefits of exploiting the client arrival/exit awareness provided by edge's locality, we target the evaluation of \textit{Local-edge-2} as a domain. 
 
-The experiment focused on the scenario in which no edge resources are pre-allocated beforehand, i.e., a worse case cold-start scenario (see Sec.~\ref{sec:A3-E-awareness}). In this context, the experiment was carried out with a prototype implementation of a domain manager responsible for the advertisement, identification, acquisition and allocation of a new $\mu$-service by that domain.
+The experiment focused on the scenario in which no edge resources are pre-allocated beforehand, i.e., a worse case cold-start scenario ($\Delta AQ + \Delta AL$). Accordingly, the experiment was carried out with a the prototype implementation described in Sec.~\ref{sec:local-edge-domain-DSM}.%of a domain manager responsible for the advertisement, identification, acquisition and allocation of a new $\mu$-service by that domain.
 
 % [Danilo] The steps are described in Sec. 3, we can just emphatise the activities (paragraph above)
 %the following steps: (1) Receive a client's request targeting a new $\mu$-service, (2) fetch and download the software assets from a repository, (3) build the $\mu$-service against the specific architecture of the edge node (if needed), (4) install the corresponding functions in the FaaS platform and provide an endpoint for them, and finally (5) execute the requested function and return the result to the client.
 
-The sample $\mu$-service was similar to previous experiments. Comprising the \textit{client identification} signal, the client informs the server regarding the repository to fetch the required assets (~30 Mb including the $\mu$-service function and dependencies).
+The sample $\mu$-service was similar to previous experiments. Along with the metadata composing a \textit{client identification}, the client informs the server regarding the repository to fetch the required assets (~30 Mb including the $\mu$-service function and dependencies).
 %, activity that is delayed until after the first function call due to the opportunistic policy. 
-Also, note that the experiment measures only domain-side performance, as latency perceived by clients was evaluated in the previous experiments. After a successful Acquisition and Allocation, we uninstalled and deleted all the $\mu$-service assets, so that subsequent iterations also captured a worse case cold-start.
+Also, the experiment measured domain-side performance only, as the service latency perceived by clients was evaluated in the previous experiments. After each successful Acquisition and Allocation, we uninstalled and deleted all the $\mu$-service assets, so that subsequent measurements also captured a worse case cold-start.
 
 The experiment execution consisted of cascading sequential requests for periods of $5$ minutes, with different utilization levels of the edge node: low (~10\% server load and low network traffic equivalent to 8 clients), medium (~55\% server load and 16 clients) and high (~85\% server load and 32 clients). Again, we were able to compare A3-E against the Enorm framework, given that A3-E's Acquisition and Awareness are analogous to the provisioning phase in Enorm, which consists of deploying application server partitions from the cloud to edge node containers. 
 
