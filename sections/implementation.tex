@@ -35,50 +35,53 @@ To implement Awareness, the middleware listens for a \textit{domain identificati
 %edge domains discovery happens for 
 a short time period after the mobile middleware is first executed or the mobile device's network changes (e.g., from a local-area Wi-Fi to a 5G cellular network). 
 
-For every domain found, the middleware proceeds by sending a \textit{client identification} signal containing a Git repository from which $\mu$-service functions and dependencies can be downloaded (for remote domains); or the qualified name of Java/JavaScript classes (for its mobile domain). Each corresponding \textit{$\mu$-service acquired} signal is handled with a system level \textit{domain confirmed}. As in this paper cloud domains have been evaluated with an existing FaaS platform lacking A3-E's Awareness and Acquisition, cloud domains are \textit{acquired} programmatically at startup.
+For every domain found, the middleware proceeds by sending a \textit{client identification} signal containing the repository address from which $\mu$-service functions and dependencies can be downloaded (for remote domains); or the qualified name of Java/JavaScript classes (for its mobile domain). Each corresponding \textit{$\mu$-service acquired (denied)} signal is handled with a system level \textit{domain confirmed (denied)}. As in this paper cloud domains have been evaluated with an existing FaaS platform lacking A3-E's Awareness and Acquisition, cloud domains are set-up programmatically at startup.
 
+%Note that, at the time of writing, it is not possible to monitor the battery consumption of a single $\mu$-service invocation on a mobile device (i.e., Android and iOS do not allow it), but it can be estimated to be proportional to the execution time and to the local CPU power used (i.e., local invocations drain more battery than remote ones).  
 
 %Further optimization could be achieved by employing state-of-art advertisement and discovery approaches. 
 
-The mobile middleware implements A3-E's Allocation as a self-managing loop that, for each required $\mu$-service: (i) monitors the \textit{service latency} from all available and capable domains, as well as \textit{battery level} of its host device; (ii) analyzes the best alternative satisfying requirements of the client application; and (iii) updates the domain selection for the $\mu$-service. 
-
+The middleware also implements the self-managing loop in A3-E's Allocation (see Sec.~\ref{sec:A3-E-allocation}). For each $\mu$-service, the loop takes into account the a set of requirements,
 %In addition to A3-E's \textit{Location requirements}, 
-The prototype considered three types of $\mu$-service requirements: a \textit{Location Requirement} constrains where the $\mu$-service can be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL\_EDGE}, \textit{MOBILE\_EDGE}, or \textit{CLOUD} or a combination of the above;  a \textit{Latency Requirement} constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY\_LOW}; and a \textit{Computational Requirement} defines how relevant it is for a $\mu$-servi to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY\_ FAST}. 
+%The prototype considered three types of requirements: 
+namely: \textit{Location Requirement}s, which constrain where the $\mu$-service can be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL\_EDGE}, \textit{MOBILE\_EDGE}, or \textit{CLOUD} (or a combination of the above); \textit{Latency Requirement}s constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY\_LOW}.
 
-%{\small
-%\begin{enumerate}
-%	
-%	\item a \textit{Location Requirement} constrain where the $\mu$-service can be placed within the continuum, i.e., \textit{LOCAL}, \textit{LOCAL\_EDGE}, \textit{MOBILE\_EDGE}, or \textit{CLOUD} or a combination of the above; 
-%	
-%	\item a \textit{Latency Requirement} constrains network latency, i.e., \textit{ANY}, \textit{LOW} or \textit{VERY\_LOW}; and 
-%	
-%	\item a \textit{Computational Requirement} defines how relevant it is for a $\mu$-servi to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY\_ FAST}. 
-%\end{enumerate}
-%}%
+%; and \textit{Computational Requirement} defines how relevant it is for a $\mu$-service to have fast computing, i.e., \textit{ANY}, \textit{FAST} or \textit{VERY\_ FAST}. 
 
-Computational requirements defined as a fixed score ranging from $1$ to $5$\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. By default, the mobile domain has a score of $1$, edge domains have a score of $4$, while cloud domains have a score of $5$. As cloud provides the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. 
+For each required $\mu$-service, a correspond loop instance: (i) \textit{monitors} the network latency from its list of capable domains; (ii) \textit{analyzes} service latency by adding \textit{execution time} to the aggregated network latency;  (iii) \textit{plans} the changes in the selected domain by means of a multi-attribute rating algorithm; and (iv) enacts the change the triggering a \textit{domain selected} event.
+
+
+%Computational requirements defined as a fixed score ranging from 
+
+To compute the execution time of each capable domain, the middleware relies on scores ranging from $1$ to $5$ defining the computational power of distinct domains~\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. By default, the mobile domain has a score of $1$; edge domain's score is informed by the static performance indicator within the \textit{domain identification} (see Sec.~\ref{sec:A3-E-awareness}); finally, cloud domains have a fixed score of $5$, which reflects their abundance of computational resources. Battery consumption follows a similar approach: 
+
+
+%reflecting the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. 
 
 %with dynamic scores taking into account the saturation of the domain or the device's battery level (in the case of a mobile domain).
 \setlength{\textfloatsep}{5pt}% Remove \textfloatsep
 {\scriptsize
-\begin{algorithm}[h]
+\begin{algorithm}[th]
 	\caption{A3E Selection Algorithm}
 	\label{alg:selection}
 	\begin{algorithmic}[1]		
-		\Function{selectDomain}{A3EService service, A3EDomain[] $identifiedDomains$}
-		\State$scoreRange \gets 5$
-		\State $maxLatency \gets \Call{computeMaximumLatency}{identifiedDomains}$
-		\State $maxCpuPower \gets \Call{computeMaximumComputationalPower}{identifiedDomains}$
-		\State $latencyWeight \gets service.getLatencyRequirement()$ 
-		\State $cpuPowerWeight \gets service.getComputationalPowerRequirement()$ 
+		\Function{selectDomain}{A3EService service, A3EDomain[] $capableDomains$}
+		\State $scoreRange \gets 5$
+		\State $maxLatency \gets \Call{computeMaximumLatency}{capableDomains}$
+		\State $maxCpuPower \gets \Call{computeMaximumComputationalPower}{capableDomains}$
+		\State $latencyWeight \gets service.getLatencyRequirement()$
+		\State $batteryWeight \gets service.getBatteryRequirement()$
 		\State $maxScore \gets 0$
 		\State $selectedDomain \gets null$
-		\ForAll{$domain \in identifiedDomains$ } 
-		\State $latency \gets domain.getLatency()$ 
-		\State $cpuPower \gets service.getComputationalPower()$ 
-		\State $latencyScore \gets latencyWeight*((scoreRange-1)*(1 - latency/maxLatency)+1)$ 
-		\State $cpuPowerScore \gets cpuPowerWeight*(scoreRange*(cpuPower/maxCpuPower))$
-		\State $score \gets (latencyScore + cpuPowerScore) / (latencyWeight + cpuPowerWeight)$
+		\ForAll{$domain \in capableDomains$ } 
+		\State $serviceLatency \gets 
+		\Call{computeServiceLatency}{domain.getNetworkLatency(),domain.getComputationalPower()}$
+		\State $batteryConsumption \gets% domain.getBatteryConsumption(service)$
+		\Call{computeBatteryConsumption}{domain, service}$
+		\State $latencyScore \gets latencyWeight*((scoreRange-1)*(1 - latency/maxLatency)+1)$ 		
+		\State $batteryScore \gets batteryWeight*((scoreRange-1)*(1 - batteryConsumption/maxBattery)+1)$ 
+%		\State $cpuScore \gets cpuPowerWeight*(scoreRange*(cpuPower/maxCpuPower))$
+		\State $score \gets (latencyScore + batteryScore) / (latencyWeight + batteryWeight)$
 		\If{$score \geq maxScore$} 
 		\State $maxScore \gets score$
 		\State $selectedDomain \gets domain$
@@ -91,21 +94,29 @@ Computational requirements defined as a fixed score ranging from $1$ to $5$\foot
 }%
 
 %TODO [Danilo] improve this paragraph
-Algorithm~\ref{alg:selection} describes the procedure employed in the $\mu$-service selection. The algorithm computes a score ranging from $0$ to $5$ (line $2$). First, it retrieves the maximum computational power and network latency from available domains (line $3$ and $4$). Then, it retrieves the weights assigned to each QoS metric (lines $5$ and $6$). These weights correspond to the values associated to the \textit{LatencyRequirement} and \textit{ComputationalRequirement} of the $\mu$-service. The \textit{ANY} value corresponds to a weight of $0$, a latency requirement of \textit{LOW} and a computational power requirement of \textit{FAST} correspond to a weight equal to $1$, while a latency requirement of \textit{VERY\_LOW} and a computational power requirement of \textit{VERY\_FAST} correspond to a weight equal to $2$. 
+Algorithm~\ref{alg:selection} describes the procedure employed by the self-management loop \textit{planner}. The algorithm computes a score ranging from $0$ to $5$ (line $2$). First, it retrieves the maximum network latency and computational power from available domains (line $3$ and $4$). Then, it retrieves the weights assigned to each QoS metric (lines $5$ and $6$), which correspond to  the values specified by \textit{LatencyRequirement} and \textit{BatteryRequirement} of the $\mu$-service: the \textit{ANY} value corresponds to a weight of $0$; a latency requirement of \textit{LOW} and a computational power requirement of \textit{FAST} correspond to a weight equal to $1$; while a latency requirement of \textit{VERY\_LOW} and a computational power requirement of \textit{VERY\_FAST} correspond to a weight equal to $2$. 
 
-For each domain, the algorithm computes the overall score (line $9$ to $14$). The latency score is computed by normalizing the value retrieved at line $10$ with the maximum latency previously computed. The normalized value ranges from $0$ to $1$, the higher this value is the higher the latency. Since a higher score should mean lower latencies, the algorithm computes the complement of this value and adds $1$ to avoid scores equal to $0$. The latency score is computed to be between $1$ and $5$, and multiplied by the $\mu$-service's latency weight (line $12$). The computational power score is computed by normalizing the domain computational power retrieved at line $11$ with the maximum value across the identified domains. Again, the score for this metric is computed to be between $1$ to $5$ and multiplied by its weight (line $13$). Finally, the overall score is the weighted average between the scores obtained by the domains for the two QoS metrics.
+For each domain, the algorithm computes the overall score (line $9$ to $14$). For each QoS, it normalizes the actual value with the previously computed maximum.
+%: the latency score is computed by normalizing the value retrieved at line $10$ with the maximum latency previously computed. 
+%The normalized value ranges from $0$ to $1$, the higher this value is, the higher the latency. 
+Since a higher score should mean lower service latency/battery consumption, the algorithm computes each score with the complement of the normalized value and adds $1$ to avoid $0$ scores. 
+%The latency score is computed to be between $1$ and $5$, and multiplied by the $\mu$-service's latency weight (line $12$). The computational power score is computed by normalizing the domain computational power retrieved at line $11$ with the maximum value across the identified domains. Again, the score for this metric is computed to be between $1$ to $5$ and multiplied by its weight (line $13$). 
+The overall score is then calculated as the weighted average between the scores obtained by the domains for the two QoS metrics. The loop concludes (line $15$ to $18$) with the assignment of a that domain in case its overall score is greater than the previous (maximum) one.  
 
-%Two considerations must be added for this algorithm. First, 
-Algorithm~\ref{alg:selection} is an instantiation of SMART~\cite{Olson1996}, in which multiple competing QoS attributes are taken into account using the following formula:
-{\small
-\begin{equation}
-Smart(p) = \frac{\sum_{u=1}^{U} actual_{u}(p)*weight_u}{\sum_{u=1}^{U}weight_u} \label{eq:smart}
-\end{equation}
-}%
-
-\noindent
-where $p$ is a domain, the considered QoS attributes are network latency and the computational processing time (thus $U = 2$), and their weights are represented by the aforementioned latency and computation requirements. Note that, when available, edge domains have the highest chances of being selected, since they usually combine a low network latency and a medium-to-high computational power. 
+%In particular,
+%%Two considerations must be added for this algorithm. First, 
+%Algorithm~\ref{alg:selection} is an instantiation of SMART~\cite{Olson1996}, in which multiple competing QoS attributes are taken into account using the following formula:
+%{\small
+%\begin{equation}
+%Smart(p) = \frac{\sum_{u=1}^{U} value_{u}(p)*weight_u}{\sum_{u=1}^{U}weight_u} \label{eq:smart}
+%\end{equation}
+%}%
+%
+%\noindent
+%where $p$ is a domain, the considered QoS attributes are service latency and battery consumption (thus $U = 2$), and their weights are represented by the aforementioned latency and computation requirements. %Note that, when available, edge domains have the highest chances of being selected, since they usually combine a low network latency and a medium-to-high computational power. 
 
 %Accordingly, each $\mu$-service is mapped to the domain that best satisfies its requirements.
 
-%Last but not least, during the \textit{Engagement} phase the CSM handles C-requests triggered by the client application for a specific $\mu$-service in the continuum and invokes the domain previously selected. Domains are bound to an invocation resolver: edge and cloud domains resolvers fire an HTTP request, while the resolver bound to a mobile domain will broadcast an Android event containing the request along with a callback. In particular, this broadcast is handled by the mobile domain manager.
+Implementing \textit{Engagement}, the middleware handles C-requests triggered by the client application 
+%for a specific $\mu$-service in the continuum 
+with the invocation of the domain previously selected. Domains are bound to an invocation resolver: edge and cloud domains resolvers fire an HTTP request, while the mobile domain's resolver will broadcast an Android event containing the request. Analogously, each resolver handles invocation responses by triggering a corresponding C-response events handled by the client application.
