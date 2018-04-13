@@ -65,7 +65,7 @@ A3-E's Awareness has two benefits: (i) it alleviates $\Delta AL$ (cold start) by
 
 
 While cloud domains are not likely to change, and may be set-up statically by clients,% to realize this activity
-edge domains must advertise their existence (\textit{domain identification}) using protocols that are compatible with its network infrastructure: for instance, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{lecompte2012evolved,etsimec16:03}. 
+edge domains must advertise their existence (\textit{domain identification}) with metadata (network address, static performance indicators) using protocols compatible with its network infrastructure: for example, through IP broadcasting in local-edge, and through Evolved Multimedia Broadcast/Multicast Service (eMBMS) in mobile-edge~\cite{lecompte2012evolved,etsimec16:03}. 
 In particular, edge domains exploit locality by triggering a \textit{client left} event once mobile devices leave its coverage area, whilst cloud domains rely on adjustable \textit{timeout}.% for triggering this event.
 
 
@@ -81,9 +81,8 @@ In particular, edge domains exploit locality by triggering a \textit{client left
 %\end{itemize}
 %}%
 
-From the client's perspective, Awareness corresponds to the discovery of domains (source of \textit{domain found} and \textit{domain lost} events) and the advertisement of required $\mu$-services through a \textit{client identification} signal containing their metadata (name, repository url), upon which the domain manager triggers both \textit{client arrived} and \textit{$\mu$-service identified} events.% for each required $\mu$-service. 
-
-To realize this activity, special purpose HTTP endpoints can be used for cloud domains; protocols from local area networks (e.g., UDP, IP multicast) are used for local-edge domains; eMBMS protocols (e.g., FLUTE~\cite{lecompte2012evolved}) which are carried over traditional UDP and IP multicast toward end-user devices, are used for mobile-edge domains; and system-level signals (e.g., broadcast intents in Android platforms) are used by mobile domains.
+From the client's perspective, Awareness corresponds to the discovery of domains (source of \textit{domain found} and \textit{domain lost} events) and the advertisement of required $\mu$-services through a \textit{client identification} signal containing their metadata (name, repository url), upon which the domain manager triggers both \textit{client arrived} and \textit{$\mu$-service identified} events. % for each required $\mu$-service. 
+In this case, special purpose HTTP endpoints can be used for cloud domains; local area network protocols (e.g., IP unicast over UDP) are used for local-edge domains; eMBMS protocols (e.g., FLUTE~\cite{lecompte2012evolved}) which are carried over traditional UDP and IP multicast toward end-user devices, are used for mobile-edge domains; and system-level signals (e.g., broadcast intents in Android platforms) are used by mobile domains.
 
 %[Danilo] 2ndR: this paragraph is poor
 %In our running example, the mobile-edge and local-edge domains must advertise their existence to our user's device, which in turn identifies the AR and Image Editing applications. The same holds for the hotel's local-edge domain and the MG application. %In all cases, cloud and edge domains can employ Awareness to opportunistically fetch, install, and allocate instances of required $\mu$-services.

@@ -37,7 +37,7 @@ a short time period after the mobile middleware is first executed or the mobile 
 
 For every domain found, the middleware proceeds by sending a \textit{client identification} signal containing the repository address from which $\mu$-service functions and dependencies can be downloaded (for remote domains); or the qualified name of Java/JavaScript classes (for its mobile domain). Each corresponding \textit{$\mu$-service acquired (denied)} signal is handled with a system level \textit{domain confirmed (denied)}. As in this paper cloud domains have been evaluated with an existing FaaS platform lacking A3-E's Awareness and Acquisition, cloud domains are set-up programmatically at startup.
 
-%Note that, at the time of writing, it is not possible to monitor the battery consumption of a single $\mu$-service invocation on a mobile device (i.e., Android and iOS do not allow it), but it can be estimated to be proportional to the execution time and to the local CPU power used (i.e., local invocations drain more battery than remote ones).  
+
 
 %Further optimization could be achieved by employing state-of-art advertisement and discovery approaches. 
 
@@ -53,8 +53,9 @@ For each required $\mu$-service, a correspond loop instance: (i) \textit{monitor
 
 %Computational requirements defined as a fixed score ranging from 
 
-To compute the execution time of each capable domain, the middleware relies on scores ranging from $1$ to $5$ defining the computational power of distinct domains~\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. By default, the mobile domain has a score of $1$; edge domain's score is informed by the static performance indicator within the \textit{domain identification} (see Sec.~\ref{sec:A3-E-awareness}); finally, cloud domains have a fixed score of $5$, which reflects their abundance of computational resources. Battery consumption follows a similar approach: 
+To compute the execution time of each capable domain, the middleware relies on scores ranging from $1$ to $5$ defining the computational power of distinct domains~\footnote{Labeling computational power is also common in the cloud where different tiers of virtual machines are available -- \url{https://aws.amazon.com/ec2/instance-types/}}. By default, the mobile domain has a score of $1$; edge domain's score is informed by the static performance indicator within the \textit{domain identification} (see Sec.~\ref{sec:A3-E-awareness}); finally, cloud domains have a fixed score of $5$, which reflects their abundance of computational resources. Battery consumption follows a similar approach: the mobile domain has a score of $5$, whilst edge and cloud domain scores are default-initialized with $1$ and $3$ and adjusted at run time based on the execution time.
 
+%%Note that, at the time of writing, it is not possible to monitor the battery consumption of a single $\mu$-service invocation on a mobile device (i.e., Android and iOS do not allow it), but it can be estimated to be proportional to the execution time and to the local CPU power used (i.e., local invocations drain more battery than remote ones).  
 
 %reflecting the illusion of infinite scalability it gets the maximum score, regardless of the VMs that are actually being used. 
 
